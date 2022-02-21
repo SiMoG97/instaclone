@@ -15,7 +15,8 @@ const Dropdown = ({ isOpen, setIsOpen }: DropdownType) => {
     <>
       <ul
         className={`${styles.dropDown} ${
-          !isOpen ? styles.close : styles.zindex
+          // !isOpen ? styles.close : styles.zindex
+          !isOpen ? styles.close : "zindex1000"
         }`}
       >
         <li>

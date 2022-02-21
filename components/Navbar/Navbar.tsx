@@ -43,7 +43,18 @@ const Navbar = () => {
               onClick={() => setIsOpen(!isOpen)}
             >
               <div className={styles.profilePic}>
-                <Image src="/pdp.jfif" width="50" height="50" />
+                {/* <Image src="/pdp.jfif" width={50} height={50} /> */}
+                {/* <img
+                  src="https://i.imgur.com/W2UbjS8.jpg"
+                  width="50"
+                  height="50"
+                /> */}
+                <Image
+                  src="https://i.imgur.com/W2UbjS8.jpg"
+                  width={50}
+                  height={50}
+                />
+                {/* <Image src="/300" width={50} height={50} /> */}
               </div>
               <Dropdown isOpen={isOpen} setIsOpen={setIsOpen} />
             </div>

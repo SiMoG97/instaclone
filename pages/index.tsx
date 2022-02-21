@@ -2,8 +2,6 @@ import type { NextPage } from "next";
 // import { useRouter } from "next/router";
 import DropDown from "../components/Navbar/Dropdown";
 
-import styles from "../styles/Home.module.css";
-
 const Home: NextPage = () => {
   // const router = useRouter();
   const isLoggedin = false;
@@ -11,10 +9,7 @@ const Home: NextPage = () => {
     // router.push("/login");
   }
   return (
-    <div
-      className={styles.container}
-      style={{ height: "100vh", width: "100%" }}
-    >
+    <div className="container main">
       <h1>home</h1>
 
       {/* dev */}

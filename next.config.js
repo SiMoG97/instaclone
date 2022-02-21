@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    domains: ["i.imgur.com"],
+  },
   reactStrictMode: true,
   webpack(config) {
     config.module.rules.push({

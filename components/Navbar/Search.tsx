@@ -2,13 +2,14 @@ import { useRef, useState } from "react";
 import styles from "./Navbar.module.scss";
 import SearchIcon from "../../public/search.svg";
 import HiddenLayer from "../HiddenLayer";
+import SearchDropdown from "./SearchDropdown";
 
 const SearchInput = () => {
   const [focus, setFocus] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <>
-      <div className={`${styles.search} ${focus && styles.zindex}`}>
+      <div className={`${styles.search} ${focus && "zindex1000"}`}>
         <div
           className={`${styles.fakeInput} ${focus && styles.hideFakeInput} `}
           onClick={() => {
@@ -30,6 +31,7 @@ const SearchInput = () => {
           {/* span is the closing x in search bar  */}
           <span></span>
         </div>
+        <SearchDropdown isFocus={focus} />
       </div>
       {/* {focus && <HiddenLayer isShowing={focus} setFocus={setFocus} />} */}
       {focus && <HiddenLayer clicked={setFocus} />}

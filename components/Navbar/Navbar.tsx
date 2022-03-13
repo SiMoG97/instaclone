@@ -11,6 +11,7 @@ import Image from "next/image";
 import Dropdown from "./Dropdown";
 import { useState } from "react";
 import HiddenLayer from "../HiddenLayer";
+import ProfilePic from "../ProfilePic";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,32 +31,30 @@ const Navbar = () => {
             <Search />
           </div>
           <div className={styles.child}>
-            {/* <HomeIcon />
-          <AddPost />
-          <SendIcon />
-          <AddPost />
-          <HeartIcon />
-          <AddPost />
-        */}
+            <HomeIcon />
+            <AddPost />
+            <SendIcon />
+            <AddPost />
+            <HeartIcon />
+            <AddPost />
+
             <ThemeToggler />
             <div
               className={styles.profilePicContainer}
               onClick={() => setIsOpen(!isOpen)}
             >
-              <div className={styles.profilePic}>
-                {/* <Image src="/pdp.jfif" width={50} height={50} /> */}
-                {/* <img
-                  src="https://i.imgur.com/W2UbjS8.jpg"
-                  width="50"
-                  height="50"
-                /> */}
+              {/* <div className={styles.profilePic}>
                 <Image
                   src="https://i.imgur.com/W2UbjS8.jpg"
                   width={50}
                   height={50}
                 />
-                {/* <Image src="/300" width={50} height={50} /> */}
-              </div>
+              </div> */}
+              <ProfilePic
+                src="https://i.imgur.com/W2UbjS8.jpg"
+                width={30}
+                height={30}
+              />
               <Dropdown isOpen={isOpen} setIsOpen={setIsOpen} />
             </div>
           </div>

@@ -104,3 +104,8 @@ a {
   color: var(--helper-primary);
   cursor: pointer;
 }
+.profilePic {
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}

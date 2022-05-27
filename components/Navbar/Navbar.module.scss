@@ -3,7 +3,8 @@
   width: 100%;
   position: fixed;
   top: 0;
-  background-color: var(--bg-c-1);
+  // background-color: var(--bg-c-1);
+  background-color: rgb(174, 237, 86);
 }
 .container {
   justify-content: space-between;
@@ -165,7 +166,7 @@
     transform: scaleY(0);
   }
   &::before {
-    @include dropTriangle(1rem);
+    @include dropTriangle(1.3rem);
     // right: 1rem;
   }
   li {

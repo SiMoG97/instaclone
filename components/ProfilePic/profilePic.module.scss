@@ -1,0 +1,90 @@
+.profilePic {
+  position: relative;
+  cursor: pointer;
+  z-index: -1;
+  svg {
+    fill: none;
+    stroke-linecap: round;
+    stroke-width: 2;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+  img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+  }
+  &.size-1 {
+    width: 16.8rem;
+    height: 16.8rem;
+    img {
+      width: 15rem;
+    }
+  }
+  &.size-2 {
+    width: 6.5rem;
+    height: 6.5rem;
+    img {
+      width: 5.6rem;
+    }
+    svg {
+      stroke-width: 3.5;
+    }
+  }
+  &.size-3 {
+    width: 5.4rem;
+    height: 5.4rem;
+    img {
+      width: 4.4rem;
+    }
+    svg {
+      stroke-width: 3.5;
+    }
+  }
+  &.size-4 {
+    width: 4.2rem;
+    height: 4.2rem;
+    img {
+      width: 3.2rem;
+    }
+    svg {
+      stroke-width: 4;
+    }
+  }
+  &.size-5 {
+    width: 2.4rem;
+    height: 2.4rem;
+    img {
+      width: 2.4rem;
+    }
+  }
+  &.size-6 {
+    width: 2rem;
+    height: 2rem;
+    img {
+      width: 2rem;
+    }
+  }
+}
+@keyframes stroke-draw {
+  from {
+    stroke: #8a3ab9;
+    stroke-dasharray: 1;
+  }
+  to {
+    stroke: #cd486b;
+    transform: rotate(180deg);
+    stroke-dasharray: 8;
+  }
+}
+
+.storySeen {
+  circle {
+    stroke: var(--bg-c-2);
+  }
+}
+.animateCircle {
+  animation: stroke-draw 2s ease-out reverse;
+}

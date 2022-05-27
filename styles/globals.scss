@@ -73,14 +73,9 @@ a {
   padding: 0;
   margin: 0;
 }
-.main {
-  height: 100vh;
-  width: 100%;
-}
 .container {
   display: flex;
   max-width: 97.5rem;
-  height: 100%;
   margin: 0 auto;
 }
 .closePopupFullScreen {
@@ -91,7 +86,7 @@ a {
   width: 100vw;
   height: 100vh;
   z-index: 999;
-  // background-color: rgba(81, 158, 18, 0.349);
+  background-color: rgba(81, 158, 18, 0.349);
 }
 
 .zindex1000 {

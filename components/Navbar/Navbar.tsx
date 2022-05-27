@@ -51,9 +51,11 @@ const Navbar = () => {
                 />
               </div> */}
               <ProfilePic
+                size="size-5"
                 src="https://i.imgur.com/W2UbjS8.jpg"
-                width={30}
-                height={30}
+                animate={false}
+                hasStory={false}
+                seen={false}
               />
               <Dropdown isOpen={isOpen} setIsOpen={setIsOpen} />
             </div>

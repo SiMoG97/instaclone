@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
 :root {
   --txt-c-1: #262626;
   --txt-c-2: #8e8e8e;
@@ -13,28 +14,6 @@
   --helper-success: #fff;
   --helper-primary: #0095f6;
   --helper-danger: #ed4956;
-
-  // --ft-clr-1: var(--ft-clr-light-1);
-  // --ft-clr-2: var(--ft-clr-light-2);
-  // --ft-clr-3: var(--ft-clr-light-3);
-  // --ft-clr-4: var(--ft-clr-light-4);
-
-  // --bg-clr: var(--bg-clr-light);
-
-  // --bg-clr-dark: #262626;
-  // --bg-clr-light: #fafafa;
-
-  // --ft-clr-light-1: #262626;
-  // --ft-clr-light-2: #8e8e8e;
-  // --ft-clr-light-3: #c7c7c7;
-  // --ft-clr-light-4: #efefef;
-
-  // --ft-clr-dark-1: #fff;
-  // --ft-clr-dark-2: #fff;
-  // --ft-clr-dark-3: #fff;
-  // --ft-clr-dark-4: #fff;
-
-  // --test-color: invert(#fff);
 }
 
 [data-theme="dark"] {
@@ -52,9 +31,7 @@ html {
 }
 html,
 body {
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  // background-color: rgb(250, 250, 250);
+  font-family: "Roboto", sans-serif;
 }
 body {
   height: 100vh;

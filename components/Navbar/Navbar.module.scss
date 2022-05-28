@@ -249,4 +249,9 @@
   justify-content: space-between;
   align-items: center;
   flex-grow: 1;
+  margin-left: 1rem;
+}
+.userName {
+  color: var(--txt-c-1);
+  font-weight: 500;
 }

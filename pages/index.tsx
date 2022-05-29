@@ -1,45 +1,36 @@
 import type { NextPage } from "next";
-import { useLayoutEffect, useRef } from "react";
 // import { useRouter } from "next/router";
 import DropDown from "../components/Navbar/Dropdown";
 import PostMain from "../components/Post/PostMain";
 import styles from "../styles/home.module.scss";
-import type { RefObject } from "react";
+import { RefObject, useRef } from "react";
 import ProfilePic from "../components/ProfilePic";
+import CommentInput from "../components/Post/CommentInput";
+import Footer from "../components/Footer";
+import Suggestions from "../components/Suggestions";
 
 const Home: NextPage = () => {
-  const suggesEl = useRef<HTMLDivElement | null>(null);
   const postsContainer = useRef<HTMLDivElement | null>(null);
 
-  const calculatingSuggestPos = () => {
-    const SuggestPosLeft =
-      postsContainer.current!.offsetLeft + postsContainer.current!.offsetWidth;
-    suggesEl.current!.style.left = `${SuggestPosLeft + 30}px`;
-  };
-  useLayoutEffect(() => {
-    calculatingSuggestPos();
-  }, []);
-  useLayoutEffect(() => {
-    window.addEventListener("resize", () => {
-      calculatingSuggestPos();
-    });
-  });
-
   return (
-    <div className={`container ${styles.main}`}>
-      <div className="posts" ref={postsContainer}>
-        <PostMain />
-        <PostMain />
-        <PostMain />
-        <PostMain />
-        <PostMain />
-        <PostMain />
+    <>
+      <div className={`container ${styles.main}`}>
+        <div className="posts" ref={postsContainer}>
+          <PostMain />
+          <PostMain />
+          <PostMain />
+          <PostMain />
+          <PostMain />
+          <PostMain />
+        </div>
+        <Suggestions postsContainer={postsContainer} />
+        {/* dev */}
+        {/* <DropDown /> */}
+        {/* <div className={styles.suggestions} ref={suggesEl}>
+          <Footer />
+        </div> */}
       </div>
-      <div className={styles.suggestions} ref={suggesEl}></div>
-
-      {/* dev */}
-      {/* <DropDown /> */}
-    </div>
+    </>
   );
 };
 

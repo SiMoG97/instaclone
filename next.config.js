@@ -3,6 +3,12 @@ const nextConfig = {
   images: {
     domains: ["i.imgur.com"],
   },
+  // loaders: [
+  //   {
+  //     test: /\.json$/,
+  //     loader: "json-loader",
+  //   },
+  // ],
   reactStrictMode: true,
   webpack(config) {
     config.module.rules.push({

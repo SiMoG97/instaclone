@@ -31,13 +31,10 @@ const Navbar = () => {
             <Search />
           </div>
           <div className={styles.child}>
-            <HomeIcon />
+            <HomeIcon className={styles.activeIcons} />
             <AddPost />
             <SendIcon />
-            <AddPost />
             <HeartIcon />
-            <AddPost />
-
             <ThemeToggler />
             <div
               className={styles.profilePicContainer}

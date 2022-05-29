@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./PostMain.module.scss";
 import PostHeader from "../PostHeader";
 import Button from "../../Button";
+import CommentInput from "../CommentInput";
 const PostMain = () => {
   return (
     <div className={styles.postMain}>
@@ -16,14 +17,13 @@ const PostMain = () => {
       </Button>
       <br />
       <br />
-
       <Button mainColor={false} mainShape={false}>
         Follow
       </Button>
       <br />
       <br />
-
       {/* <Button>Follow</Button> */}
+      {/* <CommentInput /> */}
     </div>
   );
 };

@@ -3,8 +3,8 @@
   width: 100%;
   position: fixed;
   top: 0;
-  // background-color: var(--bg-c-1);
   background-color: rgb(174, 237, 86);
+  z-index: 5;
 }
 .container {
   justify-content: space-between;
@@ -36,6 +36,11 @@
   cursor: pointer;
   padding: 1.5rem 0;
   > path {
+    fill: var(--txt-c-1);
+  }
+}
+.activeIcons {
+  path {
     fill: var(--txt-c-1);
   }
 }

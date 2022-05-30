@@ -23,7 +23,11 @@ const Home: NextPage = () => {
           <PostMain />
           <PostMain />
         </div>
-        <Suggestions postsContainer={postsContainer} />
+        <Suggestions
+          postsContainer={postsContainer}
+          myUserName="simo_echaarani"
+          myFullName="Simo Echaarani"
+        />
         {/* dev */}
         {/* <DropDown /> */}
         {/* <div className={styles.suggestions} ref={suggesEl}>

@@ -12,7 +12,6 @@ type props = {
 
 // const TestingPP = ({ src, size }: props) => {
 const ProfilePic = ({ src, size, seen, animate, hasStory }: props) => {
-  console.log(styles);
   if (size === "size-6" || size === "size-5" || !hasStory) {
     return (
       <div className={`${styles.profilePic}  ${styles[size]}`}>

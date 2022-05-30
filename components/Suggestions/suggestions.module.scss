@@ -2,6 +2,57 @@
   width: 100%;
   height: 30rem;
   max-width: 32rem;
-  background-color: rgb(255, 255, 255);
   position: fixed;
+  font-size: 1.3rem;
+}
+.userInfo {
+  // background-color: red;
+  display: flex;
+  align-items: center;
+  > div:nth-child(2) {
+    line-height: 2rem;
+    margin-left: 1.4rem;
+    > div:nth-child(1) {
+      font-weight: 500;
+      color: var(--txt-c-1);
+      cursor: pointer;
+    }
+    > div:nth-child(2) {
+      // font-weight: 300;
+      // color: var(--txt-c-3);
+      color: #8e8e8e;
+    }
+  }
+}
+.suggestionForYou {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 0;
+  > div:nth-child(1) {
+    font-size: 1.4rem;
+    color: #8e8e8e;
+    font-weight: 500;
+  }
+  a {
+    color: var(--txt-c-1);
+    font-size: 1.2rem;
+  }
+}
+.suggestionUnit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.anotherUser {
+  margin-left: 1rem !important;
+  > div:nth-child(1) {
+    font-weight: 500;
+    color: var(--txt-c-1);
+    cursor: pointer;
+  }
+  > div:nth-child(2) {
+    font-size: 1.1rem;
+    color: #8e8e8e;
+  }
 }

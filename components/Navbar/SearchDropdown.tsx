@@ -11,6 +11,9 @@ const SearchDropdown = ({ isFocus }: { isFocus: boolean }) => {
         </div>
         <div>
           <SearchCard />
+          <SearchCard />
+          <SearchCard />
+          <SearchCard />
         </div>
       </div>
     </div>

@@ -7,21 +7,6 @@ const PostMain = () => {
   return (
     <div className={styles.postMain}>
       <PostHeader />
-      <Button mainColor={true} mainShape={true}>
-        Follow
-      </Button>
-      <br />
-      <br />
-      <Button mainColor={false} mainShape={true}>
-        Message
-      </Button>
-      <br />
-      <br />
-      <Button mainColor={false} mainShape={false}>
-        Follow
-      </Button>
-      <br />
-      <br />
       {/* <Button>Follow</Button> */}
       {/* <CommentInput /> */}
     </div>

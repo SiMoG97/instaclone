@@ -3,7 +3,8 @@
   width: 100%;
   position: fixed;
   top: 0;
-  background-color: rgb(174, 237, 86);
+  // background-color: rgb(174, 237, 86);
+  background-color: var(--bg-c-1);
   z-index: 5;
 }
 .container {
@@ -131,14 +132,15 @@
 }
 .profilePicContainer {
   position: relative;
-}
-.profilePic {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  overflow: hidden;
+  margin-left: 2rem;
   cursor: pointer;
 }
+// .profilePic {
+//   width: 3rem;
+//   height: 3rem;
+//   border-radius: 50%;
+//   overflow: hidden;
+// }
 @mixin dropTriangle($right) {
   content: "";
   position: absolute;
@@ -229,12 +231,13 @@
 .recentContainer {
   width: 100%;
   height: 100%;
-  padding: 2rem 1.5rem;
+  // padding: 2rem 0rem;
   .recent {
     display: flex;
     justify-content: space-between;
     font-weight: 600;
     color: var(--txt-c-1);
+    padding: 1.5rem 1rem;
   }
 }
 
@@ -242,8 +245,12 @@
   display: flex;
   font-size: 1.3rem;
   width: 100%;
-  padding: 1rem 0;
+  padding: 0.5rem 1.5rem 0.5rem 1rem;
   align-items: center;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--bg-c-2);
+  }
   .imgContainer {
     margin-right: 1rem;
   }

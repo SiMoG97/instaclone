@@ -2,4 +2,25 @@
   width: 100%;
   font-size: 1.2rem;
   color: var(--txt-c-3);
+  margin-top: 3rem;
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  li {
+    list-style: none;
+    &:after {
+      content: "\00B7";
+      vertical-align: middle;
+      font-size: 1.5rem;
+      margin: 0 0.2rem;
+      pointer-events: none;
+    }
+    &:last-child:after {
+      content: "";
+    }
+  }
+  > div:last-child {
+    margin-top: 2rem;
+  }
 }

@@ -56,7 +56,7 @@ const Suggestions = ({ postsContainer, myUserName, myFullName }: props) => {
       <SuggestionUnit userName="simo_echaarani" />
       <SuggestionUnit userName="simo_echaarani" />
       <SuggestionUnit userName="simo_echaarani" />
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };

@@ -1,8 +1,10 @@
 //max-width 47rem
 .postMain {
   width: 47rem;
-  height: 50rem;
-  // background-color: red;
-  margin-bottom: 1rem;
+  // height: 50rem;
+  margin-bottom: 2rem;
   // border: solid 1px black;
+  background-color: var(--bg-c-1);
+  box-shadow: 0 0 0 0.02rem var(--txt-c-2);
+  border-radius: 0.4rem;
 }

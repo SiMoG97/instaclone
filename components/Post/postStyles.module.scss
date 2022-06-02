@@ -3,12 +3,11 @@
   padding: 1rem;
   padding-right: 1.5rem;
   background-color: var(--bg-c-1);
-  box-shadow: 0 0 0 0.02rem var(--txt-c-2);
   border-radius: 0.3rem 0.3rem 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  svg {
+  > svg {
     cursor: pointer;
     fill: var(--txt-c-1);
   }

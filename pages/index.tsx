@@ -8,6 +8,7 @@ import ProfilePic from "../components/ProfilePic";
 import CommentInput from "../components/Post/CommentInput";
 import Footer from "../components/Footer";
 import Suggestions from "../components/Suggestions";
+import Textarea from "../components/Textarea";
 
 const Home: NextPage = () => {
   const postsContainer = useRef<HTMLDivElement | null>(null);
@@ -34,6 +35,8 @@ const Home: NextPage = () => {
           <Footer />
         </div> */}
       </div>
+      <div className="devEnv"></div>
+      <Textarea isCommentInput={true} />
     </>
   );
 };

@@ -1,12 +1,24 @@
 .textareaContainer {
   position: absolute;
   left: 100px;
-  top: 100px;
+  top: 600px;
   width: 30rem;
   z-index: 77777777;
   box-shadow: 0 0 10px #000;
   background-color: red;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  > div:nth-child(1) {
+    padding: 1.5rem;
+    position: relative;
+    svg {
+      cursor: pointer;
+      path {
+        pointer-events: none;
+      }
+    }
+  }
   .textareaParent {
     width: 100%;
   }
@@ -20,4 +32,7 @@
     overflow: hidden;
     max-height: 8.4rem;
   }
+}
+.emojiPickerFace {
+  // padding: 3rem;
 }

@@ -1,7 +1,20 @@
-import React from "react";
+import { useEffect, useRef } from "react";
+import data from "@emoji-mart/data";
+import { Picker } from "emoji-mart";
+import styles from "./emojiPicker.module.scss";
 
-const index = () => {
-  return <div>index</div>;
-};
+function EmojiPicker(props: any) {
+  const ref = useRef(null);
 
-export default index;
+  useEffect(() => {
+    const theme =
+      localStorage.getItem("theme") ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light");
+    new Picker({ ...props, data, ref, theme });
+  }, []);
+  return <div ref={ref} className={styles.emojiContainer} />;
+}
+
+export default EmojiPicker;

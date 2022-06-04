@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import styles from "./textarea.module.scss";
 import FaceEmoji from "../../public/FaceEmoji.svg";
+import Heart from "../../public/heart.svg";
+import PicUpload from "../../public/picUpload.svg";
+import { SendButton } from "./SendButton";
 
 const EmojiPicker = dynamic(() => import("../EmojiPicker"), { ssr: false });
 
@@ -14,6 +17,7 @@ const TextArea = ({ isCommentInput }: props) => {
   const emojiRef = useRef<HTMLDivElement>(null);
   const emojiToggler = useRef<SVGAElement>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [isTaEmpty, setIsTaEmpty] = useState(true);
 
   const emojiCloser = (e: any) => {
     if (emojiRef.current !== null && emojiRef.current !== undefined) {
@@ -41,6 +45,11 @@ const TextArea = ({ isCommentInput }: props) => {
       style: React.CSSProperties;
     };
     calculateTaHeight(target);
+    if (target.value === "") {
+      setIsTaEmpty(true);
+      return;
+    }
+    setIsTaEmpty(false);
   };
 
   const calculateTaHeight = (elm: calculateTaHeightTypes) => {
@@ -59,7 +68,11 @@ const TextArea = ({ isCommentInput }: props) => {
   };
   return (
     <form>
-      <div className={styles.textareaContainer}>
+      <div
+        className={`${styles.textareaContainer} ${
+          !isCommentInput && styles.border
+        }`}
+      >
         <div>
           <FaceEmoji
             className={styles.emojiPickerFace}
@@ -75,7 +88,6 @@ const TextArea = ({ isCommentInput }: props) => {
                   taRef.current!.value += emojiObj.native;
                   calculateTaHeight(taRef.current);
                 }}
-                theme="light"
               />
             </div>
           )}
@@ -83,16 +95,32 @@ const TextArea = ({ isCommentInput }: props) => {
         <div className={styles.textareaParent}>
           <textarea
             ref={taRef}
-            onChange={taChangeHandler}
+            onChange={(e) => {
+              taChangeHandler(e);
+            }}
             placeholder={isCommentInput ? "Add a comment..." : "Message..."}
           ></textarea>
         </div>
-        <div></div>
+        <div className={styles.lastSection}>
+          {isCommentInput ? (
+            <SendButton focus={!isTaEmpty}>Post</SendButton>
+          ) : (
+            <>
+              {isTaEmpty ? (
+                <div style={{ width: "9rem" }}>
+                  <PicUpload />
+                  <Heart />
+                </div>
+              ) : (
+                <SendButton focus={true}>Send</SendButton>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </form>
   );
 };
-
 type calculateTaHeightTypes =
   | HTMLTextAreaElement
   | (EventTarget & {

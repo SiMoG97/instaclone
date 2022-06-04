@@ -1,6 +1,6 @@
 .postHeader {
   width: 100%;
-  padding: 1rem;
+  padding: 1.2rem;
   padding-right: 1.5rem;
   background-color: var(--bg-c-1);
   border-radius: 0.3rem 0.3rem 0 0;
@@ -11,6 +11,16 @@
     cursor: pointer;
     fill: var(--txt-c-1);
   }
+  > div {
+    display: flex;
+    align-items: center;
+  }
+  div.username {
+    color: var(--txt-c-1);
+    font-weight: 500;
+    font-size: 1.4rem;
+    margin-left: 1rem;
+  }
 }
 .postBody {
   width: 100%;
@@ -19,8 +29,8 @@
 }
 .postReactions {
   width: 100%;
-  padding: 1rem;
-  padding-right: 1.5rem;
+  padding: 1.2rem;
+  // padding-right: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -36,7 +36,16 @@ const Home: NextPage = () => {
         </div> */}
       </div>
       <div className="devEnv"></div>
-      <Textarea isCommentInput={true} />
+      <div
+        style={{
+          position: "absolute",
+          top: "100px",
+          zIndex: "70000000",
+          width: "800px",
+        }}
+      >
+        <Textarea isCommentInput={false} />
+      </div>
     </>
   );
 };

@@ -4,7 +4,6 @@
   --txt-c-2: #8e8e8e;
   --txt-c-3: #c7c7c7;
   --txt-c-4: #efefef;
-  --txt-c-4: #fafafa;
 
   --bg-c-1: #fff;
   --bg-c-2: #efefef;
@@ -81,12 +80,15 @@ a {
   cursor: pointer;
 }
 
-// .devEnv {
-//   position: absolute;
-//   top: 0;
-//   bottom: 0;
-//   left: 0;
-//   right: 0;
-//   background-color: #fff;
-//   z-index: 100000;
-// }
+.devEnv {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  z-index: 100000;
+}
+path {
+  pointer-events: none;
+}

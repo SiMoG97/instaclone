@@ -5,7 +5,6 @@ import styles from "./emojiPicker.module.scss";
 
 function EmojiPicker(props: any) {
   const ref = useRef(null);
-
   useEffect(() => {
     const theme =
       localStorage.getItem("theme") ||

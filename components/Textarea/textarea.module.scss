@@ -1,22 +1,30 @@
 .textareaContainer {
-  position: absolute;
   left: 100px;
   top: 600px;
-  width: 30rem;
+  // width: 30rem;
   z-index: 77777777;
-  box-shadow: 0 0 10px #000;
-  background-color: red;
+  // box-shadow: 0 0 10px #000;
+  // background-color: red;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  &.border {
+    border: 1px solid var(--txt-c-3);
+    border-radius: 2rem;
+  }
+  svg {
+    cursor: pointer;
+    path {
+      stroke: var(--txt-c-1);
+    }
+  }
   > div:nth-child(1) {
-    padding: 1.5rem;
+    padding: 0 1rem;
+    display: flex;
     position: relative;
-    svg {
-      cursor: pointer;
-      path {
-        pointer-events: none;
-      }
+    svg path {
+      fill: var(--txt-c-1);
+      stroke: none;
     }
   }
   .textareaParent {
@@ -25,14 +33,27 @@
   textarea {
     width: 100%;
     outline: none;
+    border-color: transparent;
     font-size: 1.4rem;
     resize: none;
-    padding: 1rem;
+    padding: 1rem 0;
     height: 36px;
     overflow: hidden;
     max-height: 8.4rem;
+    background-color: transparent;
+    color: var(--txt-c-1);
+    &::placeholder {
+      color: var(--txt-c-3);
+    }
   }
 }
-.emojiPickerFace {
-  // padding: 3rem;
+.lastSection {
+  > div {
+    padding: 0 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    svg {
+      cursor: pointer;
+    }
+  }
 }

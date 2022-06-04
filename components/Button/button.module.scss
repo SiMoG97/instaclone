@@ -1,12 +1,23 @@
 .button {
   border: none;
   outline: none;
-  padding: 0.5rem 1rem;
+  padding: 0.5em 1em;
   width: auto;
-  font-size: 1.4rem;
   font-weight: 500;
   border-radius: 0.4rem;
   cursor: pointer;
+  &.size-1 {
+    font-size: 1.2rem;
+  }
+  &.size-2 {
+    font-size: 1.4rem;
+  }
+  &.size-3 {
+    font-size: 1.6rem;
+  }
+  &.size-4 {
+    font-size: 1.8rem;
+  }
 }
 .mainShape {
   color: #fff;
@@ -25,4 +36,13 @@
   background-color: transparent;
   color: var(--txt-c-1);
   border: 1px solid var(--txt-c-3);
+}
+
+.secondaryShape.secondaryColor.notFocus {
+  // color: green !important;
+  opacity: 0.3;
+  pointer-events: none;
+}
+.bold {
+  font-weight: 600;
 }

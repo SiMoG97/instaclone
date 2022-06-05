@@ -1,9 +1,14 @@
+@import "../../styles/include-media.scss";
+
 .suggestions {
   width: 100%;
   height: 30rem;
   max-width: 32rem;
   position: fixed;
   font-size: 1.3rem;
+  // @include media("<=desktop") {
+  //   display: none;
+  // }
 }
 .userInfo {
   // background-color: red;

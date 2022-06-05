@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+
 // import { useRouter } from "next/router";
 import DropDown from "../components/Navbar/Dropdown";
 import PostMain from "../components/Post/PostMain";
@@ -35,7 +36,7 @@ const Home: NextPage = () => {
           <Footer />
         </div> */}
       </div>
-      <div className="devEnv"></div>
+      {/* <div className="devEnv"></div>
       <div
         style={{
           position: "absolute",
@@ -45,7 +46,7 @@ const Home: NextPage = () => {
         }}
       >
         <Textarea isCommentInput={false} />
-      </div>
+      </div> */}
     </>
   );
 };

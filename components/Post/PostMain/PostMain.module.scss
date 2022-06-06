@@ -1,15 +1,23 @@
-//max-width 47rem
+@import "../../../styles/include-media.scss";
+
 .postMain {
   width: 47rem;
-  // height: 50rem;
   margin-bottom: 2rem;
   // border: solid 1px black;
   background-color: var(--bg-c-1);
   box-shadow: 0 0 0 0.02rem var(--txt-c-2);
   border-radius: 0.4rem;
+  @include media("<=phone") {
+    width: 100%;
+    margin-bottom: 0;
+    border-radius: 0;
+  }
 }
 .commentInputContainer {
   padding: 0.5rem 0;
   // box-shadow: 0 -1px 0 #eaeaea;
   box-shadow: 0 -1px 0 var(--txt-c-4);
+  @include media("<=phone") {
+    display: none;
+  }
 }

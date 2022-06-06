@@ -37,6 +37,7 @@ body {
   height: 100vh;
   background-color: var(--bg-c-3);
   font-size: 1.6rem;
+  overflow-x: hidden;
   // @include media("<=desktop") {
   //   background-color: green;
   // }
@@ -95,4 +96,9 @@ a {
 }
 path {
   pointer-events: none;
+}
+.posts {
+  @include media("<=phone") {
+    width: 100%;
+  }
 }

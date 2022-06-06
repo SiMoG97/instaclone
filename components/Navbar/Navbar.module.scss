@@ -1,3 +1,4 @@
+@import "../../styles/include-media.scss";
 .nav {
   box-shadow: var(--txt-c-3) 0 0.1rem;
   width: 100%;
@@ -6,6 +7,9 @@
   // background-color: rgb(174, 237, 86);
   background-color: var(--bg-c-1);
   z-index: 5;
+  @include media("<desktop") {
+    padding: 0 1rem;
+  }
 }
 .container {
   justify-content: space-between;
@@ -19,10 +23,17 @@
       width: 20rem;
       min-width: 15rem;
       flex-basis: 0;
+      @include media("<tablet") {
+        display: none;
+      }
     }
     &.child:nth-child(3) {
       padding-left: 0;
       justify-content: flex-end;
+      @include media("<tablet") {
+        display: none;
+      }
+
       > svg {
         margin-left: 2.5rem;
         path {
@@ -31,11 +42,27 @@
       }
     }
   }
+  .tabletNavTopRight {
+    display: flex;
+    svg {
+      margin-left: 2rem;
+      path,
+      circle {
+        stroke: var(--txt-c-1);
+      }
+    }
+    @include media(">=tablet") {
+      display: none;
+    }
+  }
 }
 .logo {
   width: 10rem;
   cursor: pointer;
   padding: 1.5rem 0;
+  @include media("<=phone") {
+    padding: 0.8rem 0;
+  }
   > path {
     fill: var(--txt-c-1);
   }
@@ -266,4 +293,23 @@
 .userName {
   color: var(--txt-c-1);
   font-weight: 500;
+}
+
+.phoneNav {
+  @include media(">=tablet") {
+    display: none;
+  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 500;
+  background-color: var(--bg-c-1);
+  padding: 0.5rem 1rem;
+  box-shadow: 0 0 1px var(--txt-c-2);
+  svg path {
+    stroke: var(--txt-c-1);
+  }
 }

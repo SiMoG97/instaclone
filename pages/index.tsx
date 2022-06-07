@@ -10,6 +10,7 @@ import CommentInput from "../components/Post/CommentInput";
 import Footer from "../components/Footer";
 import Suggestions from "../components/Suggestions";
 import Textarea from "../components/Textarea";
+import PopupContainer from "../components/Popups/PopupContainer";
 
 const Home: NextPage = () => {
   const postsContainer = useRef<HTMLDivElement | null>(null);
@@ -47,6 +48,7 @@ const Home: NextPage = () => {
       >
         <Textarea isCommentInput={false} />
       </div> */}
+      <PopupContainer />
     </>
   );
 };

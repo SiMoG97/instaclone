@@ -4,9 +4,10 @@
   left: 0;
   bottom: 0;
   right: 0;
-  //   width: 600px;
-  //   height: 600px;
   background-color: rgba(0, 0, 0, 0.406);
   z-index: 7000;
-  //   overflow-y: scroll;
+  overflow-y: scroll;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

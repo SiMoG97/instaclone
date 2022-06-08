@@ -1,55 +1,42 @@
-import { useEffect, useState } from "react";
+import { ReactElement, useLayoutEffect, useState } from "react";
 import styles from "./PopupContainer.module.scss";
 
-const PopupContainer = () => {
+type props = {
+  children: ReactElement;
+};
+
+const PopupContainer = ({ children }: props) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const body = window.document.body;
-    if (isOpen) {
-      console.log(window.pageYOffset);
-      console.log(body.scrollTop);
-      const scroll = window.pageYOffset;
-      console.log(scroll);
-      body.classList.add("noscroll");
-      window.scrollTo(0, scroll);
-      console.log(body.scrollHeight);
-      return;
-    }
-    body.classList.remove("noscroll");
-    //////////////
-    //////////////
+    const nav = document.querySelector<HTMLElement>("body nav");
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
 
-    // if (isOpen) {
-    //   window.document.body.style.overflowY = "hidden";
-    // } else {
-    //   window.document.body.style.overflowY = "scroll";
-    // }
-    // window.addEventListener("scroll", () => {
-    //   console.log(window.pageYOffset);
-    // });
-    const preventScroll = () => {
-      console.log("test");
-      window.scrollTo(0, 0);
-    };
-    // if (isOpen) {
-    //   window.addEventListener("scroll", preventScroll);
-    // } else {
-    //   window.removeEventListener("scroll", preventScroll);
-    // }
-    // return () => {
-    //   window.removeEventListener("scroll", preventScroll);
-    // };
+    if (isOpen) {
+      body.style.overflow = "hidden";
+      body.style.paddingRight = `${scrollbarWidth}px`;
+      if (nav !== null) nav.style.paddingRight = `${scrollbarWidth}px`;
+    } else {
+      body.style.overflow = "unset";
+      body.style.paddingRight = "0px";
+      if (nav !== null) nav.style.paddingRight = `0px`;
+    }
   }, [isOpen]);
 
   if (isOpen)
     return (
       <div
         className={styles.container}
-        onClick={() => {
-          setIsOpen(false);
+        onClick={(e) => {
+          if (e.currentTarget === e.target) {
+            setIsOpen(false);
+          }
         }}
-      ></div>
+      >
+        {children}
+      </div>
     );
   return <></>;
 };

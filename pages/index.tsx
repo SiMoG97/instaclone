@@ -48,10 +48,8 @@ const Home: NextPage = () => {
       >
         <Textarea isCommentInput={false} />
       </div> */}
-      <PopupContainer>
-        <div style={{ background: "red", width: "500px", height: "500px" }}>
-          hello
-        </div>
+      <PopupContainer popupHeader="Share">
+        <span>test</span>
       </PopupContainer>
     </>
   );

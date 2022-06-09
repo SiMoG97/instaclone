@@ -2,10 +2,11 @@ import { ReactElement, useLayoutEffect, useState } from "react";
 import styles from "./PopupContainer.module.scss";
 
 type props = {
+  popupHeader: string;
   children: ReactElement;
 };
 
-const PopupContainer = ({ children }: props) => {
+const PopupContainer = ({ children, popupHeader }: props) => {
   const [isOpen, setIsOpen] = useState(true);
 
   useLayoutEffect(() => {
@@ -28,14 +29,21 @@ const PopupContainer = ({ children }: props) => {
   if (isOpen)
     return (
       <div
-        className={styles.container}
+        className={styles.SemiTransparentLayer}
         onClick={(e) => {
           if (e.currentTarget === e.target) {
             setIsOpen(false);
           }
         }}
       >
-        {children}
+        <div
+          className={`${styles.popupContainer} ${
+            isOpen && styles.showMobilePopup
+          }`}
+        >
+          <div className={styles.popUpHeader}>{popupHeader}</div>
+          {children}
+        </div>
       </div>
     );
   return <></>;

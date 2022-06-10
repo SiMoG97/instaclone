@@ -10,6 +10,9 @@
   @include media("<desktop") {
     padding: 0 1rem;
   }
+  @include media("<=tablet") {
+    padding-right: 1rem !important;
+  }
 }
 .container {
   justify-content: space-between;
@@ -17,8 +20,7 @@
   .child {
     display: flex;
     flex: 1 0 8.5rem;
-    &.child:nth-child(1) {
-    }
+
     &.child:nth-child(2) {
       width: 20rem;
       min-width: 15rem;

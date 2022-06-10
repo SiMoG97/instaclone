@@ -18,22 +18,13 @@
   width: 500px;
   height: 500px;
   border-radius: 1rem;
-  transition: transform 0.3s;
   @include media("<=tablet") {
-    background-color: red;
     width: 100%;
     height: 100%;
     border-radius: 0;
-    transform: translateX(100%);
   }
 }
-.showMobilePopup {
-  @include media("<=tablet") {
-    transform: translateX(100%);
-    transform: translateX(0%);
-    background-color: violet;
-  }
-}
+
 .popUpHeader {
   display: flex;
   justify-content: center;

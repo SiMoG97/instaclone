@@ -1,5 +1,6 @@
-import { ReactElement, useLayoutEffect, useState } from "react";
+import { ReactElement, useEffect, useLayoutEffect, useState } from "react";
 import styles from "./PopupContainer.module.scss";
+import { useTransition, animated } from "react-spring";
 
 type props = {
   popupHeader: string;
@@ -7,7 +8,24 @@ type props = {
 };
 
 const PopupContainer = ({ children, popupHeader }: props) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [phoneAnimation, setPhoneAnimation] = useState({
+    from: {
+      x: "100%",
+      opacity: 1,
+    },
+    enter: {
+      x: "0%",
+      opacity: 1,
+    },
+    leave: {
+      x: "100%",
+      opacity: 1,
+    },
+    config: {
+      duration: 200,
+    },
+  });
 
   useLayoutEffect(() => {
     const body = window.document.body;
@@ -26,27 +44,84 @@ const PopupContainer = ({ children, popupHeader }: props) => {
     }
   }, [isOpen]);
 
-  if (isOpen)
-    return (
-      <div
-        className={styles.SemiTransparentLayer}
-        onClick={(e) => {
-          if (e.currentTarget === e.target) {
-            setIsOpen(false);
-          }
-        }}
-      >
-        <div
-          className={`${styles.popupContainer} ${
-            isOpen && styles.showMobilePopup
-          }`}
-        >
-          <div className={styles.popUpHeader}>{popupHeader}</div>
-          {children}
-        </div>
-      </div>
-    );
-  return <></>;
+  // popup phone translateX animation
+  const transition = useTransition(isOpen, phoneAnimation);
+
+  const checkMediaQuery = (x: MediaQueryList) => {
+    if (x.matches) {
+      setPhoneAnimation({
+        ...phoneAnimation,
+        from: {
+          x: "100%",
+          opacity: 1,
+        },
+        enter: {
+          x: "0%",
+          opacity: 1,
+        },
+        leave: {
+          x: "100%",
+          opacity: 1,
+        },
+      });
+    } else {
+      setPhoneAnimation({
+        ...phoneAnimation,
+        from: {
+          x: "0%",
+          opacity: 0,
+        },
+        enter: {
+          x: "0%",
+          opacity: 1,
+        },
+        leave: {
+          x: "0%",
+          opacity: 0,
+        },
+      });
+    }
+  };
+  useEffect(() => {
+    var x = window.matchMedia("(max-width: 768px)");
+    window.addEventListener("resize", () => {
+      checkMediaQuery(x);
+    });
+    return () => {
+      window.removeEventListener("resize", () => {
+        checkMediaQuery(x);
+      });
+    };
+  }, [isOpen]);
+  useEffect(() => {
+    var x = window.matchMedia("(max-width: 768px)");
+    console.log(x);
+    checkMediaQuery(x);
+  }, []);
+  return (
+    <>
+      {transition((style, item) =>
+        item ? (
+          <animated.div
+            style={style}
+            className={styles.SemiTransparentLayer}
+            onClick={(e) => {
+              if (e.currentTarget === e.target) {
+                setIsOpen(false);
+              }
+            }}
+          >
+            <div className={`${styles.popupContainer}`}>
+              <div className={styles.popUpHeader}>{popupHeader}</div>
+              {children}
+            </div>
+          </animated.div>
+        ) : (
+          <></>
+        )
+      )}
+    </>
+  );
 };
 
 export default PopupContainer;

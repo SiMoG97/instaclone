@@ -16,7 +16,7 @@
 .commentInputContainer {
   padding: 0.5rem 0;
   // box-shadow: 0 -1px 0 #eaeaea;
-  box-shadow: 0 -1px 0 var(--txt-c-4);
+  box-shadow: 0 -1px 0 var(--txt-c-5);
   @include media("<=phone") {
     display: none;
   }

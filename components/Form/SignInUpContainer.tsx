@@ -5,6 +5,7 @@ import styles from "./form.module.scss";
 import Input from "./Input";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
+import Footer from "../Footer";
 const SignInUpContainer = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   return (
@@ -36,6 +37,7 @@ const SignInUpContainer = ({ children }: { children: ReactNode }) => {
           </a>
         </Link>
       </div>
+      <Footer centered />
     </div>
   );
 };

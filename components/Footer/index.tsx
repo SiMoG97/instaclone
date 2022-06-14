@@ -1,11 +1,11 @@
 import Link from "next/link";
 import styles from "./footer.module.scss";
-const Footer = () => {
+const Footer = ({ centered = false }: { centered?: boolean }) => {
   const date = new Date();
   return (
     <footer className={styles.footer}>
       <div>
-        <ul>
+        <ul style={{ justifyContent: `${centered && "center"}` }}>
           <li>
             <Link href="/">
               <a>About</a>
@@ -63,7 +63,9 @@ const Footer = () => {
           </li>
         </ul>
       </div>
-      <div>© {date.getFullYear()} INSTACLONE FROM SIMO</div>
+      <div style={centered ? { textAlign: "center" } : {}}>
+        © {date.getFullYear()} INSTACLONE FROM SIMO
+      </div>
     </footer>
   );
 };

@@ -45,12 +45,14 @@ const SignInUpContainer = ({ children }: { children: ReactNode }) => {
 export const WideButton = ({
   children,
   hasIcon,
+  disabled = false,
 }: {
   children: string;
   hasIcon: boolean;
+  disabled?: boolean;
 }) => {
   return (
-    <button className={styles.wideButton}>
+    <button className={`${styles.wideButton} ${disabled && styles.disabled}`}>
       {hasIcon && <GoogleIcon />}
       {children}
     </button>

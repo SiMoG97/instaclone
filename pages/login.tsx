@@ -1,8 +1,8 @@
-import Input from "../components/Form/Input";
+import Input from "../components/SignInUpContainer/Input";
 import SignInUpContainer, {
   OrLine,
   WideButton,
-} from "../components/Form/SignInUpContainer";
+} from "../components/SignInUpContainer";
 const Login = () => {
   return (
     <SignInUpContainer>
@@ -11,7 +11,9 @@ const Login = () => {
         placeholder="Phone number, username, or email"
       />
       <Input name="password" placeholder="Password" />
-      <WideButton hasIcon={false}>Log in</WideButton>
+      <WideButton hasIcon={false} disabled={true}>
+        Log in
+      </WideButton>
       <OrLine />
       <WideButton hasIcon={true}>Log in with Google</WideButton>
       <div

@@ -1,22 +1,21 @@
 import React from "react";
 import styles from "./profilePic.module.scss";
 import GradientCicle from "../../public/gradientCircle.svg";
-type props = {
+export type ProfilePicTypes = {
   src: string;
-  size: string;
-  animate: boolean;
-  hasStory: boolean;
-  seen: boolean;
+  size?: "size-1" | "size-2" | "size-3" | "size-4" | "size-5" | "size-6";
+  animate?: boolean;
+  hasStory?: boolean;
+  seen?: boolean;
 };
 
-const ProfilePic = ({ src, size, seen, animate, hasStory }: props) => {
-  // if (size === "size-6" || size === "size-5" || !hasStory) {
-  //   return (
-  //     <div className={`${styles.profilePic}  ${styles[size]}`}>
-  //       <img src={src} alt="Profile picture" />
-  //     </div>
-  //   );
-  // }
+const ProfilePic = ({
+  src,
+  size = "size-4",
+  seen = false,
+  animate = false,
+  hasStory = false,
+}: ProfilePicTypes) => {
   return (
     <div className={`${styles.profilePic} ${styles[size]}`}>
       <img src={src} alt="Profile picture" />

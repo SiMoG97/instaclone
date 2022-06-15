@@ -1,10 +1,11 @@
 .Container {
   background-color: var(--bg-c-3);
-  height: 100vh;
+  // height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin: 4rem;
 }
 .formContainer {
   background-color: var(--bg-c-1);
@@ -14,6 +15,7 @@
   width: 35rem;
   border: solid 1px var(--txt-c-4);
   padding: 4rem;
+  padding-bottom: 3rem;
   border-radius: 3px;
   color: var(--txt-c-1);
   font-size: 1.4rem;
@@ -21,7 +23,7 @@
     width: 100%;
   }
   > svg {
-    width: 20rem;
+    width: 18rem;
     path {
       fill: var(--txt-c-1);
     }
@@ -35,10 +37,14 @@
   height: 3.5rem;
   background-color: var(--bg-c-3);
   border: solid 1px var(--txt-c-4);
-
   margin: 0.8rem 0;
   border-radius: 3px;
-
+  &:nth-child(1) {
+    margin-top: 0;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
   &:focus-within {
     border-color: var(--txt-c-2);
   }
@@ -85,18 +91,25 @@
   justify-content: center;
   align-items: center;
   border-radius: 3px;
-  padding: 0.8rem;
-  margin: 1rem 0;
+  padding: 0.7rem;
+  margin: 0.8rem 0;
+  font-weight: 600;
   cursor: pointer;
   &:hover {
     opacity: 0.9;
   }
   > svg {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.6rem;
+    height: 1.6rem;
     margin-right: 0.5rem;
     path {
       fill: #fff;
+    }
+  }
+  &.disabled {
+    opacity: 0.4;
+    &:hover {
+      cursor: no-drop;
     }
   }
 }
@@ -104,7 +117,7 @@
   width: 100%;
   text-align: center;
   position: relative;
-  margin: 2rem 0;
+  margin: 1.6rem 0;
   &::after {
     content: "";
     width: 100%;

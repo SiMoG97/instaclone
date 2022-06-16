@@ -15,16 +15,6 @@
     cursor: pointer;
     fill: var(--txt-c-1);
   }
-  > div {
-    display: flex;
-    align-items: center;
-  }
-  div.username {
-    color: var(--txt-c-1);
-    font-weight: 500;
-    font-size: 1.4rem;
-    margin-left: 1rem;
-  }
 }
 .postBody {
   width: 100%;

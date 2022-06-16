@@ -11,6 +11,7 @@ import Footer from "../components/Footer";
 import Suggestions from "../components/Suggestions";
 import Textarea from "../components/Textarea";
 import PopupContainer from "../components/Popups/PopupContainer";
+import PicUsername from "../components/PicUsername";
 
 const Home: NextPage = () => {
   const postsContainer = useRef<HTMLDivElement | null>(null);
@@ -46,8 +47,14 @@ const Home: NextPage = () => {
           width: "800px",
         }}
       >
-        <Textarea isCommentInput={false} />
+        <PicUsername
+          src="./pp.jpg"
+          size="size-3"
+          primaryText="Simo_echaarani"
+          secondaryText="Simo Echaarani"
+        />
       </div> */}
+      {/* <Textarea isCommentInput={false} /> */}
       <PopupContainer popupHeader="Share">
         <span>test</span>
       </PopupContainer>

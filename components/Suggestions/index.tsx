@@ -4,6 +4,7 @@ import styles from "./suggestions.module.scss";
 import ProfilePic from "../ProfilePic";
 import Button from "../Button";
 import Link from "next/link";
+import PicUsername from "../PicUsername";
 
 type props = {
   postsContainer: MutableRefObject<HTMLDivElement | null>;
@@ -36,17 +37,12 @@ const Suggestions = ({ postsContainer, myUserName, myFullName }: props) => {
     <div className={styles.suggestions} ref={suggesEl}>
       <div className={`${styles.suggestionHeader} ${styles.suggestionUnit}`}>
         <div className={styles.userInfo}>
-          <ProfilePic
+          <PicUsername
             src="./pp.jpg"
             size="size-2"
-            hasStory={false}
-            animate={true}
-            seen={false}
+            primaryText={myUserName}
+            secondaryText={myFullName}
           />
-          <div>
-            <div>{myUserName}</div>
-            <div>{myFullName}</div>
-          </div>
         </div>
         <Button mainColor={false} mainShape={false}>
           switch
@@ -75,7 +71,7 @@ export const SuggestionUnit = ({ userName }: { userName: string }) => {
   return (
     <div className={styles.suggestionUnit} style={{ marginBottom: "1.2rem" }}>
       <div className={styles.userInfo}>
-        <ProfilePic
+        {/* <ProfilePic
           src="/pp.jpg"
           hasStory={false}
           seen={false}
@@ -85,7 +81,13 @@ export const SuggestionUnit = ({ userName }: { userName: string }) => {
         <div className={styles.anotherUser}>
           <div>{userName}</div>
           <div>Followed by abass_radii + 3 more</div>
-        </div>
+        </div> */}
+        <PicUsername
+          src="./pp.jpg"
+          size="size-4"
+          primaryText={userName}
+          secondaryText="Followed by abass_radii + 3 more"
+        />
       </div>
       <Button mainColor={false} mainShape={false}>
         Follow

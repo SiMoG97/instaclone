@@ -1,8 +1,12 @@
-import ProfilePic from "../ProfilePic";
 import styles from "./Navbar.module.scss";
 import CrossIcon from "../../public/cross.svg";
 import PicUsername from "../PicUsername";
-const SearchDropdown = ({ isFocus }: { isFocus: boolean }) => {
+
+type propsType = {
+  isFocus: boolean;
+};
+
+const SearchDropdown = ({ isFocus }: propsType) => {
   return (
     <div className={`${styles.searchDropdown} ${isFocus && styles.open}`}>
       <div className={styles.recentContainer}>

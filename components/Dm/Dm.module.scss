@@ -1,0 +1,89 @@
+@import "../../styles/include-media.scss";
+.chatContainer {
+  width: calc(100% - 30rem);
+  height: 100%;
+  // background-color: rgb(30, 244, 176);
+  transition-timing-function: ease;
+  @include media("<=tablet") {
+    position: absolute;
+    transform: translateX(100%);
+    width: 100%;
+    transition: 0.3s transform;
+  }
+}
+.chatActive {
+  @include media("<=tablet") {
+    transform: translateX(0%);
+  }
+}
+.contactsContainer {
+  width: 35rem;
+  height: 100%;
+  //   background-color: rgb(252, 91, 255);
+  @include media("<=tablet") {
+    width: 100%;
+  }
+}
+.contactList {
+  height: 100%;
+  overflow-y: scroll;
+}
+@import "../../styles/include-media.scss";
+.contactCardContainer {
+  padding: 1rem 1.5rem;
+  display: flex;
+  width: 100%;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--bg-c-2);
+  }
+  .dotTimerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+    height: 52px;
+    font-size: 1.4rem;
+  }
+  .timer {
+    align-self: flex-end;
+    color: var(--txt-c-2);
+    margin-left: 0.3rem;
+    &::before {
+      content: "•";
+      margin-right: 0.3rem;
+    }
+  }
+  .dot {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background-color: var(--helper-primary);
+  }
+}
+.leftbarHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+  border-right: solid 1px var(--txt-c-4);
+  border-bottom: solid 1px var(--txt-c-4);
+  font-weight: 500;
+  font-size: 1.8rem;
+  color: var(--txt-c-1);
+  svg {
+    cursor: pointer;
+    &:hover path {
+      stroke: var(--txt-c-2);
+    }
+    path {
+      stroke: var(--txt-c-1);
+    }
+  }
+
+  .arrowLeft {
+    @include media(">tablet") {
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import styles from "./picUsername.module.scss";
 import ProfilePic from "../ProfilePic";
 import { ProfilePicTypes } from "../ProfilePic";
+import React, { CSSProperties } from "react";
 
 type PicUsernameProps = {
   primaryText: string;
@@ -8,6 +9,7 @@ type PicUsernameProps = {
   secondaryText?: string;
   isSecondarySmall?: boolean;
   isVertical?: boolean;
+  secondTxtCss?: CSSProperties;
 } & ProfilePicTypes;
 
 const PicUsername = ({
@@ -21,6 +23,7 @@ const PicUsername = ({
   seen,
   src,
   size,
+  secondTxtCss = {},
 }: PicUsernameProps) => {
   return (
     <div className={`${styles.container} ${isVertical && styles.vertical}`}>
@@ -34,7 +37,10 @@ const PicUsername = ({
       <div className={styles.usernameContainer}>
         <div className={`${primaryStrong && styles.strong}`}>{primaryText}</div>
         {secondaryText && (
-          <div className={`${isSecondarySmall && styles.smallTxt}`}>
+          <div
+            style={secondTxtCss}
+            className={`${isSecondarySmall && styles.smallTxt}`}
+          >
             {secondaryText}
           </div>
         )}

@@ -25,14 +25,14 @@
       width: 20rem;
       min-width: 15rem;
       flex-basis: 0;
-      @include media("<tablet") {
+      @include media("<=tablet") {
         display: none;
       }
     }
     &.child:nth-child(3) {
       padding-left: 0;
       justify-content: flex-end;
-      @include media("<tablet") {
+      @include media("<=tablet") {
         display: none;
       }
 
@@ -53,7 +53,7 @@
         stroke: var(--txt-c-1);
       }
     }
-    @include media(">=tablet") {
+    @include media(">tablet") {
       display: none;
     }
   }
@@ -297,7 +297,7 @@
 }
 
 .phoneNav {
-  @include media(">=tablet") {
+  @include media(">tablet") {
     display: none;
   }
   display: flex;

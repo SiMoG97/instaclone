@@ -6,7 +6,7 @@ import NewMessageIcon from "../../public/newMessage.svg";
 const Contacts = () => {
   return (
     <div className={styles.contactsContainer}>
-      <div className={styles.leftbarHeader}>
+      <div className={`${styles.leftbarHeader} ${styles.shrinkHeader}`}>
         <div className={styles.arrowLeft}>
           <Link href="/">
             <a>

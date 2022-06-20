@@ -126,3 +126,28 @@
 .textAreaContainer {
   padding: 2rem;
 }
+
+.messageChat {
+  width: 100%;
+  max-width: 30rem;
+  display: flex;
+  padding: 0.5rem 2rem;
+}
+.messageTxt {
+  padding: 1.4rem;
+  border-radius: 2rem;
+  color: var(--txt-c-1);
+  // background-color: var(--bg-c-2);
+  font-size: 1.3rem;
+  line-height: 2rem;
+  border: 1px solid var(--txt-c-5);
+  margin-left: 1.5rem;
+}
+.myMessage {
+  margin-left: auto;
+  border: none;
+  justify-content: flex-end;
+  .messageTxt {
+    background-color: var(--bg-c-2);
+  }
+}

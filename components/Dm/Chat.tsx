@@ -4,10 +4,45 @@ import styles from "./Dm.module.scss";
 import ChatDetailsIcon from "../../public/ChatDetails.svg";
 import ArrowLeft from "../../public/leftArrow.svg";
 import ProfilePic from "../ProfilePic";
+import { useLayoutEffect, useRef, useState } from "react";
 
 const Chat = () => {
+  ////////////
+  const [messages, setMessages] = useState([
+    <MessageChat messageTxt="fin jiti " IsMyMessage={true} />,
+  ]);
+  const addChatClick = () => {
+    setMessages([
+      ...messages,
+      <MessageChat messageTxt="fin jiti " IsMyMessage={true} />,
+    ]);
+  };
+  //////////////
+  const chatRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    // when components mount the first time , auto scroll to bottom
+    if (chatRef.current !== null) {
+      const { scrollHeight, scrollTop, offsetHeight } = chatRef.current;
+      chatRef.current.scroll(0, scrollHeight);
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    if (chatRef.current !== null) {
+      const { scrollHeight, scrollTop, offsetHeight } = chatRef.current;
+      // if (scrollTop + offsetHeight >= scrollHeight - 0.2) {
+      // chatRef.current.scroll(0, scrollHeight);
+      // }
+    }
+  }, [messages]);
+
   return (
-    <div className={styles.chatContainer}>
+    // <div className={styles.chatContainer}>
+    <div className={styles.chatContainer} style={{ position: "relative" }}>
+      <button onClick={addChatClick} style={{ position: "absolute", top: "0" }}>
+        add chat test
+      </button>
       <div className={`${styles.chatHeader} ${styles.shrinkHeader}`}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <div className={styles.arrowChat}>
@@ -19,7 +54,7 @@ const Chat = () => {
           <ChatDetailsIcon />
         </div>
       </div>
-      <div className={styles.chat}>
+      <div ref={chatRef} className={styles.chat}>
         <MessageChat messageTxt="aji 3endi" IsMyMessage={true} />
         <MessageChat
           contactImgSrc="./baif.jpg"
@@ -33,6 +68,17 @@ const Chat = () => {
           IsMyMessage={false}
         />
         <MessageChat messageTxt="wassaup" IsMyMessage={true} />
+        <MessageChat messageTxt="fin mchiti" IsMyMessage={true} />
+        <MessageChat messageTxt="fin mchiti" IsMyMessage={true} />
+        <MessageChat messageTxt="fin mchiti" IsMyMessage={true} />
+        <MessageChat messageTxt="fin jiti " IsMyMessage={true} />
+        <MessageChat
+          messageTxt="why are you ignoring me ?"
+          IsMyMessage={true}
+        />
+        <MessageChat messageTxt="7ta t5rej" IsMyMessage={true} />
+        <MessageChat messageTxt="mabiti tji 3andi" IsMyMessage={true} />
+        {messages.map((elm, i) => elm)}
       </div>
       <div className={styles.textAreaContainer}>
         <TextArea isCommentInput={false} />

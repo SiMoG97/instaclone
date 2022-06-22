@@ -5,6 +5,7 @@ import ChatDetailsIcon from "../../public/ChatDetails.svg";
 import ArrowLeft from "../../public/leftArrow.svg";
 import ProfilePic from "../ProfilePic";
 import { useLayoutEffect, useRef, useState } from "react";
+import useChatScroll from "../Hooks/ChatScrollHook";
 
 const Chat = () => {
   ////////////
@@ -18,24 +19,7 @@ const Chat = () => {
     ]);
   };
   //////////////
-  const chatRef = useRef<HTMLDivElement>(null);
-
-  useLayoutEffect(() => {
-    // when components mount the first time , auto scroll to bottom
-    if (chatRef.current !== null) {
-      const { scrollHeight, scrollTop, offsetHeight } = chatRef.current;
-      chatRef.current.scroll(0, scrollHeight);
-    }
-  }, []);
-
-  useLayoutEffect(() => {
-    if (chatRef.current !== null) {
-      const { scrollHeight, scrollTop, offsetHeight } = chatRef.current;
-      // if (scrollTop + offsetHeight >= scrollHeight - 0.2) {
-      // chatRef.current.scroll(0, scrollHeight);
-      // }
-    }
-  }, [messages]);
+  const chatRef = useChatScroll(messages);
 
   return (
     // <div className={styles.chatContainer}>

@@ -5,9 +5,11 @@ import ChatDetailsIcon from "../../public/ChatDetails.svg";
 import ArrowLeft from "../../public/leftArrow.svg";
 import ProfilePic from "../ProfilePic";
 import { useLayoutEffect, useRef, useState } from "react";
-import useChatScroll from "../Hooks/ChatScrollHook";
+import useChatScroll from "../Hooks/useChatScrollHook";
+import Details from "./Details";
 
 const Chat = () => {
+  const [showDetails, setShowDetails] = useState(true);
   ////////////
   const [messages, setMessages] = useState([
     <MessageChat messageTxt="fin jiti " IsMyMessage={true} />,
@@ -23,22 +25,44 @@ const Chat = () => {
 
   return (
     // <div className={styles.chatContainer}>
-    <div className={styles.chatContainer} style={{ position: "relative" }}>
-      <button onClick={addChatClick} style={{ position: "absolute", top: "0" }}>
+    <div className={styles.chatContainer}>
+      <button
+        onClick={addChatClick}
+        style={{ position: "absolute", top: "200px" }}
+      >
         add chat test
       </button>
-      <div className={`${styles.chatHeader} ${styles.shrinkHeader}`}>
+
+      {/* //////////// */}
+      {/* {!showDetails ? (
+        <> */}
+      {/* <div> */}
+      <div
+        className={`${styles.chatHeader} ${styles.shrinkHeader} ${
+          showDetails && styles.displayNoneDesktop
+        }`}
+      >
         <div style={{ display: "flex", alignItems: "center" }}>
           <div className={styles.arrowChat}>
             <ArrowLeft />
           </div>
           <PicUsername src="./baif.jpg" primaryText="Brahim Baif" />
         </div>
+
         <div>
-          <ChatDetailsIcon />
+          <ChatDetailsIcon
+            className={styles.detailsIcon}
+            onClick={() => {
+              setShowDetails(true);
+            }}
+          />
         </div>
       </div>
-      <div ref={chatRef} className={styles.chat}>
+
+      <div
+        ref={chatRef}
+        className={`${styles.chat} ${showDetails && styles.displayNoneDesktop}`}
+      >
         <MessageChat messageTxt="aji 3endi" IsMyMessage={true} />
         <MessageChat
           contactImgSrc="./baif.jpg"
@@ -64,9 +88,20 @@ const Chat = () => {
         <MessageChat messageTxt="mabiti tji 3andi" IsMyMessage={true} />
         {messages.map((elm, i) => elm)}
       </div>
-      <div className={styles.textAreaContainer}>
+      <div
+        className={`${styles.textAreaContainer} ${
+          showDetails && styles.displayNoneDesktop
+        }`}
+      >
         <TextArea isCommentInput={false} />
       </div>
+      {/* </>
+      ) : (
+      )} */}
+
+      {/* ///////////////////// */}
+      {/* </div> */}
+      <Details setShowDetails={setShowDetails} showDetails={showDetails} />
     </div>
   );
 };

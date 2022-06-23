@@ -21,7 +21,7 @@ const useThemeToggler = () => {
   const toggle = () => {
     theme === "light" ? setTheme("dark") : setTheme("light");
   };
-  return toggle;
+  return { toggle };
 };
 
 export default useThemeToggler;

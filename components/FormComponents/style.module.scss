@@ -1,0 +1,57 @@
+.switchLabel {
+  width: 4rem;
+  height: 2rem;
+  display: flex;
+  border-radius: 5rem;
+  overflow: hidden;
+  position: relative;
+  justify-content: space-between;
+  outline: 1px solid var(--bg-c-2);
+  //   flex-direction: row-reverse;
+  cursor: pointer;
+  > div {
+    height: 100%;
+    transition: 0.3s;
+  }
+  > div:nth-child(1) {
+    // background-color: var(--helper-primary);
+    background-color: var(--helper-primary);
+    width: 30%;
+  }
+  > div:nth-child(2) {
+    // background-color: rgb(90, 255, 139);
+    width: 70%;
+  }
+  .circle {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    position: absolute;
+    background-color: #fff;
+    border: solid 4px var(--helper-primary);
+    // left: 0;
+    transition: 0.3s;
+    transform: translateX(0);
+  }
+}
+.checkboxInput {
+  display: none;
+}
+.checkboxInput:checked ~ .switchLabel {
+  //   background-color: blue;
+  > div:nth-child(1) {
+    width: 70%;
+  }
+  > div:nth-child(2) {
+    width: 30%;
+  }
+  .circle {
+    transform: translateX(100%);
+    left: auto;
+    // right: 0;
+  }
+}
+.something {
+  height: 2rem;
+  width: 2rem;
+}

@@ -12,6 +12,7 @@ import Suggestions from "../components/Suggestions";
 import Textarea from "../components/Textarea";
 import PopupContainer from "../components/Popups/PopupContainer";
 import PicUsername from "../components/PicUsername";
+import Checkbox from "../components/FormComponents/Checkbox";
 
 const Home: NextPage = () => {
   const postsContainer = useRef<HTMLDivElement | null>(null);
@@ -38,7 +39,6 @@ const Home: NextPage = () => {
           <Footer />
         </div> */}
       </div>
-      {/* <div className="devEnv"></div>
       <div
         style={{
           position: "absolute",
@@ -46,14 +46,18 @@ const Home: NextPage = () => {
           zIndex: "70000000",
           width: "800px",
         }}
-      >
+      ></div>
+      <div className="devEnv">
+        <Checkbox />
+      </div>
+      {/* 
         <PicUsername
           src="./pp.jpg"
           size="size-3"
           primaryText="Simo_echaarani"
           secondaryText="Simo Echaarani"
         />
-      </div> */}
+       */}
       {/* <Textarea isCommentInput={false} /> */}
       <PopupContainer popupHeader="Share">
         <span>test</span>

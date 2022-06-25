@@ -5,7 +5,7 @@ import ChatDetailsIcon from "../../public/ChatDetails.svg";
 import ArrowLeft from "../../public/leftArrow.svg";
 import ProfilePic from "../ProfilePic";
 import { useLayoutEffect, useRef, useState } from "react";
-import useChatScroll from "../Hooks/useChatScrollHook";
+import useChatScroll from "../../Hooks/useChatScrollHook";
 import Details from "./Details";
 
 const Chat = () => {

@@ -7,7 +7,6 @@ import HeartIcon from "../../public/heart.svg";
 import AddPost from "../../public/addPost.svg";
 import Link from "next/link";
 import ThemeToggler from "./ThemeToggler";
-import Image from "next/image";
 import Dropdown from "./Dropdown";
 import { useState } from "react";
 import HiddenLayer from "../HiddenLayer";
@@ -39,17 +38,20 @@ const Navbar = () => {
             <SendIcon />
             <HeartIcon />
             <ThemeToggler />
-            <div
-              className={styles.profilePicContainer}
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              <ProfilePic
-                size="size-5"
-                src="https://i.imgur.com/W2UbjS8.jpg"
-                animate={false}
-                hasStory={false}
-                seen={false}
-              />
+            <div className={styles.profilePicContainer}>
+              <div
+                onClick={() => {
+                  setIsOpen(true);
+                }}
+              >
+                <ProfilePic
+                  size="size-5"
+                  src="https://i.imgur.com/W2UbjS8.jpg"
+                  animate={false}
+                  hasStory={false}
+                  seen={false}
+                />
+              </div>
               <Dropdown isOpen={isOpen} setIsOpen={setIsOpen} />
             </div>
           </div>

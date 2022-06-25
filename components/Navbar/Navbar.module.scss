@@ -314,3 +314,8 @@
     stroke: var(--txt-c-1);
   }
 }
+.darkThemeToggler {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

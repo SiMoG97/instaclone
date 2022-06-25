@@ -1,11 +1,25 @@
-import useThemeToggler from "../Hooks/useThemeToggler";
+import useThemeToggler from "../../Hooks/useThemeToggler";
 import styles from "./Navbar.module.scss";
+import ThemeContextProvider, { ThemeContext } from "../../context/themeContext";
+import { useContext } from "react";
 
 const ThemeToggler = () => {
-  const { toggle } = useThemeToggler();
+  const themeContext = useContext(ThemeContext);
+  const clickHandler = () => {
+    if (themeContext) {
+      themeContext.toggle();
+    }
+  };
   return (
     <div className={styles.toggler}>
-      <button onClick={toggle}>toggle theme</button>
+      {console.log()}
+      <button
+        onClick={() => {
+          clickHandler();
+        }}
+      >
+        toggle theme
+      </button>
     </div>
   );
 };

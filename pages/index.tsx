@@ -12,7 +12,7 @@ import Suggestions from "../components/Suggestions";
 import Textarea from "../components/Textarea";
 import PopupContainer from "../components/Popups/PopupContainer";
 import PicUsername from "../components/PicUsername";
-import Checkbox from "../components/FormComponents/Checkbox";
+import Checkbox from "../components/FormComponents/SwitchButton";
 
 const Home: NextPage = () => {
   const postsContainer = useRef<HTMLDivElement | null>(null);
@@ -39,6 +39,7 @@ const Home: NextPage = () => {
           <Footer />
         </div> */}
       </div>
+      {/* 
       <div
         style={{
           position: "absolute",
@@ -50,7 +51,6 @@ const Home: NextPage = () => {
       <div className="devEnv">
         <Checkbox />
       </div>
-      {/* 
         <PicUsername
           src="./pp.jpg"
           size="size-3"

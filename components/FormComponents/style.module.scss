@@ -6,20 +6,17 @@
   overflow: hidden;
   position: relative;
   justify-content: space-between;
-  outline: 1px solid var(--bg-c-2);
-  //   flex-direction: row-reverse;
+  outline: 1px solid var(--txt-c-3);
   cursor: pointer;
   > div {
     height: 100%;
     transition: 0.2s;
   }
   > div:nth-child(1) {
-    // background-color: var(--helper-primary);
     background-color: var(--helper-primary);
     width: 30%;
   }
   > div:nth-child(2) {
-    // background-color: rgb(90, 255, 139);
     width: 70%;
   }
   .circle {
@@ -27,10 +24,8 @@
     height: 2rem;
     border-radius: 50%;
     position: absolute;
-    background-color: var(--txt-c-3);
-    // border: solid 4px var(--helper-primary);
+    background-color: var(--txt-c-2);
     border: solid 3px var(--bg-c-1);
-    // left: 0;
     transition: 0.2s;
     transform: translateX(0);
   }
@@ -39,7 +34,6 @@
   display: none;
 }
 .checkboxInput:checked ~ .switchLabel {
-  //   background-color: blue;
   > div:nth-child(1) {
     width: 70%;
   }
@@ -51,8 +45,6 @@
     left: auto;
     border: solid 3px var(--helper-primary);
     background-color: #fff;
-
-    // right: 0;
   }
 }
 .something {

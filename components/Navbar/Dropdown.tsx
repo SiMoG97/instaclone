@@ -12,12 +12,8 @@ type DropdownType = {
   setIsOpen(appear: boolean): void;
 };
 const Dropdown = ({ isOpen, setIsOpen }: DropdownType) => {
-  const themeContext = useContext(ThemeContext);
-  const themeToggleHandler = () => {
-    if (themeContext) {
-      themeContext.toggle();
-    }
-  };
+  const { toggle, theme } = useContext(ThemeContext);
+
   return (
     <>
       <ul
@@ -65,25 +61,19 @@ const Dropdown = ({ isOpen, setIsOpen }: DropdownType) => {
         <li
           onClick={(e) => {
             if (e.currentTarget === e.target) {
-              themeToggleHandler();
+              toggle();
             }
           }}
         >
           <div className={styles.darkThemeToggler}>
             <div
               onClick={() => {
-                // toggle();
-                themeToggleHandler();
-                console.log("clicked");
+                toggle();
               }}
             >
-              Dark theme :
-              {themeContext && themeContext.theme === "dark" ? "on" : "off"}
+              Dark theme : {theme === "dark" ? "on" : "off"}
             </div>
-            <SwitchButton
-              isChecked={themeContext !== null && themeContext.theme === "dark"}
-              clickHandler={themeToggleHandler}
-            />
+            <SwitchButton isChecked={theme === "dark"} clickHandler={toggle} />
           </div>
         </li>
         <li

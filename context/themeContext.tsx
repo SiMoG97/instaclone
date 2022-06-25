@@ -8,7 +8,7 @@ type ContextType = {
   theme: string;
 };
 
-export const ThemeContext = createContext<ContextType | null>(null);
+export const ThemeContext = createContext<ContextType>({} as ContextType);
 
 const ThemeContextProvider = ({ children }: props) => {
   const { theme, toggle } = useThemeToggler();

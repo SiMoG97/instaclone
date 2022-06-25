@@ -4,18 +4,13 @@ import ThemeContextProvider, { ThemeContext } from "../../context/themeContext";
 import { useContext } from "react";
 
 const ThemeToggler = () => {
-  const themeContext = useContext(ThemeContext);
-  const clickHandler = () => {
-    if (themeContext) {
-      themeContext.toggle();
-    }
-  };
+  const { toggle } = useContext(ThemeContext);
   return (
     <div className={styles.toggler}>
       {console.log()}
       <button
         onClick={() => {
-          clickHandler();
+          toggle();
         }}
       >
         toggle theme

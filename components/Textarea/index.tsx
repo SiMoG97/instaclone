@@ -20,7 +20,7 @@ const TextArea = ({ isCommentInput }: props) => {
   const [isTaEmpty, setIsTaEmpty] = useState(true);
 
   const emojiCloser = (e: any) => {
-    if (emojiRef.current !== null && emojiRef.current !== undefined) {
+    if (emojiRef.current) {
       if (e.target === emojiToggler.current) return;
       if (
         e.target !== emojiRef.current.children[0]?.children[0] &&
@@ -38,12 +38,11 @@ const TextArea = ({ isCommentInput }: props) => {
     };
   }, [showEmojiPicker]);
 
-  const taChangeHandler = (e: React.SyntheticEvent) => {
-    const target = e.target as typeof e.target & {
-      value: string;
-      scrollHeight: number;
-      style: React.CSSProperties;
-    };
+  const taChangeHandler = ({
+    target,
+  }: {
+    target: EventTarget & HTMLTextAreaElement;
+  }) => {
     calculateTaHeight(target);
     if (target.value === "") {
       setIsTaEmpty(true);
@@ -52,17 +51,17 @@ const TextArea = ({ isCommentInput }: props) => {
     setIsTaEmpty(false);
   };
 
-  const calculateTaHeight = (elm: calculateTaHeightTypes) => {
-    if (elm!.scrollHeight > 84) {
-      elm!.style.overflowY = "scroll";
+  const calculateTaHeight = (elm: HTMLTextAreaElement) => {
+    if (elm.scrollHeight > 84) {
+      elm.style.overflowY = "scroll";
     } else {
-      if (elm!.scrollHeight !== 36) {
-        elm!.style.height = "auto";
+      if (elm.scrollHeight !== 36) {
+        elm.style.height = "auto";
       }
-      elm!.style.height = `${elm!.scrollHeight}px`;
-      elm!.style.overflowY = "hidden";
-      if (elm!.scrollHeight > 36 && elm!.scrollHeight < 52) {
-        elm!.style.height = `36px`;
+      elm.style.height = `${elm.scrollHeight}px`;
+      elm.style.overflowY = "hidden";
+      if (elm.scrollHeight > 36 && elm.scrollHeight < 52) {
+        elm.style.height = `36px`;
       }
     }
   };
@@ -86,7 +85,9 @@ const TextArea = ({ isCommentInput }: props) => {
                 onEmojiSelect={(emojiObj: any) => {
                   taRef.current?.focus();
                   taRef.current!.value += emojiObj.native;
-                  calculateTaHeight(taRef.current);
+                  if (taRef.current) {
+                    calculateTaHeight(taRef.current);
+                  }
                 }}
               />
             </div>
@@ -97,6 +98,7 @@ const TextArea = ({ isCommentInput }: props) => {
             ref={taRef}
             onChange={(e) => {
               taChangeHandler(e);
+              // e.target;
             }}
             placeholder={isCommentInput ? "Add a comment..." : "Message..."}
           ></textarea>
@@ -121,18 +123,5 @@ const TextArea = ({ isCommentInput }: props) => {
     </form>
   );
 };
-type calculateTaHeightTypes =
-  | HTMLTextAreaElement
-  | (EventTarget & {
-      value: string;
-      scrollHeight: number;
-      style: React.CSSProperties;
-    })
-  | null
-  | {
-      value: string;
-      scrollHeight: number;
-      style: React.CSSProperties;
-    };
 
 export default TextArea;

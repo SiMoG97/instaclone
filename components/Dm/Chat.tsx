@@ -9,7 +9,7 @@ import useChatScroll from "../../Hooks/useChatScrollHook";
 import Details from "./Details";
 
 const Chat = () => {
-  const [showDetails, setShowDetails] = useState(true);
+  const [showDetails, setShowDetails] = useState(false);
   ////////////
   const [messages, setMessages] = useState([
     <MessageChat messageTxt="fin jiti " IsMyMessage={true} />,

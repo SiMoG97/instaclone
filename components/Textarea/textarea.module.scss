@@ -43,6 +43,7 @@
     max-height: 8.4rem;
     background-color: transparent;
     color: var(--txt-c-1);
+    border: 2px solid transparent;
     &::placeholder {
       color: var(--txt-c-3);
     }

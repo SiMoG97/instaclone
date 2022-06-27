@@ -36,8 +36,11 @@
         display: none;
       }
 
-      > svg {
+      > svg,
+      > a {
+        display: inline-block;
         margin-left: 2.5rem;
+        cursor: pointer;
         path {
           stroke: var(--txt-c-1);
         }
@@ -72,6 +75,12 @@
 .activeIcons {
   path {
     fill: var(--txt-c-1);
+    // stroke: var(--bg-c-1);
+  }
+}
+.strokeNon {
+  path {
+    stroke: none !important;
   }
 }
 .search {

@@ -3,8 +3,10 @@ import styles from "./Navbar.module.scss";
 import Logo from "../../public/logoText.svg";
 import HomeIcon from "../../public/home.svg";
 import SendIcon from "../../public/send.svg";
+import SendActive from "../../public/sendActive.svg";
 import HeartIcon from "../../public/heart.svg";
 import AddPost from "../../public/addPost.svg";
+import AddPostActive from "../../public/addPostActive.svg";
 import Link from "next/link";
 import ThemeToggler from "./ThemeToggler";
 import Dropdown from "./Dropdown";
@@ -14,9 +16,17 @@ import ProfilePic from "../ProfilePic";
 import BookmarkIcon from "../../public/bookmark.svg";
 import SettingsIcon from "../../public/settings.svg";
 import PhoneNav from "./PhoneNav";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
+  //testing
+  const [addPostRest, setAddPostTest] = useState(false);
+  const [activeHeart, setActiveHeart] = useState(false);
+
+  //testing
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  console.log(router);
 
   return (
     <>
@@ -33,10 +43,48 @@ const Navbar = () => {
             <Search />
           </div>
           <div className={styles.child}>
-            <HomeIcon className={styles.activeIcons} />
-            <AddPost />
-            <SendIcon />
-            <HeartIcon />
+            <Link href="/">
+              <a>
+                <HomeIcon
+                  className={router.pathname === "/" && styles.activeIcons}
+                />
+              </a>
+            </Link>
+            {addPostRest ? (
+              <AddPostActive
+                className={`${styles.activeIcons} ${styles.strokeNon}`}
+                onClick={() => {
+                  setAddPostTest(false);
+                }}
+              />
+            ) : (
+              <AddPost
+                onClick={() => {
+                  setAddPostTest(true);
+                }}
+              />
+            )}
+            <Link href="/DirectInbox">
+              <a>
+                {router.pathname === "/DirectInbox" ? (
+                  <SendActive className={styles.activeIcons} />
+                ) : (
+                  <SendIcon />
+                )}
+                {/* <SendIcon
+                // className={
+                //   router.pathname === "/DirectInbox" && styles.activeIcons
+                // }
+                /> */}
+              </a>
+            </Link>
+
+            <HeartIcon
+              onClick={() => {
+                setActiveHeart(!activeHeart);
+              }}
+              className={activeHeart && styles.activeIcons}
+            />
             <ThemeToggler />
             <div className={styles.profilePicContainer}>
               <div

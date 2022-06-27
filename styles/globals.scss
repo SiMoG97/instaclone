@@ -59,7 +59,7 @@ body {
   height: 100vh;
   background-color: var(--bg-c-3);
   font-size: 1.6rem;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
   scrollbar-gutter: stable;
   user-select: none;
@@ -92,7 +92,7 @@ a {
   width: 100vw;
   height: 100vh;
   z-index: 999;
-  background-color: rgba(81, 158, 18, 0.349);
+  // background-color: rgba(81, 158, 18, 0.349);
 }
 
 .zindex1000 {

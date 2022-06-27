@@ -1,10 +1,10 @@
 .button {
   border: none;
   outline: none;
-  padding: 0.5em 1em;
+  padding: 0.5em 2em;
   width: auto;
   font-weight: 500;
-  border-radius: 0.4rem;
+  border-radius: 0.3rem;
   cursor: pointer;
   &.size-1 {
     font-size: 1.2rem;
@@ -31,6 +31,7 @@
 }
 .mainColor {
   background-color: var(--helper-primary);
+  border: 1px solid var(--helper-primary);
 }
 .secondaryColor {
   background-color: transparent;

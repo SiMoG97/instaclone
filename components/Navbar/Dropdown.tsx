@@ -27,7 +27,7 @@ const Dropdown = ({ isOpen, setIsOpen }: DropdownType) => {
             setIsOpen(false);
           }}
         >
-          <Link href="/simo">
+          <Link href="/Profile">
             <a>
               <ProfileIcon />
               <span>Profile</span>
@@ -51,7 +51,7 @@ const Dropdown = ({ isOpen, setIsOpen }: DropdownType) => {
             setIsOpen(false);
           }}
         >
-          <Link href="/">
+          <Link href="/Settings">
             <a>
               <SettingsIcon />
               <span>Settings</span>

@@ -16,14 +16,17 @@ const Suggestions = ({ postsContainer, myUserName, myFullName }: props) => {
   const [showSugges, setShowSugges] = useState(true);
 
   const calculatingSuggestPos = () => {
-    if (window.innerWidth <= 1000) {
-      setShowSugges(false);
-      return;
+    if (postsContainer.current) {
+      if (window.innerWidth <= 1000) {
+        setShowSugges(false);
+        return;
+      }
+      setShowSugges(true);
+      const SuggestPosLeft =
+        postsContainer.current!.offsetLeft +
+        postsContainer.current!.offsetWidth;
+      suggesEl.current!.style.left = `${SuggestPosLeft + 30}px`;
     }
-    setShowSugges(true);
-    const SuggestPosLeft =
-      postsContainer.current!.offsetLeft + postsContainer.current!.offsetWidth;
-    suggesEl.current!.style.left = `${SuggestPosLeft + 30}px`;
   };
   useLayoutEffect(() => {
     calculatingSuggestPos();

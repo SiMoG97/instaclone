@@ -38,7 +38,7 @@ const PopupContainer = ({ children, popupHeader }: props) => {
       body.style.paddingRight = `${scrollbarWidth}px`;
       if (nav !== null) nav.style.paddingRight = `${scrollbarWidth}px`;
     } else {
-      body.style.overflow = "unset";
+      body.style.overflowY = "scroll";
       body.style.paddingRight = "0px";
       if (nav !== null) nav.style.paddingRight = `0px`;
     }

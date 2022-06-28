@@ -2,6 +2,9 @@ import React from "react";
 import ProfilePic from "../ProfilePic";
 import styles from "./profile.module.scss";
 import Button from "../Button";
+import Dots from "../../public/dots.svg";
+import { Stats } from "./Stats";
+import { Bio } from "./Bio";
 
 const ProfileHeader = () => {
   return (
@@ -15,28 +18,36 @@ const ProfileHeader = () => {
         />
       </div>
       <div className={styles.userInfo}>
-        <div>
-          <div>simo_echaarani</div>
-          <Button mainColor={false} size={2}>
+        <div className={styles.userName_Follow_Container}>
+          <div className={styles.userName}>simo_echaarani</div>
+          <Button
+            style={{
+              marginRight: "1rem",
+              paddingLeft: "1rem",
+              paddingRight: "1rem",
+              fontSize: "1.3rem",
+            }}
+            mainColor={false}
+            size={1}
+          >
             Message
           </Button>
-          <Button size={2}>Follow</Button>
+          <Button
+            style={{
+              marginRight: "1rem",
+              fontSize: "1.3rem",
+            }}
+            size={1}
+          >
+            Follow
+          </Button>
+          <Dots viewBox="0 0 24 24" width="32" height="32" />
         </div>
-        <div>
-          <div>14 posts</div>
-          <div>229 followers</div>
-          <div>1,039 following</div>
+        <Stats nbrPosts={15} nbrFollowers={245} nbrFollowing={1078} />
+        <div style={{ fontWeight: "500", padding: "1rem 0" }}>
+          Simo Echaarani
         </div>
-        <div>
-          <div>Simo Echaarani</div>
-          <div>
-            Front-end developer
-            <br />
-            Gm : echaaranimohamed@gmail.com
-            <br />
-            Fb : SiMo Echaarani
-          </div>
-        </div>
+        <Bio />
       </div>
     </div>
   );

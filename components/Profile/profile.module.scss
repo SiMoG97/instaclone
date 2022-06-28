@@ -4,6 +4,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 2fr;
+  color: var(--txt-c-1);
   .profilePicContainer {
     max-width: 32.4rem;
     width: 100%;
@@ -12,8 +13,33 @@
   }
   .userInfo {
     width: 100%;
-    height: 200px;
-    // background-color: yellow;
+    font-weight: 300;
+    .userName_Follow_Container {
+      display: flex;
+      align-items: center;
+      padding: 2rem 0;
+      > svg {
+        circle {
+          fill: var(--txt-c-1);
+        }
+      }
+      .userName {
+        font-size: 3rem;
+        font-weight: 300;
+        margin-right: 2rem;
+      }
+    }
+    .stats {
+      display: flex;
+      margin: 1rem 0 2rem;
+      > div {
+        margin-right: 4rem;
+        span {
+          font-size: 1.5rem;
+          font-weight: 500;
+        }
+      }
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import Styles from "./button.module.scss";
 
 type props = {
@@ -7,6 +7,7 @@ type props = {
   focus?: boolean;
   size?: number;
   bold?: boolean;
+  style?: CSSProperties;
   children: string;
 };
 
@@ -16,11 +17,13 @@ const index = ({
   focus = true,
   size = 1,
   bold = false,
+  style = {},
   children,
 }: props) => {
   const sizeClass = `size-${size}`;
   return (
     <button
+      style={style}
       className={`${Styles.button} ${Styles[sizeClass]} ${
         mainShape ? Styles.mainShape : Styles.secondaryShape
       } ${mainColor ? Styles.mainColor : Styles.secondaryColor} ${

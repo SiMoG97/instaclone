@@ -66,11 +66,7 @@ const Dropdown = ({ isOpen, setIsOpen }: DropdownType) => {
           }}
         >
           <div className={styles.darkThemeToggler}>
-            <div
-              onClick={() => {
-                toggle();
-              }}
-            >
+            <div onClick={toggle}>
               Dark theme : {theme === "dark" ? "on" : "off"}
             </div>
             <SwitchButton isChecked={theme === "dark"} clickHandler={toggle} />

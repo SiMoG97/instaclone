@@ -95,7 +95,7 @@ const PopupContainer = ({ children, popupHeader }: props) => {
   }, [isOpen]);
   useEffect(() => {
     var x = window.matchMedia("(max-width: 768px)");
-    console.log(x);
+    // console.log(x);
     checkMediaQuery(x);
   }, []);
   return (

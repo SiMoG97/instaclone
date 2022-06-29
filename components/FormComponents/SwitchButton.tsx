@@ -13,9 +13,7 @@ const SwitchButton = ({ isChecked = false, clickHandler }: switchProps) => {
         id="switch"
         type="checkbox"
         checked={isChecked}
-        onClick={() => {
-          clickHandler();
-        }}
+        onClick={clickHandler}
         onChange={() => {}}
       />
       <label htmlFor="switch" className={styles.switchLabel}>

@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 
 // import { useRouter } from "next/router";
 import DropDown from "../components/Navbar/Dropdown";
-import PostMain from "../components/Post/PostMain";
+import PostsMain from "../components/Post/PostsMain";
 import styles from "../styles/home.module.scss";
 import { RefObject, useRef } from "react";
 import ProfilePic from "../components/ProfilePic";
@@ -21,12 +21,7 @@ const Home: NextPage = () => {
     <>
       <div className={`container ${styles.main}`}>
         <div className="posts" ref={postsContainer}>
-          <PostMain />
-          <PostMain />
-          <PostMain />
-          <PostMain />
-          <PostMain />
-          <PostMain />
+          <PostsMain />
         </div>
         <Suggestions
           postsContainer={postsContainer}
@@ -49,7 +44,6 @@ const Home: NextPage = () => {
         }}
       ></div>
       <div className="devEnv">
-        <Checkbox />
       </div>
         <PicUsername
           src="./pp.jpg"

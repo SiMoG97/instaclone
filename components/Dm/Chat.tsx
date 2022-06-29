@@ -11,14 +11,12 @@ import Details from "./Details";
 const Chat = () => {
   const [showDetails, setShowDetails] = useState(false);
   ////////////
-  const [messages, setMessages] = useState([
-    <MessageChat messageTxt="fin jiti " IsMyMessage={true} />,
-  ]);
+  // const [messages, setMessages] = useState([
+  //   <MessageChat messageTxt="fin jiti " IsMyMessage={true} />,
+  // ]);
+  const [messages, setMessages] = useState(["fin ghadi bia"]);
   const addChatClick = () => {
-    setMessages([
-      ...messages,
-      <MessageChat messageTxt="fin jiti " IsMyMessage={true} />,
-    ]);
+    setMessages([...messages, "fin mchiti"]);
   };
   //////////////
   const chatRef = useChatScroll(messages);
@@ -28,15 +26,11 @@ const Chat = () => {
     <div className={styles.chatContainer}>
       <button
         onClick={addChatClick}
-        style={{ position: "absolute", top: "200px" }}
+        style={{ position: "absolute", top: "200px", zIndex: "5" }}
       >
         add chat test
       </button>
 
-      {/* //////////// */}
-      {/* {!showDetails ? (
-        <> */}
-      {/* <div> */}
       <div
         className={`${styles.chatHeader} ${styles.shrinkHeader} ${
           showDetails && styles.displayNoneDesktop
@@ -63,30 +57,68 @@ const Chat = () => {
         ref={chatRef}
         className={`${styles.chat} ${showDetails && styles.displayNoneDesktop}`}
       >
-        <MessageChat messageTxt="aji 3endi" IsMyMessage={true} />
+        <MessageChat key={22343252} messageTxt="aji 3endi" IsMyMessage={true} />
         <MessageChat
+          key={22343253}
           contactImgSrc="./baif.jpg"
           messageTxt="okay safi 7ta nchof"
           IsMyMessage={false}
         />
-        <MessageChat messageTxt="la bla matchof" IsMyMessage={true} />
         <MessageChat
+          key={22343254}
+          messageTxt="la bla matchof"
+          IsMyMessage={true}
+        />
+        <MessageChat
+          key={22343255}
           contactImgSrc="./baif.jpg"
           messageTxt="shaloom"
           IsMyMessage={false}
         />
-        <MessageChat messageTxt="wassaup" IsMyMessage={true} />
-        <MessageChat messageTxt="fin mchiti" IsMyMessage={true} />
-        <MessageChat messageTxt="fin mchiti" IsMyMessage={true} />
-        <MessageChat messageTxt="fin mchiti" IsMyMessage={true} />
-        <MessageChat messageTxt="fin jiti " IsMyMessage={true} />
+        <MessageChat key={22343256} messageTxt="wassaup" IsMyMessage={true} />
         <MessageChat
+          key={22343257}
+          messageTxt="fin mchiti"
+          IsMyMessage={true}
+        />
+        <MessageChat
+          key={22343258}
+          messageTxt="fin mchiti"
+          IsMyMessage={true}
+        />
+        <MessageChat
+          key={22343259}
+          messageTxt="fin mchiti"
+          IsMyMessage={true}
+        />
+        <MessageChat
+          key={223432511}
+          messageTxt="fin jiti "
+          IsMyMessage={true}
+        />
+        <MessageChat
+          key={223432512}
           messageTxt="why are you ignoring me ?"
           IsMyMessage={true}
         />
-        <MessageChat messageTxt="7ta t5rej" IsMyMessage={true} />
-        <MessageChat messageTxt="mabiti tji 3andi" IsMyMessage={true} />
-        {messages.map((elm, i) => elm)}
+        <MessageChat
+          key={2234325123}
+          messageTxt="7ta t5rej"
+          IsMyMessage={true}
+        />
+        <MessageChat
+          key={223432514}
+          messageTxt="mabiti tji 3andi"
+          IsMyMessage={true}
+        />
+        {messages.map((message, i) => (
+          <MessageChat
+            key={i}
+            messageTxt={message}
+            IsMyMessage={i % 2 === 0}
+            contactImgSrc="./baif.jpg"
+          />
+        ))}
       </div>
       <div
         className={`${styles.textAreaContainer} ${
@@ -95,12 +127,7 @@ const Chat = () => {
       >
         <TextArea isCommentInput={false} />
       </div>
-      {/* </>
-      ) : (
-      )} */}
 
-      {/* ///////////////////// */}
-      {/* </div> */}
       <Details setShowDetails={setShowDetails} showDetails={showDetails} />
     </div>
   );
@@ -109,18 +136,23 @@ const Chat = () => {
 export default Chat;
 
 type MessageChatProps = {
+  key: number;
   IsMyMessage: boolean;
   messageTxt: string;
   contactImgSrc?: string;
 };
 
 const MessageChat = ({
+  key,
   IsMyMessage,
   messageTxt,
   contactImgSrc = "",
 }: MessageChatProps) => {
   return (
-    <div className={`${styles.messageChat} ${IsMyMessage && styles.myMessage}`}>
+    <div
+      key={key}
+      className={`${styles.messageChat} ${IsMyMessage && styles.myMessage}`}
+    >
       {!IsMyMessage && (
         <div style={{ alignSelf: "end" }}>
           <ProfilePic src={contactImgSrc} size="size-5" />

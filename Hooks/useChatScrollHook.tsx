@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
-type props = JSX.Element[];
+type props = string[];
 
 const useChatScroll = (messages: props) => {
   const ref = useRef<HTMLDivElement>(null);

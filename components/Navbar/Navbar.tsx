@@ -8,7 +8,6 @@ import HeartIcon from "../../public/heart.svg";
 import AddPost from "../../public/addPost.svg";
 import AddPostActive from "../../public/addPostActive.svg";
 import Link from "next/link";
-import ThemeToggler from "./ThemeToggler";
 import Dropdown from "./Dropdown";
 import { useState } from "react";
 import HiddenLayer from "../HiddenLayer";
@@ -26,7 +25,6 @@ const Navbar = () => {
   //testing
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  console.log(router);
 
   return (
     <>
@@ -46,7 +44,7 @@ const Navbar = () => {
             <Link href="/">
               <a>
                 <HomeIcon
-                  className={router.pathname === "/" && styles.activeIcons}
+                  className={router.pathname === "/" ? styles.activeIcons : ""}
                 />
               </a>
             </Link>
@@ -83,9 +81,8 @@ const Navbar = () => {
               onClick={() => {
                 setActiveHeart(!activeHeart);
               }}
-              className={activeHeart && styles.activeIcons}
+              className={activeHeart ? styles.activeIcons : ""}
             />
-            <ThemeToggler />
             <div className={styles.profilePicContainer}>
               <div
                 onClick={() => {

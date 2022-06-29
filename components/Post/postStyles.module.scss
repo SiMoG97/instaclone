@@ -18,8 +18,71 @@
 }
 .postBody {
   width: 100%;
-  height: 500px;
-  background-color: #000;
+  .pauseLayer {
+    position: absolute;
+    inset: 0 0 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    &:active {
+      // background-color: red;
+      cursor: grabbing !important;
+    }
+    .track {
+      opacity: 0;
+      width: 90%;
+      height: 2px;
+      position: absolute;
+      bottom: 19px;
+      // pointer-events: none;
+      // position: relative;
+      background-color: #aaaaaa7a;
+      left: 10px;
+      transition: 0.2s opacity;
+      &:active {
+        cursor: grabbing !important;
+      }
+      .tracker {
+        background-color: #fff;
+        height: 2px;
+        width: 0%;
+        position: relative;
+        max-width: 100%;
+        // z-index: -1;
+        // transition: 1s;
+      }
+      &:hover {
+        height: 4px;
+        bottom: 18px;
+        .tracker {
+          height: 4px;
+        }
+      }
+    }
+    &:hover .track {
+      opacity: 1;
+    }
+  }
+  .muteBtn {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    width: 2.2rem;
+    aspect-ratio: 1;
+    background-color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    &:active {
+      background-color: rgb(53, 53, 53);
+    }
+    svg {
+      width: 1rem;
+    }
+  }
 }
 .postReactions {
   width: 100%;

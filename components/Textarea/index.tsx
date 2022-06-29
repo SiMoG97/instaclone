@@ -83,9 +83,12 @@ const TextArea = ({ isCommentInput }: props) => {
             <div ref={emojiRef}>
               <EmojiPicker
                 onEmojiSelect={(emojiObj: any) => {
-                  taRef.current?.focus();
-                  taRef.current!.value += emojiObj.native;
                   if (taRef.current) {
+                    taRef.current.focus();
+                    if (taRef.current.value === "") {
+                      setIsTaEmpty(false);
+                    }
+                    taRef.current.value += emojiObj.native;
                     calculateTaHeight(taRef.current);
                   }
                 }}
@@ -96,10 +99,7 @@ const TextArea = ({ isCommentInput }: props) => {
         <div className={styles.textareaParent}>
           <textarea
             ref={taRef}
-            onChange={(e) => {
-              taChangeHandler(e);
-              // e.target;
-            }}
+            onChange={taChangeHandler}
             placeholder={isCommentInput ? "Add a comment..." : "Message..."}
           ></textarea>
         </div>

@@ -18,6 +18,7 @@
 }
 .postBody {
   width: 100%;
+  position: relative;
   .pauseLayer {
     position: absolute;
     inset: 0 0 0 0;
@@ -25,43 +26,78 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    &:active {
-      // background-color: red;
-      cursor: grabbing !important;
-    }
-    .track {
-      opacity: 0;
+    overflow: hidden;
+    .slider {
+      -webkit-appearance: none;
+      outline: none;
+      background: linear-gradient(
+        to right,
+        #fff 0%,
+        #fff 40%,
+        #aaaaaa7a 40%,
+        #aaaaaa7a 100%
+      );
+      transition: 0.2s;
+      position: absolute;
       width: 90%;
       height: 2px;
-      position: absolute;
       bottom: 19px;
-      // pointer-events: none;
-      // position: relative;
-      background-color: #aaaaaa7a;
-      left: 10px;
-      transition: 0.2s opacity;
-      &:active {
-        cursor: grabbing !important;
-      }
-      .tracker {
-        background-color: #fff;
-        height: 2px;
-        width: 0%;
-        position: relative;
-        max-width: 100%;
-        // z-index: -1;
-        // transition: 1s;
-      }
+      left: 1rem;
+      transform: translateY(30px);
+      cursor: pointer;
       &:hover {
         height: 4px;
-        bottom: 18px;
-        .tracker {
-          height: 4px;
+        &::-webkit-slider-thumb {
+          height: 0.8rem;
         }
       }
+      &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 0.8rem;
+        height: 0rem;
+        border-radius: 50%;
+        background: #fff;
+        cursor: pointer;
+      }
     }
-    &:hover .track {
-      opacity: 1;
+    &:hover {
+      .slider {
+        transform: translateY(0);
+      }
+      .volume {
+        pointer-events: auto;
+        opacity: 1;
+      }
+    }
+    .volume {
+      opacity: 0;
+      transition: 0.2s;
+      pointer-events: none;
+      -webkit-appearance: none;
+      position: absolute;
+      transform: rotate(-90deg);
+      width: 7rem;
+      bottom: 10.6rem;
+      height: 0.2rem;
+      right: 2.1rem;
+      transform-origin: right;
+      background: linear-gradient(
+        to right,
+        #fff 0%,
+        #fff 50%,
+        #aaaaaa7a 50%,
+        #aaaaaa7a 100%
+      );
+      &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 0.8rem;
+        height: 0.8rem;
+        border-radius: 50%;
+        background: #fff;
+        cursor: pointer;
+      }
     }
   }
   .muteBtn {

@@ -2,33 +2,33 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./postStyles.module.scss";
 import MutedSvg from "../../public/muted.svg";
 import UnmutedSvg from "../../public/unmuted.svg";
-import Image from "next/image";
 type VideoPostProps = {
   src: string;
 };
-type VideoTarget = {
-  target: EventTarget & HTMLVideoElement;
-};
+// type VideoTarget = {
+//   target: EventTarget & HTMLVideoElement;
+// };
 
 export const VideoPost = ({ src }: VideoPostProps) => {
   const [paused, setPaused] = useState(false);
   const [muted, setMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const tracker = useRef<HTMLDivElement>(null);
+  const rangeRef = useRef<HTMLInputElement>(null);
 
-  // useEffect(() => {
-  //   if (videoRef.current) {
-  //     videoRef.current.addEventListener("timeupdate", (event) => {
-  //       console.log("updating");
-  //     });
-  //   }
-  // }, []);
   const handleTimeUpdate = () => {
-    if (tracker.current && videoRef.current) {
+    if (rangeRef.current && videoRef.current) {
       const vid = videoRef.current;
-      const track = tracker.current;
-      // console.log(vid.duration);
-      track.style.width = `${(vid.currentTime * 100) / vid.duration}%`;
+      const range = rangeRef.current;
+      range.value = `${(vid.currentTime * 100) / vid.duration}`;
+      range.style.background = `linear-gradient(to right, #fff 0%, #fff ${range.value}%, #aaaaaa7a ${range.value}%, #aaaaaa7a 100%)`;
+    }
+  };
+  const rangeChangeHandler = () => {
+    if (videoRef.current && rangeRef.current) {
+      const vid = videoRef.current;
+      const range = rangeRef.current;
+      vid.currentTime = (Number(range.value) * vid.duration) / 100;
+      range.style.background = `linear-gradient(to right, #fff 0%, #fff ${range.value}%, #aaaaaa7a ${range.value}%, #aaaaaa7a 100%)`;
     }
   };
 
@@ -74,41 +74,25 @@ export const VideoPost = ({ src }: VideoPostProps) => {
             }}
           />
         )}
-        <div
-          className={styles.track}
-          onDragStart={(e) => {
-            const elem = e.currentTarget.cloneNode(true) as Element;
-            e.dataTransfer.setDragImage(elem, 0, 0);
-          }}
-          onDrag={(e) => {
-            e.preventDefault();
-            e.dataTransfer.effectAllowed = "copyMove";
-            const { currentTarget } = e;
-            const rect = currentTarget.getBoundingClientRect();
-
-            if (tracker.current && videoRef.current) {
-              // videoRef.current.currentTime =
-              let dragPos = `${e.clientX - rect.left}px`;
-              if (e.clientX - rect.left <= 0) {
-                dragPos = "0px";
-              } else if (e.clientX - rect.left >= rect.right) {
-                dragPos = "100%";
-              }
-              tracker.current.style.width = dragPos;
-            }
-            // console.log(e.clientX - rect.left);
-          }}
-          onClick={(e) => {
-            // console.log(e);
-            // console.log(e.pageX - e.target.offsetLeft);
-          }}
-          onMouseDown={() => {
-            console.log("draging");
-          }}
-          draggable
-        >
-          <div className={styles.tracker} ref={tracker}></div>
+        <div className={styles.track}>
+          <input
+            type="range"
+            ref={rangeRef}
+            className={styles.slider}
+            onChange={rangeChangeHandler}
+          />
         </div>
+        <input
+          type="range"
+          className={styles.volume}
+          onChange={(e) => {
+            if (videoRef.current) {
+              const vid = videoRef.current;
+              vid.volume = Number(e.target.value) / 100;
+              e.target.style.background = `linear-gradient(to right, #fff 0%, #fff ${e.target.value}%, #aaaaaa7a ${e.target.value}%, #aaaaaa7a 100%)`;
+            }
+          }}
+        />
       </div>
       <div className={styles.muteBtn} onClick={muteHandler}>
         {muted ? <MutedSvg /> : <UnmutedSvg />}

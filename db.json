@@ -2,7 +2,26 @@
   "users": [
     {
       "id": 1,
-      "profile_pic": ""
+      "username": "simo_echaarani",
+      "fullName": "Simo Echaarani",
+      "password": "pass12345678",
+      "posts": [
+        {
+          "authorUserName": "Simo_echaarani",
+          "comments": [
+            { "author": "simo_echaarani", "comment": "nice photo a sat" }
+          ]
+        }
+      ],
+      "following": [
+        "baifBrahim",
+        "yacine",
+        "timoLostora",
+        "hafid",
+        "oussama",
+        "youness"
+      ],
+      "followers": [""]
     }
   ]
 }

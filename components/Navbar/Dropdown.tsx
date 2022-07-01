@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext } from "react";
 import styles from "./Navbar.module.scss";
 import ProfileIcon from "../../public/profile.svg";
 import BookmarkIcon from "../../public/bookmark.svg";

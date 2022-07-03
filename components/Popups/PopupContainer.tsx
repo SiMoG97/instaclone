@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useLayoutEffect, useState } from "react";
-import styles from "./PopupContainer.module.scss";
+import styles from "./popup.module.scss";
 import { useTransition, animated } from "react-spring";
 
 type props = {

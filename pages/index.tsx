@@ -13,6 +13,7 @@ import Textarea from "../components/Textarea";
 import PopupContainer from "../components/Popups/PopupContainer";
 import PicUsername from "../components/PicUsername";
 import Checkbox from "../components/FormComponents/SwitchButton";
+import LikesPopup from "../components/Popups/LikesPopup";
 
 const Home: NextPage = () => {
   const postsContainer = useRef<HTMLDivElement | null>(null);
@@ -53,7 +54,8 @@ const Home: NextPage = () => {
         />
        */}
       {/* <Textarea isCommentInput={false} /> */}
-      <PopupContainer popupHeader="Share">
+      <LikesPopup />
+      <PopupContainer popupHeader="Likes">
         <span>test</span>
       </PopupContainer>
     </>

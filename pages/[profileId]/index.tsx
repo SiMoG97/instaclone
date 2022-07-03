@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 const Profile = () => {
   const router = useRouter();
   const profileName = router.query.profileId;
-  console.log(router);
+  // console.log(router);
   return (
     <div>
       <h1>{profileName}</h1>

@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import dbConnect from "../../lib/dbConnection";
-import User from "../../models/User";
+import dbConnect from "../../../lib/dbConnection";
+import User from "../../../models/madam";
 
 type Data = {
   success: boolean;
@@ -16,39 +16,42 @@ export default async function handler(
   // res.status(200).json({ name: "John Doe" });
   // console.log(req);
   const { method } = req;
-  await dbConnect();
 
   switch (method) {
     case "GET":
-      console.log("get");
-      // res.status(200).json({ success: true });
       try {
+        await dbConnect();
         const users = await User.find({});
         console.log(users);
-        res.status(200).json({
-          success: true,
-          data: {
-            firstName: "timo",
-            lastName: "echaarani",
-            age: 14,
-            sex: "male",
-          },
-        });
+        // res.status(200).json({
+        //   success: true,
+        //   data: {
+        //     firstName: "timo",
+        //     lastName: "echaarani",
+        //     age: 14,
+        //     sex: "male",
+        //   },
+        // });
+        res.status(200).json({ success: true });
       } catch (error) {
         res.status(400).json({ success: false });
       }
       break;
     case "POST":
       try {
-        const user = await User.create(req.body);
+        // const user = await User.create({
+
+        // });
+        const user = new User({
+          userName: "SimoGG97",
+          firstName: "Simo",
+          lastName: "echaarani",
+          email: "echaarani@test.com",
+        });
+        await user.save();
         res.status(201).json({
           success: true,
-          data: {
-            firstName: "timo",
-            lastName: "echaarani",
-            age: 14,
-            sex: "male",
-          },
+          data: user,
         });
       } catch (error) {
         res.status(400).json({ success: false });

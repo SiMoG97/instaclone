@@ -82,9 +82,25 @@ if (!MONGODB_URI) {
   );
 }
 
-dbConnect().catch((err) => console.log(err));
+// dbConnect().catch((err) => console.log(err));
 
 async function dbConnect() {
-  if (MONGODB_URI) await mongoose.connect(MONGODB_URI);
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
+  mongoose.connection.on("connected", () => {
+    console.log("connected to mongoDb database");
+  });
+  mongoose.connection.on("error", (err) => {
+    console.log("an error occured :", err.message);
+  });
+  const opts = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    bufferCommands: false,
+  };
+  if (MONGODB_URI) {
+    return mongoose.connect(MONGODB_URI, opts);
+  }
 }
 export default dbConnect;

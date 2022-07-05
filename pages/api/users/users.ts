@@ -23,15 +23,6 @@ export default async function handler(
         await dbConnect();
         const users = await User.find({});
         console.log(users);
-        // res.status(200).json({
-        //   success: true,
-        //   data: {
-        //     firstName: "timo",
-        //     lastName: "echaarani",
-        //     age: 14,
-        //     sex: "male",
-        //   },
-        // });
         res.status(200).json({ success: true });
       } catch (error) {
         res.status(400).json({ success: false });

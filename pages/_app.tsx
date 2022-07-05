@@ -3,7 +3,12 @@ import type { AppProps } from "next/app";
 import Navbar from "../components/Navbar/Navbar";
 import ThemeContextProvider from "../context/themeContext";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps, ...appProps }: AppProps) {
+  const { pathname } = appProps.router;
+  let showNav = true;
+  if (pathname === "/Signup" || pathname === "/Login") {
+    showNav = false;
+  }
   return (
     <>
       <link
@@ -11,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         rel="stylesheet"
       ></link>
       <ThemeContextProvider>
-        <Navbar />
+        {showNav && <Navbar />}
         <Component {...pageProps} />
       </ThemeContextProvider>
     </>

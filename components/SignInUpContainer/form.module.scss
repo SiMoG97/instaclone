@@ -48,13 +48,11 @@
   &:focus-within {
     border-color: var(--txt-c-2);
   }
-  &.hasValue {
-    align-items: flex-end;
-    input {
-      height: 50%;
-      font-size: 1.2rem;
-    }
-    label {
+  input:not(:placeholder-shown) {
+    height: 50%;
+    font-size: 1.2rem;
+    align-self: flex-end;
+    & + label {
       transform: translateY(-100%);
       font-size: 1rem;
     }

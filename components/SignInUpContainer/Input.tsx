@@ -1,26 +1,21 @@
-import { ChangeEvent, useState } from "react";
+import { forwardRef } from "react";
+
 import styles from "./form.module.scss";
-type props = {
-  placeholder: string;
+
+type InputProps = {
+  text: string;
   name: string;
+  type?: string;
 };
 
-const Input = ({ placeholder, name }: props) => {
-  const [isEmpty, setIsEmpty] = useState(true);
-
-  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value !== "") {
-      setIsEmpty(false);
-    } else {
-      setIsEmpty(true);
-    }
-  };
+const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+  const { name, type, text } = props;
   return (
-    <div className={`${styles.inputContainer} ${!isEmpty && styles.hasValue}`}>
-      <label htmlFor={name}>{placeholder}</label>
-      <input id={name} name={name} onChange={(e) => changeHandler(e)} />
+    <div className={`${styles.inputContainer}`}>
+      <input type={type} id={name} placeholder=" " ref={ref} {...props} />
+      <label htmlFor={name}>{text}</label>
     </div>
   );
-};
+});
 
 export default Input;

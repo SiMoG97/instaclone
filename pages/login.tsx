@@ -3,7 +3,12 @@ import SignInUpContainer, {
   OrLine,
   WideButton,
 } from "../components/SignInUpContainer";
+import { useForm } from "react-hook-form";
+
+type FormType = {};
+
 const Login = () => {
+  const { register, handleSubmit } = useForm();
   return (
     <SignInUpContainer>
       <Input

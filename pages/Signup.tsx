@@ -1,19 +1,39 @@
+import { useForm } from "react-hook-form";
+
 import Input from "../components/SignInUpContainer/Input";
 import Footer from "../components/Footer";
 import SignInUpContainer, {
   OrLine,
   WideButton,
 } from "../components/SignInUpContainer";
+import { SignFormTypes } from "../utils/GlobalTypes";
+
 const Signup = () => {
+  const { register, handleSubmit } = useForm<SignFormTypes>();
+
   return (
     <SignInUpContainer>
       <WideButton hasIcon={true}>Log in With Google</WideButton>
       <OrLine />
-      <form>
-        <Input name="phoneEmail" placeholder="Phone number or email" />
-        <Input name="fullName" placeholder="Full Name" />
-        <Input name="username" placeholder="Username" />
-        <Input name="Password" placeholder="Passwonrd" />
+      <form
+        onSubmit={handleSubmit((data) => {
+          console.log(data);
+        })}
+      >
+        <Input
+          {...register("phoneEmail")}
+          text="Phone number or email"
+          name="phoneEmail"
+        />
+        <Input {...register("fullName")} text="Full Name" name="fullName" />
+        <Input {...register("userName")} text="Username" name="userName" />
+        <Input
+          {...register("password")}
+          type="password"
+          text="Passwonrd"
+          name="password"
+        />
+
         <p
           style={{
             color: "var(--txt-c-2)",

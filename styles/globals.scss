@@ -14,7 +14,7 @@
   --helper-grey: #fff;
   --helper-success: #fff;
   --helper-primary: #0095f6;
-  --helper-danger: #ed4956;
+  --helper-danger: #fd4251;
 }
 
 [data-theme="dark"] {
@@ -49,6 +49,15 @@
 }
 html {
   font-size: 62.5%;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--txt-c-1);
+  -webkit-box-shadow: 0 0 0 3000px var(--bg-c-3) inset !important;
 }
 
 html,

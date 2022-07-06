@@ -39,6 +39,7 @@
   border: solid 1px var(--txt-c-4);
   margin: 0.8rem 0;
   border-radius: 3px;
+  transition: 0.1s;
   &:nth-child(1) {
     margin-top: 0;
   }
@@ -47,6 +48,21 @@
   }
   &:focus-within {
     border-color: var(--txt-c-2);
+  }
+  .passwordInput {
+    width: 85%;
+  }
+  .togglePass {
+    position: absolute;
+    right: 1rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: var(--txt-c-2);
+    font-weight: bold;
+    &:hover {
+      color: var(--txt-c-1);
+    }
   }
   input:not(:placeholder-shown) {
     height: 50%;
@@ -78,6 +94,17 @@
     transition: 0.2s;
     pointer-events: none;
   }
+}
+.inputError {
+  border-color: rgb(253, 60, 2);
+  margin-bottom: 2.7rem;
+}
+.errorMessage {
+  color: rgb(253, 60, 2);
+  position: absolute;
+  bottom: -2.2rem;
+  left: 0;
+  font-size: 1.1rem;
 }
 .wideButton {
   border: none;

@@ -9,9 +9,14 @@ import Footer from "../Footer";
 const SignInUpContainer = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   return (
-    <div className={styles.Container}>
+    <div className={styles.Container} style={{ marginTop: "10rem" }}>
       <div className={styles.formContainer}>
-        <Logo />
+        {router.pathname === "/Login" ? (
+          <Logo style={{ marginBottom: "3rem" }} />
+        ) : (
+          <Logo />
+        )}
+
         {router.pathname === "/Signup" && (
           <div className={styles.textUnderLogo}>
             Sign up to see photos and videos from your friends.

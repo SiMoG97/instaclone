@@ -4,3 +4,7 @@ export type SignFormTypes = {
   userName: string;
   password: string;
 };
+export type LoginFormTypes = {
+  userNamephoneEmail: string;
+  password: string;
+};

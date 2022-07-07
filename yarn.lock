@@ -3110,6 +3110,11 @@ jju@^1.1.0:
   resolved "https://registry.yarnpkg.com/jju/-/jju-1.4.0.tgz#a3abe2718af241a2b2904f84a625970f389ae32a"
   integrity sha512-8wb9Yw966OSxApiCt0K3yNJL8pnNeIv+OEq2YMidz4FKP6nonSRoOXc80iXY4JaN2FC11B9qsNmDsm+ZOfMROA==
 
+joi-password-complexity@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/joi-password-complexity/-/joi-password-complexity-5.1.0.tgz#7506d3adce429d52c1331910f20fd5f571c273d1"
+  integrity sha512-2F/cPybttJGuyVmZ8X/yihemshhAuFt4fHGlz8CFNP7R8PzH90K8OeNzY9RrdADM6uu3D2xTXej/odvRjdkqaw==
+
 joi-phone-number@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/joi-phone-number/-/joi-phone-number-5.1.1.tgz#e61d2303492a970b15edecde48a49a66f7692790"

@@ -1,24 +1,65 @@
+import { useForm } from "react-hook-form";
+import { joiResolver } from "@hookform/resolvers/joi";
+
 import Input from "../components/SignInUpContainer/Input";
 import SignInUpContainer, {
   OrLine,
   WideButton,
 } from "../components/SignInUpContainer";
-import { useForm } from "react-hook-form";
 
-type FormType = {};
+import { LoginFormTypes } from "../utils/GlobalTypes";
+import { LoginSchema } from "../utils/FormSchema";
+
+const formNamesText = [
+  { name: "userNamephoneEmail", text: "Phone number, username, or email" },
+  { name: "password", text: "password" },
+];
 
 const Login = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isValid },
+  } = useForm<LoginFormTypes>({
+    resolver: joiResolver(LoginSchema),
+    mode: "onChange",
+  });
   return (
     <SignInUpContainer>
-      <Input
-        name="userNameEmailPhone"
-        placeholder="Phone number, username, or email"
-      />
-      <Input name="password" placeholder="Password" />
-      <WideButton hasIcon={false} disabled={true}>
-        Log in
-      </WideButton>
+      <form
+        onSubmit={handleSubmit((data) => {
+          console.log(data);
+        })}
+      >
+        {formNamesText.map(({ name, text }) => {
+          if (name === "userNamephoneEmail" || name === "password") {
+            let passProps = {};
+            if (name === "password") {
+              passProps = {
+                type: "password",
+                hasValue:
+                  watch("password") === undefined
+                    ? false
+                    : watch("password") !== "",
+              };
+            }
+            return (
+              <Input
+                key={name}
+                {...register(name)}
+                text={text}
+                name={name}
+                error={errors[name]}
+                {...passProps}
+              />
+            );
+          }
+        })}
+        <WideButton hasIcon={false} disabled={!isValid}>
+          Log in
+        </WideButton>
+      </form>
       <OrLine />
       <WideButton hasIcon={true}>Log in with Google</WideButton>
       <div

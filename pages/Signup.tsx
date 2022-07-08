@@ -32,8 +32,20 @@ const Signup = () => {
       <WideButton hasIcon={true}>Log in With Google</WideButton>
       <OrLine />
       <form
-        onSubmit={handleSubmit((data) => {
-          console.log(data);
+        onSubmit={handleSubmit(async (data) => {
+          // console.log(data);
+          // fetch
+          const rawResponse = await fetch("/api/users/user", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+          const content = await rawResponse.json();
+
+          console.log(content);
         })}
       >
         {formNamesText.map(({ name, text }) => {

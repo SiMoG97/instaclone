@@ -16,25 +16,23 @@ const passwordOpt = {
   requirementCount: 5,
 };
 
+const emailJoi = Joi.string()
+  .email({ tlds: { allow: false } })
+  .lowercase()
+  .trim()
+  .required();
+
+const phoneJoi = Joi.string().regex(RegExp(phonePatter)).required();
 export const SignupSchema = Joi.object<SignFormTypes>({
-  phoneEmail: Joi.alternatives()
-    .try(
-      Joi.string()
-        .email({ tlds: { allow: false } })
-        .lowercase()
-        .required(),
-      Joi.string().regex(RegExp(phonePatter)).required()
-    )
-    .required()
-    .messages({
-      "alternatives.match":
-        "This field should be either a phone number or email",
-    }),
+  phoneEmail: Joi.alternatives().try(emailJoi, phoneJoi).required().messages({
+    "alternatives.match": "This field should be either a phone number or email",
+  }),
 
   fullName: Joi.string()
 
     .min(6)
     .max(30)
+    .trim()
     .required()
     .messages({
       "string.min": "'Full name' should be more than 6 letters",
@@ -45,6 +43,7 @@ export const SignupSchema = Joi.object<SignFormTypes>({
     .regex(RegExp(/^(?=[a-zA-Z0-9._]{0,100}$)(?!.*[_.]{2})[^_.].*[^_.]$/))
     .min(6)
     .max(20)
+    .trim()
     .required()
     .messages({
       "string.min": "'Username' should be more than 6 characters",
@@ -60,9 +59,11 @@ export const LoginSchema = Joi.object<LoginFormTypes>({
     .try(
       Joi.string()
         .email({ tlds: { allow: false } })
+        .trim()
         .lowercase(),
       Joi.string().regex(RegExp(phonePatter)),
       Joi.string()
+        .trim()
         .regex(RegExp(/^(?=[a-zA-Z0-9._]{0,100}$)(?!.*[_.]{2})[^_.].*[^_.]$/))
         .min(6)
         .max(20)

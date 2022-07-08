@@ -9,15 +9,15 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       await dbConnect();
-
-      const Tser = new User({
-        userName: "SimoGG97",
-        firstName: "Simo",
-        lastName: "echaarani",
-        email: "echaarani@test.com",
-      });
-      console.log(Tser);
-      await Tser.save();
+      console.log(req.body);
+      // const Tser = new User({
+      //   userName: "SimoGG97",
+      //   firstName: "Simo",
+      //   lastName: "echaarani",
+      //   email: "echaarani@test.com",
+      // });
+      // console.log(Tser);
+      // await Tser.save();
       res.status(200).json({ status: "succsess" });
     } catch (e) {
       console.log(e);

@@ -7,17 +7,27 @@ const UserSchema = new mongoose.Schema<UserType & Document>(
       type: String,
       required: true,
     },
-    firstName: {
-      type: String,
-      required: true,
-    },
-    lastName: {
-      type: String,
-      required: true,
-    },
     email: {
       type: String,
       required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    fullName: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    following: {
+      type: [String],
+    },
+    followers: {
+      type: [String],
     },
   },
   {

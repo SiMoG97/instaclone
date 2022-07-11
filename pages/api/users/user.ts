@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnection";
-import User from "../../../models/madam";
+import User from "../../../models/User";
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,7 +9,11 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       await dbConnect();
-      console.log(req.body);
+      // console.log("hhell nah", req.body);
+      const user = req.body;
+      if (user.phoneEmail) {
+        //check if email
+      }
       // const Tser = new User({
       //   userName: "SimoGG97",
       //   firstName: "Simo",

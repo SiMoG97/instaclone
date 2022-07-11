@@ -11,7 +11,7 @@ const SignInUpContainer = ({ children }: { children: ReactNode }) => {
   return (
     <div className={styles.Container} style={{ marginTop: "10rem" }}>
       <div className={styles.formContainer}>
-        {router.pathname === "/Login" ? (
+        {/* {router.pathname === "/Login" ? (
           <Logo style={{ marginBottom: "3rem" }} />
         ) : (
           <Logo />
@@ -21,7 +21,7 @@ const SignInUpContainer = ({ children }: { children: ReactNode }) => {
           <div className={styles.textUnderLogo}>
             Sign up to see photos and videos from your friends.
           </div>
-        )}
+        )} */}
         {children}
       </div>
       {/* --------------------------------------------------------------------*/}
@@ -51,10 +51,12 @@ export const WideButton = ({
   children,
   hasIcon,
   disabled = false,
+  type = "submit",
 }: {
   children: string;
   hasIcon: boolean;
   disabled?: boolean;
+  type?: "submit" | "button" | "reset";
 }) => {
   return (
     <button className={`${styles.wideButton} ${disabled && styles.disabled}`}>

@@ -9,6 +9,8 @@ type props = {
   bold?: boolean;
   style?: CSSProperties;
   children: string;
+  type?: "button" | "submit" | "reset";
+  onClick?: () => any;
 };
 
 const index = ({
@@ -18,17 +20,26 @@ const index = ({
   size = 1,
   bold = false,
   style = {},
+  type = "button",
   children,
+  onClick,
 }: props) => {
   const sizeClass = `size-${size}`;
   return (
     <button
+      type={type}
       style={style}
       className={`${Styles.button} ${Styles[sizeClass]} ${
         mainShape ? Styles.mainShape : Styles.secondaryShape
       } ${mainColor ? Styles.mainColor : Styles.secondaryColor} ${
         !focus && Styles.notFocus
       } ${bold && Styles.bold}`}
+      // onClick={onclick}
+      onClick={() => {
+        if (onClick) {
+          onClick();
+        }
+      }}
     >
       {children}
     </button>

@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import dbConnect from "../../../lib/dbConnection";
-import User from "../../../models/madam";
+import User from "../../../models/User";
 
 type Data = {
   success: boolean;

@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 
 import Input from "../components/SignInUpContainer/Input";
+import Logo from "../public/logoText.svg";
+
 import SignInUpContainer, {
   OrLine,
   WideButton,
@@ -27,6 +29,8 @@ const Login = () => {
   });
   return (
     <SignInUpContainer>
+      <Logo style={{ marginBottom: "3rem" }} />
+
       <form
         onSubmit={handleSubmit((data) => {
           console.log(data);

@@ -5,7 +5,7 @@ type contactCardProps = {
   newMessage?: boolean;
 };
 
-const ContactCard = ({ newMessage = false }: contactCardProps) => {
+export const ContactCard = ({ newMessage = false }: contactCardProps) => {
   //   const newMessage = true;
   return (
     <div className={styles.contactCardContainer}>
@@ -25,5 +25,3 @@ const ContactCard = ({ newMessage = false }: contactCardProps) => {
     </div>
   );
 };
-
-export default ContactCard;

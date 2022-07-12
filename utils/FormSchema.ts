@@ -1,7 +1,11 @@
 import Joi from "joi";
 import passwordComplexity from "joi-password-complexity";
 
-import { SignFormTypes, LoginFormTypes } from "./GlobalTypes";
+import {
+  SignupStepOneTypes,
+  SignupStepTwoTypes,
+  LoginFormTypes,
+} from "./GlobalTypes";
 
 const phonePatter =
   /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
@@ -23,7 +27,8 @@ const emailJoi = Joi.string()
   .required();
 
 const phoneJoi = Joi.string().regex(RegExp(phonePatter)).required();
-export const SignupSchema = Joi.object<SignFormTypes>({
+
+export const SignupStepOneSchema = Joi.object<SignupStepOneTypes>({
   phoneEmail: Joi.alternatives().try(emailJoi, phoneJoi).required().messages({
     "alternatives.match": "This field should be either a phone number or email",
   }),
@@ -52,6 +57,12 @@ export const SignupSchema = Joi.object<SignFormTypes>({
       "string.pattern.base": "this is not a valid username",
     }),
   password: passwordComplexity(passwordOpt),
+});
+
+export const SignupStepTwoSchema = Joi.object<SignupStepTwoTypes>({
+  day: Joi.number(),
+  month: Joi.number(),
+  year: Joi.number(),
 });
 
 export const LoginSchema = Joi.object<LoginFormTypes>({

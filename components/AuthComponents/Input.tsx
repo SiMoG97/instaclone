@@ -1,10 +1,4 @@
-import {
-  CSSProperties,
-  forwardRef,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
+import { forwardRef, useState } from "react";
 import { FieldError } from "react-hook-form";
 
 import styles from "./form.module.scss";
@@ -17,7 +11,7 @@ type InputProps = {
   hasValue?: boolean;
 };
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
+export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ name, type, text, error, hasValue = false, ...rest }, ref) => {
     const [show, setShow] = useState<"show" | "hide">("show");
     return (
@@ -58,5 +52,3 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
-
-export default Input;

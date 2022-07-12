@@ -48,4 +48,5 @@ const useChatScroll = (messages: props) => {
 
   return ref;
 };
+
 export default useChatScroll;

@@ -9,7 +9,7 @@ type DetailsProps = {
   showDetails: boolean;
 };
 
-const Details = ({ setShowDetails, showDetails }: DetailsProps) => {
+export const Details = ({ setShowDetails, showDetails }: DetailsProps) => {
   return (
     // <div>
     <div
@@ -61,5 +61,3 @@ const Details = ({ setShowDetails, showDetails }: DetailsProps) => {
     // </div>
   );
 };
-
-export default Details;

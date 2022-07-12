@@ -1,9 +1,9 @@
 import Link from "next/link";
-import ContactCard from "./ContactCard";
+import { ContactCard } from "./";
 import styles from "./Dm.module.scss";
 import ArrowLeft from "../../public/leftArrow.svg";
 import NewMessageIcon from "../../public/newMessage.svg";
-const Contacts = () => {
+export const Contacts = () => {
   return (
     <div className={styles.contactsContainer}>
       <div className={`${styles.leftbarHeader} ${styles.shrinkHeader}`}>
@@ -53,5 +53,3 @@ const Contacts = () => {
     </div>
   );
 };
-
-export default Contacts;

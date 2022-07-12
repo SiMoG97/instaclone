@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 
-import Input from "../components/SignInUpContainer/Input";
 import Logo from "../public/logoText.svg";
-
-import SignInUpContainer, {
-  OrLine,
+import {
+  FormContainer,
   WideButton,
-} from "../components/SignInUpContainer";
+  Input,
+  OrLine,
+} from "../components/AuthComponents";
 
 import { LoginFormTypes } from "../utils/GlobalTypes";
 import { LoginSchema } from "../utils/FormSchema";
@@ -28,7 +28,7 @@ const Login = () => {
     mode: "onChange",
   });
   return (
-    <SignInUpContainer>
+    <FormContainer>
       <Logo style={{ marginBottom: "3rem" }} />
 
       <form
@@ -76,7 +76,7 @@ const Login = () => {
       >
         Forget password ?
       </div>
-    </SignInUpContainer>
+    </FormContainer>
   );
 };
 

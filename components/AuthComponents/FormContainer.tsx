@@ -1,12 +1,10 @@
 import Link from "next/link";
 import Logo from "../../public/logoText.svg";
-import GoogleIcon from "../../public/google.svg";
 import styles from "./form.module.scss";
-import Input from "./Input";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import Footer from "../Footer";
-const SignInUpContainer = ({ children }: { children: ReactNode }) => {
+export const FormContainer = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   return (
     <div className={styles.Container} style={{ marginTop: "10rem" }}>
@@ -46,31 +44,3 @@ const SignInUpContainer = ({ children }: { children: ReactNode }) => {
     </div>
   );
 };
-
-export const WideButton = ({
-  children,
-  hasIcon,
-  disabled = false,
-  type = "submit",
-}: {
-  children: string;
-  hasIcon: boolean;
-  disabled?: boolean;
-  type?: "submit" | "button" | "reset";
-}) => {
-  return (
-    <button className={`${styles.wideButton} ${disabled && styles.disabled}`}>
-      {hasIcon && <GoogleIcon />}
-      {children}
-    </button>
-  );
-};
-export const OrLine = () => {
-  return (
-    <div className={styles.orLine}>
-      <div>OR</div>
-    </div>
-  );
-};
-
-export default SignInUpContainer;

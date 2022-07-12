@@ -3,12 +3,12 @@ import TextArea from "../Textarea";
 import styles from "./Dm.module.scss";
 import ChatDetailsIcon from "../../public/ChatDetails.svg";
 import ArrowLeft from "../../public/leftArrow.svg";
-import ProfilePic from "../ProfilePic";
 import { useLayoutEffect, useRef, useState } from "react";
 import useChatScroll from "../../Hooks/useChatScrollHook";
-import Details from "./Details";
+import { Details, MessageChat } from "./";
+// import { MessageChat } from "./MessageChat";
 
-const Chat = () => {
+export const Chat = () => {
   const [showDetails, setShowDetails] = useState(false);
   ////////////
   // const [messages, setMessages] = useState([
@@ -129,36 +129,6 @@ const Chat = () => {
       </div>
 
       <Details setShowDetails={setShowDetails} showDetails={showDetails} />
-    </div>
-  );
-};
-
-export default Chat;
-
-type MessageChatProps = {
-  key: number;
-  IsMyMessage: boolean;
-  messageTxt: string;
-  contactImgSrc?: string;
-};
-
-const MessageChat = ({
-  key,
-  IsMyMessage,
-  messageTxt,
-  contactImgSrc = "",
-}: MessageChatProps) => {
-  return (
-    <div
-      key={key}
-      className={`${styles.messageChat} ${IsMyMessage && styles.myMessage}`}
-    >
-      {!IsMyMessage && (
-        <div style={{ alignSelf: "end" }}>
-          <ProfilePic src={contactImgSrc} size="size-5" />
-        </div>
-      )}
-      <div className={styles.messageTxt}>{messageTxt}</div>
     </div>
   );
 };

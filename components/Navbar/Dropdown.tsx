@@ -1,18 +1,17 @@
-import { useContext } from "react";
 import styles from "./Navbar.module.scss";
 import ProfileIcon from "../../public/profile.svg";
 import BookmarkIcon from "../../public/bookmark.svg";
 import SettingsIcon from "../../public/settings.svg";
 import Link from "next/link";
 import SwitchButton from "../FormComponents/SwitchButton";
-import { ThemeContext } from "../../context/themeContext";
+import { useThemeContext } from "../../context/themeContext";
 
 type DropdownType = {
   isOpen: boolean;
   setIsOpen(appear: boolean): void;
 };
 const Dropdown = ({ isOpen, setIsOpen }: DropdownType) => {
-  const { toggle, theme } = useContext(ThemeContext);
+  const { theme, toggle } = useThemeContext();
 
   return (
     <>

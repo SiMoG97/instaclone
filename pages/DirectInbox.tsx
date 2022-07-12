@@ -1,6 +1,5 @@
 import React from "react";
-import Chat from "../components/Dm/Chat";
-import Contacts from "../components/Dm/Contacts";
+import { Contacts, Chat } from "../components/Dm/";
 import styles from "../styles/directInbox.module.scss";
 
 const DirectInbox = () => {

@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import useThemeToggler from "../Hooks/useThemeToggler";
 type props = {
   children: ReactNode;
@@ -8,7 +14,7 @@ type ContextType = {
   theme: string;
 };
 
-export const ThemeContext = createContext<ContextType>({} as ContextType);
+const ThemeContext = createContext<ContextType>({} as ContextType);
 
 const ThemeContextProvider = ({ children }: props) => {
   const { theme, toggle } = useThemeToggler();
@@ -18,5 +24,7 @@ const ThemeContextProvider = ({ children }: props) => {
     </ThemeContext.Provider>
   );
 };
+
+export const useThemeContext = () => useContext(ThemeContext);
 
 export default ThemeContextProvider;

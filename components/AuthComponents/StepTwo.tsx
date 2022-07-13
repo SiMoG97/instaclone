@@ -8,7 +8,8 @@ import { SignupStepTwoTypes } from "../../utils/GlobalTypes";
 import { SignupStepTwoSchema } from "../../utils/FormSchema";
 import { MONTHS, hasThisManyDays } from "../../utils/date";
 import { useSignupContext } from "../../context/SignupContext";
-
+import styles from "./form.module.scss";
+import { relative } from "path";
 type StepTwoType = {
   setStep: Dispatch<SetStateAction<number>>;
 };
@@ -26,9 +27,10 @@ export const StepTwo = ({ setStep }: StepTwoType) => {
     formState: { errors, isValid },
   } = useForm<SignupStepTwoTypes>({
     resolver: joiResolver(SignupStepTwoSchema),
-    mode: "onChange",
+    mode: "all",
   });
-
+  console.log(errors, isValid, watch("year"));
+  console.log(typeof new Date().getFullYear());
   return (
     <FormContainer>
       <img src="./birthdayicon.png" alt="cake with candles icon" />
@@ -45,6 +47,7 @@ export const StepTwo = ({ setStep }: StepTwoType) => {
       </div>
       {/* form starts here */}
       <form
+        method="post"
         onSubmit={handleSubmit(async (data) => {
           console.log(data);
           setStepTwoData(data);
@@ -57,9 +60,12 @@ export const StepTwo = ({ setStep }: StepTwoType) => {
             color: "var(--txt-c-1)",
           }}
         >
+          {/* ----------- month ----------- */}
+
           <div style={{ margin: "1.5rem" }}>
             <select
-              {...register("month")}
+              className={styles.select}
+              {...register("month", { valueAsNumber: true })}
               onChange={(e) => {
                 setCurrMonth(Number(e.target.value));
               }}
@@ -71,36 +77,51 @@ export const StepTwo = ({ setStep }: StepTwoType) => {
                 </option>
               ))}
             </select>
+            {/* ----------- day ----------- */}
 
-            <select {...register("day")} defaultValue={new Date().getDate()}>
-              {Array(hasThisManyDays(date, String(MONTHS[currMonth])))
-                .fill("")
-                .map((_, i) => (
-                  <option key={i} value={i + 1}>
-                    {i + 1}
-                  </option>
-                ))}
-            </select>
             <select
-              {...register("year")}
-              onChange={(e) => {
-                console.log(e.target.value);
-                setDate(Number(e.target.value));
-              }}
+              className={styles.select}
+              {...register("day", { valueAsNumber: true })}
+              defaultValue={new Date().getDate()}
             >
-              {Array(120)
-                .fill(2)
-                .map((_, i) => {
-                  const year = new Date().getFullYear() - i;
-                  return (
-                    <option key={year} value={year}>
-                      {year}
-                    </option>
-                  );
-                })}
+              {Array.from(
+                Array(hasThisManyDays(date, String(MONTHS[currMonth]))).keys()
+              ).map((_, i) => (
+                <option key={i} value={i + 1}>
+                  {i + 1}
+                </option>
+              ))}
+            </select>
+            {/* ----------- year ----------- */}
+            <select
+              className={styles.select}
+              {...register("year", { valueAsNumber: true })}
+            >
+              {Array.from(Array(120).keys()).map((_, i) => {
+                const year = new Date().getFullYear() - i;
+                return (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                );
+              })}
             </select>
           </div>
-          <div style={{ color: "var(--txt-c-2)", fontSize: "1.2rem" }}>
+          <div
+            className={`${styles.errorContainer} ${
+              errors.year && styles.whenError
+            }`}
+          >
+            {errors.year && (
+              <p className={styles.selectError}>{errors.year.message}</p>
+            )}
+          </div>
+          <div
+            style={{
+              color: "var(--txt-c-2)",
+              fontSize: "1.2rem",
+            }}
+          >
             <p>You need to enter the year you were born</p>
             <br />
             <p>
@@ -109,11 +130,7 @@ export const StepTwo = ({ setStep }: StepTwoType) => {
             </p>
           </div>
         </div>
-        <WideButton
-          hasIcon={false}
-          // disabled={!isValid}
-          type="submit"
-        >
+        <WideButton hasIcon={false} disabled={!isValid} type="submit">
           Next
         </WideButton>
       </form>

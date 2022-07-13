@@ -50,6 +50,7 @@ export const StepOne = ({ setStep }: StepOneType) => {
       <WideButton hasIcon={true}>Log in With Google</WideButton>
       <OrLine />
       <form
+        method="post"
         autoComplete="off"
         onSubmit={handleSubmit(async (data) => {
           console.log(data);

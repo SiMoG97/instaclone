@@ -59,10 +59,26 @@ export const SignupStepOneSchema = Joi.object<SignupStepOneTypes>({
   password: passwordComplexity(passwordOpt),
 });
 
+const greaterThanSix = Joi.number()
+  .max(Number(new Date().getFullYear()) - 6)
+  .required()
+  .messages({
+    "number.max": "You're too young, you should be atleast six years.",
+  });
+
 export const SignupStepTwoSchema = Joi.object<SignupStepTwoTypes>({
-  day: Joi.number(),
-  month: Joi.number(),
-  year: Joi.number(),
+  day: Joi.number().required(),
+  // .when("month", {
+  //   is: Joi.number().min(new Date().getMonth()),
+  //   then: Joi.number().min(new Date().getDay()),
+  // })
+  month: Joi.number()
+    .required()
+    .when("year", {
+      is: greaterThanSix,
+      then: Joi.number().min(new Date().getMonth()),
+    }),
+  year: greaterThanSix,
 });
 
 export const LoginSchema = Joi.object<LoginFormTypes>({

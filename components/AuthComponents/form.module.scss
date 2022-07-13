@@ -107,6 +107,18 @@
   font-size: 1.1rem;
   width: 110%;
 }
+.errorContainer {
+  width: 100%;
+  transition: 0.1s;
+  margin: 0;
+}
+.whenError {
+  margin-bottom: 1rem;
+}
+.selectError {
+  color: rgb(253, 60, 2);
+  font-size: 1.1rem;
+}
 .wideButton {
   border: none;
   outline: none;
@@ -165,4 +177,14 @@
   }
 }
 .textUnderLogo {
+}
+.select {
+  color: var(--txt-c-2);
+  border: solid 1px var(--txt-c-4);
+  padding: 0.8rem;
+  font-size: 1.2rem;
+  // margin: 0 0.5rem;
+  &:nth-child(2) {
+    margin: 0 0.8rem;
+  }
 }

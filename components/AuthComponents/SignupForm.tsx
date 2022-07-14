@@ -8,8 +8,12 @@ export const SignupForm = () => {
 
   return (
     <SignupContextProvider>
-      {step === 0 && <StepOne setStep={setStep} />}
-      {step === 1 && <StepTwo setStep={setStep} />}
+      <div style={step !== 0 ? { display: "none" } : {}}>
+        <StepOne setStep={setStep} />
+      </div>
+      <div style={step !== 1 ? { display: "none" } : {}}>
+        <StepTwo setStep={setStep} />
+      </div>
     </SignupContextProvider>
   );
 };

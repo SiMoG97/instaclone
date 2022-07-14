@@ -184,6 +184,9 @@
   padding: 0.8rem;
   font-size: 1.2rem;
   // margin: 0 0.5rem;
+  &:nth-child(1) {
+    width: 10rem;
+  }
   &:nth-child(2) {
     margin: 0 0.8rem;
   }

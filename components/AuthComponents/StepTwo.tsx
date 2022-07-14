@@ -1,36 +1,98 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { useForm } from "react-hook-form";
-import { joiResolver } from "@hookform/resolvers/joi";
+import {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 
 import { FormContainer, WideButton } from "./";
 import Button from "../Button";
-import { SignupStepTwoTypes } from "../../utils/GlobalTypes";
-import { SignupStepTwoSchema } from "../../utils/FormSchema";
 import { MONTHS, hasThisManyDays } from "../../utils/date";
 import { useSignupContext } from "../../context/SignupContext";
 import styles from "./form.module.scss";
-import { relative } from "path";
 type StepTwoType = {
   setStep: Dispatch<SetStateAction<number>>;
 };
 
 export const StepTwo = ({ setStep }: StepTwoType) => {
-  const [date, setDate] = useState(new Date().getFullYear());
-  const [currMonth, setCurrMonth] = useState(new Date().getMonth());
-
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [month, setMonth] = useState(new Date().getMonth());
+  const [day, setDay] = useState(new Date().getDate());
+  const [isValid, setIsValid] = useState(false);
   const { setStepTwoData } = useSignupContext();
+  useEffect(() => {
+    const date = new Date();
+    const allowedAge = new Date(
+      date.getFullYear() - 6,
+      date.getMonth(),
+      date.getDate()
+    );
+    if (new Date(year, month, day) <= allowedAge) {
+      setIsValid(true);
+      return;
+    }
+    setIsValid(false);
+  }, [day, month, year]);
+  // ------- Rendering Months -------
+  const renderMonths = () => {
+    const date = new Date();
+    const thisYear = date.getFullYear();
+    const thisMonth = date.getMonth();
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors, isValid },
-  } = useForm<SignupStepTwoTypes>({
-    resolver: joiResolver(SignupStepTwoSchema),
-    mode: "all",
-  });
-  console.log(errors, isValid, watch("year"));
-  console.log(typeof new Date().getFullYear());
+    if (year === thisYear) {
+      return MONTHS.slice(0, thisMonth + 1).map((m, i) => (
+        <option key={m} title={MONTHS[i]} value={i}>
+          {m}
+        </option>
+      ));
+    }
+    return MONTHS.map((m, i) => (
+      <option key={m} title={MONTHS[i]} value={i}>
+        {m}
+      </option>
+    ));
+  };
+
+  // ------- Rendering Days -------
+  const renderDays = () => {
+    const date = new Date();
+    const thisYear = date.getFullYear();
+    const thisMonth = date.getMonth();
+    if (year === thisYear && month === thisMonth) {
+      return Array.from(Array(date.getDate()).keys()).map((_, i) => (
+        <option key={i} value={i + 1}>
+          {i + 1}
+        </option>
+      ));
+    }
+    return Array.from(
+      Array(hasThisManyDays(year, String(MONTHS[month]))).keys()
+    ).map((_, i) => (
+      <option key={i} value={i + 1}>
+        {i + 1}
+      </option>
+    ));
+  };
+
+  // ------- Rendering Years -------
+  const renderYears = () =>
+    Array.from(Array(120).keys()).map((_, i) => {
+      const year = new Date().getFullYear() - i;
+      return (
+        <option key={year} value={year}>
+          {year}
+        </option>
+      );
+    });
+
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isValid) {
+      console.log("its valid yaay, send here data");
+    }
+  };
+
   return (
     <FormContainer>
       <img src="./birthdayicon.png" alt="cake with candles icon" />
@@ -48,10 +110,14 @@ export const StepTwo = ({ setStep }: StepTwoType) => {
       {/* form starts here */}
       <form
         method="post"
-        onSubmit={handleSubmit(async (data) => {
-          console.log(data);
-          setStepTwoData(data);
-        })}
+        onSubmit={submitHandler}
+        onKeyDown={(e) => {
+          if (isValid) {
+            if (e.code === "Enter" || e.code === "NumpadEnter") {
+              submitHandler(e);
+            }
+          }
+        }}
       >
         <div
           style={{
@@ -65,55 +131,43 @@ export const StepTwo = ({ setStep }: StepTwoType) => {
           <div style={{ margin: "1.5rem" }}>
             <select
               className={styles.select}
-              {...register("month", { valueAsNumber: true })}
+              defaultValue={month}
               onChange={(e) => {
-                setCurrMonth(Number(e.target.value));
+                setMonth(Number(e.target.value));
               }}
-              defaultValue={currMonth}
             >
-              {MONTHS.map((month, i) => (
-                <option key={month} value={i}>
-                  {month}
-                </option>
-              ))}
+              {renderMonths()}
             </select>
             {/* ----------- day ----------- */}
 
             <select
               className={styles.select}
-              {...register("day", { valueAsNumber: true })}
               defaultValue={new Date().getDate()}
+              onChange={(e) => {
+                setDay(Number(e.target.value));
+              }}
             >
-              {Array.from(
-                Array(hasThisManyDays(date, String(MONTHS[currMonth]))).keys()
-              ).map((_, i) => (
-                <option key={i} value={i + 1}>
-                  {i + 1}
-                </option>
-              ))}
+              {renderDays()}
             </select>
             {/* ----------- year ----------- */}
             <select
               className={styles.select}
-              {...register("year", { valueAsNumber: true })}
+              onChange={(e) => {
+                setYear(Number(e.target.value));
+              }}
             >
-              {Array.from(Array(120).keys()).map((_, i) => {
-                const year = new Date().getFullYear() - i;
-                return (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                );
-              })}
+              {renderYears()}
             </select>
           </div>
           <div
             className={`${styles.errorContainer} ${
-              errors.year && styles.whenError
+              !isValid && styles.whenError
             }`}
           >
-            {errors.year && (
-              <p className={styles.selectError}>{errors.year.message}</p>
+            {!isValid && (
+              <p className={styles.selectError}>
+                You're too young, you should be atleast six years.
+              </p>
             )}
           </div>
           <div

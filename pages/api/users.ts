@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import dbConnect from "../../../lib/dbConnection";
-import User from "../../../models/User";
+import dbConnect from "../../lib/dbConnection";
+import User from "../../models/User";
 
 type Data = {
   success: boolean;
@@ -33,11 +33,13 @@ export default async function handler(
         // const user = await User.create({
 
         // });
+        console.log(req.body);
         const user = new User({
           userName: "SimoGG97",
-          firstName: "Simo",
-          lastName: "echaarani",
-          email: "echaarani@test.com",
+          email: "echaaranimohamed@gmail.com",
+          phone: "0690224004",
+          fullName: "simo echaarani",
+          password: "sir7tatji",
         });
         await user.save();
         res.status(201).json({

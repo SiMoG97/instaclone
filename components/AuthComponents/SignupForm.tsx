@@ -4,7 +4,7 @@ import SignupContextProvider from "../../context/SignupContext";
 import { StepOne, StepTwo } from "./";
 
 export const SignupForm = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
 
   return (
     <SignupContextProvider>

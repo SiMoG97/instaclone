@@ -20,7 +20,7 @@ export const StepTwo = ({ setStep }: StepTwoType) => {
   const [month, setMonth] = useState(new Date().getMonth());
   const [day, setDay] = useState(new Date().getDate());
   const [isValid, setIsValid] = useState(false);
-  const { setStepTwoData } = useSignupContext();
+  const { setStepTwoData, stepOneData } = useSignupContext();
   useEffect(() => {
     const date = new Date();
     const allowedAge = new Date(
@@ -90,6 +90,19 @@ export const StepTwo = ({ setStep }: StepTwoType) => {
     e.preventDefault();
     if (isValid) {
       console.log("its valid yaay, send here data");
+      const user = {
+        ...stepOneData,
+        date_of_birth: new Date(year, month, day),
+      };
+      fetch("/api/users", {
+        method: "POST",
+        // body:user
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(user),
+      });
     }
   };
 

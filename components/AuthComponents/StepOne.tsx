@@ -8,10 +8,10 @@ import { FormContainer, WideButton, OrLine, Input } from "./";
 import { SignupStepOneTypes } from "../../utils/GlobalTypes";
 import { SignupStepOneSchema } from "../../utils/FormSchema";
 import { Dispatch, SetStateAction } from "react";
-import { useSignupContext } from "../../context/SignupContext";
 
 type StepOneType = {
   setStep: Dispatch<SetStateAction<number>>;
+  setStepOneData: Dispatch<SetStateAction<SignupStepOneTypes>>;
 };
 const formNamesText = [
   { name: "phoneEmail", text: "Phone number or email" },
@@ -20,7 +20,7 @@ const formNamesText = [
   { name: "password", text: "password" },
 ];
 
-export const StepOne = ({ setStep }: StepOneType) => {
+export const StepOne = ({ setStep, setStepOneData }: StepOneType) => {
   const {
     register,
     handleSubmit,
@@ -30,8 +30,6 @@ export const StepOne = ({ setStep }: StepOneType) => {
     resolver: joiResolver(SignupStepOneSchema),
     mode: "onChange",
   });
-
-  const { setStepOneData } = useSignupContext();
 
   return (
     <FormContainer>

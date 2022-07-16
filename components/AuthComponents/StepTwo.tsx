@@ -11,16 +11,17 @@ import Button from "../Button";
 import { MONTHS, hasThisManyDays } from "../../utils/date";
 import { useSignupContext } from "../../context/SignupContext";
 import styles from "./form.module.scss";
+import { SignupStepOneTypes } from "../../utils/GlobalTypes";
 type StepTwoType = {
   setStep: Dispatch<SetStateAction<number>>;
+  stepOneData: SignupStepOneTypes;
 };
 
-export const StepTwo = ({ setStep }: StepTwoType) => {
+export const StepTwo = ({ setStep, stepOneData }: StepTwoType) => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
   const [day, setDay] = useState(new Date().getDate());
   const [isValid, setIsValid] = useState(false);
-  const { setStepTwoData, stepOneData } = useSignupContext();
   useEffect(() => {
     const date = new Date();
     const allowedAge = new Date(

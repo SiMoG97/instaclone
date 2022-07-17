@@ -6,4 +6,5 @@ export type UserType = {
   password: string;
   following: string[];
   followers: string[];
+  date_of_birth: string;
 };

@@ -9,7 +9,6 @@ import {
 import { FormContainer, WideButton } from "./";
 import Button from "../Button";
 import { MONTHS, hasThisManyDays } from "../../utils/date";
-import { useSignupContext } from "../../context/SignupContext";
 import styles from "./form.module.scss";
 import { SignupStepOneTypes } from "../../utils/GlobalTypes";
 type StepTwoType = {
@@ -93,7 +92,7 @@ export const StepTwo = ({ setStep, stepOneData }: StepTwoType) => {
       console.log("its valid yaay, send here data");
       const user = {
         ...stepOneData,
-        date_of_birth: new Date(year, month, day),
+        date_of_birth: `${year}-${month}-${day}`,
       };
       fetch("/api/users", {
         method: "POST",

@@ -104,3 +104,12 @@ export const LoginSchema = Joi.object<LoginFormTypes>({
     "string.max": "Password field should be less than 250 characters",
   }),
 });
+
+///////////////
+
+export const isEmail = Joi.object({
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .trim()
+    .lowercase(),
+});

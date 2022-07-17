@@ -9,11 +9,11 @@ const UserSchema = new mongoose.Schema<UserType & Document>(
     },
     email: {
       type: String,
-      required: true,
+      // required: true,
     },
     phone: {
       type: String,
-      required: true,
+      // required: true,
     },
     fullName: {
       type: String,
@@ -29,6 +29,7 @@ const UserSchema = new mongoose.Schema<UserType & Document>(
     followers: {
       type: [String],
     },
+    date_of_birth: String,
   },
   {
     timestamps: true,

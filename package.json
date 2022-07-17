@@ -23,6 +23,7 @@
     "react-hook-form": "^7.33.1",
     "react-spring": "^9.4.5",
     "sass": "^1.49.7",
+    "validator": "^13.7.0",
     "yarn": "^1.22.19"
   },
   "devDependencies": {

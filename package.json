@@ -11,6 +11,7 @@
     "@emoji-mart/data": "^1.0.1",
     "@hookform/resolvers": "^2.9.3",
     "@svgr/webpack": "^6.2.1",
+    "@types/validator": "^13.7.4",
     "add": "^2.0.6",
     "emoji-mart": "^5.0.0",
     "joi": "^17.6.0",

@@ -1412,6 +1412,11 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
 
+"@types/validator@^13.7.4":
+  version "13.7.4"
+  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-13.7.4.tgz#33cc949ee87dd47c63e35ba4ad94f6888852be04"
+  integrity sha512-uAaSWegu2lymY18l+s5nmcXu3sFeeTOl1zhSGoYzcr6T3wz1M+3OcW4UjfPhIhHGd13tIMRDsEpR+d8w/MexwQ==
+
 "@types/webidl-conversions@*":
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/@types/webidl-conversions/-/webidl-conversions-6.1.1.tgz#e33bc8ea812a01f63f90481c666334844b12a09e"

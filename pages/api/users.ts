@@ -1,7 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import Joi from "joi";
-import { isEmail } from "../../utils/FormSchema";
 import validator from "validator";
 
 import dbConnect from "../../lib/dbConnection";
@@ -19,11 +17,12 @@ export default async function handler(
   // res.status(200).json({ name: "John Doe" });
   // console.log(req);
   const { method } = req;
+  await dbConnect();
 
   switch (method) {
     case "GET":
       try {
-        await dbConnect();
+        // await dbConnect();
         const users = await User.find({});
         console.log(users);
         res.status(200).json({ success: true });
@@ -33,44 +32,31 @@ export default async function handler(
       break;
     case "POST":
       try {
-        // const user = await User.create({
-
-        // });
-        const { phoneEmail, password, fullName, userName, date_of_birth } =
-          req.body;
-        // Joi.validate
-        // const obj = {
-        //   email: phoneEmail,
-        // };
-        // console.log(isEmail.validate(obj));
+        console.log(req.body);
+        const { password, userName, fullName, phoneEmail } = req.body;
+        let email = "";
+        let phone = "";
         if (validator.isEmail(phoneEmail)) {
-          console.log("test");
-          const user = new User({
-            email: phoneEmail,
-            password,
-            fullName,
-            userName,
-            date_of_birth,
-          });
-          await user.save();
-          res.status(201).json({
-            success: true,
-            data: user,
-          });
+          email = phoneEmail;
+        } else if (validator.isMobilePhone(phoneEmail)) {
+          phone = phoneEmail;
+        } else {
+          res.status(400).json({ success: false });
+
+          return Error("phoneEmail is not a phone number or an email");
         }
-        // console.log(req.body);
-        // const user = new User({
-        //   userName: "SimoGG97",
-        //   email: "echaaranimohamed@gmail.com",
-        //   phone: "0690224004",
-        //   fullName: "simo echaarani",
-        //   password: "sir7tatji",
-        // });
-        // await user.save();
-        // res.status(201).json({
-        //   success: true,
-        //   data: user,
-        // });
+        const user = new User({
+          userName,
+          email,
+          phone,
+          fullName,
+          password,
+        });
+        await user.save();
+        res.status(201).json({
+          success: true,
+          data: user,
+        });
       } catch (error) {
         res.status(400).json({ success: false });
       }

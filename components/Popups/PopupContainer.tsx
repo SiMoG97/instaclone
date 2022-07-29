@@ -1,6 +1,7 @@
 import { ReactElement, useEffect, useLayoutEffect, useState } from "react";
 import styles from "./popup.module.scss";
 import { useTransition, animated } from "react-spring";
+import CrossX from "../../public/cross.svg";
 
 type props = {
   popupHeader: string;
@@ -8,7 +9,7 @@ type props = {
 };
 
 const PopupContainer = ({ children, popupHeader }: props) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [phoneAnimation, setPhoneAnimation] = useState({
     from: {
       x: "100%",
@@ -112,7 +113,22 @@ const PopupContainer = ({ children, popupHeader }: props) => {
             }}
           >
             <div className={`${styles.popupContainer}`}>
-              <div className={styles.popUpHeader}>{popupHeader}</div>
+              <div
+                style={{ position: "relative" }}
+                className={styles.popUpHeader}
+              >
+                {popupHeader}{" "}
+                <CrossX
+                  style={{
+                    position: "absolute",
+                    right: "2rem",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    setIsOpen(false);
+                  }}
+                />
+              </div>
               {children}
             </div>
           </animated.div>

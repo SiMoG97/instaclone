@@ -57,12 +57,58 @@
   height: 100%;
   overflow: hidden;
   position: relative;
+  display: flex;
+  flex-direction: column;
   .friendListToSend {
     height: 100%;
     overflow-y: scroll;
     padding: 1rem;
     > div {
       padding: 0.5rem 0;
+    }
+  }
+  .search {
+    margin: 1rem;
+    margin-top: 0;
+    background-color: var(--bg-c-2);
+    display: flex;
+    align-items: center;
+    border-radius: 0.8rem;
+    padding-left: 1rem;
+    input {
+      width: 100%;
+      color: var(--txt-c-1);
+      background-color: transparent;
+      outline: none;
+      border: none;
+      padding: 1.2rem;
+    }
+  }
+  .writeSomething {
+    width: 100%;
+    display: flex;
+    padding: 1rem;
+    color: var(--txt-c-1);
+
+    .minimizedPostPicContainer {
+      img {
+        border-radius: 0.6rem;
+        height: 5rem;
+      }
+    }
+    textarea {
+      height: 5rem;
+      font-family: inherit;
+      color: inherit;
+      background-color: transparent;
+      font-size: 1.6rem;
+      max-height: 20rem;
+      border: none;
+      outline: none;
+      display: block;
+      resize: none;
+      flex: 1;
+      padding: 1.5rem 1rem;
     }
   }
 }

@@ -64,53 +64,23 @@ export const Chat = () => {
           messageTxt="okay safi 7ta nchof"
           IsMyMessage={false}
         />
+        <MessageChat messageTxt="la bla matchof" IsMyMessage={true} />
         <MessageChat
-          key={22343254}
-          messageTxt="la bla matchof"
-          IsMyMessage={true}
-        />
-        <MessageChat
-          key={22343255}
           contactImgSrc="./baif.jpg"
           messageTxt="shaloom"
           IsMyMessage={false}
         />
-        <MessageChat key={22343256} messageTxt="wassaup" IsMyMessage={true} />
+        <MessageChat messageTxt="wassaup" IsMyMessage={true} />
+        <MessageChat messageTxt="fin mchiti" IsMyMessage={true} />
+        <MessageChat messageTxt="fin mchiti" IsMyMessage={true} />
+        <MessageChat messageTxt="fin mchiti" IsMyMessage={true} />
+        <MessageChat messageTxt="fin jiti " IsMyMessage={true} />
         <MessageChat
-          key={22343257}
-          messageTxt="fin mchiti"
-          IsMyMessage={true}
-        />
-        <MessageChat
-          key={22343258}
-          messageTxt="fin mchiti"
-          IsMyMessage={true}
-        />
-        <MessageChat
-          key={22343259}
-          messageTxt="fin mchiti"
-          IsMyMessage={true}
-        />
-        <MessageChat
-          key={223432511}
-          messageTxt="fin jiti "
-          IsMyMessage={true}
-        />
-        <MessageChat
-          key={223432512}
           messageTxt="why are you ignoring me ?"
           IsMyMessage={true}
         />
-        <MessageChat
-          key={2234325123}
-          messageTxt="7ta t5rej"
-          IsMyMessage={true}
-        />
-        <MessageChat
-          key={223432514}
-          messageTxt="mabiti tji 3andi"
-          IsMyMessage={true}
-        />
+        <MessageChat messageTxt="7ta t5rej" IsMyMessage={true} />
+        <MessageChat messageTxt="mabiti tji 3andi" IsMyMessage={true} />
         {messages.map((message, i) => (
           <MessageChat
             key={i}

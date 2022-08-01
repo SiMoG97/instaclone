@@ -2,47 +2,62 @@ import Button from "../Button";
 import PopupContainer from "./PopupContainer";
 import styles from "./popup.module.scss";
 import PicUsername from "../PicUsername";
+import SearchIcon from "../../public/search.svg";
+
 const SharePostPopup = () => {
   return (
     <PopupContainer popupHeader="Share">
       <div className={styles.ShareContainer}>
+        <div className={styles.writeSomething}>
+          <div className={styles.minimizedPostPicContainer}>
+            <img src="./mediaTesting/img1.jpg" alt="somthing" />
+          </div>
+          <textarea name="writeSomething" placeholder="Write a message..." />
+        </div>
+        <Search />
         <div className={styles.friendListToSend}>
-          {
-            // [...Array(10).keys()]
-            Array.from(Array(20).keys()).map((item, i) => {
-              return (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <PicUsername
-                    src="/baif.jpg"
-                    primaryText="thebrahimbaif"
-                    secondaryText="Brahim Baif"
-                  />
-                  <Button>send</Button>
-                </div>
-              );
-            })
-          }
+          {Array.from(Array(20).keys()).map((item, i) => {
+            return (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <PicUsername
+                  src="/baif.jpg"
+                  primaryText="thebrahimbaif"
+                  secondaryText="Brahim Baif"
+                />
+                <Button>send</Button>
+              </div>
+            );
+          })}
         </div>
         <Button
           size={3}
           style={{
-            position: "absolute",
-            left: "0",
-            right: "0",
-            bottom: "0",
             padding: "1.5rem",
+            width: "100%",
           }}
         >
           Done
         </Button>
       </div>
     </PopupContainer>
+  );
+};
+
+const Search = () => {
+  return (
+    <form>
+      <div className={styles.search}>
+        <SearchIcon />
+        <input type="text" placeholder="Search" />
+      </div>
+    </form>
   );
 };
 

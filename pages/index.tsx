@@ -15,6 +15,7 @@ import PicUsername from "../components/PicUsername";
 import Checkbox from "../components/FormComponents/SwitchButton";
 import LikesPopup from "../components/Popups/LikesPopup";
 import SharePostPopup from "../components/Popups/SharePostPopup";
+import FollowPopup from "../components/Popups/FollowPopup";
 
 const Home: NextPage = () => {
   const postsContainer = useRef<HTMLDivElement | null>(null);
@@ -57,7 +58,8 @@ const Home: NextPage = () => {
       {/* <Textarea isCommentInput={false} /> */}
       {/* <span>test</span> */}
       {/* <LikesPopup /> */}
-      <SharePostPopup />
+      {/* <SharePostPopup /> */}
+      <FollowPopup />
       {/* <PopupContainer popupHeader="Likes"></PopupContainer> */}
     </>
   );

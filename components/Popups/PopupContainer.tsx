@@ -1,14 +1,21 @@
-import { ReactElement, useEffect, useLayoutEffect, useState } from "react";
+import {
+  Dispatch,
+  ReactElement,
+  SetStateAction,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import styles from "./popup.module.scss";
 import { useTransition, animated } from "react-spring";
-import CrossX from "../../public/cross.svg";
 
-type props = {
-  popupHeader: string;
-  children: ReactElement;
+export type SetIsOpenType = Dispatch<SetStateAction<boolean>>;
+
+type PopupContainerTypes = {
+  children: (setIsOpen: SetIsOpenType) => ReactElement;
 };
 
-const PopupContainer = ({ children, popupHeader }: props) => {
+const PopupContainer = ({ children }: PopupContainerTypes) => {
   const [isOpen, setIsOpen] = useState(true);
   const [phoneAnimation, setPhoneAnimation] = useState({
     from: {
@@ -112,25 +119,7 @@ const PopupContainer = ({ children, popupHeader }: props) => {
               }
             }}
           >
-            <div className={`${styles.popupContainer}`}>
-              <div
-                style={{ position: "relative" }}
-                className={styles.popUpHeader}
-              >
-                {popupHeader}{" "}
-                <CrossX
-                  style={{
-                    position: "absolute",
-                    right: "2rem",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    setIsOpen(false);
-                  }}
-                />
-              </div>
-              {children}
-            </div>
+            {children(setIsOpen)}
           </animated.div>
         ) : (
           <></>

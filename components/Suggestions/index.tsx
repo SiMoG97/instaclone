@@ -1,5 +1,11 @@
 import Footer from "../Footer";
-import { MutableRefObject, useLayoutEffect, useRef, useState } from "react";
+import {
+  MutableRefObject,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import styles from "./suggestions.module.scss";
 import ProfilePic from "../ProfilePic";
 import Button from "../Button";
@@ -15,7 +21,7 @@ const Suggestions = ({ postsContainer, myUserName, myFullName }: props) => {
   const suggesEl = useRef<HTMLDivElement | null>(null);
   const [showSugges, setShowSugges] = useState(true);
 
-  const calculatingSuggestPos = () => {
+  const calculatingSuggestPos = useCallback(() => {
     if (postsContainer.current) {
       if (window.innerWidth <= 1000) {
         setShowSugges(false);
@@ -27,10 +33,10 @@ const Suggestions = ({ postsContainer, myUserName, myFullName }: props) => {
         postsContainer.current!.offsetWidth;
       suggesEl.current!.style.left = `${SuggestPosLeft + 30}px`;
     }
-  };
+  }, [postsContainer]);
   useLayoutEffect(() => {
     calculatingSuggestPos();
-  }, []);
+  }, [calculatingSuggestPos]);
   useLayoutEffect(() => {
     window.addEventListener("resize", () => {
       calculatingSuggestPos();

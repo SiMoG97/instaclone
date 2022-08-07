@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import styles from "./textarea.module.scss";
 import FaceEmoji from "../../public/FaceEmoji.svg";
@@ -19,24 +19,27 @@ const TextArea = ({ isCommentInput }: props) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isTaEmpty, setIsTaEmpty] = useState(true);
 
-  const emojiCloser = (e: any) => {
-    if (emojiRef.current) {
-      if (e.target === emojiToggler.current) return;
-      if (
-        e.target !== emojiRef.current.children[0]?.children[0] &&
-        showEmojiPicker
-      ) {
-        setShowEmojiPicker(false);
+  const emojiCloser = useCallback(
+    (e: any) => {
+      if (emojiRef.current) {
+        if (e.target === emojiToggler.current) return;
+        if (
+          e.target !== emojiRef.current.children[0]?.children[0] &&
+          showEmojiPicker
+        ) {
+          setShowEmojiPicker(false);
+        }
       }
-    }
-  };
+    },
+    [showEmojiPicker]
+  );
 
   useEffect(() => {
     window.addEventListener("click", emojiCloser);
     return () => {
       window.removeEventListener("click", emojiCloser);
     };
-  }, [showEmojiPicker]);
+  }, [showEmojiPicker, emojiCloser]);
 
   const taChangeHandler = ({
     target,

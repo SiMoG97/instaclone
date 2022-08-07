@@ -12,7 +12,7 @@ function EmojiPicker(props: any) {
         ? "dark"
         : "light");
     new Picker({ ...props, data, ref, theme });
-  }, []);
+  }, [ref]);
   return <div ref={ref} className={styles.emojiContainer} />;
 }
 

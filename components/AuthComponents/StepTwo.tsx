@@ -11,6 +11,7 @@ import Button from "../Button";
 import { MONTHS, hasThisManyDays } from "../../utils/date";
 import styles from "./form.module.scss";
 import { SignupStepOneTypes } from "../../utils/GlobalTypes";
+import Link from "next/link";
 type StepTwoType = {
   setStep: Dispatch<SetStateAction<number>>;
   stepOneData: SignupStepOneTypes;
@@ -114,10 +115,12 @@ export const StepTwo = ({ setStep, stepOneData }: StepTwoType) => {
       </div>
       <div>
         <p>
-          This won't be a part of your public profile. <br />
-          <a href="/" style={{ color: "var(--helper-primary)" }}>
-            Why do I need to provide my birthday?
-          </a>
+          {"This won't be a part of your public profile."} <br />
+          <Link href="/">
+            <a style={{ color: "var(--helper-primary)" }}>
+              Why do I need to provide my birthday?
+            </a>
+          </Link>
         </p>
       </div>
       {/* form starts here */}
@@ -179,7 +182,7 @@ export const StepTwo = ({ setStep, stepOneData }: StepTwoType) => {
           >
             {!isValid && (
               <p className={styles.selectError}>
-                You're too young, you should be atleast six years.
+                {"You're too young, you should be atleast six years."}
               </p>
             )}
           </div>

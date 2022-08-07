@@ -2,8 +2,10 @@ import {
   Dispatch,
   ReactElement,
   SetStateAction,
+  useCallback,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useState,
 } from "react";
 import styles from "./popup.module.scss";
@@ -16,20 +18,44 @@ type PopupContainerTypes = {
 };
 
 const PopupContainer = ({ children }: PopupContainerTypes) => {
-  const [isOpen, setIsOpen] = useState(true);
-  const [phoneAnimation, setPhoneAnimation] = useState({
-    from: {
-      x: "100%",
-      opacity: 1,
-    },
-    enter: {
-      x: "0%",
-      opacity: 1,
-    },
-    leave: {
-      x: "100%",
-      opacity: 1,
-    },
+  const animateMobile = useMemo(
+    () => ({
+      from: {
+        x: "100%",
+        opacity: 1,
+      },
+      enter: {
+        x: "0%",
+        opacity: 1,
+      },
+      leave: {
+        x: "100%",
+        opacity: 1,
+      },
+    }),
+    []
+  );
+  const animateDesk = useMemo(
+    () => ({
+      from: {
+        x: "0%",
+        opacity: 0,
+      },
+      enter: {
+        x: "0%",
+        opacity: 1,
+      },
+      leave: {
+        x: "0%",
+        opacity: 0,
+      },
+    }),
+    []
+  );
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [phoneAnimation, setPhoneAnimation] = useState<AnimationType>({
+    ...animateDesk,
     config: {
       duration: 200,
     },
@@ -55,43 +81,19 @@ const PopupContainer = ({ children }: PopupContainerTypes) => {
   // popup phone translateX animation
   const transition = useTransition(isOpen, phoneAnimation);
 
-  const checkMediaQuery = (x: MediaQueryList) => {
-    if (x.matches) {
-      setPhoneAnimation({
-        ...phoneAnimation,
-        from: {
-          x: "100%",
-          opacity: 1,
-        },
-        enter: {
-          x: "0%",
-          opacity: 1,
-        },
-        leave: {
-          x: "100%",
-          opacity: 1,
-        },
-      });
-    } else {
-      setPhoneAnimation({
-        ...phoneAnimation,
-        from: {
-          x: "0%",
-          opacity: 0,
-        },
-        enter: {
-          x: "0%",
-          opacity: 1,
-        },
-        leave: {
-          x: "0%",
-          opacity: 0,
-        },
-      });
-    }
-  };
+  const checkMediaQuery = useCallback(
+    (x: MediaQueryList) => {
+      if (x.matches) {
+        setPhoneAnimation((p) => ({ ...p, ...animateMobile }));
+        return;
+      }
+      setPhoneAnimation((p) => ({ ...p, ...animateDesk }));
+    },
+    [animateDesk, animateMobile]
+  );
+
   useEffect(() => {
-    var x = window.matchMedia("(max-width: 768px)");
+    let x = window.matchMedia("(max-width: 768px)");
     window.addEventListener("resize", () => {
       checkMediaQuery(x);
     });
@@ -100,12 +102,11 @@ const PopupContainer = ({ children }: PopupContainerTypes) => {
         checkMediaQuery(x);
       });
     };
-  }, [isOpen]);
+  }, [isOpen, checkMediaQuery]);
   useEffect(() => {
-    var x = window.matchMedia("(max-width: 768px)");
-    // console.log(x);
+    let x = window.matchMedia("(max-width: 768px)");
     checkMediaQuery(x);
-  }, []);
+  }, [checkMediaQuery]);
   return (
     <>
       {transition((style, item) =>
@@ -130,3 +131,16 @@ const PopupContainer = ({ children }: PopupContainerTypes) => {
 };
 
 export default PopupContainer;
+
+type AnimationType = {
+  from: XOpacity;
+  enter: XOpacity;
+  leave: XOpacity;
+  config?: {
+    duration: number;
+  };
+};
+type XOpacity = {
+  x: string;
+  opacity?: number;
+};

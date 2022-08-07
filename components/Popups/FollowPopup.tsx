@@ -45,7 +45,7 @@ const FollowPopup = () => {
                 </div>
               ) : (
                 <div style={{ overflowY: "scroll", padding: "1rem" }}>
-                  {Array.from(Array(22).keys()).map((_, i) => (
+                  {Array.from(Array(25).keys()).map((_, i) => (
                     <FollowerCard
                       imgSrc="./baif.jpg"
                       key={i}

@@ -11,7 +11,7 @@ type InputProps = {
   hasValue?: boolean;
 };
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
+const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ name, type, text, error, hasValue = false, ...rest }, ref) => {
     const [show, setShow] = useState<"show" | "hide">("show");
     return (
@@ -52,3 +52,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
+
+Input.displayName = "Input";
+export { Input };

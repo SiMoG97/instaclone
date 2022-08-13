@@ -118,13 +118,11 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  // align-items: ;
-  // justify-content: center;
   height: 100%;
   .switch {
     display: flex;
-    // justify-content: space-evenly;
     align-items: center;
+    color: var(--txt-c-1);
     > div {
       width: 50%;
       text-align: center;
@@ -144,4 +142,14 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 0;
+}
+
+.outsideX {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  cursor: pointer;
+  path {
+    stroke: #fff;
+  }
 }

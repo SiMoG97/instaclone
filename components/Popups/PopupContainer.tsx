@@ -8,16 +8,18 @@ import {
   useMemo,
   useState,
 } from "react";
-import styles from "./popup.module.scss";
 import { useTransition, animated } from "react-spring";
+import styles from "./popup.module.scss";
+import CrossX from "../../public/cross.svg";
 
 export type SetIsOpenType = Dispatch<SetStateAction<boolean>>;
 
 type PopupContainerTypes = {
   children: (setIsOpen: SetIsOpenType) => ReactElement;
+  isXout?: boolean;
 };
 
-const PopupContainer = ({ children }: PopupContainerTypes) => {
+const PopupContainer = ({ children, isXout = false }: PopupContainerTypes) => {
   const animateMobile = useMemo(
     () => ({
       from: {
@@ -53,14 +55,13 @@ const PopupContainer = ({ children }: PopupContainerTypes) => {
     []
   );
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [phoneAnimation, setPhoneAnimation] = useState<AnimationType>({
     ...animateDesk,
     config: {
       duration: 200,
     },
   });
-
   useLayoutEffect(() => {
     const body = window.document.body;
     const nav = document.querySelector<HTMLElement>("body nav");
@@ -120,6 +121,12 @@ const PopupContainer = ({ children }: PopupContainerTypes) => {
               }
             }}
           >
+            {isXout && (
+              <CrossX
+                className={styles.outsideX}
+                onClick={() => setIsOpen(false)}
+              />
+            )}
             {children(setIsOpen)}
           </animated.div>
         ) : (

@@ -16,6 +16,7 @@ import Checkbox from "../components/FormComponents/SwitchButton";
 import LikesPopup from "../components/Popups/LikesPopup";
 import SharePostPopup from "../components/Popups/SharePostPopup";
 import FollowPopup from "../components/Popups/FollowPopup";
+import AddPostPopup from "../components/Popups/AddPostPopup";
 
 const Home: NextPage = () => {
   const postsContainer = useRef<HTMLDivElement | null>(null);
@@ -59,7 +60,8 @@ const Home: NextPage = () => {
       {/* <span>test</span> */}
       {/* <LikesPopup /> */}
       {/* <SharePostPopup /> */}
-      <FollowPopup />
+      {/* <FollowPopup /> */}
+      <AddPostPopup />
       {/* <PopupContainer popupHeader="Likes"></PopupContainer> */}
     </>
   );

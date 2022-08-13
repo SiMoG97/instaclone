@@ -22,21 +22,23 @@ const Suggestions = ({ postsContainer, myUserName, myFullName }: props) => {
   const [showSugges, setShowSugges] = useState(true);
 
   const calculatingSuggestPos = useCallback(() => {
-    if (postsContainer.current) {
-      if (window.innerWidth <= 1000) {
-        setShowSugges(false);
-        return;
-      }
-      setShowSugges(true);
-      const SuggestPosLeft =
-        postsContainer.current!.offsetLeft +
-        postsContainer.current!.offsetWidth;
-      suggesEl.current!.style.left = `${SuggestPosLeft + 30}px`;
+    if (!postsContainer.current) return;
+
+    if (window.innerWidth <= 1000) {
+      setShowSugges(false);
+      return;
     }
+    setShowSugges(true);
+    const SuggestPosLeft =
+      postsContainer.current!.offsetLeft + postsContainer.current!.offsetWidth;
+
+    suggesEl.current!.style.left = `${SuggestPosLeft + 30}px`;
   }, [postsContainer]);
+
   useLayoutEffect(() => {
     calculatingSuggestPos();
   }, [calculatingSuggestPos]);
+
   useLayoutEffect(() => {
     window.addEventListener("resize", () => {
       calculatingSuggestPos();

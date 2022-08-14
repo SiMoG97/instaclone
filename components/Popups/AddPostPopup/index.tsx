@@ -43,16 +43,16 @@ function AddPostPopup() {
           isXin={false}
           popupHeader={headers[step]}
           setIsOpen={setIsOpen}
-          style={{ width: "auto" }}
+          style={{ width: "auto", height: "auto" }}
         >
           <>
-            <div style={{ backgroundColor: "red", transition: "2s" }}>
+            <div style={{ transition: "2s" }}>
               {step === 0 && <ImportImgStep />}
               {step === 1 && <CropStep />}
               {step === 2 && <EditStep />}
               {step === 3 && <SharePostStep />}
             </div>
-            <div
+            {/* <div
               style={{
                 position: "absolute",
                 bottom: "10rem",
@@ -62,7 +62,7 @@ function AddPostPopup() {
             >
               <button onClick={prevStep}>PrevStep</button>
               <button onClick={nextStep}>nexStep</button>
-            </div>
+            </div> */}
           </>
         </PopupBody>
       )}

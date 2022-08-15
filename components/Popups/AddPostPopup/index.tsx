@@ -8,6 +8,7 @@ import { SharePostStep } from "./SharePostStep";
 
 function AddPostPopup() {
   const [step, setStep] = useState(0);
+  const [files, setFiles] = useState<File[]>([] as File[]);
 
   const headers = useMemo(
     () => ["Create new post", "Crop", "Edit", "Create new post"],
@@ -47,22 +48,13 @@ function AddPostPopup() {
         >
           <>
             <div style={{ transition: "2s" }}>
-              {step === 0 && <ImportImgStep />}
+              {step === 0 && (
+                <ImportImgStep setFiles={setFiles} nextStep={nextStep} />
+              )}
               {step === 1 && <CropStep />}
               {step === 2 && <EditStep />}
               {step === 3 && <SharePostStep />}
             </div>
-            {/* <div
-              style={{
-                position: "absolute",
-                bottom: "10rem",
-                left: "50%",
-                transform: "translate(-50%,0)",
-              }}
-            >
-              <button onClick={prevStep}>PrevStep</button>
-              <button onClick={nextStep}>nexStep</button>
-            </div> */}
           </>
         </PopupBody>
       )}

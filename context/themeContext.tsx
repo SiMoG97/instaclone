@@ -1,10 +1,4 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext } from "react";
 import useThemeToggler from "../Hooks/useThemeToggler";
 type props = {
   children: ReactNode;

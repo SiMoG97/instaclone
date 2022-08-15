@@ -7,7 +7,7 @@ type fileInputPropsType = {
 export const FileInput = forwardRef<HTMLInputElement, fileInputPropsType>(
   (props, ref) => {
     return (
-      <form className={styles.fileInputForm}>
+      <form className={styles.fileInputForm} method="POST">
         <input
           type="file"
           accept="image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime"

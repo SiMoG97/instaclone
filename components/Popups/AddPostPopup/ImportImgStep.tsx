@@ -2,11 +2,24 @@ import styles from "../popup.module.scss";
 import PicVidIcon from "../../../public/picVideoImp.svg";
 import ExclamIcon from "../../../public/exclamation.svg";
 import Button from "../../Button";
-import { ChangeEvent, DragEvent, useMemo, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  DragEvent,
+  SetStateAction,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { FileInput } from "./FileInput";
 import FileExtChecker from "../../../utils/FileExtChecker";
 
-export function ImportImgStep() {
+type ImportImgStepProps = {
+  setFiles: Dispatch<SetStateAction<File[]>>;
+  nextStep: () => void;
+};
+
+export function ImportImgStep({ setFiles, nextStep }: ImportImgStepProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
   const [fileError, setFileError] = useState({
@@ -50,20 +63,28 @@ export function ImportImgStep() {
   function dropFile(e: DragEvent<HTMLDivElement>) {
     e.preventDefault();
     setDragOver(() => false);
-    const files = e.dataTransfer.files;
-    validteFiles(files);
+    // const files = e.dataTransfer.files;
+    if (inputRef.current) {
+      console.log("hmmm");
+      inputRef.current.files = e.dataTransfer.files;
+      // console.log(inputRef.current.files);
+      validteFiles(inputRef.current.files);
+    }
   }
   function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
+    console.log("hmmm2");
     if (files) {
       validteFiles(files);
     }
   }
   function validteFiles(files: FileList) {
-    const arrFiles = Object.keys(files).map((obj: any) => files[obj]);
-    if (arrFiles.length > 10) return;
+    let arrFiles = Object.keys(files)
+      .map((obj: any) => files[obj])
+      .slice(0, 10);
 
-    arrFiles.forEach((file) => {
+    let uploadError = false;
+    for (const file of arrFiles) {
       const fileSize = file.size;
       const filename = file.name;
       if (!FileExtChecker(filename)) {
@@ -73,7 +94,8 @@ export function ImportImgStep() {
           errorName: "notValidFile",
           errorMessage: errorMessages[0],
         }));
-        return;
+        uploadError = true;
+        break;
       }
       if (fileSize < 4096) {
         setFileError(() => ({
@@ -82,13 +104,21 @@ export function ImportImgStep() {
           errorName: "smallFile",
           errorMessage: errorMessages[1],
         }));
-        return;
+        uploadError = true;
+        break;
       }
-    });
-    if (inputRef.current && files) {
-      inputRef.current.files = files;
-      console.log("input files : ", inputRef.current.files);
     }
+    if (uploadError) return;
+    if (files.length !== arrFiles.length) {
+      const notUploadedFilesNbr = files.length - 10;
+      const messageAlert =
+        notUploadedFilesNbr === 1
+          ? `${notUploadedFilesNbr} file is not uploaded`
+          : `${notUploadedFilesNbr} files are not uploaded`;
+      alert(messageAlert);
+    }
+    setFiles(() => arrFiles);
+    nextStep();
   }
   return (
     <>
@@ -112,10 +142,11 @@ export function ImportImgStep() {
               </div>
               <Button
                 style={{
-                  fontSize: "1.3rem",
+                  fontSize: "1.2rem",
                   fontWeight: "600",
-                  padding: ".8rem 1.4rem",
+                  padding: ".7rem 1rem",
                   letterSpacing: ".05rem",
+                  borderRadius: "5px",
                 }}
                 onClick={buttonClicked}
               >
@@ -141,10 +172,11 @@ export function ImportImgStep() {
               </div>
               <Button
                 style={{
-                  fontSize: "1.3rem",
+                  fontSize: "1.2rem",
                   fontWeight: "600",
-                  padding: ".8rem 1.4rem",
+                  padding: ".7rem 1rem",
                   letterSpacing: ".05rem",
+                  borderRadius: "5px",
                 }}
                 onClick={buttonClicked}
               >

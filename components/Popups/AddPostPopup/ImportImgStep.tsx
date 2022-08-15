@@ -25,7 +25,6 @@ export function ImportImgStep({ setFiles, nextStep }: ImportImgStepProps) {
   const [fileError, setFileError] = useState({
     error: false,
     filename: "",
-    errorName: "",
     errorMessage: {
       title: "",
       message: "",
@@ -63,17 +62,13 @@ export function ImportImgStep({ setFiles, nextStep }: ImportImgStepProps) {
   function dropFile(e: DragEvent<HTMLDivElement>) {
     e.preventDefault();
     setDragOver(() => false);
-    // const files = e.dataTransfer.files;
     if (inputRef.current) {
-      console.log("hmmm");
       inputRef.current.files = e.dataTransfer.files;
-      // console.log(inputRef.current.files);
       validteFiles(inputRef.current.files);
     }
   }
   function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
-    console.log("hmmm2");
     if (files) {
       validteFiles(files);
     }
@@ -91,7 +86,6 @@ export function ImportImgStep({ setFiles, nextStep }: ImportImgStepProps) {
         setFileError(() => ({
           error: true,
           filename,
-          errorName: "notValidFile",
           errorMessage: errorMessages[0],
         }));
         uploadError = true;
@@ -101,7 +95,6 @@ export function ImportImgStep({ setFiles, nextStep }: ImportImgStepProps) {
         setFileError(() => ({
           error: true,
           filename,
-          errorName: "smallFile",
           errorMessage: errorMessages[1],
         }));
         uploadError = true;
@@ -158,7 +151,6 @@ export function ImportImgStep({ setFiles, nextStep }: ImportImgStepProps) {
               <ExclamIcon className={` ${dragOver && styles.changeSvgColor}`} />
               <div style={{ padding: "1rem", paddingBottom: "1.5rem" }}>
                 {fileError.errorMessage.title}
-                {/* {fileError.errorName === "smallFile"} */}
                 <div
                   style={{
                     color: "var(--txt-c-2)",

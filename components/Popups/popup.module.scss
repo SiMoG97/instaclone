@@ -157,6 +157,20 @@
 .stepContainer {
   width: 83rem;
   height: 83rem;
+  aspect-ratio: 1;
+  position: relative;
+  // max-width: 83rem;
+  // max-height: 83rem;
+  @include media("<=laptop") {
+    background-color: red;
+    width: 76rem;
+    height: 76rem;
+  }
+  @include media("<=tablet") {
+    background-color: greenyellow;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .importImgStep {
@@ -189,5 +203,66 @@
 .changeSvgColor {
   path {
     fill: var(--helper-primary);
+  }
+}
+
+.cropContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .cropArea {
+    background-color: yellow;
+    transition: 0.3s;
+    cursor: grab;
+  }
+  .oneToone {
+    width: 100%;
+    height: 100%;
+  }
+  .fourToFive {
+    width: calc(100% * 4 / 5);
+    height: 100%;
+  }
+  .sixteenToNine {
+    width: 100%;
+    height: calc(100% * 9 / 16);
+  }
+  .original {
+  }
+}
+
+.postStepsBody {
+  @include media(">=tablet") {
+    width: auto;
+    height: auto;
+  }
+}
+
+.iconPopup {
+  width: 3rem;
+  height: 3rem;
+  position: absolute;
+  // background-color: rgb(117, 219, 0);
+  bottom: 2rem;
+  .circle {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(26, 26, 26, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s background-color;
+    &:hover {
+      background-color: rgba(26, 26, 26, 0.6);
+    }
+    &.active {
+      background-color: #fff;
+      box-shadow: 1px 1px 10px #ddd;
+      path {
+        fill: #000;
+      }
+    }
   }
 }

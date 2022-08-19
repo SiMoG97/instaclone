@@ -5,6 +5,7 @@ import FaceEmoji from "../../public/FaceEmoji.svg";
 import Heart from "../../public/heart.svg";
 import PicUpload from "../../public/picUpload.svg";
 import { SendButton } from "./SendButton";
+import useOnClickOutside from "../../Hooks/useOnClickOutside";
 
 const EmojiPicker = dynamic(() => import("../EmojiPicker"), { ssr: false });
 
@@ -15,31 +16,15 @@ type props = {
 const TextArea = ({ isCommentInput }: props) => {
   const taRef = useRef<HTMLTextAreaElement>(null);
   const emojiRef = useRef<HTMLDivElement>(null);
-  const emojiToggler = useRef<SVGAElement>(null);
+  const emojiIconOpenButton = useRef<HTMLDivElement>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isTaEmpty, setIsTaEmpty] = useState(true);
 
-  const emojiCloser = useCallback(
-    (e: any) => {
-      if (emojiRef.current) {
-        if (e.target === emojiToggler.current) return;
-        if (
-          e.target !== emojiRef.current.children[0]?.children[0] &&
-          showEmojiPicker
-        ) {
-          setShowEmojiPicker(false);
-        }
-      }
-    },
-    [showEmojiPicker]
+  useOnClickOutside(
+    emojiRef,
+    () => setShowEmojiPicker(false),
+    emojiIconOpenButton
   );
-
-  useEffect(() => {
-    window.addEventListener("click", emojiCloser);
-    return () => {
-      window.removeEventListener("click", emojiCloser);
-    };
-  }, [showEmojiPicker, emojiCloser]);
 
   const taChangeHandler = ({
     target,
@@ -76,12 +61,13 @@ const TextArea = ({ isCommentInput }: props) => {
         }`}
       >
         <div>
-          <FaceEmoji
-            className={styles.emojiPickerFace}
-            onClick={() => {
-              setShowEmojiPicker(!showEmojiPicker);
-            }}
-          />
+          <div style={{ display: "contents" }} ref={emojiIconOpenButton}>
+            <FaceEmoji
+              onClick={() => {
+                setShowEmojiPicker((prev) => !prev);
+              }}
+            />
+          </div>
           {showEmojiPicker && (
             <div ref={emojiRef}>
               <EmojiPicker

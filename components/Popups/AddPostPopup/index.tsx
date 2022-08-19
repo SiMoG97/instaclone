@@ -5,9 +5,10 @@ import { CropStep } from "./CropStep";
 import { EditStep } from "./EditStep";
 import { ImportImgStep } from "./ImportImgStep";
 import { SharePostStep } from "./SharePostStep";
+import styles from "../popup.module.scss";
 
 function AddPostPopup() {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const [files, setFiles] = useState<File[]>([] as File[]);
 
   const headers = useMemo(
@@ -44,7 +45,7 @@ function AddPostPopup() {
           isXin={false}
           popupHeader={headers[step]}
           setIsOpen={setIsOpen}
-          style={{ width: "auto", height: "auto" }}
+          className={styles.postStepsBody}
         >
           <>
             <div style={{ transition: "2s" }}>

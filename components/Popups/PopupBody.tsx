@@ -9,6 +9,7 @@ type PopupBodyTypes = {
   setIsOpen: SetIsOpenType;
   isXin?: boolean;
   style?: CSSProperties;
+  className?: string;
 };
 const PopupBody = ({
   children,
@@ -16,6 +17,7 @@ const PopupBody = ({
   setIsOpen,
   isXin = true,
   style,
+  className = "",
 }: PopupBodyTypes) => {
   const closePopup = useCallback(
     function () {
@@ -25,7 +27,10 @@ const PopupBody = ({
   );
 
   return (
-    <div style={{ ...style }} className={`${styles.popupContainer}`}>
+    <div
+      style={{ ...style }}
+      className={`${styles.popupContainer} ${className}`}
+    >
       <div
         style={{
           position: "relative",

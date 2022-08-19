@@ -13,6 +13,7 @@
     "@svgr/webpack": "^6.2.1",
     "@types/validator": "^13.7.4",
     "add": "^2.0.6",
+    "are-passive-events-supported": "^1.1.1",
     "emoji-mart": "^5.0.0",
     "joi": "^17.6.0",
     "joi-password-complexity": "^5.1.0",
@@ -24,6 +25,7 @@
     "react-hook-form": "^7.33.1",
     "react-spring": "^9.4.5",
     "sass": "^1.49.7",
+    "use-latest": "^1.2.1",
     "validator": "^13.7.0",
     "yarn": "^1.22.19"
   },

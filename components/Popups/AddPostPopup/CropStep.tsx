@@ -2,16 +2,47 @@ import styles from "../popup.module.scss";
 import CropIcon from "../../../public/crop.svg";
 import MagnidyingGlass from "../../../public/magnifyingGlass.svg";
 import PostsIcon from "../../../public/postsIcon.svg";
-import { CSSProperties, useRef, useState } from "react";
+import OriginalIcon from "../../../public/AspectRatioIcons/originalAR.svg";
+import RectangleIcon from "../../../public/AspectRatioIcons/rectangle.svg";
+import RectangleVIcon from "../../../public/AspectRatioIcons/rectangleV.svg";
+import OneToOneIcon from "../../../public/AspectRatioIcons/oneToOne.svg";
+import {
+  CSSProperties,
+  Dispatch,
+  forwardRef,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import useOnClickOutside from "../../../Hooks/useOnClickOutside";
+import IconCicle from "../../IconCircle";
 
 export function CropStep() {
+  const [someDropOpen, setSomeDropOpen] = useState(false);
   return (
     <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
       <div className={`${styles.cropArea} ${styles.sixteenToNine}`}></div>
-      <IconPopup Icon={CropIcon} style={{ left: "2rem" }} />
-      {/* <IconPopup Icon={MagnidyingGlass} style={{ left: "8rem" }} />
-      <IconPopup Icon={PostsIcon} style={{ right: "2rem" }} /> */}
+      <IconPopup
+        someDropOpen={someDropOpen}
+        setSomeDropOpen={setSomeDropOpen}
+        Icon={CropIcon}
+        style={{ left: "2rem" }}
+      />
+      <IconPopup
+        someDropOpen={someDropOpen}
+        setSomeDropOpen={setSomeDropOpen}
+        Icon={MagnidyingGlass}
+        style={{ left: "8rem" }}
+      />
+      <IconPopup
+        someDropOpen={someDropOpen}
+        setSomeDropOpen={setSomeDropOpen}
+        Icon={PostsIcon}
+        style={{ right: "2rem" }}
+      />
+      {/* <IconCicle Icon={PostsIcon} /> */}
     </div>
   );
 }
@@ -19,43 +50,65 @@ export function CropStep() {
 type IconPopupPorps = {
   Icon: any;
   style: CSSProperties;
+  someDropOpen: boolean;
+  setSomeDropOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-function IconPopup({ Icon, style }: IconPopupPorps) {
+function IconPopup({
+  Icon,
+  someDropOpen,
+  setSomeDropOpen,
+  style,
+}: IconPopupPorps) {
   const [active, setActive] = useState(false);
   const parent = useRef<HTMLDivElement>(null);
   const buttonOpen = useRef<HTMLDivElement>(null);
-  useOnClickOutside(parent, () => setActive(false), buttonOpen);
+
+  useOnClickOutside(
+    parent,
+    () => {
+      setActive(false);
+      setSomeDropOpen(false);
+    },
+    buttonOpen
+  );
+
+  const activeToggler = useCallback(() => {
+    setActive((prev) => !prev);
+    setSomeDropOpen((prev) => !prev);
+  }, [setSomeDropOpen]);
 
   return (
     <div style={style} className={styles.iconPopup}>
       <div
         ref={buttonOpen}
-        className={`${styles.circle} ${active && styles.active}`}
-        onClick={() => {
-          setActive((prev) => !prev);
-        }}
+        className={`${styles.iconContainer} ${active ? styles.active : ""} ${
+          someDropOpen && !active ? styles.iconOpacity : ""
+        } `}
+        onClick={activeToggler}
       >
-        <Icon />
+        <IconCicle Icon={Icon} />
       </div>
+
       {active && (
-        <div
-          ref={parent}
-          style={{
-            width: "10rem",
-            height: "10rem",
-            position: "absolute",
-            backgroundColor: "purple",
-            bottom: "20rem",
-            left: "5rem",
-          }}
-        >
-          <ul>
-            <li>alo</li>
-            <li>fink</li>
-            <li>sir</li>
-            <li>t3ala</li>
-            <li>mama</li>
+        <div ref={parent} className={styles.dropUp}>
+          <ul className={styles.dropUpIElmContainer}>
+            <li>
+              <div>Original</div>
+              <OriginalIcon />
+            </li>
+            <li>
+              <div>1:1</div>
+              <OneToOneIcon />
+            </li>
+            <li>
+              <div>4:5</div>
+              <RectangleVIcon />
+            </li>
+            <li>
+              <div>16:9</div>
+              <RectangleIcon />
+            </li>
           </ul>
         </div>
       )}

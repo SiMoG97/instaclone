@@ -52,7 +52,14 @@ function AddPostPopup() {
               {step === 0 && (
                 <ImportImgStep setFiles={setFiles} nextStep={nextStep} />
               )}
-              {step === 1 && <CropStep />}
+              {step === 1 && (
+                <CropStep
+                  files={files}
+                  setFiles={setFiles}
+                  nextStep={nextStep}
+                  prevStep={prevStep}
+                />
+              )}
               {step === 2 && <EditStep />}
               {step === 3 && <SharePostStep />}
             </div>

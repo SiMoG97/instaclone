@@ -2,10 +2,6 @@ import styles from "../popup.module.scss";
 import CropIcon from "../../../public/crop.svg";
 import MagnidyingGlass from "../../../public/magnifyingGlass.svg";
 import PostsIcon from "../../../public/postsIcon.svg";
-import OriginalIcon from "../../../public/AspectRatioIcons/originalAR.svg";
-import RectangleIcon from "../../../public/AspectRatioIcons/rectangle.svg";
-import RectangleVIcon from "../../../public/AspectRatioIcons/rectangleV.svg";
-import OneToOneIcon from "../../../public/AspectRatioIcons/oneToOne.svg";
 import {
   CSSProperties,
   Dispatch,
@@ -20,33 +16,76 @@ import {
 import useOnClickOutside from "../../../Hooks/useOnClickOutside";
 import IconCicle from "../../IconCircle";
 import RangeSlide from "../../FormComponents/RangeSlide";
+import { AspectRatioDropUp } from "./AspectRatioDropUp";
 
-export function CropStep() {
+export type ARStateType =
+  | "original"
+  | "oneToOne"
+  | "fourToFive"
+  | "sixteenToNine";
+
+type CropStepProps = {
+  files: File[];
+  setFiles: Dispatch<SetStateAction<File[]>>;
+  nextStep: () => void;
+  prevStep: () => void;
+};
+export function CropStep({
+  files,
+  setFiles,
+  nextStep,
+  prevStep,
+}: CropStepProps) {
   const [someDropOpen, setSomeDropOpen] = useState(false);
+  const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
+
+  const originalArCalcul = (width: number, height: number) => {
+    return {
+      width: "100%",
+      height: "40%",
+    };
+  };
   return (
     <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
-      <div className={`${styles.cropArea} ${styles.sixteenToNine}`}></div>
+      <div
+        style={aspectRatio === "original" ? originalArCalcul(800, 50) : {}}
+        className={`${styles.cropArea} ${
+          aspectRatio !== "original" ? styles[aspectRatio] : ""
+        }`}
+      ></div>
       <IconPopup
         someDropOpen={someDropOpen}
         setSomeDropOpen={setSomeDropOpen}
         Icon={CropIcon}
         style={{ left: "2rem" }}
-        DropUp={<AspectRatioDropUp />}
+        DropUp={
+          <AspectRatioDropUp
+            aspectRatio={aspectRatio}
+            setAspectRatio={setAspectRatio}
+          />
+        }
       />
       <IconPopup
         someDropOpen={someDropOpen}
         setSomeDropOpen={setSomeDropOpen}
         Icon={MagnidyingGlass}
         style={{ left: "8rem" }}
-        dropUpStyle={customstyleTobeDeleted}
+        dropUpStyle={{
+          width: "13.2rem",
+          display: "flex",
+          alignItems: "center",
+          padding: "1.5rem 1rem",
+          borderRadius: ".8rem",
+        }}
         DropUp={
           <RangeSlide
-            startFrom="mid"
+            startFrom="left"
             changeHandler={() => {
               console.log("yay changed");
             }}
-            lineColor="var(--txt-c-3)"
-            thumbColor="var(--txt-c-1)"
+            lineColor="#000000"
+            thumbColor="#ffffff"
+            thumbSize="1.7rem"
           />
         }
       />
@@ -55,7 +94,7 @@ export function CropStep() {
         setSomeDropOpen={setSomeDropOpen}
         Icon={MagnidyingGlass}
         style={{ right: "2rem" }}
-        dropUpStyle={{ ...customstyleTobeDeleted, right: 0, left: "auto" }}
+        // dropUpStyle={{ ...customstyleTobeDeleted, right: 0, left: "auto" }}
         DropUp={
           <RangeSlide
             startFrom="left"
@@ -135,35 +174,5 @@ function IconPopup({
   );
 }
 
-function AspectRatioDropUp() {
-  return (
-    <ul className={styles.dropUpIElmContainer}>
-      <li>
-        <div>Original</div>
-        <OriginalIcon />
-      </li>
-      <li>
-        <div>1:1</div>
-        <OneToOneIcon />
-      </li>
-      <li>
-        <div>4:5</div>
-        <RectangleVIcon />
-      </li>
-      <li>
-        <div>16:9</div>
-        <RectangleIcon />
-      </li>
-    </ul>
-  );
-}
-
 // RangeSlide;
-const customstyleTobeDeleted = {
-  width: "30rem",
-  height: "10rem",
-  display: "flex",
-  alignItems: "center",
-  padding: "1rem",
-  background: "transparent",
-};
+// const customstyleTobeDeleted = ;

@@ -13,13 +13,19 @@ import {
 } from "react";
 import { FileInput } from "./FileInput";
 import FileExtChecker from "../../../utils/FileExtChecker";
+import { ImgFileType } from ".";
 
 type ImportImgStepProps = {
-  setFiles: Dispatch<SetStateAction<File[]>>;
+  setFiles: Dispatch<SetStateAction<ImgFileType[]>>;
   nextStep: () => void;
+  setAlertMessage: Dispatch<SetStateAction<string>>;
 };
 
-export function ImportImgStep({ setFiles, nextStep }: ImportImgStepProps) {
+export function ImportImgStep({
+  setFiles,
+  nextStep,
+  setAlertMessage,
+}: ImportImgStepProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
   const [fileError, setFileError] = useState({
@@ -106,11 +112,31 @@ export function ImportImgStep({ setFiles, nextStep }: ImportImgStepProps) {
       const notUploadedFilesNbr = files.length - 10;
       const messageAlert =
         notUploadedFilesNbr === 1
-          ? `${notUploadedFilesNbr} file is not uploaded`
-          : `${notUploadedFilesNbr} files are not uploaded`;
-      alert(messageAlert);
+          ? `${notUploadedFilesNbr} file is not uploaded. You can only chose 10 or fewer files.`
+          : `${notUploadedFilesNbr} files are not uploaded. You can only chose 10 or fewer files.`;
+      setAlertMessage(messageAlert);
     }
-    setFiles(() => arrFiles);
+    //////////////////////
+    //////////////////////
+    //////////////////////
+    //////////////////////
+    //////////////////////
+    //////////////////////
+    //////////////////////
+    // console.log(imgFileToBgUrl(arrFiles[0]));
+
+    const imgFilesArr: ImgFileType[] = [];
+    arrFiles.forEach((file: File) => {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        const img = new Image();
+        img.src = `${reader.result}`;
+        imgFilesArr.push({ img, scale: 1, x: 0, y: 0 });
+      });
+      reader.readAsDataURL(file);
+    });
+    console.log(imgFilesArr);
+    setFiles(() => imgFilesArr);
     nextStep();
   }
   return (

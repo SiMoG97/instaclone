@@ -10,6 +10,7 @@ import {
   SetStateAction,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
 } from "react";
@@ -17,6 +18,7 @@ import useOnClickOutside from "../../../Hooks/useOnClickOutside";
 import IconCicle from "../../IconCircle";
 import RangeSlide from "../../FormComponents/RangeSlide";
 import { AspectRatioDropUp } from "./AspectRatioDropUp";
+import { ImgFileType } from "./";
 
 export type ARStateType =
   | "original"
@@ -25,8 +27,8 @@ export type ARStateType =
   | "sixteenToNine";
 
 type CropStepProps = {
-  files: File[];
-  setFiles: Dispatch<SetStateAction<File[]>>;
+  files: ImgFileType[];
+  setFiles: Dispatch<SetStateAction<ImgFileType[]>>;
   nextStep: () => void;
   prevStep: () => void;
 };
@@ -38,21 +40,59 @@ export function CropStep({
 }: CropStepProps) {
   const [someDropOpen, setSomeDropOpen] = useState(false);
   const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
+  const [selectedImgNmbr, setSelectedImgNmbr] = useState(0);
+  const croppingDiv = useRef<HTMLDivElement>(null);
 
-  const originalArCalcul = (width: number, height: number) => {
-    return {
-      width: "100%",
-      height: "40%",
-    };
-  };
+  const originalArCalcul = useCallback((width: number, height: number) => {
+    let ar = width / height;
+    if (ar > 1.91) {
+      ar = 1.91;
+    } else if (ar < 0.8) {
+      ar = 0.8;
+    }
+    if (ar > 1) {
+      return {
+        width: "100%",
+        height: `calc(100% / ${ar})`,
+      };
+    } else if (ar < 1) {
+      return {
+        width: `${width * ar}`,
+        height: "100%",
+      };
+    }
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (files.length > 0 && croppingDiv.current) {
+        const { img, scale, x, y } = files[selectedImgNmbr];
+        croppingDiv.current.style.backgroundImage = `url("${img.src.replace(
+          /(\r\n|\n|\r)/gm,
+          ""
+        )}")`;
+        croppingDiv.current.style.transform = `scale(${scale}) translate(${x},${y})`;
+      }
+    }, 1);
+  }, [files, croppingDiv, selectedImgNmbr]);
+
   return (
     <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
       <div
-        style={aspectRatio === "original" ? originalArCalcul(800, 50) : {}}
+        style={
+          aspectRatio === "original"
+            ? originalArCalcul(
+                files[0].img.naturalWidth,
+                files[0].img.naturalHeight
+              )
+            : {}
+        }
         className={`${styles.cropArea} ${
           aspectRatio !== "original" ? styles[aspectRatio] : ""
         }`}
-      ></div>
+      >
+        <div ref={croppingDiv} className={styles.imgToCrop}></div>
+      </div>
       <IconPopup
         someDropOpen={someDropOpen}
         setSomeDropOpen={setSomeDropOpen}
@@ -174,5 +214,4 @@ function IconPopup({
   );
 }
 
-// RangeSlide;
-// const customstyleTobeDeleted = ;
+// `url("${url.replace(/(\r\n|\n|\r)/gm, "")}")`;

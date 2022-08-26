@@ -2,6 +2,8 @@ import styles from "../popup.module.scss";
 import CropIcon from "../../../public/crop.svg";
 import MagnidyingGlass from "../../../public/magnifyingGlass.svg";
 import PostsIcon from "../../../public/postsIcon.svg";
+import ArrowL from "../../../public/arrowL.svg";
+import ArrowR from "../../../public/arrowR.svg";
 import {
   CSSProperties,
   Dispatch,
@@ -40,27 +42,64 @@ export function CropStep({
 }: CropStepProps) {
   const [someDropOpen, setSomeDropOpen] = useState(false);
   const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
-  const [selectedImgNmbr, setSelectedImgNmbr] = useState(0);
+  const [selectedFile, setSelectedFile] = useState(0);
   const croppingDiv = useRef<HTMLDivElement>(null);
 
   function scaleHandler(scaleValue: number) {
     const scale = 1 + scaleValue / 100;
-    // console.log(scale);
     if (croppingDiv.current) {
-      croppingDiv.current.style.transform = `scale(${scale}) translate(${files[selectedImgNmbr].x},${files[selectedImgNmbr].y})`;
+      croppingDiv.current.style.transform = `scale(${scale}) translate(${files[selectedFile].x},${files[selectedFile].y})`;
     }
-    // if (files.length > 0) {
-    //   const newState = files.map((file, i) => {
-    //     if (selectedImgNmbr === i) {
-    //       return { ...file, scale };
-    //     }
-    //     return file;
-    //   });
-    //   setFiles(() => newState);
-    //   // setFiles((prev) => [...prev, {...prev[selectedImgNmbr].scale:scale}]);
-    // }
   }
 
+  function nextFile() {
+    setSelectedFile((i) => {
+      if (i >= files.length - 1) {
+        return i;
+      }
+      i++;
+      return i;
+    });
+  }
+  function prevFile() {
+    setSelectedFile((i) => {
+      if (i <= 0) {
+        return 0;
+      }
+      i--;
+      return i;
+    });
+  }
+  function selectFile(idx: number) {
+    let i = idx;
+    if (idx > files.length - 1) {
+      i = files.length - 1;
+    } else if (idx < 0) {
+      i = 0;
+    }
+    setSelectedFile(() => i);
+  }
+  function removeFile(idx: number) {
+    const newFiles = files.filter((file, i) => i === idx);
+    setFiles(() => newFiles);
+  }
+
+  function updateScaleValue() {
+    if (croppingDiv.current) {
+      const scale =
+        croppingDiv.current.getBoundingClientRect().width /
+        croppingDiv.current.offsetWidth;
+      if (files.length > 0) {
+        const newState = files.map((file, i) => {
+          if (selectedFile === i) {
+            return { ...file, scale };
+          }
+          return file;
+        });
+        setFiles(() => newState);
+      }
+    }
+  }
   const originalArCalcul = useCallback((width: number, height: number) => {
     let ar = width / height;
     if (ar > 1.91) {
@@ -84,7 +123,7 @@ export function CropStep({
   useEffect(() => {
     setTimeout(() => {
       if (files.length > 0 && croppingDiv.current) {
-        const { img, scale, x, y } = files[selectedImgNmbr];
+        const { img, scale, x, y } = files[selectedFile];
         croppingDiv.current.style.backgroundImage = `url("${img.src.replace(
           /(\r\n|\n|\r)/gm,
           ""
@@ -92,7 +131,7 @@ export function CropStep({
         croppingDiv.current.style.transform = `scale(${scale}) translate(${x},${y})`;
       }
     }, 10);
-  }, [files, croppingDiv, selectedImgNmbr]);
+  }, [files, croppingDiv, selectedFile]);
 
   return (
     <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
@@ -128,27 +167,7 @@ export function CropStep({
         setSomeDropOpen={setSomeDropOpen}
         Icon={MagnidyingGlass}
         style={{ left: "8rem" }}
-        callback={() => {
-          if (croppingDiv.current) {
-            console.log(croppingDiv.current.style.transform);
-            const scale =
-              croppingDiv.current.getBoundingClientRect().width /
-              croppingDiv.current.offsetWidth;
-            console.log(scale);
-
-            if (files.length > 0) {
-              const newState = files.map((file, i) => {
-                if (selectedImgNmbr === i) {
-                  return { ...file, scale };
-                }
-                return file;
-              });
-              setFiles(() => newState);
-              // setFiles((prev) => [...prev, {...prev[selectedImgNmbr].scale:scale}]);
-            }
-          }
-          // const scale = 1 + scaleValue / 100;
-        }}
+        callback={updateScaleValue}
         dropUpStyle={{
           width: "13.2rem",
           display: "flex",
@@ -164,7 +183,7 @@ export function CropStep({
             thumbColor="#ffffff"
             thumbSize="1.7rem"
             setedValue={
-              files.length > 0 ? (files[selectedImgNmbr].scale - 1) * 100 : 0
+              files.length > 0 ? (files[selectedFile].scale - 1) * 100 : 0
             }
           />
         }
@@ -200,6 +219,35 @@ export function CropStep({
         DropUp={AspectRatioDropUp}
       /> */}
       {/* <IconCicle Icon={PostsIcon} /> */}
+      {/* test div */}
+      {selectedFile > 0 ? (
+        <div
+          style={{
+            position: "absolute",
+            left: ".8rem",
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
+          onClick={prevFile}
+        >
+          <IconCicle Icon={ArrowL} />
+        </div>
+      ) : null}
+
+      {selectedFile < files.length - 1 ? (
+        <div
+          style={{
+            position: "absolute",
+            right: ".8rem",
+            top: "50%",
+            transform: "translateY(-50%)",
+          }}
+          onClick={nextFile}
+        >
+          <IconCicle Icon={ArrowR} />
+        </div>
+      ) : null}
+      <SliderDots nbrOfDots={files.length} selectedDot={selectedFile} />
     </div>
   );
 }
@@ -265,3 +313,23 @@ function IconPopup({
 }
 
 // `url("${url.replace(/(\r\n|\n|\r)/gm, "")}")`;
+
+type SliderDotsProps = {
+  nbrOfDots: number;
+  selectedDot: number;
+};
+
+function SliderDots({ nbrOfDots, selectedDot }: SliderDotsProps) {
+  if (nbrOfDots === 1) {
+    return null;
+  }
+  return (
+    <div className={styles.SliderDotsContainer}>
+      {Array.from(Array(nbrOfDots).keys()).map((_, i) => (
+        <div
+          className={`${styles.dots} ${i === selectedDot ? styles.active : ""}`}
+        ></div>
+      ))}
+    </div>
+  );
+}

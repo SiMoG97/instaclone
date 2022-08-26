@@ -303,6 +303,9 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    &:last-child {
+      border-bottom: none;
+    }
     > div {
       margin-right: 0.5rem;
     }

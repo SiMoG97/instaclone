@@ -43,6 +43,24 @@ export function CropStep({
   const [selectedImgNmbr, setSelectedImgNmbr] = useState(0);
   const croppingDiv = useRef<HTMLDivElement>(null);
 
+  function scaleHandler(scaleValue: number) {
+    const scale = 1 + scaleValue / 100;
+    // console.log(scale);
+    if (croppingDiv.current) {
+      croppingDiv.current.style.transform = `scale(${scale}) translate(${files[selectedImgNmbr].x},${files[selectedImgNmbr].y})`;
+    }
+    // if (files.length > 0) {
+    //   const newState = files.map((file, i) => {
+    //     if (selectedImgNmbr === i) {
+    //       return { ...file, scale };
+    //     }
+    //     return file;
+    //   });
+    //   setFiles(() => newState);
+    //   // setFiles((prev) => [...prev, {...prev[selectedImgNmbr].scale:scale}]);
+    // }
+  }
+
   const originalArCalcul = useCallback((width: number, height: number) => {
     let ar = width / height;
     if (ar > 1.91) {
@@ -73,7 +91,7 @@ export function CropStep({
         )}")`;
         croppingDiv.current.style.transform = `scale(${scale}) translate(${x},${y})`;
       }
-    }, 1);
+    }, 10);
   }, [files, croppingDiv, selectedImgNmbr]);
 
   return (
@@ -110,6 +128,27 @@ export function CropStep({
         setSomeDropOpen={setSomeDropOpen}
         Icon={MagnidyingGlass}
         style={{ left: "8rem" }}
+        callback={() => {
+          if (croppingDiv.current) {
+            console.log(croppingDiv.current.style.transform);
+            const scale =
+              croppingDiv.current.getBoundingClientRect().width /
+              croppingDiv.current.offsetWidth;
+            console.log(scale);
+
+            if (files.length > 0) {
+              const newState = files.map((file, i) => {
+                if (selectedImgNmbr === i) {
+                  return { ...file, scale };
+                }
+                return file;
+              });
+              setFiles(() => newState);
+              // setFiles((prev) => [...prev, {...prev[selectedImgNmbr].scale:scale}]);
+            }
+          }
+          // const scale = 1 + scaleValue / 100;
+        }}
         dropUpStyle={{
           width: "13.2rem",
           display: "flex",
@@ -120,32 +159,39 @@ export function CropStep({
         DropUp={
           <RangeSlide
             startFrom="left"
-            changeHandler={() => {
-              console.log("yay changed");
-            }}
+            changeHandler={scaleHandler}
             lineColor="#000000"
             thumbColor="#ffffff"
             thumbSize="1.7rem"
+            setedValue={
+              files.length > 0 ? (files[selectedImgNmbr].scale - 1) * 100 : 0
+            }
           />
         }
       />
-      <IconPopup
+      {/* <IconPopup
         someDropOpen={someDropOpen}
         setSomeDropOpen={setSomeDropOpen}
         Icon={MagnidyingGlass}
         style={{ right: "2rem" }}
-        // dropUpStyle={{ ...customstyleTobeDeleted, right: 0, left: "auto" }}
+        dropUpStyle={{
+          width: "13.2rem",
+          display: "flex",
+          alignItems: "center",
+          padding: "1.5rem 1rem",
+          borderRadius: ".8rem",
+        }}
         DropUp={
           <RangeSlide
-            startFrom="left"
+            startFrom="mid"
             changeHandler={() => {
               console.log("yay changed");
             }}
-            lineColor="var(--txt-c-3)"
-            thumbColor="var(--txt-c-1)"
+            lineColor="green"
+            thumbColor="#ffffff"
           />
         }
-      />
+      /> */}
       {/* <IconPopup
         someDropOpen={someDropOpen}
         setSomeDropOpen={setSomeDropOpen}
@@ -165,6 +211,7 @@ type IconPopupPorps = {
   setSomeDropOpen: Dispatch<SetStateAction<boolean>>;
   DropUp: JSX.Element;
   dropUpStyle?: CSSProperties;
+  callback?: () => void;
 };
 
 function IconPopup({
@@ -174,6 +221,7 @@ function IconPopup({
   DropUp,
   style,
   dropUpStyle,
+  callback = () => {},
 }: IconPopupPorps) {
   const [active, setActive] = useState(false);
   const parent = useRef<HTMLDivElement>(null);
@@ -187,7 +235,9 @@ function IconPopup({
     },
     buttonOpen
   );
-
+  useEffect(() => {
+    callback();
+  }, [active]);
   const activeToggler = useCallback(() => {
     setActive((prev) => !prev);
     setSomeDropOpen((prev) => !prev);

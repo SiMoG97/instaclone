@@ -202,20 +202,6 @@
   }
 }
 
-.fileInputForm {
-  visibility: hidden;
-  width: 0;
-  height: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  input {
-    visibility: hidden;
-    width: 0;
-    height: 0;
-  }
-}
-
 .changeSvgColor {
   path {
     fill: var(--helper-primary);
@@ -314,24 +300,6 @@
       path {
         stroke: #fff;
       }
-    }
-  }
-}
-
-.SliderDotsContainer {
-  position: absolute;
-  bottom: 3rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  .dots {
-    width: 0.6rem;
-    height: 0.6rem;
-    background-color: rgb(168, 168, 168);
-    border-radius: 50%;
-    margin: 0.2rem;
-    &.active {
-      background-color: var(--helper-primary);
     }
   }
 }

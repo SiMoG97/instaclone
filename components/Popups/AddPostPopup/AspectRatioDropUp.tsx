@@ -17,19 +17,15 @@ export function AspectRatioDropUp({
 }: ARDropUpProps) {
   const originalAR = () => {
     setAspectRatio(() => "original");
-    console.log(aspectRatio);
   };
   const oneToOneAR = () => {
     setAspectRatio(() => "oneToOne");
-    console.log(aspectRatio);
   };
   const fourToFiveAR = () => {
     setAspectRatio(() => "fourToFive");
-    console.log(aspectRatio);
   };
   const sixteenToNineAR = () => {
     setAspectRatio(() => "sixteenToNine");
-    console.log(aspectRatio);
   };
 
   return (

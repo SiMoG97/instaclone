@@ -11,7 +11,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { FileInput } from "./FileInput";
+import { FileInput } from "../../FormComponents/FileInput";
 import FileExtChecker from "../../../utils/FileExtChecker";
 import { ImgFileType } from ".";
 
@@ -116,14 +116,6 @@ export function ImportImgStep({
           : `${notUploadedFilesNbr} files are not uploaded. You can only chose 10 or fewer files.`;
       setAlertMessage(messageAlert);
     }
-    //////////////////////
-    //////////////////////
-    //////////////////////
-    //////////////////////
-    //////////////////////
-    //////////////////////
-    //////////////////////
-    // console.log(imgFileToBgUrl(arrFiles[0]));
 
     const imgFilesArr: ImgFileType[] = [];
     arrFiles.forEach((file: File) => {
@@ -137,7 +129,9 @@ export function ImportImgStep({
     });
     console.log(imgFilesArr);
     setFiles(() => imgFilesArr);
-    nextStep();
+    setTimeout(() => {
+      nextStep();
+    }, 20);
   }
   return (
     <>

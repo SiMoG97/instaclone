@@ -7,7 +7,6 @@ import ArrowR from "../../../public/arrowR.svg";
 import {
   CSSProperties,
   Dispatch,
-  forwardRef,
   ReactNode,
   SetStateAction,
   useCallback,
@@ -16,11 +15,12 @@ import {
   useRef,
   useState,
 } from "react";
-import useOnClickOutside from "../../../Hooks/useOnClickOutside";
-import IconCicle from "../../IconCircle";
+import IconCicle from "../../CommonComponents/IconCircle";
 import RangeSlide from "../../FormComponents/RangeSlide";
 import { AspectRatioDropUp } from "./AspectRatioDropUp";
 import { ImgFileType } from "./";
+import { IconPopup } from "./IconPopup";
+import { SliderDots } from "../../CommonComponents/SliderDots";
 
 export type ARStateType =
   | "original"
@@ -121,16 +121,14 @@ export function CropStep({
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (files.length > 0 && croppingDiv.current) {
-        const { img, scale, x, y } = files[selectedFile];
-        croppingDiv.current.style.backgroundImage = `url("${img.src.replace(
-          /(\r\n|\n|\r)/gm,
-          ""
-        )}")`;
-        croppingDiv.current.style.transform = `scale(${scale}) translate(${x},${y})`;
-      }
-    }, 10);
+    if (files.length > 0 && croppingDiv.current) {
+      const { img, scale, x, y } = files[selectedFile];
+      croppingDiv.current.style.backgroundImage = `url("${img.src.replace(
+        /(\r\n|\n|\r)/gm,
+        ""
+      )}")`;
+      croppingDiv.current.style.transform = `scale(${scale}) translate(${x},${y})`;
+    }
   }, [files, croppingDiv, selectedFile]);
 
   return (
@@ -248,88 +246,6 @@ export function CropStep({
         </div>
       ) : null}
       <SliderDots nbrOfDots={files.length} selectedDot={selectedFile} />
-    </div>
-  );
-}
-
-type IconPopupPorps = {
-  Icon: any;
-  style: CSSProperties;
-  someDropOpen: boolean;
-  setSomeDropOpen: Dispatch<SetStateAction<boolean>>;
-  DropUp: JSX.Element;
-  dropUpStyle?: CSSProperties;
-  callback?: () => void;
-};
-
-function IconPopup({
-  Icon,
-  someDropOpen,
-  setSomeDropOpen,
-  DropUp,
-  style,
-  dropUpStyle,
-  callback = () => {},
-}: IconPopupPorps) {
-  const [active, setActive] = useState(false);
-  const parent = useRef<HTMLDivElement>(null);
-  const buttonOpen = useRef<HTMLDivElement>(null);
-
-  useOnClickOutside(
-    parent,
-    () => {
-      setActive(false);
-      setSomeDropOpen(false);
-    },
-    buttonOpen
-  );
-  useEffect(() => {
-    callback();
-  }, [active]);
-  const activeToggler = useCallback(() => {
-    setActive((prev) => !prev);
-    setSomeDropOpen((prev) => !prev);
-  }, [setSomeDropOpen]);
-
-  return (
-    <div style={style} className={styles.iconPopup}>
-      <div
-        ref={buttonOpen}
-        className={`${styles.iconContainer} ${active ? styles.active : ""} ${
-          someDropOpen && !active ? styles.iconOpacity : ""
-        } `}
-        onClick={activeToggler}
-      >
-        <IconCicle Icon={Icon} />
-      </div>
-
-      {active && (
-        <div ref={parent} className={styles.dropUp} style={dropUpStyle}>
-          {DropUp}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// `url("${url.replace(/(\r\n|\n|\r)/gm, "")}")`;
-
-type SliderDotsProps = {
-  nbrOfDots: number;
-  selectedDot: number;
-};
-
-function SliderDots({ nbrOfDots, selectedDot }: SliderDotsProps) {
-  if (nbrOfDots === 1) {
-    return null;
-  }
-  return (
-    <div className={styles.SliderDotsContainer}>
-      {Array.from(Array(nbrOfDots).keys()).map((_, i) => (
-        <div
-          className={`${styles.dots} ${i === selectedDot ? styles.active : ""}`}
-        ></div>
-      ))}
     </div>
   );
 }

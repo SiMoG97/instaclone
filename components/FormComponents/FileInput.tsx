@@ -1,4 +1,4 @@
-import styles from "../popup.module.scss";
+import styles from "./style.module.scss";
 import { ChangeEvent, forwardRef } from "react";
 
 type fileInputPropsType = {

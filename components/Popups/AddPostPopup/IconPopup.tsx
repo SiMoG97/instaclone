@@ -34,16 +34,14 @@ export function IconPopup({
     },
     buttonOpen
   );
-  useEffect(() => {
-    callback();
-  }, [active]);
+
   const activeToggler = useCallback(() => {
     setActive((prev) => !prev);
     setSomeDropOpen((prev) => !prev);
   }, [setSomeDropOpen]);
 
   return (
-    <div style={style} className={styles.iconPopup}>
+    <div style={style} className={styles.iconPopup} onClick={callback}>
       <div
         ref={buttonOpen}
         className={`${styles.iconContainer} ${active ? styles.active : ""} ${

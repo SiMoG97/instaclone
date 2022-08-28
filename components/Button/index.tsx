@@ -13,7 +13,7 @@ type props = {
   onClick?: () => any;
 };
 
-const index = ({
+const Button = ({
   mainShape = true,
   mainColor = true,
   focus = true,
@@ -46,4 +46,4 @@ const index = ({
   );
 };
 
-export default index;
+export default Button;

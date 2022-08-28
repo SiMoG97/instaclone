@@ -48,7 +48,7 @@ function RangeSlide({
     )`;
       }
     }
-  }, [lineColor, thumbColor, startFrom, thumbSize, setedValue]);
+  }, [lineColor, thumbColor, startFrom, thumbSize, setedValue, rangeValue]);
 
   const midRangeHandler = ({ target }: InputTargetType) => {
     const value = Number(target.value);

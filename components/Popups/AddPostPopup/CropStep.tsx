@@ -21,6 +21,7 @@ import { AspectRatioDropUp } from "./AspectRatioDropUp";
 import { ImgFileType } from "./";
 import { IconPopup } from "./IconPopup";
 import { SliderDots } from "../../CommonComponents/SliderDots";
+import SmallPopup from "../SmallPopup";
 
 export type ARStateType =
   | "original"

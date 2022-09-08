@@ -15,11 +15,21 @@ import CrossX from "../../public/cross.svg";
 export type SetIsOpenType = Dispatch<SetStateAction<boolean>>;
 
 type PopupContainerTypes = {
-  children: (setIsOpen: SetIsOpenType) => ReactElement;
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  // children: (setIsOpen: SetIsOpenType) => ReactElement;
+  children: ReactElement;
   isXout?: boolean;
+  callback?: () => void;
 };
 
-const PopupContainer = ({ children, isXout = false }: PopupContainerTypes) => {
+const PopupContainer = ({
+  isOpen,
+  setIsOpen,
+  children,
+  isXout = false,
+  callback,
+}: PopupContainerTypes) => {
   const animateMobile = useMemo(
     () => ({
       from: {
@@ -55,7 +65,7 @@ const PopupContainer = ({ children, isXout = false }: PopupContainerTypes) => {
     []
   );
 
-  const [isOpen, setIsOpen] = useState(true);
+  // const [isOpen, setIsOpen] = useState(true);
   const [phoneAnimation, setPhoneAnimation] = useState<AnimationType>({
     ...animateDesk,
     config: {
@@ -115,8 +125,12 @@ const PopupContainer = ({ children, isXout = false }: PopupContainerTypes) => {
           <animated.div
             style={style}
             className={styles.SemiTransparentLayer}
-            onClick={(e) => {
+            onMouseDown={(e) => {
               if (e.currentTarget === e.target) {
+                if (callback) {
+                  callback();
+                  return;
+                }
                 setIsOpen(false);
               }
             }}
@@ -124,10 +138,16 @@ const PopupContainer = ({ children, isXout = false }: PopupContainerTypes) => {
             {isXout && (
               <CrossX
                 className={styles.outsideX}
-                onClick={() => setIsOpen(false)}
+                onClick={() => {
+                  if (callback) {
+                    callback();
+                    return;
+                  }
+                  setIsOpen(false);
+                }}
               />
             )}
-            {children(setIsOpen)}
+            {children}
           </animated.div>
         ) : (
           <></>

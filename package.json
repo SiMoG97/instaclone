@@ -15,6 +15,7 @@
     "add": "^2.0.6",
     "are-passive-events-supported": "^1.1.1",
     "emoji-mart": "^5.0.0",
+    "html2canvas": "^1.4.1",
     "joi": "^17.6.0",
     "joi-password-complexity": "^5.1.0",
     "joi-phone-number": "^5.1.1",

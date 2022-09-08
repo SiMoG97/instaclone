@@ -44,7 +44,9 @@ export function CropStep({
   const [someDropOpen, setSomeDropOpen] = useState(false);
   const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
   const [selectedFile, setSelectedFile] = useState(0);
+  const mouseDownRef = useRef(false);
   const croppingDiv = useRef<HTMLDivElement>(null);
+  const cropAreaRef = useRef<HTMLDivElement>(null);
 
   function scaleHandler(scaleValue: number) {
     const scale = 1 + scaleValue / 100;
@@ -121,6 +123,29 @@ export function CropStep({
     }
   }, []);
 
+  const mouseDownHandler = () => {
+    mouseDownRef.current = true;
+    console.log("mousedown");
+  };
+  const mouseUpHandler = () => {
+    mouseDownRef.current = false;
+    console.log("mouseup");
+  };
+  const mouseMouveHandler = (e: Event) => {
+    if (mouseDownRef.current === true) {
+      console.log(e);
+      // console.log(mouseDownRef.current);
+    }
+  };
+  useEffect(() => {
+    // if(cropAreaRef.current){
+    //   cropAreaRef.current.add
+    // }
+    window.addEventListener("mousemove", mouseMouveHandler);
+    return () => {
+      window.removeEventListener("mousemove", mouseMouveHandler);
+    };
+  }, []);
   useEffect(() => {
     if (files.length > 0 && croppingDiv.current) {
       const { img, scale, x, y } = files[selectedFile];
@@ -135,6 +160,10 @@ export function CropStep({
   return (
     <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
       <div
+        ref={cropAreaRef}
+        onMouseDown={mouseDownHandler}
+        onMouseUp={mouseUpHandler}
+        // onMouse
         style={
           aspectRatio === "original"
             ? originalArCalcul(

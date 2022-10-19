@@ -149,8 +149,18 @@ export function ImportImgStep({
         >
           {!fileError.error ? (
             <>
-              <PicVidIcon className={` ${dragOver && styles.changeSvgColor}`} />
-              <div style={{ padding: "1rem", paddingBottom: "1.5rem" }}>
+              <PicVidIcon
+                className={` ${styles.PicVidIcon} ${
+                  dragOver && styles.changeSvgColor
+                }`}
+              />
+              <div
+                style={{
+                  padding: "1rem",
+                  paddingBottom: "1.5rem",
+                  color: "var(--txt-c-1)",
+                }}
+              >
                 Drag photos and videos here
               </div>
               <Button

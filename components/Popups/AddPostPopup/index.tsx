@@ -52,11 +52,11 @@ function AddPostPopup() {
   const [discardPopupButtons, setDiscardPopupButtons] =
     useState(initDiscardBtns);
 
-  useEffect(() => {
-    if (!isOpen) {
-      setDiscardPopupButtons(initDiscardBtns);
-    }
-  }, [isOpen]);
+  // useEffect(() => {
+  //   if (!isOpen) {
+  //     // setDiscardPopupButtons(initDiscardBtns);
+  //   }
+  // }, [isOpen, initDiscardBtns]);
   const headers = useMemo(
     () => ["Create new post", "Crop", "Edit", "Create new post"],
     []

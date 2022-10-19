@@ -23,7 +23,7 @@ export function NextPrevStepHeader({
         style={{ display: "contents", cursor: "pointer" }}
         onClick={goBackHndler}
       >
-        <LeftArrow />
+        <LeftArrow className={styles.leftArrow} />
       </span>
       {headerTitle}
       <span onClick={nextStep} className={step === 0 ? styles.hideArrow : ""}>

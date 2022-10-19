@@ -44,6 +44,7 @@ export function CropStep({
   const [someDropOpen, setSomeDropOpen] = useState(false);
   const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
   const [selectedFile, setSelectedFile] = useState(0);
+  const [isMouseDown, setIsMouseDown] = useState(false);
   const mouseDownRef = useRef(false);
   const croppingDiv = useRef<HTMLDivElement>(null);
   const cropAreaRef = useRef<HTMLDivElement>(null);
@@ -123,18 +124,26 @@ export function CropStep({
     }
   }, []);
 
+  // const styleTT = {
+  //   opacity: "0",
+  // };
   const mouseDownHandler = () => {
     mouseDownRef.current = true;
+    setIsMouseDown(true);
     console.log("mousedown");
+    document.body.style.cursor = "grabbing";
   };
+
   const mouseUpHandler = () => {
     mouseDownRef.current = false;
+    setIsMouseDown(false);
+    document.body.style.cursor = "auto";
+
     console.log("mouseup");
   };
   const mouseMouveHandler = (e: Event) => {
     if (mouseDownRef.current === true) {
       console.log(e);
-      // console.log(mouseDownRef.current);
     }
   };
   useEffect(() => {
@@ -142,8 +151,10 @@ export function CropStep({
     //   cropAreaRef.current.add
     // }
     window.addEventListener("mousemove", mouseMouveHandler);
+    window.addEventListener("mouseup", mouseUpHandler);
     return () => {
       window.removeEventListener("mousemove", mouseMouveHandler);
+      window.removeEventListener("mouseup", mouseUpHandler);
     };
   }, []);
   useEffect(() => {
@@ -158,12 +169,14 @@ export function CropStep({
   }, [files, croppingDiv, selectedFile]);
 
   return (
-    <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
+    <div
+      className={`${styles.stepContainer} ${styles.cropContainer}`}
+      // style={mouseDownRef.current ? { cursor: "grabbing" } : { cursor: "grab" }}
+    >
       <div
         ref={cropAreaRef}
         onMouseDown={mouseDownHandler}
         onMouseUp={mouseUpHandler}
-        // onMouse
         style={
           aspectRatio === "original"
             ? originalArCalcul(
@@ -276,6 +289,21 @@ export function CropStep({
         </div>
       ) : null}
       <SliderDots nbrOfDots={files.length} selectedDot={selectedFile} />
+
+      {/* grid */}
+
+      <div className={styles.grid} style={isMouseDown ? { opacity: 1 } : {}}>
+        <div className={styles.line} style={{ top: `${100 / 3}%` }}></div>
+        <div className={styles.line} style={{ top: `${(100 / 3) * 2}%` }}></div>
+        <div
+          className={`${styles.line} ${styles.horizontal}`}
+          style={{ left: `${100 / 3}%` }}
+        ></div>
+        <div
+          className={`${styles.line} ${styles.horizontal}`}
+          style={{ left: `${(100 / 3) * 2}%` }}
+        ></div>
+      </div>
     </div>
   );
 }

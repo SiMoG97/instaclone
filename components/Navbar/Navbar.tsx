@@ -16,10 +16,11 @@ import BookmarkIcon from "../../public/bookmark.svg";
 import SettingsIcon from "../../public/settings.svg";
 import PhoneNav from "./PhoneNav";
 import { useRouter } from "next/router";
+import AddPostPopup from "../Popups/AddPostPopup";
 
 const Navbar = () => {
   //testing
-  const [addPostRest, setAddPostTest] = useState(false);
+  const [addPostOpen, setAddPostOpen] = useState(false);
   const [activeHeart, setActiveHeart] = useState(false);
 
   //testing
@@ -48,20 +49,28 @@ const Navbar = () => {
                 />
               </a>
             </Link>
-            {addPostRest ? (
-              <AddPostActive
-                className={`${styles.activeIcons} ${styles.strokeNon}`}
-                onClick={() => {
-                  setAddPostTest(false);
-                }}
-              />
+            {/* {addPostRest ? (
+              <>
+                <AddPostActive
+                  className={`${styles.activeIcons} ${styles.strokeNon}`}
+                  onClick={() => {
+                    setAddPostOpen(false);
+                  }}
+                />
+                <AddPostPopup openProp={addPostRest} />
+              </>
             ) : (
               <AddPost
                 onClick={() => {
-                  setAddPostTest(true);
+                  setAddPostOpen(true);
                 }}
               />
-            )}
+              
+            )} */}
+            {/* {
+              addPostOpen ?<AddPostPopup openProp={addPostRest} />: <></>
+            } */}
+            <AddPostPopup />
             <Link href="/DirectInbox">
               <a>
                 {router.pathname === "/DirectInbox" ? (

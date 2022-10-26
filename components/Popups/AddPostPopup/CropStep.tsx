@@ -106,6 +106,12 @@ export function CropStep({
   }
   const originalArCalcul = useCallback((width: number, height: number) => {
     let ar = width / height;
+    if (ar === 1) {
+      return {
+        width: "100%",
+        height: "100%",
+      };
+    }
     if (ar > 1.91) {
       ar = 1.91;
     } else if (ar < 0.8) {
@@ -127,11 +133,22 @@ export function CropStep({
   // const styleTT = {
   //   opacity: "0",
   // };
-  const mouseDownHandler = () => {
+
+  type Cords = {
+    startX: number;
+    startY: number;
+  };
+  const cords = useRef<Cords>({
+    startX: 0,
+    startY: 0,
+  });
+  const mouseDownHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     mouseDownRef.current = true;
     setIsMouseDown(true);
     console.log("mousedown");
     document.body.style.cursor = "grabbing";
+    cords.current.startX = e.clientX;
+    cords.current.startY = e.clientY;
   };
 
   const mouseUpHandler = () => {
@@ -140,10 +157,12 @@ export function CropStep({
     document.body.style.cursor = "auto";
 
     console.log("mouseup");
+    console.log(cords.current.startX, cords.current.startY);
   };
-  const mouseMouveHandler = (e: Event) => {
+
+  const mouseMouveHandler = (e: MouseEvent) => {
     if (mouseDownRef.current === true) {
-      console.log(e);
+      console.log(e.clientX);
     }
   };
   useEffect(() => {
@@ -175,6 +194,7 @@ export function CropStep({
     >
       <div
         ref={cropAreaRef}
+        // onMouseDown={mouseDownHandler}
         onMouseDown={mouseDownHandler}
         onMouseUp={mouseUpHandler}
         style={

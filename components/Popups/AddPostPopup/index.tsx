@@ -15,6 +15,8 @@ import { SharePostStep } from "./SharePostStep";
 import { NextPrevStepHeader } from "./NextPrevStepHeader";
 import styles from "../popup.module.scss";
 import SmallPopup from "../SmallPopup";
+import AddPost from "../../../public/addPost.svg";
+import AddPostActive from "../../../public/addPostActive.svg";
 
 export type ImgFileType = {
   img: HTMLImageElement;
@@ -23,6 +25,11 @@ export type ImgFileType = {
   y: number;
 };
 
+type AddPostPopupType = {
+  openProp: boolean;
+};
+
+// function AddPostPopup({ openProp }: AddPostPopupType) {
 function AddPostPopup() {
   const initDiscardBtns = [
     {
@@ -42,7 +49,8 @@ function AddPostPopup() {
       },
     },
   ];
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(true);
   const [step, setStep] = useState(0);
   const [files, setFiles] = useState<ImgFileType[]>([] as ImgFileType[]);
   const [showDiscardPopup, setShowDiscardPopup] = useState(false);
@@ -135,6 +143,23 @@ function AddPostPopup() {
   };
   return (
     <>
+      {isOpen ? (
+        <>
+          <AddPostActive
+            className={`${styles.activeIcons} ${styles.strokeNon}`}
+            // onClick={() => {
+            //   setAddPostRest(false);
+            // }}
+          />
+          {/* <AddPostPopup openProp={addPostRest} /> */}
+        </>
+      ) : (
+        <AddPost
+          onClick={() => {
+            setIsOpen(true);
+          }}
+        />
+      )}
       <PopupContainer
         isXout={true}
         isOpen={isOpen}

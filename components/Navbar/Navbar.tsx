@@ -49,27 +49,6 @@ const Navbar = () => {
                 />
               </a>
             </Link>
-            {/* {addPostRest ? (
-              <>
-                <AddPostActive
-                  className={`${styles.activeIcons} ${styles.strokeNon}`}
-                  onClick={() => {
-                    setAddPostOpen(false);
-                  }}
-                />
-                <AddPostPopup openProp={addPostRest} />
-              </>
-            ) : (
-              <AddPost
-                onClick={() => {
-                  setAddPostOpen(true);
-                }}
-              />
-              
-            )} */}
-            {/* {
-              addPostOpen ?<AddPostPopup openProp={addPostRest} />: <></>
-            } */}
             <AddPostPopup />
             <Link href="/DirectInbox">
               <a>
@@ -78,11 +57,6 @@ const Navbar = () => {
                 ) : (
                   <SendIcon />
                 )}
-                {/* <SendIcon
-                // className={
-                //   router.pathname === "/DirectInbox" && styles.activeIcons
-                // }
-                /> */}
               </a>
             </Link>
 

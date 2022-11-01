@@ -6,7 +6,6 @@ import PostsMain from "../components/Post/PostsMain";
 import styles from "../styles/home.module.scss";
 import { RefObject, useRef } from "react";
 import ProfilePic from "../components/ProfilePic";
-import CommentInput from "../components/Post/CommentInput";
 import Footer from "../components/Footer";
 import Suggestions from "../components/Suggestions";
 import Textarea from "../components/Textarea";
@@ -15,8 +14,6 @@ import PicUsername from "../components/PicUsername";
 import Checkbox from "../components/FormComponents/SwitchButton";
 import LikesPopup from "../components/Popups/LikesPopup";
 import SharePostPopup from "../components/Popups/SharePostPopup";
-import FollowPopup from "../components/Popups/FollowPopup";
-import AddPostPopup from "../components/Popups/AddPostPopup";
 
 const Home: NextPage = () => {
   const postsContainer = useRef<HTMLDivElement | null>(null);
@@ -34,9 +31,6 @@ const Home: NextPage = () => {
         />
         {/* dev */}
         {/* <DropDown /> */}
-        {/* <div className={styles.suggestions} ref={suggesEl}>
-          <Footer />
-        </div> */}
       </div>
       {/* 
       <div
@@ -56,12 +50,8 @@ const Home: NextPage = () => {
           secondaryText="Simo Echaarani"
         />
        */}
-      {/* <Textarea isCommentInput={false} /> */}
-      {/* <span>test</span> */}
       {/* <LikesPopup /> */}
       {/* <SharePostPopup /> */}
-      {/* <FollowPopup /> */}
-      <AddPostPopup />
       {/* <PopupContainer popupHeader="Likes"></PopupContainer> */}
     </>
   );

@@ -5,9 +5,22 @@ import { useState } from "react";
 import PicUsername from "../PicUsername";
 import Button from "../Button";
 
-const FollowPopup = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isFollowersActive, setIsFollowersActive] = useState<boolean>();
+type FollowPopupType = {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isFollowersActive: boolean;
+  setIsFollowersActive: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const FollowPopup = ({
+  isOpen,
+  setIsOpen,
+  isFollowersActive,
+  setIsFollowersActive,
+}: FollowPopupType) => {
+  // const [isOpen, setIsOpen] = useState(true);
+  // const [isFollowersActive, setIsFollowersActive] =
+  //   useState<boolean>(followerTabActive);
   return (
     <PopupContainer isOpen={isOpen} setIsOpen={setIsOpen}>
       <PopupBody popupHeader="Followers - Following" setIsOpen={setIsOpen}>

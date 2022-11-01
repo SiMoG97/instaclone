@@ -144,5 +144,22 @@
     }
   }
 }
-.CommentInput {
+// PostBottomPart
+.postBottomPart {
+  padding: 0 1.2rem;
+  .viewComments {
+    font-size: 1.4rem;
+    color: var(--txt-c-2);
+    padding: 0.7rem 0;
+    > div {
+      cursor: pointer;
+      display: inline-block;
+    }
+  }
+}
+.date {
+  font-size: 1rem;
+  color: var(--txt-c-2);
+  padding: 0.7rem 0;
+  padding-bottom: 1.5rem;
 }

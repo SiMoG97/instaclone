@@ -7,6 +7,7 @@ import PostReactions from "../PostReactions";
 import PostBody from "../PostBody";
 import { ImagePost } from "../ImagePost";
 import { VideoPost } from "../VideoPost";
+import PostBottomPart from "../PostBottomPart";
 const PostsMain = () => {
   return (
     <>
@@ -21,8 +22,7 @@ const PostsMain = () => {
             )}
           </PostBody>
           <PostReactions />
-          {/* <Button>Follow</Button> */}
-          {/* <CommentInput /> */}
+          <PostBottomPart numberOfComments={6} />
           <div className={styles.commentInputContainer}>
             <Textarea isCommentInput={true} />
           </div>

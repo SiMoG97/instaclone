@@ -22,7 +22,7 @@ const PostsMain = () => {
             )}
           </PostBody>
           <PostReactions />
-          <PostBottomPart numberOfComments={6} />
+          <PostBottomPart numberOfComments={25} numberOfLikes={10} />
           <div className={styles.commentInputContainer}>
             <Textarea isCommentInput={true} />
           </div>

@@ -5,8 +5,13 @@ import Button from "../Button";
 import PopupBody from "./PopupBody";
 import { useState } from "react";
 
-export default function LikesPopup() {
-  const [isOpen, setIsOpen] = useState(false);
+type LikesPopup = {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function LikesPopup({ isOpen, setIsOpen }: LikesPopup) {
+  // const [isOpen, setIsOpen] = useState(false);
   return (
     <PopupContainer setIsOpen={setIsOpen} isOpen={isOpen}>
       <PopupBody popupHeader="Likes" setIsOpen={setIsOpen}>

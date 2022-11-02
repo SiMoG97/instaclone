@@ -156,6 +156,13 @@
       display: inline-block;
     }
   }
+  .nbrOfLikes {
+    font-size: 1.4rem;
+    > div {
+      cursor: pointer;
+      display: inline-block;
+    }
+  }
 }
 .date {
   font-size: 1rem;

@@ -19,10 +19,12 @@ function SmallPopup({ buttonList, title, text, popupCloser }: SmallPopupProps) {
   return (
     <animated.div style={animateStyle} className={styles.smallPopupContainer}>
       <div className={styles.smallPopup} ref={popupRef}>
-        <div style={{ padding: "2rem", paddingTop: "3rem" }}>
-          {title ? <h3 className={styles.title}>{title}</h3> : null}
-          {text ? <p>{text}</p> : null}
-        </div>
+        {title ? (
+          <div style={{ padding: "2rem", paddingTop: "3rem" }}>
+            <h3 className={styles.title}>{title}</h3>
+            {text ? <p>{text}</p> : null}
+          </div>
+        ) : null}
         <ul>
           {buttonList && buttonList.length > 0
             ? buttonList.map((btn) => (
@@ -47,7 +49,7 @@ type SmallPopupProps = {
   buttonList?: ButtonItem[];
   popupCloser: React.Dispatch<React.SetStateAction<boolean>>;
 };
-type ButtonItem = {
+export type ButtonItem = {
   text: string;
   method: () => any;
   danger?: boolean;

@@ -3,7 +3,12 @@ import { useRef } from "react";
 import useOnClickOutside from "../../Hooks/useOnClickOutside";
 import styles from "./popup.module.scss";
 
-function SmallPopup({ buttonList, title, text, popupCloser }: SmallPopupProps) {
+function SmallPopup({
+  buttonList,
+  titleOrPic,
+  text,
+  popupCloser,
+}: SmallPopupProps) {
   const popupRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(popupRef, () => {
     popupCloser(() => false);
@@ -19,9 +24,9 @@ function SmallPopup({ buttonList, title, text, popupCloser }: SmallPopupProps) {
   return (
     <animated.div style={animateStyle} className={styles.smallPopupContainer}>
       <div className={styles.smallPopup} ref={popupRef}>
-        {title ? (
+        {titleOrPic ? (
           <div style={{ padding: "2rem", paddingTop: "3rem" }}>
-            <h3 className={styles.title}>{title}</h3>
+            <div className={styles.titleOrPic}>{titleOrPic}</div>
             {text ? <p>{text}</p> : null}
           </div>
         ) : null}
@@ -44,7 +49,7 @@ function SmallPopup({ buttonList, title, text, popupCloser }: SmallPopupProps) {
 }
 
 type SmallPopupProps = {
-  title?: string;
+  titleOrPic?: string | JSX.Element;
   text?: string;
   buttonList?: ButtonItem[];
   popupCloser: React.Dispatch<React.SetStateAction<boolean>>;

@@ -10,9 +10,17 @@ type props = {
 };
 const PostHeader = ({ username }: props) => {
   const [isOptionOpen, setIsOptionOpen] = useState(false);
+  const [unfollowPopup, setUnfollowPopup] = useState(false);
   const optionsButtons: ButtonItem[] = [
     { text: "Repost", method: () => {}, danger: true },
-    { text: "Unfollow", method: () => {}, danger: true },
+    {
+      text: "Unfollow",
+      method: () => {
+        setIsOptionOpen(false);
+        setUnfollowPopup(true);
+      },
+      danger: true,
+    },
     { text: "Go to Post", method: () => {} },
     { text: "Share to...", method: () => {} },
     { text: "Copy Link", method: () => {} },
@@ -21,6 +29,15 @@ const PostHeader = ({ username }: props) => {
       text: "Cancel",
       method: () => {
         setIsOptionOpen(false);
+      },
+    },
+  ];
+  const unfollowButtons = [
+    { text: "Unfollow", method: () => {}, danger: true },
+    {
+      text: "Cancel",
+      method: () => {
+        setUnfollowPopup(false);
       },
     },
   ];
@@ -44,6 +61,14 @@ const PostHeader = ({ username }: props) => {
       </div>
       {isOptionOpen ? (
         <SmallPopup popupCloser={setIsOptionOpen} buttonList={optionsButtons} />
+      ) : null}
+      {unfollowPopup ? (
+        <SmallPopup
+          popupCloser={setUnfollowPopup}
+          buttonList={unfollowButtons}
+          titleOrPic={<ProfilePic src="./baif.jpg" size="size-1-5" />}
+          text={`Unfollow ${username}`}
+        />
       ) : null}
     </>
   );

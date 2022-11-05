@@ -7,8 +7,14 @@ import { Stats } from "./Stats";
 import { Bio } from "./Bio";
 import SmallPopup, { ButtonItem } from "../Popups/SmallPopup";
 
-const ProfileHeader = () => {
+type ProfileHeaderType = {
+  username: string;
+};
+
+const ProfileHeader = ({ username = "simo_echaarani" }: ProfileHeaderType) => {
   const [isOptionOpen, setIsOptionOpen] = useState(false);
+  const [unfollowPopup, setUnfollowPopup] = useState(false);
+
   const optionsButtons: ButtonItem[] = [
     { text: "Block", method: () => {}, danger: true },
     { text: "Restrict", method: () => {}, danger: true },
@@ -17,6 +23,15 @@ const ProfileHeader = () => {
       text: "Cancel",
       method: () => {
         setIsOptionOpen(false);
+      },
+    },
+  ];
+  const unfollowButtons = [
+    { text: "Unfollow", method: () => {}, danger: true },
+    {
+      text: "Cancel",
+      method: () => {
+        setUnfollowPopup(false);
       },
     },
   ];
@@ -74,6 +89,14 @@ const ProfileHeader = () => {
       </div>
       {isOptionOpen ? (
         <SmallPopup popupCloser={setIsOptionOpen} buttonList={optionsButtons} />
+      ) : null}
+      {unfollowPopup ? (
+        <SmallPopup
+          popupCloser={setUnfollowPopup}
+          buttonList={unfollowButtons}
+          titleOrPic={<ProfilePic src="./baif.jpg" size="size-1-5" />}
+          text={`Unfollow ${username}`}
+        />
       ) : null}
     </>
   );

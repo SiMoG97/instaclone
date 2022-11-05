@@ -3,7 +3,14 @@ import styles from "./profilePic.module.scss";
 import GradientCicle from "../../public/gradientCircle.svg";
 export type ProfilePicTypes = {
   src: string;
-  size?: "size-1" | "size-2" | "size-3" | "size-4" | "size-5" | "size-6";
+  size?:
+    | "size-1"
+    | "size-1-5"
+    | "size-2"
+    | "size-3"
+    | "size-4"
+    | "size-5"
+    | "size-6";
   animate?: boolean;
   hasStory?: boolean;
   seen?: boolean;

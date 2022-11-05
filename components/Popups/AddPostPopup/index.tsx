@@ -210,7 +210,7 @@ function AddPostPopup() {
       </PopupContainer>
       {showDiscardPopup ? (
         <SmallPopup
-          title="Discard post?"
+          titleOrPic="Discard post?"
           text="If you leave, your edits won't be saved."
           buttonList={discardPopupButtons}
           popupCloser={setShowDiscardPopup}

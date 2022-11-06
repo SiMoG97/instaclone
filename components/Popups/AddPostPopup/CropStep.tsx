@@ -15,7 +15,7 @@ import {
   useRef,
   useState,
 } from "react";
-import IconCicle from "../../CommonComponents/IconCircle";
+import IconCircle from "../../CommonComponents/IconCircle";
 import RangeSlide from "../../FormComponents/RangeSlide";
 import { AspectRatioDropUp } from "./AspectRatioDropUp";
 import { ImgFileType } from "./";
@@ -291,7 +291,7 @@ export function CropStep({
           }}
           onClick={prevFile}
         >
-          <IconCicle Icon={ArrowL} />
+          <IconCircle Icon={ArrowL} />
         </div>
       ) : null}
 
@@ -305,7 +305,7 @@ export function CropStep({
           }}
           onClick={nextFile}
         >
-          <IconCicle Icon={ArrowR} />
+          <IconCircle Icon={ArrowR} />
         </div>
       ) : null}
       <SliderDots nbrOfDots={files.length} selectedDot={selectedFile} />

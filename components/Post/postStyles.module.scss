@@ -19,6 +19,17 @@
 .postBody {
   width: 100%;
   position: relative;
+  .slider {
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+  }
+  .imgVidContaienr {
+    display: flex;
+    min-width: 100%;
+    width: auto;
+    transition: 0.3s;
+  }
   .pauseLayer {
     position: absolute;
     inset: 0 0 0 0;

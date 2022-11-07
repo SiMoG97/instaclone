@@ -4,7 +4,7 @@ import ProfileHeader from "../components/Profile/ProfileHeader";
 const Profile = () => {
   return (
     <div className="container" style={{ flexDirection: "column" }}>
-      <ProfileHeader />
+      <ProfileHeader username="Toto Hamza" />
       <ImagesSection />
     </div>
   );

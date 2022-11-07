@@ -327,3 +327,5 @@ export function CropStep({
     </div>
   );
 }
+
+// getBoundingClientRect()

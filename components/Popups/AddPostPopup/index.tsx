@@ -88,7 +88,7 @@ function AddPostPopup() {
     });
   };
 
-  const nextStep = () => {
+  const nextStep = useCallback(() => {
     if (step === 1) {
       console.log("crop here");
       // cropingFiles();
@@ -100,7 +100,7 @@ function AddPostPopup() {
       prev++;
       return prev;
     });
-  };
+  }, [headers.length, step]);
 
   const prevStep = () => {
     setStep((prev) => {

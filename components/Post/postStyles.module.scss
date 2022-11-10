@@ -16,6 +16,16 @@
     fill: var(--txt-c-1);
   }
 }
+.draggingArea {
+  display: block !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  // background-color: rgba(66, 161, 54, 0.212);
+  z-index: 10;
+}
 .postBody {
   width: 100%;
   position: relative;
@@ -28,7 +38,10 @@
     display: flex;
     min-width: 100%;
     width: auto;
-    transition: 0.3s;
+    // transition: 0.3s;
+  }
+  .transition {
+    transition: 0.3s !important;
   }
   .pauseLayer {
     position: absolute;

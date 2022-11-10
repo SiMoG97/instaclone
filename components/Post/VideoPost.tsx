@@ -46,7 +46,7 @@ export const VideoPost = ({ src }: VideoPostProps) => {
     setMuted(!muted);
   };
   return (
-    <div style={{ minWidth: "100%", position: "relative" }}>
+    <div style={{ minWidth: "100%", position: "relative" }} draggable={false}>
       <video
         style={{ width: "100%" }}
         src={src}

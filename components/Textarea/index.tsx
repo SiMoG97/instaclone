@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import styles from "./textarea.module.scss";
-import FaceEmoji from "../../public/FaceEmoji.svg";
+import FaceEmoji from "../../public/faceEmoji.svg";
 import Heart from "../../public/heart.svg";
 import PicUpload from "../../public/picUpload.svg";
 import { SendButton } from "./SendButton";

@@ -3,7 +3,7 @@ import styles from "./postStyles.module.scss";
 import HeartIcon from "../../public/heart.svg";
 import SendIcon from "../../public/send.svg";
 import BookmarkIcon from "../../public/bookmark.svg";
-import CommentIcon from "../../public/Comment.svg";
+import CommentIcon from "../../public/comment.svg";
 import { SliderDots } from "../CommonComponents/SliderDots";
 
 const PostReactions = () => {

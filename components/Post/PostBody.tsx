@@ -17,7 +17,9 @@ const PostBody = ({ sources }: PostBodyProps) => {
   const postBodyRef = useRef<HTMLDivElement>(null);
   const imgVidContaienr = useRef<HTMLDivElement>(null);
   const [selectedImg, setSelectedImg] = useState(0);
+  // change this t0 ref
   const [isMouseDown, setIsMouseDown] = useState(false);
+
   const mouseActions = useRef({
     startX: 0,
     endX: 0,
@@ -43,15 +45,13 @@ const PostBody = ({ sources }: PostBodyProps) => {
   }
   function touchDown(e: React.PointerEvent<HTMLDivElement>) {
     if (!imgVidContaienr.current) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
     setIsMouseDown(true);
-    console.log("down");
     if (postBodyRef.current) {
       mouseActions.current.startX = e.clientX;
     }
   }
   function touchUp(e: React.PointerEvent<HTMLDivElement>) {
-    console.log("up");
-
     if (!postBodyRef.current) return;
     if (!imgVidContaienr.current) return;
     setIsMouseDown(false);
@@ -91,8 +91,6 @@ const PostBody = ({ sources }: PostBodyProps) => {
   function touchSwipe(
     e: React.MouseEvent<HTMLDivElement> & React.PointerEvent<HTMLDivElement>
   ) {
-    console.log(e);
-
     if (!imgVidContaienr.current) return;
     if (!postBodyRef.current) return;
     if (isMouseDown) {
@@ -145,89 +143,81 @@ const PostBody = ({ sources }: PostBodyProps) => {
     };
   }, [sliderResizer]);
   return (
-    <>
-      <div ref={postBodyRef} className={styles.postBody}>
-        <div
-          className={styles.slider}
-          // onMouseDown={touchDown}
-          onPointerDown={touchDown}
-        >
-          <div
-            ref={imgVidContaienr}
-            className={`${styles.imgVidContaienr} ${
-              isMouseDown ? "" : styles.transition
-            } `}
-            style={{
-              transform: `translateX(${
-                postBodyRef.current
-                  ? -postBodyRef.current.clientWidth * selectedImg
-                  : null
-              }px)`,
-            }}
-          >
-            {sources.map((src) => {
-              return imgOrVideo(src) === "img" ? (
-                <ImagePost src={src} key={src} />
-              ) : (
-                <VideoPost src={src} key={src} />
-              );
-            })}
-          </div>
-        </div>
-        {selectedImg > 0 ? (
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "10px",
-              transform: "scale(.8) translateY(-50%)",
-            }}
-            onClick={prevImg}
-          >
-            <IconCircle Icon={ArrowL} light={true} />
-          </div>
-        ) : (
-          <></>
-        )}
-        {selectedImg < sources.length - 1 ? (
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              right: "10px",
-              transform: "scale(.8) translateY(-50%)",
-            }}
-            onClick={nextImg}
-          >
-            <IconCircle Icon={ArrowR} light={true} />
-          </div>
-        ) : (
-          <></>
-        )}
-        {sources.length > 1 ? (
-          <SliderDots
-            nbrOfDots={sources.length}
-            selectedDot={selectedImg}
-            style={{
-              bottom: "-25px",
-              left: "50%",
-              transform: "translate(-50%,-50%)",
-            }}
-          />
-        ) : (
-          <></>
-        )}
-      </div>
+    <div ref={postBodyRef} className={styles.postBody}>
       <div
-        style={{ display: "none" }}
-        className={isMouseDown ? styles.draggingArea : ""}
-        // onMouseUp={touchUp}
-        // onMouseMove={touchSwipe}
-        // onTouchEnd={touchUp}
+        className={styles.slider}
+        // onMouseDown={touchDown}
+        onPointerDown={touchDown}
         onPointerMove={touchSwipe}
         onPointerUp={touchUp}
-      ></div>
-    </>
+        style={{ touchAction: "none" }}
+      >
+        <div
+          ref={imgVidContaienr}
+          className={`${styles.imgVidContaienr} ${
+            isMouseDown ? "" : styles.transition
+          } `}
+          style={{
+            transform: `translateX(${
+              postBodyRef.current
+                ? -postBodyRef.current.clientWidth * selectedImg
+                : null
+            }px)`,
+          }}
+        >
+          {sources.map((src) => {
+            return imgOrVideo(src) === "img" ? (
+              <ImagePost src={src} key={src} />
+            ) : (
+              <VideoPost src={src} key={src} />
+            );
+          })}
+        </div>
+      </div>
+      {selectedImg > 0 ? (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "10px",
+            transform: "scale(.8) translateY(-50%)",
+          }}
+          onClick={prevImg}
+        >
+          <IconCircle Icon={ArrowL} light={true} />
+        </div>
+      ) : (
+        <></>
+      )}
+      {selectedImg < sources.length - 1 ? (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: "10px",
+            transform: "scale(.8) translateY(-50%)",
+          }}
+          onClick={nextImg}
+        >
+          <IconCircle Icon={ArrowR} light={true} />
+        </div>
+      ) : (
+        <></>
+      )}
+      {sources.length > 1 ? (
+        <SliderDots
+          nbrOfDots={sources.length}
+          selectedDot={selectedImg}
+          style={{
+            bottom: "-25px",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+          }}
+        />
+      ) : (
+        <></>
+      )}
+    </div>
   );
 };
 

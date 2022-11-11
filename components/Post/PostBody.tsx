@@ -45,6 +45,7 @@ const PostBody = ({ sources }: PostBodyProps) => {
   }
   function touchDown(e: React.PointerEvent<HTMLDivElement>) {
     if (!imgVidContaienr.current) return;
+    console.log(e.movementX);
     e.currentTarget.setPointerCapture(e.pointerId);
     setIsMouseDown(true);
     if (postBodyRef.current) {
@@ -150,7 +151,7 @@ const PostBody = ({ sources }: PostBodyProps) => {
         onPointerDown={touchDown}
         onPointerMove={touchSwipe}
         onPointerUp={touchUp}
-        style={{ touchAction: "none" }}
+        style={{ touchAction: "pan-y" }}
       >
         <div
           ref={imgVidContaienr}

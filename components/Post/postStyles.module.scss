@@ -34,6 +34,12 @@
     display: flex;
     overflow: hidden;
   }
+  .sliderArrows {
+    position: absolute;
+    top: 50%;
+    transform: scale(0.8) translateY(-50%);
+    opacity: 0.7;
+  }
   .imgVidContaienr {
     display: flex;
     min-width: 100%;
@@ -183,6 +189,7 @@
   }
   .nbrOfLikes {
     font-size: 1.4rem;
+    color: var(--txt-c-1);
     > div {
       cursor: pointer;
       display: inline-block;

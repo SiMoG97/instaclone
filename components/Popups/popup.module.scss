@@ -5,8 +5,8 @@
   left: 0;
   bottom: 0;
   right: 0;
-  // background-color: rgba(0, 0, 0, 0.603);
-  background-color: var(--transparent-layer);
+  background-color: rgba(0, 0, 0, 0.603);
+  // background-color: var(--transparent-layer);
   z-index: 100;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -338,7 +338,15 @@
   align-items: center;
   padding: 0 1rem;
   // background-color: red;
-  .hideArrow {
+  .crossX {
+    background-color: red;
+    @include media(">=tablet") {
+      // display: none !important;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+  .unvisible {
     visibility: hidden;
     pointer-events: none;
   }

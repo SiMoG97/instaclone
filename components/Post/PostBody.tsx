@@ -177,11 +177,9 @@ const PostBody = ({ sources }: PostBodyProps) => {
       </div>
       {selectedImg > 0 ? (
         <div
+          className={styles.sliderArrows}
           style={{
-            position: "absolute",
-            top: "50%",
             left: "10px",
-            transform: "scale(.8) translateY(-50%)",
           }}
           onClick={prevImg}
         >
@@ -192,11 +190,9 @@ const PostBody = ({ sources }: PostBodyProps) => {
       )}
       {selectedImg < sources.length - 1 ? (
         <div
+          className={styles.sliderArrows}
           style={{
-            position: "absolute",
-            top: "50%",
             right: "10px",
-            transform: "scale(.8) translateY(-50%)",
           }}
           onClick={nextImg}
         >

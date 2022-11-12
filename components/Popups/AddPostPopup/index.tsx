@@ -26,11 +26,12 @@ export type ImgFileType = {
 };
 
 type AddPostPopupType = {
-  openProp: boolean;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 // function AddPostPopup({ openProp }: AddPostPopupType) {
-function AddPostPopup() {
+function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
   const initDiscardBtns = [
     {
       text: "Discard",
@@ -49,7 +50,7 @@ function AddPostPopup() {
       },
     },
   ];
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   // const [isOpen, setIsOpen] = useState(true);
   const [step, setStep] = useState(0);
   const [files, setFiles] = useState<ImgFileType[]>([] as ImgFileType[]);
@@ -142,81 +143,55 @@ function AddPostPopup() {
     setIsOpen(() => false);
   };
   return (
-    <>
-      {isOpen ? (
-        <>
-          <AddPostActive
-            className={`${styles.activeIcons} ${styles.strokeNon}`}
-            // onClick={() => {
-            //   setAddPostRest(false);
-            // }}
+    <PopupContainer
+      isXout={true}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      callback={PopupContainerCallback}
+    >
+      <PopupBody
+        isXin={false}
+        popupHeader={
+          <NextPrevStepHeader
+            prevStep={prevStep}
+            nextStep={nextStep}
+            setShowDiscardPopup={setShowDiscardPopup}
+            headerTitle={headers[step]}
+            step={step}
+            setIsOpen={setIsOpen}
           />
-          {/* <AddPostPopup openProp={addPostRest} /> */}
-        </>
-      ) : (
-        <AddPost
-          onClick={() => {
-            setIsOpen(true);
-          }}
-        />
-      )}
-      <PopupContainer
-        isXout={true}
-        isOpen={isOpen}
+        }
         setIsOpen={setIsOpen}
-        callback={PopupContainerCallback}
+        className={styles.postStepsBody}
       >
-        <PopupBody
-          isXin={false}
-          popupHeader={
-            <NextPrevStepHeader
-              prevStep={prevStep}
-              nextStep={nextStep}
-              setShowDiscardPopup={setShowDiscardPopup}
-              headerTitle={headers[step]}
-              step={step}
-            />
-          }
-          setIsOpen={setIsOpen}
-          className={styles.postStepsBody}
-        >
-          <>
-            <div style={{ transition: "2s" }}>
-              {step === 0 && (
-                <ImportImgStep
-                  setFiles={setFiles}
-                  nextStep={nextStep}
-                  setAlertMessage={setAlertMessage}
-                />
-              )}
-              {step === 1 && (
-                <CropStep
-                  files={files}
-                  setFiles={setFiles}
-                  nextStep={nextStep}
-                  prevStep={prevStep}
-                />
-              )}
-              {step === 2 && <EditStep />}
-              {step === 3 && <SharePostStep />}
+        <>
+          <div style={{ transition: "2s" }}>
+            {step === 0 && (
+              <ImportImgStep
+                setFiles={setFiles}
+                nextStep={nextStep}
+                setAlertMessage={setAlertMessage}
+              />
+            )}
+            {step === 1 && (
+              <CropStep
+                files={files}
+                setFiles={setFiles}
+                nextStep={nextStep}
+                prevStep={prevStep}
+              />
+            )}
+            {step === 2 && <EditStep />}
+            {step === 3 && <SharePostStep />}
+          </div>
+          {alertMessage ? (
+            <div ref={alertDiv} className={styles.alertMessage}>
+              {alertMessage}
             </div>
-            {alertMessage ? (
-              <div ref={alertDiv} className={styles.alertMessage}>
-                {alertMessage}
-              </div>
-            ) : null}
-          </>
-        </PopupBody>
-      </PopupContainer>
-      {showDiscardPopup ? (
-        <SmallPopup
-          titleOrPic="Discard post?"
-          text="If you leave, your edits won't be saved."
-          buttonList={discardPopupButtons}
-          popupCloser={setShowDiscardPopup}
-        />
-      ) : null}
-    </>
+          ) : null}
+        </>
+      </PopupBody>
+    </PopupContainer>
   );
 }
 

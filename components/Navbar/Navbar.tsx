@@ -27,6 +27,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
+  const [addPostIsOpen, setAddPostIsOpen] = useState(false);
+
   return (
     <>
       <nav className={styles.nav}>
@@ -45,11 +47,28 @@ const Navbar = () => {
             <Link href="/">
               <a>
                 <HomeIcon
-                  className={router.pathname === "/" ? styles.activeIcons : ""}
+                  className={
+                    router.pathname === "/" && !addPostIsOpen
+                      ? styles.activeIcons
+                      : ""
+                  }
                 />
               </a>
             </Link>
-            <AddPostPopup />
+
+            {addPostIsOpen ? (
+              <>
+                <AddPostActive
+                  className={`${styles.activeIcons} ${styles.strokeNon}`}
+                />
+              </>
+            ) : (
+              <AddPost
+                onClick={() => {
+                  setAddPostIsOpen(true);
+                }}
+              />
+            )}
             <Link href="/DirectInbox">
               <a>
                 {router.pathname === "/DirectInbox" ? (
@@ -83,21 +102,40 @@ const Navbar = () => {
               <Dropdown isOpen={isOpen} setIsOpen={setIsOpen} />
             </div>
           </div>
-          <TopRightNav />
+          <TopRightNav pathname={router.pathname} />
         </div>
         {isOpen && <HiddenLayer clicked={setIsOpen} />}
       </nav>
-      <PhoneNav />
+      <AddPostPopup isOpen={addPostIsOpen} setIsOpen={setAddPostIsOpen} />
+      <PhoneNav
+        addPostIsOpen={addPostIsOpen}
+        setAddPostIsOpen={setAddPostIsOpen}
+      />
     </>
   );
 };
 
-const TopRightNav = () => {
+type TopRightNavType = {
+  pathname: string;
+};
+const TopRightNav = ({ pathname }: TopRightNavType) => {
   return (
     <div className={styles.tabletNavTopRight}>
-      <SendIcon />
+      <Link href="/DirectInbox">
+        <a>
+          {pathname === "/DirectInbox" ? (
+            <SendActive className={styles.activeIcons} />
+          ) : (
+            <SendIcon />
+          )}
+        </a>
+      </Link>
       <BookmarkIcon width="24" height="24" />
-      <SettingsIcon width="24" height="24" />
+      <Link href="Settings">
+        <a>
+          <SettingsIcon width="24" height="24" />
+        </a>
+      </Link>
     </div>
   );
 };

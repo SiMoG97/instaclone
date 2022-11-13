@@ -9,16 +9,29 @@ import useOnClickOutside from "../../Hooks/useOnClickOutside";
 
 const EmojiPicker = dynamic(() => import("../EmojiPicker"), { ssr: false });
 
-type props = {
+type TextAreaProps = {
   isCommentInput: boolean;
+  inputFocus: boolean;
+  // inputFocus: React.MutableRefObject<boolean>;
+  setInputFocus: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const TextArea = ({ isCommentInput }: props) => {
+const TextArea = ({
+  isCommentInput,
+  inputFocus,
+  setInputFocus,
+}: TextAreaProps) => {
   const taRef = useRef<HTMLTextAreaElement>(null);
   const emojiRef = useRef<HTMLDivElement>(null);
   const emojiIconOpenButton = useRef<HTMLDivElement>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isTaEmpty, setIsTaEmpty] = useState(true);
+
+  useEffect(() => {
+    if (inputFocus && taRef.current) {
+      taRef.current.focus();
+    }
+  }, [inputFocus]);
 
   useOnClickOutside(
     emojiRef,
@@ -89,6 +102,12 @@ const TextArea = ({ isCommentInput }: props) => {
           <textarea
             ref={taRef}
             onChange={taChangeHandler}
+            onFocus={() => {
+              setInputFocus(true);
+            }}
+            onBlur={() => {
+              setInputFocus(false);
+            }}
             placeholder={isCommentInput ? "Add a comment..." : "Message..."}
           ></textarea>
         </div>

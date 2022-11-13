@@ -45,7 +45,6 @@ const PostBody = ({ sources }: PostBodyProps) => {
   }
   function touchDown(e: React.PointerEvent<HTMLDivElement>) {
     if (!imgVidContaienr.current) return;
-    console.log(e.movementX);
     e.currentTarget.setPointerCapture(e.pointerId);
     setIsMouseDown(true);
     if (postBodyRef.current) {
@@ -73,18 +72,14 @@ const PostBody = ({ sources }: PostBodyProps) => {
         }
       }
       imgVidContaienr.current.style.transform = `translateX(${
-        postBodyRef.current
-          ? -postBodyRef.current.clientWidth * selectedImg + distance
-          : null
+        -postBodyRef.current.clientWidth * selectedImg + distance
       }px)`;
     } else {
       setTimeout(() => {
-        if (!imgVidContaienr.current) return;
+        if (!imgVidContaienr.current || !postBodyRef.current) return;
 
         imgVidContaienr.current.style.transform = `translateX(${
-          postBodyRef.current
-            ? -postBodyRef.current.clientWidth * selectedImg
-            : null
+          -postBodyRef.current.clientWidth * selectedImg
         }px)`;
       }, 0);
     }
@@ -124,11 +119,10 @@ const PostBody = ({ sources }: PostBodyProps) => {
   };
 
   const sliderResizer = useCallback(() => {
-    if (imgVidContaienr.current && imgVidContaienr.current) {
+    if (imgVidContaienr.current && postBodyRef.current) {
+      imgVidContaienr.current.style.transition = "0";
       imgVidContaienr.current.style.transform = `translateX(${
-        postBodyRef.current
-          ? -postBodyRef.current.clientWidth * selectedImg
-          : null
+        -postBodyRef.current.clientWidth * selectedImg
       }px)`;
     }
   }, [selectedImg]);

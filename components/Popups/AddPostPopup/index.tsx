@@ -30,7 +30,8 @@ type AddPostPopupType = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-// function AddPostPopup({ openProp }: AddPostPopupType) {
+const headers = ["Create new post", "Crop", "Edit", "Create new post"];
+
 function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
   const initDiscardBtns = [
     {
@@ -38,7 +39,6 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
       method: () => {
         setStep(() => 0);
         setFiles(() => []);
-        prevStep();
         setShowDiscardPopup(() => false);
       },
       danger: true,
@@ -61,15 +61,11 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
   const [discardPopupButtons, setDiscardPopupButtons] =
     useState(initDiscardBtns);
 
-  // useEffect(() => {
-  //   if (!isOpen) {
-  //     // setDiscardPopupButtons(initDiscardBtns);
-  //   }
-  // }, [isOpen, initDiscardBtns]);
-  const headers = useMemo(
-    () => ["Create new post", "Crop", "Edit", "Create new post"],
-    []
-  );
+  useEffect(() => {
+    if (!isOpen) {
+      setDiscardPopupButtons(initDiscardBtns);
+    }
+  }, [isOpen]);
 
   const cropingFiles = () => {
     files.forEach(async (file) => {
@@ -92,7 +88,6 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
   const nextStep = useCallback(() => {
     if (step === 1) {
       console.log("crop here");
-      // cropingFiles();
     }
     setStep((prev) => {
       if (prev === headers.length - 1) {
@@ -113,9 +108,7 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
     });
   };
 
-  useEffect(() => {
-    // console.log(step);
-  }, [nextStep]);
+  useEffect(() => {}, [nextStep]);
   useEffect(() => {
     setTimeout(() => {
       if (alertDiv.current) {
@@ -123,12 +116,11 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
       }
     }, 2000);
   }, [alertMessage]);
-  // const discardPopupButtons = ;
 
   const PopupContainerCallback = () => {
+    console.log("click out");
     if (step !== 0) {
       const btns = discardPopupButtons;
-
       btns[0].method = () => {
         setStep(() => 0);
         setFiles(() => []);
@@ -136,62 +128,71 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
         setIsOpen(() => false);
       };
       setDiscardPopupButtons(() => btns);
-      // console.log(discardPopupButtons[0].method);
       setShowDiscardPopup(() => true);
       return;
     }
     setIsOpen(() => false);
   };
   return (
-    <PopupContainer
-      isXout={true}
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
-      callback={PopupContainerCallback}
-    >
-      <PopupBody
-        isXin={false}
-        popupHeader={
-          <NextPrevStepHeader
-            prevStep={prevStep}
-            nextStep={nextStep}
-            setShowDiscardPopup={setShowDiscardPopup}
-            headerTitle={headers[step]}
-            step={step}
-            setIsOpen={setIsOpen}
-          />
-        }
+    <>
+      <PopupContainer
+        isXout={true}
+        isOpen={isOpen}
         setIsOpen={setIsOpen}
-        className={styles.postStepsBody}
+        callback={PopupContainerCallback}
       >
-        <>
-          <div style={{ transition: "2s" }}>
-            {step === 0 && (
-              <ImportImgStep
-                setFiles={setFiles}
-                nextStep={nextStep}
-                setAlertMessage={setAlertMessage}
-              />
-            )}
-            {step === 1 && (
-              <CropStep
-                files={files}
-                setFiles={setFiles}
-                nextStep={nextStep}
-                prevStep={prevStep}
-              />
-            )}
-            {step === 2 && <EditStep />}
-            {step === 3 && <SharePostStep />}
-          </div>
-          {alertMessage ? (
-            <div ref={alertDiv} className={styles.alertMessage}>
-              {alertMessage}
+        <PopupBody
+          isXin={false}
+          popupHeader={
+            <NextPrevStepHeader
+              prevStep={prevStep}
+              nextStep={nextStep}
+              setShowDiscardPopup={setShowDiscardPopup}
+              headerTitle={headers[step]}
+              step={step}
+              setIsOpen={setIsOpen}
+            />
+          }
+          setIsOpen={setIsOpen}
+          className={styles.postStepsBody}
+        >
+          <>
+            <div style={{ transition: "2s" }}>
+              {step === 0 && (
+                <ImportImgStep
+                  setFiles={setFiles}
+                  nextStep={nextStep}
+                  setAlertMessage={setAlertMessage}
+                />
+              )}
+              {step === 1 && (
+                <CropStep
+                  files={files}
+                  setFiles={setFiles}
+                  nextStep={nextStep}
+                  prevStep={prevStep}
+                />
+              )}
+              {step === 2 && <EditStep />}
+              {step === 3 && <SharePostStep />}
             </div>
-          ) : null}
-        </>
-      </PopupBody>
-    </PopupContainer>
+            {alertMessage ? (
+              <div ref={alertDiv} className={styles.alertMessage}>
+                {alertMessage}
+              </div>
+            ) : null}
+          </>
+        </PopupBody>
+      </PopupContainer>
+      {showDiscardPopup ? (
+        <SmallPopup
+          titleOrPic="Discard post?"
+          text="If you leave, your edits won't be saved."
+          buttonList={discardPopupButtons}
+          popupCloser={setShowDiscardPopup}
+        />
+      ) : null}
+    </>
   );
 }
 

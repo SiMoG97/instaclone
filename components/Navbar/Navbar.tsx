@@ -131,7 +131,7 @@ const TopRightNav = ({ pathname }: TopRightNavType) => {
         </a>
       </Link>
       <BookmarkIcon width="24" height="24" />
-      <Link href="Settings">
+      <Link href="/Settings">
         <a>
           <SettingsIcon width="24" height="24" />
         </a>

@@ -81,11 +81,11 @@ const PopupContainer = ({
     if (isOpen) {
       body.style.overflow = "hidden";
       body.style.paddingRight = `${scrollbarWidth}px`;
-      if (nav !== null) nav.style.paddingRight = `${scrollbarWidth}px`;
+      if (nav !== null) nav.style.paddingRight = `${scrollbarWidth + 10}px`;
     } else {
       body.style.overflowY = "scroll";
       body.style.paddingRight = "0px";
-      if (nav !== null) nav.style.paddingRight = `0px`;
+      if (nav !== null) nav.style.paddingRight = `10px`;
     }
   }, [isOpen]);
 

@@ -1,0 +1,59 @@
+@import "../../../styles/include-media.scss";
+
+.postPopupContainer {
+  border-radius: 0.6rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  height: 90%;
+  @include media("<=tablet") {
+    height: 100%;
+    width: 100%;
+  }
+  .commentSection {
+    max-width: 500px;
+    min-width: 400px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    @include media("<=tablet") {
+      width: 100%;
+      max-width: 100%;
+      min-width: 100%;
+    }
+    .top {
+      //   background-color: pink;
+      //   padding: 1rem;
+    }
+    .middle {
+      background-color: rgb(58, 76, 245);
+      flex: 1;
+      overflow-y: scroll;
+    }
+    .middle::-webkit-scrollbar {
+      display: none;
+    }
+    .bottom {
+      .reactionsTopBorder {
+        padding-bottom: 0.2rem;
+        border-top: 1px solid var(--txt-c-5);
+      }
+      .textAreaContainer {
+        padding: 0.8rem 0;
+        border-top: 1px solid var(--txt-c-5);
+      }
+    }
+  }
+  .imgVidSection {
+    height: 100%;
+    //testing /////
+    width: 700px;
+    background-color: #000;
+    @include media("<=tablet") {
+      display: none;
+    }
+  }
+}

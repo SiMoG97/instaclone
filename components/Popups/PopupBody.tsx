@@ -4,7 +4,7 @@ import CrossX from "../../public/cross.svg";
 import { SetIsOpenType } from "./PopupContainer";
 
 type PopupBodyTypes = {
-  popupHeader: string | ReactElement;
+  popupHeader?: string | ReactElement;
   children: ReactElement;
   setIsOpen: SetIsOpenType;
   isXin?: boolean;
@@ -31,24 +31,26 @@ const PopupBody = ({
       style={{ ...style }}
       className={`${styles.popupContainer} ${className}`}
     >
-      <div
-        style={{
-          position: "relative",
-        }}
-        className={styles.popUpHeader}
-      >
-        {popupHeader}
-        {isXin && (
-          <CrossX
-            style={{
-              position: "absolute",
-              right: "2rem",
-              cursor: "pointer",
-            }}
-            onClick={closePopup}
-          />
-        )}
-      </div>
+      {popupHeader ? (
+        <div
+          style={{
+            position: "relative",
+          }}
+          className={styles.popUpHeader}
+        >
+          {popupHeader}
+          {isXin && (
+            <CrossX
+              style={{
+                position: "absolute",
+                right: "2rem",
+                cursor: "pointer",
+              }}
+              onClick={closePopup}
+            />
+          )}
+        </div>
+      ) : null}
       {children}
     </div>
   );

@@ -7,10 +7,11 @@ import PostReactions from "../PostReactions";
 import PostBody from "../PostBody";
 import { ImagePost } from "../ImagePost";
 import { VideoPost } from "../VideoPost";
-import PostBottomPart from "../PostBottomPart";
+import PostBottomPart, { ViewCommentsBtn } from "../PostBottomPart";
 import IconCicle from "../../CommonComponents/IconCircle";
 import IconCircle from "../../CommonComponents/IconCircle";
 import { SliderDots } from "../../CommonComponents/SliderDots";
+import PostPopup from "../PostPopup";
 
 const PostsMain = () => {
   return posts.map((post, id) => <Post sources={post.sources} key={id} />);
@@ -22,21 +23,30 @@ type PostProps = {
 
 const Post = ({ sources }: PostProps) => {
   const [inputFocus, setInputFocus] = useState(false);
+  const [openPostPopup, setOpenPostPopup] = useState(false);
 
   return (
-    <div className={styles.postMain}>
-      <PostHeader username="simo_echaarani" />
-      <PostBody sources={sources} />
-      <PostReactions setInputFocus={setInputFocus} />
-      <PostBottomPart numberOfComments={25} numberOfLikes={10} />
-      <div className={styles.commentInputContainer}>
-        <Textarea
-          isCommentInput={true}
-          inputFocus={inputFocus}
-          setInputFocus={setInputFocus}
-        />
+    <>
+      <div className={styles.postMain}>
+        <PostHeader username="simo_echaarani" />
+        <PostBody sources={sources} />
+        <PostReactions setInputFocus={setInputFocus} />
+        <PostBottomPart numberOfLikes={10}>
+          <ViewCommentsBtn
+            numberOfComments={25}
+            setOpenPopupPost={setOpenPostPopup}
+          />
+        </PostBottomPart>
+        <div className={styles.commentInputContainer}>
+          <Textarea
+            isCommentInput={true}
+            inputFocus={inputFocus}
+            setInputFocus={setInputFocus}
+          />
+        </div>
       </div>
-    </div>
+      <PostPopup isOpen={openPostPopup} setIsOpen={setOpenPostPopup} />
+    </>
   );
 };
 

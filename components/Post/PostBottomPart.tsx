@@ -3,14 +3,11 @@ import LikesPopup from "../Popups/LikesPopup";
 import { useState } from "react";
 
 type PostBottomPartType = {
-  numberOfComments: number;
   numberOfLikes: number;
+  children?: JSX.Element;
 };
 
-const PostBottomPart = ({
-  numberOfComments,
-  numberOfLikes,
-}: PostBottomPartType) => {
+const PostBottomPart = ({ numberOfLikes, children }: PostBottomPartType) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const showLikes = (likes: number) => {
@@ -43,19 +40,43 @@ const PostBottomPart = ({
             </div>
           )}
         </div>
-        <div>
-          {numberOfComments === 0 ? (
-            <></>
-          ) : (
-            <div className={styles.viewComments}>
-              <div>{viewComments(numberOfComments)}</div>
-            </div>
-          )}
-        </div>
+        {children}
         <div className={styles.date}>2 DAYS AGO</div>
       </div>
       <LikesPopup isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
+  );
+};
+
+type ViewCommentsBtnProps = {
+  numberOfComments: number;
+  setOpenPopupPost: React.Dispatch<React.SetStateAction<boolean>>;
+};
+export const ViewCommentsBtn = ({
+  numberOfComments,
+  setOpenPopupPost,
+}: ViewCommentsBtnProps) => {
+  const viewComments = (cmntNbr: number) => {
+    if (cmntNbr === 1) {
+      return `View ${cmntNbr} comment`;
+    }
+    return `View all ${cmntNbr} comments`;
+  };
+  return (
+    <div>
+      {numberOfComments === 0 ? (
+        <></>
+      ) : (
+        <div
+          className={styles.viewComments}
+          onClick={() => {
+            setOpenPopupPost(true);
+          }}
+        >
+          <div>{viewComments(numberOfComments)}</div>
+        </div>
+      )}
+    </div>
   );
 };
 

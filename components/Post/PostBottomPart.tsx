@@ -8,7 +8,7 @@ type PostBottomPartType = {
 };
 
 const PostBottomPart = ({ numberOfLikes, children }: PostBottomPartType) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isLikesPopupOpen, setIsLikesPopupOpen] = useState(false);
 
   const showLikes = (likes: number) => {
     if (likes > 1) {
@@ -32,7 +32,7 @@ const PostBottomPart = ({ numberOfLikes, children }: PostBottomPartType) => {
             <div className={styles.nbrOfLikes}>
               <div
                 onClick={() => {
-                  setIsOpen(true);
+                  setIsLikesPopupOpen(true);
                 }}
               >
                 {showLikes(numberOfLikes)}
@@ -43,7 +43,11 @@ const PostBottomPart = ({ numberOfLikes, children }: PostBottomPartType) => {
         {children}
         <div className={styles.date}>2 DAYS AGO</div>
       </div>
-      <LikesPopup isOpen={isOpen} setIsOpen={setIsOpen} />
+      {isLikesPopupOpen ? (
+        <LikesPopup isOpen={isLikesPopupOpen} setIsOpen={setIsLikesPopupOpen} />
+      ) : (
+        <></>
+      )}
     </>
   );
 };

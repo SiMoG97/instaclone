@@ -87,6 +87,11 @@ const PopupContainer = ({
       body.style.paddingRight = "0px";
       if (nav !== null) nav.style.paddingRight = `10px`;
     }
+    return () => {
+      body.style.overflowY = "scroll";
+      body.style.paddingRight = "0px";
+      if (nav !== null) nav.style.paddingRight = `10px`;
+    };
   }, [isOpen]);
 
   // popup phone translateX animation

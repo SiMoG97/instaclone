@@ -45,7 +45,15 @@ const Post = ({ sources }: PostProps) => {
           />
         </div>
       </div>
-      <PostPopup isOpen={openPostPopup} setIsOpen={setOpenPostPopup} />
+      {openPostPopup ? (
+        <PostPopup
+          sources={sources}
+          isOpen={openPostPopup}
+          setIsOpen={setOpenPostPopup}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 };

@@ -4,16 +4,34 @@ import MutedSvg from "../../public/muted.svg";
 import UnmutedSvg from "../../public/unmuted.svg";
 type VideoPostProps = {
   src: string;
+  isSelected: boolean;
 };
-// type VideoTarget = {
-//   target: EventTarget & HTMLVideoElement;
-// };
 
-export const VideoPost = ({ src }: VideoPostProps) => {
+export const VideoPost = ({ src, isSelected }: VideoPostProps) => {
   const [paused, setPaused] = useState(false);
   const [muted, setMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const rangeRef = useRef<HTMLInputElement>(null);
+
+  const playVidWhenVisible = () => {
+    if (!videoRef.current) return;
+    if (!isInViewport(videoRef.current) || !isSelected) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play();
+    }
+  };
+  useEffect(() => {
+    playVidWhenVisible();
+  }, [isSelected]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", playVidWhenVisible);
+    return () => {
+      window.removeEventListener("scroll", playVidWhenVisible);
+    };
+  }, [isSelected]);
 
   const handleTimeUpdate = () => {
     if (rangeRef.current && videoRef.current) {
@@ -100,3 +118,10 @@ export const VideoPost = ({ src }: VideoPostProps) => {
     </div>
   );
 };
+function isInViewport(el: HTMLVideoElement) {
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+  );
+}

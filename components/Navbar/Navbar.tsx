@@ -20,7 +20,6 @@ import AddPostPopup from "../Popups/AddPostPopup";
 
 const Navbar = () => {
   //testing
-  const [addPostOpen, setAddPostOpen] = useState(false);
   const [activeHeart, setActiveHeart] = useState(false);
 
   //testing
@@ -106,7 +105,11 @@ const Navbar = () => {
         </div>
         {isOpen && <HiddenLayer clicked={setIsOpen} />}
       </nav>
-      <AddPostPopup isOpen={addPostIsOpen} setIsOpen={setAddPostIsOpen} />
+      {addPostIsOpen ? (
+        <AddPostPopup isOpen={addPostIsOpen} setIsOpen={setAddPostIsOpen} />
+      ) : (
+        <></>
+      )}
       <PhoneNav
         addPostIsOpen={addPostIsOpen}
         setAddPostIsOpen={setAddPostIsOpen}

@@ -5,7 +5,13 @@ import styles from "./postStyles.module.scss";
 import { VideoPost } from "./VideoPost";
 import ArrowL from "./../../public/arrowL.svg";
 import ArrowR from "./../../public/arrowR.svg";
-import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { SliderDots } from "../CommonComponents/SliderDots";
 
 type PostBodyProps = {
@@ -137,6 +143,7 @@ const PostBody = ({ sources }: PostBodyProps) => {
       }
     };
   }, [sliderResizer]);
+
   return (
     <div ref={postBodyRef} className={styles.postBody}>
       <div
@@ -160,11 +167,11 @@ const PostBody = ({ sources }: PostBodyProps) => {
             }px)`,
           }}
         >
-          {sources.map((src) => {
+          {sources.map((src, i) => {
             return imgOrVideo(src) === "img" ? (
               <ImagePost src={src} key={src} />
             ) : (
-              <VideoPost src={src} key={src} />
+              <VideoPost src={src} key={src} isSelected={i === selectedImg} />
             );
           })}
         </div>
@@ -200,7 +207,7 @@ const PostBody = ({ sources }: PostBodyProps) => {
           nbrOfDots={sources.length}
           selectedDot={selectedImg}
           style={{
-            bottom: "-25px",
+            bottom: "15px",
             left: "50%",
             transform: "translate(-50%,-50%)",
           }}

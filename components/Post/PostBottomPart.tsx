@@ -10,12 +10,6 @@ type PostBottomPartType = {
 const PostBottomPart = ({ numberOfLikes, children }: PostBottomPartType) => {
   const [isLikesPopupOpen, setIsLikesPopupOpen] = useState(false);
 
-  const showLikes = (likes: number) => {
-    if (likes > 1) {
-      return `${likes} Likes`;
-    }
-    return `${likes} Like`;
-  };
   const viewComments = (cmntNbr: number) => {
     if (cmntNbr === 1) {
       return `View ${cmntNbr} comment`;
@@ -82,6 +76,13 @@ export const ViewCommentsBtn = ({
       )}
     </div>
   );
+};
+
+export const showLikes = (likes: number) => {
+  if (likes > 1) {
+    return `${likes} Likes`;
+  }
+  return `${likes} Like`;
 };
 
 export default PostBottomPart;

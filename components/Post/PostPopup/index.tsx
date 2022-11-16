@@ -4,6 +4,7 @@ import PicUsername from "../../PicUsername";
 import PopupBody from "../../Popups/PopupBody";
 import PopupContainer from "../../Popups/PopupContainer";
 import TextArea from "../../Textarea";
+import CommentAndReplies from "./Comment";
 import PostBody from "../PostBody";
 import PostBottomPart from "../PostBottomPart";
 import PostHeader from "../PostHeader";
@@ -42,55 +43,27 @@ const PostPopup = ({ sources, isOpen, setIsOpen }: PostPopupProps) => {
           isXin={false}
           className={styles.postPopupContainer}
           setIsOpen={setIsOpen}
-          // style={{ width: "1000px" }}
         >
           <>
             <div className={styles.imgVidSection} ref={imgVidSectionRef}>
-              {/* <h1>hello</h1> */}
               <PostBody sources={sources} />
             </div>
             <div className={styles.commentSection}>
               <div className={styles.top}>
                 <PostHeader username="Brahim Baif" />
-                {/* <PicUsername
-                  src="./baif.jpg"
-                  hasStory
-                  size="size-4"
-                  primaryText="Brahim Baif"
-                /> */}
               </div>
               <div className={styles.middle}>
-                <>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                  <h1>middle</h1>
-                </>
+                {CommentsArr.map((comment) => {
+                  return (
+                    <CommentAndReplies
+                      username={comment.username}
+                      commentText={comment.commentText}
+                      nbrLikes={comment.nbrLikes}
+                      replies={comment.replies}
+                      picSrc={comment.picSrc}
+                    />
+                  );
+                })}
               </div>
               <div className={styles.bottom}>
                 <div className={styles.reactionsTopBorder}></div>
@@ -111,5 +84,42 @@ const PostPopup = ({ sources, isOpen, setIsOpen }: PostPopupProps) => {
     </>
   );
 };
+
+const CommentsArr = [
+  {
+    username: "timo_lostora",
+    picSrc: "./baif.jpg",
+    commentText: "olah ila zwin",
+    nbrLikes: 0,
+    replies: [
+      {
+        username: "maradona_rip",
+        picSrc: "./pdp.jfif",
+        commentText: "sir f7alk jiti 5ayb",
+        nbrLikes: 2,
+      },
+      {
+        username: "skran_3yan",
+        picSrc: "./baif.jpg",
+        commentText: "ila knti rajl 5rej m3aya 1v1",
+        nbrLikes: 1,
+      },
+    ],
+  },
+  {
+    username: "Simo_echaarani",
+    picSrc: "./pp.jpg",
+    commentText: "sir f7alk jiti 5ayb",
+    nbrLikes: 10,
+    replies: [],
+  },
+  {
+    username: "thebrahimbaif",
+    picSrc: "./baif.jpg",
+    commentText: "sir f7alk jiti 5ayb",
+    nbrLikes: 2,
+    replies: [],
+  },
+];
 
 export default PostPopup;

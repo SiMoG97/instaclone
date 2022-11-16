@@ -19,6 +19,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    @include media("<=desktop") {
+      max-width: 400px;
+    }
     @include media("<=tablet") {
       width: 100%;
       max-width: 100%;
@@ -29,9 +32,10 @@
       //   padding: 1rem;
     }
     .middle {
-      background-color: rgb(58, 76, 245);
+      // background-color: rgb(58, 76, 245);
       flex: 1;
       overflow-y: scroll;
+      padding: 1rem;
     }
     .middle::-webkit-scrollbar {
       display: none;
@@ -49,14 +53,89 @@
   }
   .imgVidSection {
     height: 100%;
-    //testing /////
-    max-width: calc(100vw - 500px);
-    //////////////
+    max-width: calc(95vw - 500px);
     background-color: #000;
     display: flex;
     align-items: center;
     @include media("<=tablet") {
       display: none;
     }
+  }
+}
+
+.commentDescription {
+  display: flex;
+  font-size: 1.4rem;
+  .middlePart {
+    line-height: 2rem;
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    flex: 1;
+    .username {
+      font-weight: 600;
+      padding-right: 0.5rem;
+    }
+    .bottomPart {
+      // background-color: red;
+      padding: 1rem 0;
+      display: flex;
+      align-items: center;
+      span {
+        color: var(--txt-c-2);
+        margin-right: 1.5rem;
+        font-weight: 500;
+        cursor: pointer;
+        &:nth-child(1) {
+          font-weight: normal;
+        }
+      }
+      .dots {
+        // margin-left: 1rem;
+        opacity: 0;
+        circle {
+          transform: translateY(3px);
+          fill: var(--txt-c-2);
+        }
+      }
+    }
+    &:hover .dots {
+      opacity: 1;
+    }
+  }
+  .heart {
+    padding: 1rem;
+    padding-left: 2rem;
+    > span svg {
+      cursor: pointer;
+      &:hover {
+        path {
+          stroke: var(--txt-c-2);
+        }
+      }
+      path {
+        stroke: var(--txt-c-1);
+      }
+    }
+  }
+}
+
+.replies {
+  margin-left: 4.5rem;
+  margin-top: 1rem;
+}
+.repliesButton {
+  margin-left: 4.5rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  color: var(--txt-c-2);
+  margin-bottom: 2rem;
+  cursor: pointer;
+  .line {
+    display: inline-block;
+    height: 0;
+    width: 2.4rem;
+    border-bottom: 1px solid var(--txt-c-3);
+    margin-right: 1rem;
   }
 }

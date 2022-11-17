@@ -4,7 +4,7 @@ import PicUsername from "../../PicUsername";
 import PopupBody from "../../Popups/PopupBody";
 import PopupContainer from "../../Popups/PopupContainer";
 import TextArea from "../../Textarea";
-import CommentAndReplies from "./Comment";
+import CommentAndReplies, { CommentAndRepliesProps } from "./Comment";
 import PostBody from "../PostBody";
 import PostBottomPart from "../PostBottomPart";
 import PostHeader from "../PostHeader";
@@ -20,6 +20,8 @@ type PostPopupProps = {
 const PostPopup = ({ sources, isOpen, setIsOpen }: PostPopupProps) => {
   const [inputFocus, setInputFocus] = useState(false);
   const imgVidSectionRef = useRef<HTMLDivElement>(null);
+  const [selectedReplyUser, setSelectedRepluUser] = useState("");
+
   const postAR = useRef(1);
 
   const CalculatePostContainerWidth = () => {
@@ -53,27 +55,41 @@ const PostPopup = ({ sources, isOpen, setIsOpen }: PostPopupProps) => {
                 <PostHeader username="Brahim Baif" />
               </div>
               <div className={styles.middle}>
-                {CommentsArr.map((comment) => {
-                  return (
-                    <CommentAndReplies
-                      username={comment.username}
-                      commentText={comment.commentText}
-                      nbrLikes={comment.nbrLikes}
-                      replies={comment.replies}
-                      picSrc={comment.picSrc}
-                    />
-                  );
-                })}
+                {CommentsArr.length === 0 ? (
+                  <div className={styles.noComments}>
+                    <div>
+                      <h2>No comments yet</h2>
+                      <div>Start the conversation</div>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {CommentsArr.map((comment, i) => {
+                      return (
+                        <CommentAndReplies
+                          username={comment.username}
+                          commentText={comment.commentText}
+                          nbrLikes={comment.nbrLikes}
+                          replies={comment.replies}
+                          picSrc={comment.picSrc}
+                          key={i}
+                          setSelectedRepluUser={setSelectedRepluUser}
+                        />
+                      );
+                    })}
+                  </>
+                )}
               </div>
               <div className={styles.bottom}>
                 <div className={styles.reactionsTopBorder}></div>
                 <PostReactions setInputFocus={setInputFocus} />
-                <PostBottomPart numberOfLikes={15} />
+                <PostBottomPart numberOfLikes={10} />
                 <div className={styles.textAreaContainer}>
                   <TextArea
                     inputFocus={inputFocus}
                     setInputFocus={setInputFocus}
                     isCommentInput
+                    selectedReplyUser={selectedReplyUser}
                   />
                 </div>
               </div>
@@ -85,7 +101,7 @@ const PostPopup = ({ sources, isOpen, setIsOpen }: PostPopupProps) => {
   );
 };
 
-const CommentsArr = [
+const CommentsArr: Omit<CommentAndRepliesProps, "setSelectedRepluUser">[] = [
   {
     username: "timo_lostora",
     picSrc: "./baif.jpg",

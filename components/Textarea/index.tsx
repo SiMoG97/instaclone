@@ -14,18 +14,33 @@ type TextAreaProps = {
   inputFocus: boolean;
   // inputFocus: React.MutableRefObject<boolean>;
   setInputFocus: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedReplyUser: string;
 };
 
 const TextArea = ({
   isCommentInput,
   inputFocus,
   setInputFocus,
+  selectedReplyUser,
 }: TextAreaProps) => {
   const taRef = useRef<HTMLTextAreaElement>(null);
   const emojiRef = useRef<HTMLDivElement>(null);
   const emojiIconOpenButton = useRef<HTMLDivElement>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isTaEmpty, setIsTaEmpty] = useState(true);
+
+  const replyToHandler = () => {
+    if (taRef.current) {
+      taRef.current.value = selectedReplyUser;
+      setInputFocus(true);
+      setIsTaEmpty(false);
+    }
+  };
+  useEffect(() => {
+    if (selectedReplyUser && selectedReplyUser.length > 0) {
+      replyToHandler();
+    }
+  }, [selectedReplyUser]);
 
   useEffect(() => {
     if (inputFocus && taRef.current) {

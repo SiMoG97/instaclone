@@ -10,29 +10,19 @@ type PostBottomPartType = {
 const PostBottomPart = ({ numberOfLikes, children }: PostBottomPartType) => {
   const [isLikesPopupOpen, setIsLikesPopupOpen] = useState(false);
 
-  const viewComments = (cmntNbr: number) => {
-    if (cmntNbr === 1) {
-      return `View ${cmntNbr} comment`;
-    }
-    return `View all ${cmntNbr} comments`;
-  };
   return (
     <>
       <div className={styles.postBottomPart}>
         <div className={styles.nbrOfLikes}>
-          {numberOfLikes === 0 ? (
-            <></>
-          ) : (
-            <div className={styles.nbrOfLikes}>
-              <div
-                onClick={() => {
-                  setIsLikesPopupOpen(true);
-                }}
-              >
-                {showLikes(numberOfLikes)}
-              </div>
+          <div className={styles.nbrOfLikes}>
+            <div
+              onClick={() => {
+                setIsLikesPopupOpen(true);
+              }}
+            >
+              {showLikes(numberOfLikes)}
             </div>
-          )}
+          </div>
         </div>
         {children}
         <div className={styles.date}>2 DAYS AGO</div>
@@ -50,16 +40,16 @@ type ViewCommentsBtnProps = {
   numberOfComments: number;
   setOpenPopupPost: React.Dispatch<React.SetStateAction<boolean>>;
 };
+const viewComments = (cmntNbr: number) => {
+  if (cmntNbr === 1) {
+    return `View ${cmntNbr} comment`;
+  }
+  return `View all ${cmntNbr} comments`;
+};
 export const ViewCommentsBtn = ({
   numberOfComments,
   setOpenPopupPost,
 }: ViewCommentsBtnProps) => {
-  const viewComments = (cmntNbr: number) => {
-    if (cmntNbr === 1) {
-      return `View ${cmntNbr} comment`;
-    }
-    return `View all ${cmntNbr} comments`;
-  };
   return (
     <div>
       {numberOfComments === 0 ? (
@@ -79,6 +69,13 @@ export const ViewCommentsBtn = ({
 };
 
 export const showLikes = (likes: number) => {
+  if (likes === 0) {
+    return (
+      <>
+        Be the first to <strong>like this</strong>
+      </>
+    );
+  }
   if (likes > 1) {
     return `${likes} Likes`;
   }

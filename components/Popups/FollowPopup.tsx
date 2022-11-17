@@ -23,7 +23,11 @@ const FollowPopup = ({
   //   useState<boolean>(followerTabActive);
   return (
     <PopupContainer isOpen={isOpen} setIsOpen={setIsOpen}>
-      <PopupBody popupHeader="Followers - Following" setIsOpen={setIsOpen}>
+      <PopupBody
+        popupHeader="Followers - Following"
+        setIsOpen={setIsOpen}
+        style={{ width: "400px", height: "400px" }}
+      >
         <div className={styles.followPopup}>
           <div className={styles.switch}>
             <div

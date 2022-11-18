@@ -14,7 +14,7 @@ type TextAreaProps = {
   inputFocus: boolean;
   // inputFocus: React.MutableRefObject<boolean>;
   setInputFocus: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedReplyUser: string;
+  selectedReplyUser?: string;
 };
 
 const TextArea = ({
@@ -30,7 +30,7 @@ const TextArea = ({
   const [isTaEmpty, setIsTaEmpty] = useState(true);
 
   const replyToHandler = () => {
-    if (taRef.current) {
+    if (taRef.current && selectedReplyUser) {
       taRef.current.value = selectedReplyUser;
       setInputFocus(true);
       setIsTaEmpty(false);

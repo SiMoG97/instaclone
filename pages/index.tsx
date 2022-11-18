@@ -14,6 +14,7 @@ import PicUsername from "../components/PicUsername";
 import Checkbox from "../components/FormComponents/SwitchButton";
 import LikesPopup from "../components/Popups/LikesPopup";
 import SharePostPopup from "../components/Popups/SharePostPopup";
+import Head from "next/head";
 
 const Home: NextPage = () => {
   const postsContainer = useRef<HTMLDivElement | null>(null);

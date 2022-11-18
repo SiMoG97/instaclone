@@ -14,7 +14,13 @@ import { SliderDots } from "../../CommonComponents/SliderDots";
 import PostPopup from "../PostPopup";
 
 const PostsMain = () => {
-  return posts.map((post, id) => <Post sources={post.sources} key={id} />);
+  return (
+    <>
+      {posts.map((post, id) => (
+        <Post sources={post.sources} key={id} />
+      ))}
+    </>
+  );
 };
 
 type PostProps = {

@@ -27,6 +27,8 @@
         font-size: 3rem;
         font-weight: 300;
         margin-right: 2rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
     .stats {
@@ -51,5 +53,11 @@
   > div {
     background-color: #facbcd;
     aspect-ratio: 1;
+    overflow: hidden;
+    position: relative;
+    img {
+      // width: 100%;
+    }
+    // width: 600px;
   }
 }

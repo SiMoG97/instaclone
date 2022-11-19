@@ -55,9 +55,38 @@
     aspect-ratio: 1;
     overflow: hidden;
     position: relative;
-    img {
-      // width: 100%;
+    cursor: pointer;
+    &:hover .CmntLikesLayer {
+      display: flex;
     }
+
     // width: 600px;
+  }
+}
+
+.CmntLikesLayer {
+  background-color: #00000069;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: 600;
+  > div {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    transform: scale(0.9);
+  }
+  svg {
+    margin-right: 0.8rem;
+  }
+  svg path {
+    fill: #fff;
+    stroke: #fff;
   }
 }

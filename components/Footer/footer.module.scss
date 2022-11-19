@@ -24,3 +24,14 @@
     margin-top: 2rem;
   }
 }
+
+.centered {
+  margin-bottom: 20rem;
+  // padding: 10rem;
+  > div:last-child {
+    text-align: center;
+  }
+  ul {
+    justify-content: center;
+  }
+}

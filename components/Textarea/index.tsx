@@ -11,9 +11,9 @@ const EmojiPicker = dynamic(() => import("../EmojiPicker"), { ssr: false });
 
 type TextAreaProps = {
   isCommentInput: boolean;
-  inputFocus: boolean;
+  inputFocus?: boolean;
   // inputFocus: React.MutableRefObject<boolean>;
-  setInputFocus: React.Dispatch<React.SetStateAction<boolean>>;
+  setInputFocus?: React.Dispatch<React.SetStateAction<boolean>>;
   selectedReplyUser?: string;
 };
 
@@ -30,7 +30,7 @@ const TextArea = ({
   const [isTaEmpty, setIsTaEmpty] = useState(true);
 
   const replyToHandler = () => {
-    if (taRef.current && selectedReplyUser) {
+    if (taRef.current && selectedReplyUser && setInputFocus) {
       taRef.current.value = selectedReplyUser;
       setInputFocus(true);
       setIsTaEmpty(false);
@@ -118,10 +118,14 @@ const TextArea = ({
             ref={taRef}
             onChange={taChangeHandler}
             onFocus={() => {
-              setInputFocus(true);
+              if (setInputFocus) {
+                setInputFocus(true);
+              }
             }}
             onBlur={() => {
-              setInputFocus(false);
+              if (setInputFocus) {
+                setInputFocus(false);
+              }
             }}
             placeholder={isCommentInput ? "Add a comment..." : "Message..."}
           ></textarea>

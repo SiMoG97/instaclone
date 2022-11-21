@@ -3,8 +3,13 @@ import React from "react";
 import styles from "./profile.module.scss";
 import Heart from "../../public/heart.svg";
 import CommentIcon from "../../public/comment.svg";
+import ZeroImgPlceholder from "./ZeroImgPlaceholder";
 
 const ImagesSection = () => {
+  if (!sources || sources.length === 0) {
+    return <ZeroImgPlceholder />;
+  }
+
   return (
     <div className={styles.imgSection}>
       {sources &&
@@ -43,7 +48,7 @@ const NbrCmntLikesLayer = ({
   );
 };
 
-const sources = [
+const sources: string[] = [
   "/mediaTesting/img1.jpg",
   "/mediaTesting/img2.jpg",
   "/mediaTesting/img3.jpg",

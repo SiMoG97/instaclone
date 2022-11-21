@@ -110,14 +110,12 @@ export const StepTwo = ({ setStep, stepOneData }: StepTwoType) => {
 
   return (
     <FormContainer>
-      {/* <Image
+      <Image
         width={134}
         height={85}
         src="/birthdayicon.png"
         alt="cake with candles icon"
-      /> */}
-
-      <img src="./birthdayicon.png" alt="cake with candles icon" />
+      />
       <div style={{ padding: "2rem 0", fontSize: "1.6rem", fontWeight: "600" }}>
         Add Your Birthday
       </div>

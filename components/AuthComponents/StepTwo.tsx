@@ -12,6 +12,7 @@ import { MONTHS, hasThisManyDays } from "../../utils/date";
 import styles from "./form.module.scss";
 import { SignupStepOneTypes } from "../../utils/GlobalTypes";
 import Link from "next/link";
+import Image from "next/image";
 type StepTwoType = {
   setStep: Dispatch<SetStateAction<number>>;
   stepOneData: SignupStepOneTypes;
@@ -109,6 +110,13 @@ export const StepTwo = ({ setStep, stepOneData }: StepTwoType) => {
 
   return (
     <FormContainer>
+      {/* <Image
+        width={134}
+        height={85}
+        src="/birthdayicon.png"
+        alt="cake with candles icon"
+      /> */}
+
       <img src="./birthdayicon.png" alt="cake with candles icon" />
       <div style={{ padding: "2rem 0", fontSize: "1.6rem", fontWeight: "600" }}>
         Add Your Birthday

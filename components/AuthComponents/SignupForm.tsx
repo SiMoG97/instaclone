@@ -4,7 +4,7 @@ import { SignupStepOneTypes } from "../../utils/GlobalTypes";
 import { StepOne, StepTwo } from "./";
 
 export const SignupForm = () => {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const [stepOneData, setStepOneData] = useState<SignupStepOneTypes>(
     {} as SignupStepOneTypes
   );

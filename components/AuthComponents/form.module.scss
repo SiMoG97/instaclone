@@ -178,16 +178,23 @@
 }
 .textUnderLogo {
 }
+
 .select {
   color: var(--txt-c-2);
+  background-color: var(--bg-c-1);
   border: solid 1px var(--txt-c-4);
   padding: 0.8rem;
   font-size: 1.2rem;
-  // margin: 0 0.5rem;
+  cursor: pointer;
   &:nth-child(1) {
     width: 10rem;
   }
   &:nth-child(2) {
     margin: 0 0.8rem;
+  }
+  option {
+    color: var(--txt-c-2);
+    background-color: var(--bg-c-1);
+    cursor: pointer;
   }
 }

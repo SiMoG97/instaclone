@@ -11,20 +11,10 @@ function ZeroImgPlceholder() {
       <div className={styles.imgContainer}>
         <Image
           src="/zeroImgPlaceholder.jpg"
-          //   width="380"
-          //   height="380"
           layout="fill"
-          objectFit="cover"
-          //   fill
-          className={styles.customImg}
+          alt="no post to show placeholder image"
+          quality={40}
         />
-        {/* <Image
-          src="/zeroImgPlaceholder.jpg"
-          width="100%"
-          height="100%"
-          objectFit="contain"
-        /> */}
-        {/* <img src="/zeroImgPlaceholder.jpg" /> */}
       </div>
     </div>
   );

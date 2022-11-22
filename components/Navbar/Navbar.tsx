@@ -31,7 +31,7 @@ const Navbar = () => {
   return (
     <>
       <nav className={styles.nav}>
-        <div className={`container ${styles.container}`}>
+        <div className={`container ${styles.navContainer}`}>
           <div className={styles.child}>
             <Link href="/">
               <a>

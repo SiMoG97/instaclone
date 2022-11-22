@@ -16,6 +16,8 @@ import LikesPopup from "../components/Popups/LikesPopup";
 import SharePostPopup from "../components/Popups/SharePostPopup";
 import Head from "next/head";
 
+import GradientCicle from "./../public/gradientCircle.svg";
+
 const Home: NextPage = () => {
   const postsContainer = useRef<HTMLDivElement | null>(null);
 
@@ -30,9 +32,10 @@ const Home: NextPage = () => {
           myUserName="simo_echaarani"
           myFullName="Simo Echaarani"
         />
-        {/* dev */}
-        {/* <DropDown /> */}
       </div>
+      <GradientCicle />
+      {/* dev */}
+      {/* <DropDown /> */}
       {/* 
       <div
         style={{

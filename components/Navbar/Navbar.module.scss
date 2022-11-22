@@ -14,7 +14,8 @@
     padding-right: 1rem !important;
   }
 }
-.container {
+
+.navContainer {
   justify-content: space-between;
   align-items: center;
   .child {
@@ -212,7 +213,6 @@
   }
   &::before {
     @include dropTriangle(1.3rem);
-    // right: 1rem;
   }
   li {
     list-style: none;

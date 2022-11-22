@@ -14,7 +14,9 @@ const SearchInput = () => {
           className={`${styles.fakeInput} ${focus && styles.hideFakeInput} `}
           onClick={() => {
             setFocus(true);
-            inputRef.current?.focus();
+            if (inputRef.current) {
+              inputRef.current.focus();
+            }
           }}
         >
           <SearchIcon />

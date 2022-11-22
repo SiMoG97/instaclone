@@ -2,6 +2,7 @@ import "../styles/globals.scss";
 import type { AppProps } from "next/app";
 import Navbar from "../components/Navbar/Navbar";
 import ThemeContextProvider from "../context/themeContext";
+import GradientCicle from "./../public/gradientCircle.svg";
 
 function MyApp({ Component, pageProps, ...appProps }: AppProps) {
   const { pathname } = appProps.router;
@@ -17,6 +18,7 @@ function MyApp({ Component, pageProps, ...appProps }: AppProps) {
       ></link>
       <ThemeContextProvider>
         {showNav && <Navbar />}
+        {/* {showNav && null} */}
         <Component {...pageProps} />
       </ThemeContextProvider>
     </>

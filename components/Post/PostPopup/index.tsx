@@ -104,19 +104,19 @@ const PostPopup = ({ sources, isOpen, setIsOpen }: PostPopupProps) => {
 const CommentsArr: Omit<CommentAndRepliesProps, "setSelectedRepluUser">[] = [
   {
     username: "timo_lostora",
-    picSrc: "./baif.jpg",
+    picSrc: "/baif.jpg",
     commentText: "olah ila zwin",
     nbrLikes: 0,
     replies: [
       {
         username: "maradona_rip",
-        picSrc: "./pdp.jfif",
+        picSrc: "/pdp.jfif",
         commentText: "sir f7alk jiti 5ayb",
         nbrLikes: 2,
       },
       {
         username: "skran_3yan",
-        picSrc: "./baif.jpg",
+        picSrc: "/baif.jpg",
         commentText: "ila knti rajl 5rej m3aya 1v1",
         nbrLikes: 1,
       },
@@ -124,14 +124,14 @@ const CommentsArr: Omit<CommentAndRepliesProps, "setSelectedRepluUser">[] = [
   },
   {
     username: "Simo_echaarani",
-    picSrc: "./pp.jpg",
+    picSrc: "/pp.jpg",
     commentText: "sir f7alk jiti 5ayb",
     nbrLikes: 10,
     replies: [],
   },
   {
     username: "thebrahimbaif",
-    picSrc: "./baif.jpg",
+    picSrc: "/baif.jpg",
     commentText: "sir f7alk jiti 5ayb",
     nbrLikes: 2,
     replies: [],

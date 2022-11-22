@@ -47,7 +47,7 @@ const PostHeader = ({ username }: props) => {
       <div className={styles.postHeader}>
         <div>
           <PicUsername
-            src="./pp.jpg"
+            src="/pp.jpg"
             size="size-4"
             primaryText={username}
             hasStory={true}
@@ -66,7 +66,7 @@ const PostHeader = ({ username }: props) => {
         <SmallPopup
           popupCloser={setUnfollowPopup}
           buttonList={unfollowButtons}
-          titleOrPic={<ProfilePic src="./baif.jpg" size="size-1-5" />}
+          titleOrPic={<ProfilePic src="/baif.jpg" size="size-1-5" />}
           text={`Unfollow ${username}`}
         />
       ) : null}

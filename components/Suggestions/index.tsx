@@ -49,7 +49,7 @@ const Suggestions = ({ postsContainer, myUserName, myFullName }: props) => {
       <div className={`${styles.suggestionHeader} ${styles.suggestionUnit}`}>
         <div className={styles.userInfo}>
           <PicUsername
-            src="./pp.jpg"
+            src="/pp.jpg"
             size="size-2"
             primaryText={myUserName}
             secondaryText={myFullName}
@@ -82,19 +82,8 @@ export const SuggestionUnit = ({ userName }: { userName: string }) => {
   return (
     <div className={styles.suggestionUnit} style={{ marginBottom: "1.2rem" }}>
       <div className={styles.userInfo}>
-        {/* <ProfilePic
-          src="/pp.jpg"
-          hasStory={false}
-          seen={false}
-          size="size-4"
-          animate={false}
-        />
-        <div className={styles.anotherUser}>
-          <div>{userName}</div>
-          <div>Followed by abass_radii + 3 more</div>
-        </div> */}
         <PicUsername
-          src="./pp.jpg"
+          src="/pp.jpg"
           size="size-4"
           primaryText={userName}
           secondaryText="Followed by abass_radii + 3 more"

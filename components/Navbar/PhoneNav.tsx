@@ -47,7 +47,7 @@ const PhoneNav = ({ addPostIsOpen, setAddPostIsOpen }: PhoneNavType) => {
       <Link href={"/Profile"}>
         <a>
           <ProfilePic
-            src="./pp.jpg"
+            src="/pp.jpg"
             hasStory={false}
             animate={false}
             seen={false}

@@ -40,7 +40,7 @@ const ProfileHeader = ({ username = "simo_echaarani" }: ProfileHeaderType) => {
       <div className={styles.profileHeader}>
         <div className={styles.profilePicContainer}>
           <ProfilePic
-            src="./pp.jpg"
+            src="/pp.jpg"
             size="size-1"
             hasStory={true}
             animate={true}
@@ -94,7 +94,7 @@ const ProfileHeader = ({ username = "simo_echaarani" }: ProfileHeaderType) => {
         <SmallPopup
           popupCloser={setUnfollowPopup}
           buttonList={unfollowButtons}
-          titleOrPic={<ProfilePic src="./baif.jpg" size="size-1-5" />}
+          titleOrPic={<ProfilePic src="/baif.jpg" size="size-1-5" />}
           text={`Unfollow ${username}`}
         />
       ) : null}

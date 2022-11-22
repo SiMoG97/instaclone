@@ -97,6 +97,14 @@
   background-color: var(--bg-c-1);
   padding-top: 0;
   border-radius: 0.4rem;
+  .customImg {
+    // object-fit: contain;
+    // width: 100% !important;
+    // height: 100%;
+    // position: relative !important;
+    // height: unset !important;
+    width: 786px;
+  }
   > div:nth-child(1) {
     color: var(--txt-c-1);
     text-align: center;
@@ -113,17 +121,28 @@
   .imgContainer {
     width: 100%;
     img {
-      width: 100%;
+      width: 100% !important;
     }
   }
   @include media(">tablet") {
     margin: 2rem;
+    .imgContainer {
+      width: 380px;
+      height: 380px;
+      position: relative;
+    }
   }
 
   @include media(">laptop") {
     margin: 2rem;
     display: flex;
     align-items: center;
+    .customImg {
+      // object-fit: contain;
+      width: 100% !important;
+      // position: relative !important;
+      // height: unset !important;
+    }
     > div:nth-child(1) {
       order: 1;
       width: 100%;

@@ -92,7 +92,8 @@ const Navbar = () => {
               >
                 <ProfilePic
                   size="size-5"
-                  src="https://i.imgur.com/W2UbjS8.jpg"
+                  // src="https://i.imgur.com/W2UbjS8.jpg"
+                  src="/pp.jpg"
                   animate={false}
                   hasStory={false}
                   seen={false}

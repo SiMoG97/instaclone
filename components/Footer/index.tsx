@@ -1,9 +1,8 @@
 import Link from "next/link";
 import styles from "./footer.module.scss";
 
-const Footer = ({ centered }: { centered?: boolean }) => {
+const Footer = ({ centered = false }: { centered: boolean }) => {
   const date = new Date();
-  console.log(centered);
   return (
     <footer className={`${styles.footer} ${centered ? styles.centered : ""}`}>
       <div>

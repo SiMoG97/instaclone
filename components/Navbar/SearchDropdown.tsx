@@ -15,9 +15,9 @@ const SearchDropdown = ({ isFocus }: propsType) => {
           <button className="primary-btn">Clear All</button>
         </div>
         <div>
-          {/* <SearchCard />
           <SearchCard />
-        <SearchCard /> */}
+          <SearchCard />
+          <SearchCard />
           <SearchCard />
         </div>
       </div>

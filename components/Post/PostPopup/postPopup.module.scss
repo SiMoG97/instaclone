@@ -61,6 +61,13 @@
       .textAreaContainer {
         padding: 0.8rem 0;
         border-top: 1px solid var(--txt-c-5);
+        .loginLink {
+          font-size: 1.4rem;
+          padding: 0 1rem;
+          a {
+            color: var(--helper-primary);
+          }
+        }
       }
     }
   }

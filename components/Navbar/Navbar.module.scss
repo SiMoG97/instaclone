@@ -215,8 +215,10 @@
     @include dropTriangle(1.3rem);
   }
   li {
+    a {
+      padding: 1rem;
+    }
     list-style: none;
-    padding: 1rem;
     cursor: pointer;
     &:hover {
       background-color: var(--bg-c-2);

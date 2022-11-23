@@ -54,13 +54,13 @@ const NbrCmntLikesLayer = ({
 };
 
 const sources: string[] = [
-  // "/mediaTesting/img1.jpg",
-  // "/mediaTesting/img2.jpg",
-  // "/mediaTesting/img3.jpg",
-  // "/mediaTesting/img4.jpg",
-  // "/mediaTesting/img5.jpg",
-  // "/mediaTesting/img6.jpg",
-  // "/mediaTesting/img7.jpg",
-  // "/mediaTesting/img8.jpg",
-  // "/mediaTesting/img9.jpg",
+  "/mediaTesting/img1.jpg",
+  "/mediaTesting/img2.jpg",
+  "/mediaTesting/img3.jpg",
+  "/mediaTesting/img4.jpg",
+  "/mediaTesting/img5.jpg",
+  "/mediaTesting/img6.jpg",
+  "/mediaTesting/img7.jpg",
+  "/mediaTesting/img8.jpg",
+  "/mediaTesting/img9.jpg",
 ];

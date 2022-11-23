@@ -10,6 +10,7 @@ import PostBottomPart from "../PostBottomPart";
 import PostHeader from "../PostHeader";
 import PostReactions from "../PostReactions";
 import styles from "./postPopup.module.scss";
+import Link from "next/link";
 
 type PostPopupProps = {
   sources: string[];
@@ -85,12 +86,21 @@ const PostPopup = ({ sources, isOpen, setIsOpen }: PostPopupProps) => {
                 <PostReactions setInputFocus={setInputFocus} />
                 <PostBottomPart numberOfLikes={10} />
                 <div className={styles.textAreaContainer}>
-                  <TextArea
-                    inputFocus={inputFocus}
-                    setInputFocus={setInputFocus}
-                    isCommentInput
-                    selectedReplyUser={selectedReplyUser}
-                  />
+                  {false ? (
+                    <TextArea
+                      inputFocus={inputFocus}
+                      setInputFocus={setInputFocus}
+                      isCommentInput
+                      selectedReplyUser={selectedReplyUser}
+                    />
+                  ) : (
+                    <div className={styles.loginLink}>
+                      <Link href="login">
+                        <a>Log in </a>
+                      </Link>
+                      to like or comment.
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

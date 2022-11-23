@@ -95,6 +95,7 @@
   background-color: var(--bg-c-1);
   padding-top: 0;
   border-radius: 0.4rem;
+  margin-top: 0;
   > div:nth-child(1) {
     color: var(--txt-c-1);
     text-align: center;
@@ -117,10 +118,11 @@
   }
   @include media(">tablet") {
     margin: 2rem;
+    margin-top: 0;
   }
 
   @include media(">laptop") {
-    margin: 2rem;
+    // margin: 2rem ;
     display: flex;
     align-items: center;
     > div:nth-child(1) {
@@ -130,6 +132,60 @@
     .imgContainer {
       width: 380px;
       height: 380px;
+    }
+  }
+}
+
+.tabsContainer {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+  justify-content: center;
+  border-top: solid 1px var(--txt-c-4);
+  margin: 2rem 2rem 0;
+  @include media("<=tablet") {
+    margin: 0;
+    border: solid 1px var(--txt-c-4);
+    padding: 1rem 0;
+    justify-content: space-around;
+  }
+}
+.tab {
+  cursor: pointer;
+  .bigIconContainer {
+    display: none;
+    align-items: center;
+    @include media("<=tablet") {
+      display: flex;
+    }
+  }
+
+  .smallIconContainer {
+    display: none;
+    align-items: center;
+    font-weight: 500;
+    gap: 0.8rem;
+    color: var(--txt-c-2);
+    padding: 2rem 0;
+    transform: translateY(-1px);
+    span {
+      font-size: 1.3rem;
+      text-transform: uppercase;
+    }
+    @include media(">tablet") {
+      display: flex;
+    }
+  }
+  &.active .smallIconContainer {
+    color: var(--txt-c-1);
+    border-top: solid 1px var(--txt-c-1);
+    path {
+      stroke: var(--txt-c-1);
+    }
+  }
+  &.active .bigIconContainer {
+    path {
+      stroke: var(--helper-primary);
     }
   }
 }

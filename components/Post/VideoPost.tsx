@@ -24,14 +24,14 @@ export const VideoPost = ({ src, isSelected }: VideoPostProps) => {
   };
   useEffect(() => {
     playVidWhenVisible();
-  }, [isSelected]);
+  }, [isSelected, playVidWhenVisible]);
 
   useEffect(() => {
     window.addEventListener("scroll", playVidWhenVisible);
     return () => {
       window.removeEventListener("scroll", playVidWhenVisible);
     };
-  }, [isSelected]);
+  }, [isSelected, playVidWhenVisible]);
 
   const handleTimeUpdate = () => {
     if (rangeRef.current && videoRef.current) {

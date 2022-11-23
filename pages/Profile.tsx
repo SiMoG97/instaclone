@@ -1,8 +1,9 @@
 import Footer from "../components/Footer";
+import ProfileComponent from "../components/Profile";
 import ImagesSection from "../components/Profile/ImagesSection";
 import ProfileHeader from "../components/Profile/ProfileHeader";
 
-const Profile = () => {
+const ProfilePage = () => {
   return (
     <div
       className="container profile "
@@ -12,13 +13,9 @@ const Profile = () => {
         height: "100%",
       }}
     >
-      <div>
-        <ProfileHeader username="Toto Hamza" />
-        <ImagesSection />
-      </div>
-      <Footer centered={true} />
+      <ProfileComponent />
     </div>
   );
 };
 
-export default Profile;
+export default ProfilePage;

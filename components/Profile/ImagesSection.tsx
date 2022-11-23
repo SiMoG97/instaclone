@@ -15,7 +15,12 @@ const ImagesSection = () => {
       {sources &&
         sources.map((src) => (
           <div key={src}>
-            <Image src={src} layout="fill" objectFit="cover" />
+            <Image
+              src={src}
+              layout="fill"
+              objectFit="cover"
+              alt="some random text"
+            />
             <NbrCmntLikesLayer nbrComments={15} nbrLikes={10} />
           </div>
         ))}

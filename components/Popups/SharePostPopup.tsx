@@ -15,7 +15,7 @@ const SharePostPopup = () => {
         <div className={styles.ShareContainer}>
           <div className={styles.writeSomething}>
             <div className={styles.minimizedPostPicContainer}>
-              <img src="./mediaTesting/img1.jpg" alt="somthing" />
+              {/* <img src="./mediaTesting/img1.jpg" alt="somthing" /> */}
             </div>
             <textarea name="writeSomething" placeholder="Write a message..." />
           </div>

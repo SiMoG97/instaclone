@@ -7,7 +7,6 @@ import {
   useState,
 } from "react";
 import styles from "./suggestions.module.scss";
-import ProfilePic from "../ProfilePic";
 import Button from "../Button";
 import Link from "next/link";
 import PicUsername from "../PicUsername";
@@ -23,6 +22,7 @@ const Suggestions = ({ postsContainer, myUserName, myFullName }: props) => {
 
   const calculatingSuggestPos = useCallback(() => {
     if (!postsContainer.current) return;
+    // if (!suggesEl.current) return;
 
     if (window.innerWidth <= 1000) {
       setShowSugges(false);
@@ -30,7 +30,7 @@ const Suggestions = ({ postsContainer, myUserName, myFullName }: props) => {
     }
     setShowSugges(true);
     const SuggestPosLeft =
-      postsContainer.current!.offsetLeft + postsContainer.current!.offsetWidth;
+      postsContainer.current.offsetLeft + postsContainer.current.offsetWidth;
 
     suggesEl.current!.style.left = `${SuggestPosLeft + 30}px`;
   }, [postsContainer]);
@@ -69,7 +69,7 @@ const Suggestions = ({ postsContainer, myUserName, myFullName }: props) => {
       <SuggestionUnit userName="simo_echaarani" />
       <SuggestionUnit userName="simo_echaarani" />
       <SuggestionUnit userName="simo_echaarani" />
-      <Footer />
+      <Footer centered={false} />
     </div>
   ) : (
     <></>

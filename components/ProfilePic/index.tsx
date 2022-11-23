@@ -37,6 +37,7 @@ const ProfilePic = ({
           layout="fill"
           className={styles.someIMG}
           quality={30}
+          alt="profile picture"
         />
       </div>
       {hasStory && size !== "size-6" && size !== "size-5" ? (

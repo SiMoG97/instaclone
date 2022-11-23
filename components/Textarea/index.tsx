@@ -40,7 +40,7 @@ const TextArea = ({
     if (selectedReplyUser && selectedReplyUser.length > 0) {
       replyToHandler();
     }
-  }, [selectedReplyUser]);
+  }, [selectedReplyUser, replyToHandler]);
 
   useEffect(() => {
     if (inputFocus && taRef.current) {

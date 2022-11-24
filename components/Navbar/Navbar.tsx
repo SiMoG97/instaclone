@@ -17,8 +17,10 @@ import SettingsIcon from "../../public/settings.svg";
 import PhoneNav from "./PhoneNav";
 import { useRouter } from "next/router";
 import AddPostPopup from "../Popups/AddPostPopup";
+import Button from "../Button";
 
 const Navbar = () => {
+  const isLoggedIn = true;
   //testing
   const [activeHeart, setActiveHeart] = useState(false);
 
@@ -42,67 +44,90 @@ const Navbar = () => {
           <div className={styles.child}>
             <Search />
           </div>
-          <div className={styles.child}>
-            <Link href="/">
-              <a>
-                <HomeIcon
-                  className={
-                    router.pathname === "/" && !addPostIsOpen
-                      ? styles.activeIcons
-                      : ""
-                  }
-                />
-              </a>
-            </Link>
+          {isLoggedIn ? (
+            <>
+              <div className={styles.child}>
+                <Link href="/">
+                  <a>
+                    <HomeIcon
+                      className={
+                        router.pathname === "/" && !addPostIsOpen
+                          ? styles.activeIcons
+                          : ""
+                      }
+                    />
+                  </a>
+                </Link>
 
-            {addPostIsOpen ? (
-              <>
-                <AddPostActive
-                  className={`${styles.activeIcons} ${styles.strokeNon}`}
-                />
-              </>
-            ) : (
-              <AddPost
-                onClick={() => {
-                  setAddPostIsOpen(true);
-                }}
-              />
-            )}
-            <Link href="/DirectInbox">
-              <a>
-                {router.pathname === "/DirectInbox" ? (
-                  <SendActive className={styles.activeIcons} />
+                {addPostIsOpen ? (
+                  <>
+                    <AddPostActive
+                      className={`${styles.activeIcons} ${styles.strokeNon}`}
+                    />
+                  </>
                 ) : (
-                  <SendIcon />
+                  <AddPost
+                    onClick={() => {
+                      setAddPostIsOpen(true);
+                    }}
+                  />
                 )}
-              </a>
-            </Link>
+                <Link href="/DirectInbox">
+                  <a>
+                    {router.pathname === "/DirectInbox" ? (
+                      <SendActive className={styles.activeIcons} />
+                    ) : (
+                      <SendIcon />
+                    )}
+                  </a>
+                </Link>
 
-            <HeartIcon
-              onClick={() => {
-                setActiveHeart(!activeHeart);
-              }}
-              className={activeHeart ? styles.activeIcons : ""}
-            />
-            <div className={styles.profilePicContainer}>
-              <div
-                onClick={() => {
-                  setIsOpen(true);
-                }}
-              >
-                <ProfilePic
-                  size="size-5"
-                  // src="https://i.imgur.com/W2UbjS8.jpg"
-                  src="/pp.jpg"
-                  animate={false}
-                  hasStory={false}
-                  seen={false}
+                <HeartIcon
+                  onClick={() => {
+                    setActiveHeart(!activeHeart);
+                  }}
+                  className={activeHeart ? styles.activeIcons : ""}
                 />
+                <div className={styles.profilePicContainer}>
+                  <div
+                    onClick={() => {
+                      setIsOpen(true);
+                    }}
+                  >
+                    <ProfilePic
+                      size="size-5"
+                      src="/pp.jpg"
+                      animate={false}
+                      hasStory={false}
+                      seen={false}
+                    />
+                  </div>
+                  <Dropdown isOpen={isOpen} setIsOpen={setIsOpen} />
+                </div>
               </div>
-              <Dropdown isOpen={isOpen} setIsOpen={setIsOpen} />
+              <TopRightNav pathname={router.pathname} />
+            </>
+          ) : (
+            <div
+              className={styles.child}
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <Link href="/Login">
+                <a>
+                  <Button size={1} bold>
+                    Login
+                  </Button>
+                </a>
+              </Link>
+              <Link href="/Signup">
+                <a>
+                  <Button bold mainShape={false} mainColor={false} size={1}>
+                    Sign Up
+                  </Button>
+                </a>
+              </Link>
             </div>
-          </div>
-          <TopRightNav pathname={router.pathname} />
+          )}
         </div>
         {isOpen && <HiddenLayer clicked={setIsOpen} />}
       </nav>
@@ -111,10 +136,12 @@ const Navbar = () => {
       ) : (
         <></>
       )}
-      <PhoneNav
-        addPostIsOpen={addPostIsOpen}
-        setAddPostIsOpen={setAddPostIsOpen}
-      />
+      {isLoggedIn ? (
+        <PhoneNav
+          addPostIsOpen={addPostIsOpen}
+          setAddPostIsOpen={setAddPostIsOpen}
+        />
+      ) : null}
     </>
   );
 };

@@ -2,47 +2,142 @@
 
 .profileHeader {
   margin-top: 7rem;
-  margin-bottom: 1rem;
+  // margin-bottom: 1rem;
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 2fr;
   color: var(--txt-c-1);
+  grid-template-areas:
+    "profilePic userNameFollow userNameFollow"
+    "profilePic stats stats"
+    "profilePic fullName fullName"
+    "profilePic bio bio";
+  @include media("<tablet") {
+    // background-color: red;
+    grid-template-columns: min-content;
+    padding: 0 2rem;
+    grid-template-areas:
+      "profilePic userNameFollow userNameFollow"
+      "fullName fullName fullName"
+      "bio bio bio"
+      "stats stats stats";
+  }
+  @include media("<=phone") {
+    padding: 0 1rem;
+  }
+  .profileButtons {
+    display: flex;
+    align-items: center;
+  }
   .profilePicContainer {
     max-width: 32.4rem;
     width: 100%;
-    display: flex;
-    justify-content: center;
+    grid-area: profilePic;
+    > div:nth-child(1) {
+      margin: 0 auto;
+      @include media("<tablet") {
+        display: none;
+      }
+    }
+    > div:nth-child(2) {
+      margin: 0;
+      margin-right: 2rem;
+      @include media(">=tablet") {
+        display: none;
+      }
+    }
+  }
+  .bio {
+    grid-area: bio;
+    @include media("<tablet") {
+      font-size: 1.4rem;
+      padding-bottom: 1rem;
+    }
   }
   .userInfo {
     width: 100%;
     font-weight: 300;
-    .userName_Follow_Container {
-      display: flex;
-      align-items: center;
-      padding: 2rem 0;
-      > svg {
-        circle {
-          fill: var(--txt-c-1);
-        }
-      }
-      .userName {
-        font-size: 3rem;
-        font-weight: 300;
-        margin-right: 2rem;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+  }
+  .userName_Follow_Container {
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+    grid-area: userNameFollow;
+    @include media("<=phone") {
+      font-size: 2.5rem;
+      padding: 0;
+
+      // text-overflow: ellipsis;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    > svg {
+      circle {
+        fill: var(--txt-c-1);
       }
     }
-    .stats {
-      display: flex;
-      margin: 1rem 0 2rem;
-      > div {
-        margin-right: 4rem;
-        span {
-          font-size: 1.5rem;
-          font-weight: 500;
-        }
+    .userName {
+      font-size: 3rem;
+      font-weight: 300;
+      margin-right: 2rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      @include media("<tablet") {
+        font-size: 2.5rem;
       }
+      @include media("<=phone") {
+        padding: 1rem 0;
+      }
+    }
+  }
+  .fullName {
+    grid-area: fullName;
+    @include media("<tablet") {
+      font-size: 1.5rem;
+    }
+  }
+  .stats {
+    display: flex;
+    margin: 1rem 0 2rem;
+    grid-area: stats;
+    @include media("<tablet") {
+      margin: 0;
+      padding: 1rem 0;
+      border-top: 1px solid var(--txt-c-3);
+    }
+    > div {
+      margin-right: 4rem;
+      display: flex;
+      @include media("<tablet") {
+        // font-size: 2.5rem;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+      }
+      .numbers {
+        font-size: 1.5rem;
+        font-weight: 500;
+      }
+      span {
+        margin: 0 0.2rem;
+        display: block;
+        @include media("<tablet") {
+          font-size: 1.3rem !important;
+          margin: 0.2rem 0;
+          &:nth-child(2) {
+            color: var(--txt-c-2);
+          }
+        }
+        // &:nth-child(2) {
+        //   @include media("<tablet") {
+        //     font-size: 1.5rem;
+        //   }
+        // }
+      }
+    }
+    @include media("<tablet") {
+      justify-content: space-around;
     }
   }
 }

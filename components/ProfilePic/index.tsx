@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import styles from "./profilePic.module.scss";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -20,6 +20,7 @@ export type ProfilePicTypes = {
   animate?: boolean;
   hasStory?: boolean;
   seen?: boolean;
+  style?: CSSProperties;
 };
 
 const ProfilePic = ({
@@ -28,9 +29,10 @@ const ProfilePic = ({
   seen = false,
   animate = false,
   hasStory = false,
+  style,
 }: ProfilePicTypes) => {
   return (
-    <div className={`${styles.profilePic} ${styles[size]}`}>
+    <div style={style} className={`${styles.profilePic} ${styles[size]}`}>
       <div className={styles.imgContainer}>
         <Image
           src={src}

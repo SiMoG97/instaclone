@@ -53,7 +53,7 @@ const FollowPopup = ({
               <div style={{ overflowY: "scroll", padding: "1rem" }}>
                 {Array.from(Array(25).keys()).map((_, i) => (
                   <FollowerCard
-                    imgSrc="./baif.jpg"
+                    imgSrc="/baif.jpg"
                     key={i}
                     isPrimary={i % 3 === 0 ? true : false}
                     buttonText={i % 3 === 0 ? "Follow" : "Following"}
@@ -64,7 +64,7 @@ const FollowPopup = ({
               <div style={{ overflowY: "scroll", padding: "1rem" }}>
                 {Array.from(Array(25).keys()).map((_, i) => (
                   <FollowerCard
-                    imgSrc="./baif.jpg"
+                    imgSrc="/baif.jpg"
                     key={i}
                     isPrimary={false}
                     buttonText="Remove"

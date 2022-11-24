@@ -15,37 +15,38 @@ export const Stats = ({ nbrPosts, nbrFollowers, nbrFollowing }: statsProps) => {
     <>
       <div className={styles.stats}>
         <div>
-          <span>{nbrPosts}</span> post{nbrPosts !== 1 && "s"}
+          <span className={styles.numbers}>{nbrPosts}</span>
+          <span>post{nbrPosts !== 1 && "s"}</span>
         </div>
-        <div>
-          <div
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              setIsOpen(true);
-              setIsFollowersActive(true);
-            }}
-          >
-            <span>{nbrFollowers}</span> follower{nbrFollowers !== 1 && "s"}
-          </div>
+        <div
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            setIsOpen(true);
+            setIsFollowersActive(true);
+          }}
+        >
+          <span className={styles.numbers}>{nbrFollowers}</span>
+          <span>follower{nbrFollowers !== 1 && "s"}</span>
         </div>
-        <div>
-          <div
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              setIsOpen(true);
-              setIsFollowersActive(false);
-            }}
-          >
-            <span>{nbrFollowing}</span> following
-          </div>
+        <div
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            setIsOpen(true);
+            setIsFollowersActive(false);
+          }}
+        >
+          <span className={styles.numbers}>{nbrFollowing}</span>
+          <span>following</span>
         </div>
       </div>
-      <FollowPopup
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        isFollowersActive={isFollowersActive}
-        setIsFollowersActive={setIsFollowersActive}
-      />
+      {isOpen ? (
+        <FollowPopup
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          isFollowersActive={isFollowersActive}
+          setIsFollowersActive={setIsFollowersActive}
+        />
+      ) : null}
     </>
   );
 };

@@ -312,13 +312,65 @@
   &.active .smallIconContainer {
     color: var(--txt-c-1);
     border-top: solid 1px var(--txt-c-1);
+    circle {
+      stroke: var(--txt-c-1);
+    }
     path {
       stroke: var(--txt-c-1);
+      &:nth-child(3) {
+        fill: var(--txt-c-1);
+      }
     }
   }
   &.active .bigIconContainer {
-    path {
+    circle {
       stroke: var(--helper-primary);
     }
+    path {
+      stroke: var(--helper-primary);
+      &:nth-child(3) {
+        fill: var(--helper-primary);
+      }
+    }
+  }
+}
+
+.tabsContentContainer {
+  width: 100%;
+  // background-color: red;
+  text-align: center;
+  padding: 2rem 1rem;
+  .circle {
+    border-radius: 50%;
+    border: solid 2px var(--txt-c-1);
+    width: 6.2rem;
+    height: 6.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5rem auto 2rem;
+  }
+  svg {
+    path {
+      stroke: var(--txt-c-1);
+      stroke-width: 1;
+    }
+    circle {
+      stroke: var(--txt-c-1);
+      stroke-width: 1;
+    }
+  }
+  .bigText {
+    font-size: 2.4rem;
+    font-weight: 300;
+    padding: 1rem 0;
+  }
+  p {
+    font-size: 1.4rem;
+    font-weight: 300;
+    padding: 1rem 0;
+    max-width: 35rem;
+    width: 100%;
+    margin: 0 auto;
   }
 }

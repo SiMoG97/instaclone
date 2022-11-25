@@ -17,10 +17,10 @@ const ProfileHeader = ({ username = "simo_echaarani" }: ProfileHeaderType) => {
   const [isOptionOpen, setIsOptionOpen] = useState(false);
   const [unfollowPopup, setUnfollowPopup] = useState(false);
   // these constants should be changed with server data
-  // const isFollowing = true;
-  const isFollowing = false;
-  const isMyProfile = true;
   // const isMyProfile = false;
+  const isMyProfile = true;
+  const isFollowing = false;
+  // const isFollowing = true;
   // these constants should be changed with server data
 
   const optionsButtons: ButtonItem[] = [
@@ -128,6 +128,7 @@ const ProfileHeader = ({ username = "simo_echaarani" }: ProfileHeaderType) => {
                   viewBox="0 0 24 24"
                   width="32"
                   height="32"
+                  className={styles.dots}
                   onClick={() => {
                     setIsOptionOpen(true);
                   }}
@@ -149,6 +150,7 @@ const ProfileHeader = ({ username = "simo_echaarani" }: ProfileHeaderType) => {
                   viewBox="0 0 24 24"
                   width="32"
                   height="32"
+                  className={styles.dots}
                   onClick={() => {
                     setIsOptionOpen(true);
                   }}
@@ -160,12 +162,7 @@ const ProfileHeader = ({ username = "simo_echaarani" }: ProfileHeaderType) => {
           </div>
         </div>
         <Stats nbrPosts={15} nbrFollowers={245} nbrFollowing={1078} />
-        <div
-          className={styles.fullName}
-          style={{ fontWeight: "500", padding: "1rem 0" }}
-        >
-          Simo Echaarani
-        </div>
+        <div className={styles.fullName}>Simo Echaarani</div>
         <Bio />
       </div>
       {/* <div className={styles.userInfo}></div> */}

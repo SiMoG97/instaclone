@@ -40,7 +40,7 @@ export const Chat = () => {
           <div className={styles.arrowChat}>
             <ArrowLeft />
           </div>
-          <PicUsername src="./baif.jpg" primaryText="Brahim Baif" />
+          <PicUsername src="/baif.jpg" primaryText="Brahim Baif" />
         </div>
 
         <div>
@@ -60,13 +60,13 @@ export const Chat = () => {
         <MessageChat key={22343252} messageTxt="aji 3endi" IsMyMessage={true} />
         <MessageChat
           key={22343253}
-          contactImgSrc="./baif.jpg"
+          contactImgSrc="/baif.jpg"
           messageTxt="okay safi 7ta nchof"
           IsMyMessage={false}
         />
         <MessageChat messageTxt="la bla matchof" IsMyMessage={true} />
         <MessageChat
-          contactImgSrc="./baif.jpg"
+          contactImgSrc="/baif.jpg"
           messageTxt="shaloom"
           IsMyMessage={false}
         />
@@ -86,7 +86,7 @@ export const Chat = () => {
             key={i}
             messageTxt={message}
             IsMyMessage={i % 2 === 0}
-            contactImgSrc="./baif.jpg"
+            contactImgSrc="/baif.jpg"
           />
         ))}
       </div>

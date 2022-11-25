@@ -57,15 +57,23 @@ const Dropdown = ({ isOpen, setIsOpen }: DropdownType) => {
             </a>
           </Link>
         </li>
-        <li
-          onClick={(e) => {
-            if (e.currentTarget === e.target) {
-              toggle();
-            }
-          }}
-        >
-          <div className={styles.darkThemeToggler}>
-            <div style={{ padding: "1rem" }} onClick={toggle}>
+        <li>
+          <div
+            className={styles.darkThemeToggler}
+            onClick={(e) => {
+              if (e.currentTarget === e.target) {
+                toggle();
+              }
+            }}
+          >
+            <div
+              style={{ padding: "1rem" }}
+              onClick={(e) => {
+                if (e.currentTarget === e.target) {
+                  toggle();
+                }
+              }}
+            >
               Dark theme : {theme === "dark" ? "on" : "off"}
             </div>
             <SwitchButton isChecked={theme === "dark"} clickHandler={toggle} />

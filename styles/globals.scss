@@ -17,6 +17,8 @@
   --helper-success: #fff;
   --helper-primary: #0095f6;
   --helper-danger: #fd4251;
+
+  --sm-popup-bg: #ffffff;
 }
 
 [data-theme="dark"] {
@@ -30,6 +32,7 @@
   --bg-c-1: #000;
   --bg-c-2: #101010;
   --bg-c-3: #050505;
+  --sm-popup-bg: #212121;
 }
 * {
   box-sizing: border-box;

@@ -13,9 +13,7 @@
     "profilePic fullName fullName"
     "profilePic bio bio";
   @include media("<tablet") {
-    // background-color: red;
     grid-template-columns: min-content;
-    padding: 0 2rem;
     grid-template-areas:
       "profilePic userNameFollow userNameFollow"
       "fullName fullName fullName"
@@ -23,16 +21,38 @@
       "stats stats stats";
   }
   @include media("<=phone") {
-    padding: 0 1rem;
+    // padding: 0 1rem;
   }
   .profileButtons {
     display: flex;
     align-items: center;
+    .dots {
+      circle {
+        fill: var(--txt-c-1);
+        stroke: var(--txt-c-1);
+      }
+    }
+    svg {
+      circle {
+        stroke: var(--txt-c-1);
+      }
+      path {
+        stroke: var(--txt-c-1);
+      }
+    }
   }
   .profilePicContainer {
     max-width: 32.4rem;
     width: 100%;
     grid-area: profilePic;
+    @include media("<=tablet") {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+    @include media("<=phone") {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
     > div:nth-child(1) {
       margin: 0 auto;
       @include media("<tablet") {
@@ -49,15 +69,23 @@
   }
   .bio {
     grid-area: bio;
+    @include media("<=tablet") {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+    @include media("<=phone") {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
     @include media("<tablet") {
       font-size: 1.4rem;
       padding-bottom: 1rem;
     }
   }
-  .userInfo {
-    width: 100%;
-    font-weight: 300;
-  }
+  // .userInfo {
+  //   width: 100%;
+  //   font-weight: 300;
+  // }
   .userName_Follow_Container {
     display: flex;
     align-items: center;
@@ -93,6 +121,16 @@
   }
   .fullName {
     grid-area: fullName;
+    font-weight: 500;
+    padding: 1rem 0;
+    @include media("<=tablet") {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+    @include media("<=phone") {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
     @include media("<tablet") {
       font-size: 1.5rem;
     }

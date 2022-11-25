@@ -17,6 +17,7 @@ type ProfileTabsProps = {
 };
 
 const ProfileTabs = ({ tabName, setTabName }: ProfileTabsProps) => {
+  const isMyProfile = true;
   return (
     <div className={styles.tabsContainer}>
       <Tab
@@ -39,7 +40,7 @@ const ProfileTabs = ({ tabName, setTabName }: ProfileTabsProps) => {
           }}
         />
       ) : null}
-      {true ? (
+      {isMyProfile ? (
         <Tab
           tabName={tabName}
           BigIcon={<SavedIcon />}

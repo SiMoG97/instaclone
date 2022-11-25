@@ -26,6 +26,7 @@
       width: 100%;
       max-width: 100%;
       min-width: 100%;
+      height: calc(100% - 52px);
     }
     .top {
       border-bottom: 1px solid var(--txt-c-5);
@@ -86,6 +87,7 @@
 .commentDescription {
   display: flex;
   font-size: 1.4rem;
+  color: var(--txt-c-1);
   .middlePart {
     line-height: 2rem;
     margin-top: 0.5rem;

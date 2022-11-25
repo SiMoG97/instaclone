@@ -86,7 +86,7 @@ const PostPopup = ({ sources, isOpen, setIsOpen }: PostPopupProps) => {
                 <PostReactions setInputFocus={setInputFocus} />
                 <PostBottomPart numberOfLikes={10} />
                 <div className={styles.textAreaContainer}>
-                  {false ? (
+                  {true ? (
                     <TextArea
                       inputFocus={inputFocus}
                       setInputFocus={setInputFocus}

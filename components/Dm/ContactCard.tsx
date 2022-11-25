@@ -10,7 +10,7 @@ export const ContactCard = ({ newMessage = false }: contactCardProps) => {
   return (
     <div className={styles.contactCardContainer}>
       <PicUsername
-        src="./baif.jpg"
+        src="/baif.jpg"
         size="size-2"
         primaryText="Brahim Baif"
         secondaryText="Sent you a message"

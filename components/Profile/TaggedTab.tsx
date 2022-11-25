@@ -16,7 +16,7 @@ const TaggedTabPlaceholder = () => {
         <TaggedIcon width="38" height="38" viewBox="0 0 24 24" />
       </div>
       <div className={styles.bigText}>Photos of you</div>
-      <p>When people tag you in photos, they'll appear here.</p>
+      <p>{"When people tag you in photos, they'll appear here."}</p>
     </div>
   );
 };

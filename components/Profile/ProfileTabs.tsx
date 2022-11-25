@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./profile.module.scss";
 import PostsIcon from "../../public/profileIcons/postsIcon.svg";
 import PostsSmall from "../../public/profileIcons/postsSmall.svg";
@@ -10,6 +11,7 @@ import TaggedSmall from "../../public/profileIcons/taggedSmall.svg";
 import VideoIcon from "../../public/profileIcons/videoIcon.svg";
 import VideoSmall from "../../public/profileIcons/videoSmall.svg";
 import { TabsNames } from ".";
+import { useRouter } from "next/router";
 
 type ProfileTabsProps = {
   tabName: TabsNames;
@@ -18,6 +20,7 @@ type ProfileTabsProps = {
 
 const ProfileTabs = ({ tabName, setTabName }: ProfileTabsProps) => {
   const isMyProfile = true;
+
   return (
     <div className={styles.tabsContainer}>
       <Tab
@@ -58,6 +61,7 @@ const ProfileTabs = ({ tabName, setTabName }: ProfileTabsProps) => {
         label="tagged"
         onClick={() => {
           setTabName("tagged");
+          // router.push("tagged");
         }}
       />
       {true ? (
@@ -79,23 +83,31 @@ type TabProps = {
   SmallIcon: any;
   BigIcon: any;
   label: string;
-
   onClick: () => void;
   tabName: TabsNames;
 };
 
 const Tab = ({ BigIcon, SmallIcon, label, onClick, tabName }: TabProps) => {
   return (
-    <div
-      onClick={onClick}
-      className={`${styles.tab} ${label === tabName ? styles.active : ""}`}
+    <Link
+      href={{
+        pathname: "/Profile",
+        query: label === "posts" ? null : { tab: label },
+      }}
     >
-      <div className={styles.bigIconContainer}>{BigIcon}</div>
-      <div className={styles.smallIconContainer}>
-        {SmallIcon}
-        <span>{label}</span>
-      </div>
-    </div>
+      <a>
+        <div
+          onClick={onClick}
+          className={`${styles.tab} ${label === tabName ? styles.active : ""}`}
+        >
+          <div className={styles.bigIconContainer}>{BigIcon}</div>
+          <div className={styles.smallIconContainer}>
+            {SmallIcon}
+            <span>{label}</span>
+          </div>
+        </div>
+      </a>
+    </Link>
   );
 };
 

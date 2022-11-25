@@ -57,6 +57,11 @@
     justify-content: center;
     cursor: pointer;
     overflow: hidden;
+    .playBtnImg {
+      position: relative;
+      width: 8rem;
+      height: 8rem;
+    }
     .slider {
       -webkit-appearance: none;
       outline: none;

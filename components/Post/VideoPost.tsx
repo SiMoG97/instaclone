@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./postStyles.module.scss";
 import MutedSvg from "../../public/muted.svg";
 import UnmutedSvg from "../../public/unmuted.svg";
+import Image from "next/image";
 type VideoPostProps = {
   src: string;
   isSelected: boolean;
@@ -77,21 +78,26 @@ export const VideoPost = ({ src, isSelected }: VideoPostProps) => {
       <div
         className={styles.pauseLayer}
         onClick={(e) => {
+          console.log("clicked");
           if (e.target === e.currentTarget) {
             togglePause();
           }
         }}
       >
-        {paused && (
-          <img
-            src="/play.png"
-            onClick={(e) => {
-              if (e.target === e.currentTarget) {
-                togglePause();
-              }
-            }}
-          />
-        )}
+        {paused ? (
+          <div className={styles.playBtnImg}>
+            <Image
+              src="/play.png"
+              layout="fill"
+              onClick={(e) => {
+                if (e.target === e.currentTarget) {
+                  togglePause();
+                }
+              }}
+              alt="Play button image"
+            />
+          </div>
+        ) : null}
         <div className={styles.track}>
           <input
             type="range"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../Footer";
 import ImagesSection from "./ImagesSection";
 import ProfileTabs from "./ProfileTabs";
@@ -7,11 +7,38 @@ import ReelsTab from "./ReelsTab";
 import SavedTab from "./SavedTab";
 import TaggedTab from "./TaggedTab";
 import VideosTab from "./VideosTab";
+import { useRouter } from "next/router";
 
 export type TabsNames = "posts" | "tagged" | "saved" | "videos" | "reels";
 
 const ProfileComponent = () => {
   const [tabName, setTabName] = useState<TabsNames>("posts");
+  const router = useRouter();
+  useEffect(() => {
+    if (!router.isReady) return;
+    if (!router.query.tab) return;
+    if (Array.isArray(router.query.tab)) {
+      router.push("/Profile");
+      setTabName("posts");
+      return;
+    }
+    if (
+      !["posts", "tagged", "saved", "videos", "reels"].includes(
+        router.query.tab
+      )
+    ) {
+      router.push("/Profile");
+      setTabName("posts");
+      return;
+    }
+
+    if (router.query.tab === "") {
+      setTabName("posts");
+      return;
+    }
+    setTabName(router.query.tab as TabsNames);
+  }, [router.isReady]);
+
   const showTab = () => {
     if (tabName === "posts") {
       return <ImagesSection />;

@@ -6,9 +6,7 @@ import ArrowL from "../../../public/arrowL.svg";
 import ArrowR from "../../../public/arrowR.svg";
 import {
   CSSProperties,
-  Dispatch,
   ReactNode,
-  SetStateAction,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -31,7 +29,7 @@ export type ARStateType =
 
 type CropStepProps = {
   files: ImgFileType[];
-  setFiles: Dispatch<SetStateAction<ImgFileType[]>>;
+  setFiles: React.Dispatch<React.SetStateAction<ImgFileType[]>>;
   nextStep: () => void;
   prevStep: () => void;
 };
@@ -44,15 +42,15 @@ export function CropStep({
   const [someDropOpen, setSomeDropOpen] = useState(false);
   const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
   const [selectedFile, setSelectedFile] = useState(0);
-  const [isMouseDown, setIsMouseDown] = useState(false);
-  const mouseDownRef = useRef(false);
+  // const [isMouseDown, setIsMouseDown] = useState(false);
+  // const mouseDownRef = useRef(false);
   const croppingDiv = useRef<HTMLDivElement>(null);
-  const cropAreaRef = useRef<HTMLDivElement>(null);
+  // const cropAreaRef = useRef<HTMLDivElement>(null);
 
   function scaleHandler(scaleValue: number) {
     const scale = 1 + scaleValue / 100;
     if (croppingDiv.current) {
-      croppingDiv.current.style.transform = `scale(${scale}) translate(${files[selectedFile].x},${files[selectedFile].y})`;
+      croppingDiv.current.style.transform = `scale(${scale}) translate(${files[selectedFile].x}%,${files[selectedFile].y}%)`;
     }
   }
 
@@ -90,6 +88,7 @@ export function CropStep({
 
   function updateScaleValue() {
     if (croppingDiv.current) {
+      console.log("updating");
       const scale =
         croppingDiv.current.getBoundingClientRect().width /
         croppingDiv.current.offsetWidth;
@@ -130,52 +129,85 @@ export function CropStep({
     }
   }, []);
 
-  // const styleTT = {
-  //   opacity: "0",
-  // };
-
   type Cords = {
     startX: number;
     startY: number;
+    tx: number;
+    ty: number;
   };
   const cords = useRef<Cords>({
     startX: 0,
     startY: 0,
+    tx: 0,
+    ty: 0,
   });
-  const mouseDownHandler = (e: React.MouseEvent<HTMLDivElement>) => {
-    mouseDownRef.current = true;
-    setIsMouseDown(true);
+  // const isPointerDown = useRef(false);
+  const [isPointerDown, setIsPointerDown] = useState(false);
+  const pointerDownHandler = (e: React.PointerEvent<HTMLDivElement>) => {
     console.log("mousedown");
-    document.body.style.cursor = "grabbing";
+    e.currentTarget.setPointerCapture(e.pointerId);
+    // isPointerDown.current = true;
+    setIsPointerDown(() => true);
+    // document.body.style.cursor = "pointer";
+
+    // // setIsMouseDown(true);
+    // document.body.style.cursor = "grabbing";
     cords.current.startX = e.clientX;
     cords.current.startY = e.clientY;
   };
 
-  const mouseUpHandler = () => {
-    mouseDownRef.current = false;
-    setIsMouseDown(false);
-    document.body.style.cursor = "auto";
-
+  const pointerUpHandler = (e: React.PointerEvent<HTMLDivElement>) => {
     console.log("mouseup");
-    console.log(cords.current.startX, cords.current.startY);
+    setIsPointerDown(() => false);
+
+    const newFiles = files.map((file, i) => {
+      if (selectedFile === i) {
+        return { ...file, x: cords.current.tx, y: cords.current.ty };
+      }
+      return file;
+    });
+    setFiles(() => newFiles);
+    // isPointerDown.current = false;
+    // setIsMouseDown(false);
+
+    // console.log(cords.current.startX, cords.current.startY);
   };
 
-  const mouseMouveHandler = (e: MouseEvent) => {
-    if (mouseDownRef.current === true) {
-      console.log(e.clientX);
+  const PointerMoveHandler = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!croppingDiv.current) return;
+    if (isPointerDown) {
+      const { startX, startY } = cords.current;
+      const { width, height } = croppingDiv.current.getBoundingClientRect();
+      const { scale, x, y } = files[selectedFile];
+      const xPercent = x + ((e.clientX - startX) * 100) / width;
+      const YPercent = y + ((e.clientY - startY) * 100) / height;
+
+      croppingDiv.current.style.transform = `scale(${scale}) translate(${xPercent}%,${YPercent}%)`;
+      cords.current.tx = xPercent;
+      cords.current.ty = YPercent;
+
+      // console.log(`${((e.clientX - startX) * 100) / width}%`);
+      // var style = getComputedStyle(croppingDiv.current);
+      // var matrix = new WebKitCSSMatrix(style.transform);
+      // matrix.translateSelf(200, 0, 0);
+      // const oldX = (matrix.m41 * 100) / width;
+      // console.log(oldX);
+      // console.log("translateX: ", matrix.m41);
+      // console.log("translateY: ", matrix.m42);
+      // console.log(getComputedStyle(croppingDiv.current).transform);
+
+      // console.log(e.clientX);
+      // console.log(croppingDiv.current.getBoundingClientRect());
+      // console.log(e.clientX - croppingDiv.current.getBoundingClientRect().x);
+
+      // console.log(e);
     }
   };
-  useEffect(() => {
-    // if(cropAreaRef.current){
-    //   cropAreaRef.current.add
-    // }
-    window.addEventListener("mousemove", mouseMouveHandler);
-    window.addEventListener("mouseup", mouseUpHandler);
-    return () => {
-      window.removeEventListener("mousemove", mouseMouveHandler);
-      window.removeEventListener("mouseup", mouseUpHandler);
-    };
-  }, []);
+  // useEffect(() => {
+  //   if (isPointerDown) {
+  //   }
+  // }, [isPointerDown]);
+
   useEffect(() => {
     if (files.length > 0 && croppingDiv.current) {
       const { img, scale, x, y } = files[selectedFile];
@@ -183,7 +215,8 @@ export function CropStep({
         /(\r\n|\n|\r)/gm,
         ""
       )}")`;
-      croppingDiv.current.style.transform = `scale(${scale}) translate(${x},${y})`;
+      console.log(x);
+      croppingDiv.current.style.transform = `scale(${scale}) translate(${x}%,${y}%)`;
     }
   }, [files, croppingDiv, selectedFile]);
 
@@ -193,10 +226,9 @@ export function CropStep({
       // style={mouseDownRef.current ? { cursor: "grabbing" } : { cursor: "grab" }}
     >
       <div
-        ref={cropAreaRef}
-        // onMouseDown={mouseDownHandler}
-        onMouseDown={mouseDownHandler}
-        onMouseUp={mouseUpHandler}
+        onPointerMove={PointerMoveHandler}
+        onPointerDown={pointerDownHandler}
+        onPointerUp={pointerUpHandler}
         style={
           aspectRatio === "original"
             ? originalArCalcul(
@@ -312,7 +344,7 @@ export function CropStep({
 
       {/* grid */}
 
-      <div className={styles.grid} style={isMouseDown ? { opacity: 1 } : {}}>
+      <div className={styles.grid} style={isPointerDown ? { opacity: 1 } : {}}>
         <div className={styles.line} style={{ top: `${100 / 3}%` }}></div>
         <div className={styles.line} style={{ top: `${(100 / 3) * 2}%` }}></div>
         <div
@@ -329,3 +361,15 @@ export function CropStep({
 }
 
 // getBoundingClientRect()
+
+/*  check right */
+// (right out) should be less than or equal (right in) which means  (right in ) >= (right out)
+
+/*  check left */
+// (left in) sould be less than or equal (left out) which neans  (left out) >= (left in)
+
+/*  check top */
+// (top in) sould be less than or equal (top out) which neans  (top out) >= (top in)
+
+/*  check bottom */
+// (bottom out) sould be less than or equal (bottom in) which neans  (bottom in) >= (bottom out)

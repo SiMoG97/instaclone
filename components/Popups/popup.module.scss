@@ -223,8 +223,12 @@
     transition: 0.3s;
     overflow: hidden;
     cursor: grab;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
     &:active {
       cursor: grabbing;
+      cursor: -webkit-grabbing;
+      cursor: -moz-grabbing;
     }
     .imgToCrop {
       background-repeat: no-repeat;

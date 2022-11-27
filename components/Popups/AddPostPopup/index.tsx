@@ -197,15 +197,3 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
 }
 
 export default AddPostPopup;
-
-/*  check right */
-// (right out) should be less than or equal (right in) which means  (right in ) >= (right out)
-
-/*  check left */
-// (left in) sould be less than or equal (left out) which neans  (left out) >= (left in)
-
-/*  check top */
-// (top in) sould be less than or equal (top out) which neans  (top out) >= (top in)
-
-/*  check bottom */
-// (bottom out) sould be less than or equal (bottom in) which neans  (bottom in) >= (bottom out)

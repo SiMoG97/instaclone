@@ -261,64 +261,52 @@ export function CropStep({
   // }, [isPointerDown]);
 
   useEffect(() => {
+    // if (!cropAreaRef.current) return;
+
+    // cropAreaRef.current.addEventListener("load", () => {
     if (files.length > 0 && croppingDiv.current) {
-      const { img, scale, x, y } = files[selectedFile];
+      const { img } = files[selectedFile];
       const image = document.createElement("img");
       image.src = img.src;
-      // const { width, height } = originalArCalcul(
-      //   image.naturalWidth,
-      //   image.naturalHeight
-      // );
-
-      // croppingDiv.current.style.width = width;
-      // croppingDiv.current.style.height = height;
       if (!cropAreaRef.current) return;
       let ar = image.naturalWidth / image.naturalHeight;
-      if (ar > 1.91) {
-        ar = 1.91;
-      } else if (ar < 0.8) {
-        ar = 0.8;
-      }
+      console.log(ar);
+
       if (ar === 1) {
+        cropAreaRef.current.style.flexDirection = "column";
         croppingDiv.current.style.width = "100%";
         croppingDiv.current.style.height = "100%";
       } else if (ar > 1) {
+        console.log("d5elt");
         cropAreaRef.current.style.flexDirection = "column";
+
         croppingDiv.current.style.width = `${
-          (image.naturalWidth * 100) / image.naturalHeight
-        }%`;
-        croppingDiv.current.style.height = "100%";
+          (image.naturalWidth * cropAreaRef.current.offsetHeight) /
+          image.naturalHeight
+        }px`;
+        croppingDiv.current.style.height = `${cropAreaRef.current.offsetHeight}px`;
       } else if (ar < 1) {
         cropAreaRef.current.style.flexDirection = "row";
-        croppingDiv.current.style.width = "100%";
+        croppingDiv.current.style.width = `${cropAreaRef.current.offsetWidth}px`;
         croppingDiv.current.style.height = `${
-          (image.naturalHeight * 100) / image.naturalWidth
-        }%`;
+          (image.naturalHeight * cropAreaRef.current.offsetWidth) /
+          image.naturalWidth
+        }px`;
       }
-      // if (image.naturalWidth > croppingDiv.current.offsetWidth) {
-      // }
+    }
+  }, [files, croppingDiv, selectedFile, aspectRatio]);
+
+  useEffect(() => {
+    if (files.length > 0 && croppingDiv.current) {
+      const { img, scale, x, y } = files[selectedFile];
+
       croppingDiv.current.style.backgroundImage = `url("${img.src.replace(
         /(\r\n|\n|\r)/gm,
         ""
       )}")`;
       croppingDiv.current.style.transform = `scale(${scale}) translate(${x}%,${y}%)`;
-
-      // let image = document.createElement("img");
-      // image.id = "imgId";
-      // image.src =
-      //   "/uploads/media/default/0001/05/e9f3899d915c17845be51e839d5ba238f0404b07.png";
-      // document.body.appendChild(image);
-      // image.addEventListener("click", imgSize);
-      // function imgSize() {
-      //   let myImg = document.querySelector("#imgId");
-      //   let realWidth = myImg.naturalWidth;
-      //   let realHeight = myImg.naturalHeight;
-      //   alert(
-      //     "Original width=" + realWidth + ", " + "Original height=" + realHeight
-      //   );
-      // }
     }
-  }, [files, croppingDiv, selectedFile]);
+  }, [files, croppingDiv, selectFile]);
 
   return (
     <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
@@ -339,7 +327,11 @@ export function CropStep({
           aspectRatio !== "original" ? styles[aspectRatio] : ""
         }`}
       >
-        <div ref={croppingDiv} className={styles.imgToCrop}></div>
+        <div
+          ref={croppingDiv}
+          style={isPointerDown ? {} : { transition: ".3s" }}
+          className={styles.imgToCrop}
+        ></div>
         <Grid isPointerDown={isPointerDown} />
       </div>
       <IconPopup

@@ -45,7 +45,7 @@ export function CropStep({
   // const [isMouseDown, setIsMouseDown] = useState(false);
   // const mouseDownRef = useRef(false);
   const croppingDiv = useRef<HTMLDivElement>(null);
-  // const cropAreaRef = useRef<HTMLDivElement>(null);
+  const cropAreaRef = useRef<HTMLDivElement>(null);
 
   function scaleHandler(scaleValue: number) {
     const scale = 1 + scaleValue / 100;
@@ -123,7 +123,8 @@ export function CropStep({
       };
     } else if (ar < 1) {
       return {
-        width: `${width * ar}`,
+        // width: `calc(${width}px * ${ar})`,
+        width: `calc(100% * ${ar})`,
         height: "100%",
       };
     }
@@ -158,7 +159,26 @@ export function CropStep({
 
   const pointerUpHandler = (e: React.PointerEvent<HTMLDivElement>) => {
     console.log("mouseup");
+    if (!croppingDiv.current) return;
+    if (!cropAreaRef.current) return;
     setIsPointerDown(() => false);
+
+    const {
+      x: movingX,
+      y: movingY,
+      width,
+    } = croppingDiv.current.getBoundingClientRect();
+
+    const { x: containerX, width: containerWidth } =
+      cropAreaRef.current.getBoundingClientRect();
+
+    if (movingX > containerX) {
+      // cords.current.tx = 0;
+    }
+
+    if (containerX + containerWidth > movingX + width) {
+      // cords.current.tx = 0;
+    }
 
     const newFiles = files.map((file, i) => {
       if (selectedFile === i) {
@@ -167,6 +187,12 @@ export function CropStep({
       return file;
     });
     setFiles(() => newFiles);
+    // if (cropAreaRef.current && croppingDiv.current) {
+    //   const { x } = cropAreaRef.current.getBoundingClientRect();
+    //   const { x: cX } = croppingDiv.current.getBoundingClientRect();
+
+    //   console.log(x, cX);
+    // }
     // isPointerDown.current = false;
     // setIsMouseDown(false);
 
@@ -175,16 +201,42 @@ export function CropStep({
 
   const PointerMoveHandler = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!croppingDiv.current) return;
+    if (!cropAreaRef.current) return;
     if (isPointerDown) {
       const { startX, startY } = cords.current;
-      const { width, height } = croppingDiv.current.getBoundingClientRect();
+      const {
+        width,
+        height,
+        x: movingX,
+        y: movingY,
+      } = croppingDiv.current.getBoundingClientRect();
+      const { x: containerX, width: containerWidth } =
+        cropAreaRef.current.getBoundingClientRect();
       const { scale, x, y } = files[selectedFile];
-      const xPercent = x + ((e.clientX - startX) * 100) / width;
+
+      ///////////////////////////////////////////
+      let resistanceX = 0;
+      if (
+        movingX > containerX ||
+        containerX + containerWidth > movingX + width
+      ) {
+        // resistanceX = ((e.clientX - startX) * 100) / (width * 1.2);
+      }
+      // console.log(clientX);
+      const xPercent = x - resistanceX + ((e.clientX - startX) * 100) / width;
       const YPercent = y + ((e.clientY - startY) * 100) / height;
 
       croppingDiv.current.style.transform = `scale(${scale}) translate(${xPercent}%,${YPercent}%)`;
       cords.current.tx = xPercent;
       cords.current.ty = YPercent;
+
+      // console.log(xx > cX);
+      //  {
+      //   // console.log(xx, cX);
+      //   console.log();
+      // }
+
+      // }
 
       // console.log(`${((e.clientX - startX) * 100) / width}%`);
       // var style = getComputedStyle(croppingDiv.current);
@@ -211,21 +263,67 @@ export function CropStep({
   useEffect(() => {
     if (files.length > 0 && croppingDiv.current) {
       const { img, scale, x, y } = files[selectedFile];
+      const image = document.createElement("img");
+      image.src = img.src;
+      // const { width, height } = originalArCalcul(
+      //   image.naturalWidth,
+      //   image.naturalHeight
+      // );
+
+      // croppingDiv.current.style.width = width;
+      // croppingDiv.current.style.height = height;
+      if (!cropAreaRef.current) return;
+      let ar = image.naturalWidth / image.naturalHeight;
+      if (ar > 1.91) {
+        ar = 1.91;
+      } else if (ar < 0.8) {
+        ar = 0.8;
+      }
+      if (ar === 1) {
+        croppingDiv.current.style.width = "100%";
+        croppingDiv.current.style.height = "100%";
+      } else if (ar > 1) {
+        cropAreaRef.current.style.flexDirection = "column";
+        croppingDiv.current.style.width = `${
+          (image.naturalWidth * 100) / image.naturalHeight
+        }%`;
+        croppingDiv.current.style.height = "100%";
+      } else if (ar < 1) {
+        cropAreaRef.current.style.flexDirection = "row";
+        croppingDiv.current.style.width = "100%";
+        croppingDiv.current.style.height = `${
+          (image.naturalHeight * 100) / image.naturalWidth
+        }%`;
+      }
+      // if (image.naturalWidth > croppingDiv.current.offsetWidth) {
+      // }
       croppingDiv.current.style.backgroundImage = `url("${img.src.replace(
         /(\r\n|\n|\r)/gm,
         ""
       )}")`;
-      console.log(x);
       croppingDiv.current.style.transform = `scale(${scale}) translate(${x}%,${y}%)`;
+
+      // let image = document.createElement("img");
+      // image.id = "imgId";
+      // image.src =
+      //   "/uploads/media/default/0001/05/e9f3899d915c17845be51e839d5ba238f0404b07.png";
+      // document.body.appendChild(image);
+      // image.addEventListener("click", imgSize);
+      // function imgSize() {
+      //   let myImg = document.querySelector("#imgId");
+      //   let realWidth = myImg.naturalWidth;
+      //   let realHeight = myImg.naturalHeight;
+      //   alert(
+      //     "Original width=" + realWidth + ", " + "Original height=" + realHeight
+      //   );
+      // }
     }
   }, [files, croppingDiv, selectedFile]);
 
   return (
-    <div
-      className={`${styles.stepContainer} ${styles.cropContainer}`}
-      // style={mouseDownRef.current ? { cursor: "grabbing" } : { cursor: "grab" }}
-    >
+    <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
       <div
+        ref={cropAreaRef}
         onPointerMove={PointerMoveHandler}
         onPointerDown={pointerDownHandler}
         onPointerUp={pointerUpHandler}
@@ -242,6 +340,7 @@ export function CropStep({
         }`}
       >
         <div ref={croppingDiv} className={styles.imgToCrop}></div>
+        <Grid isPointerDown={isPointerDown} />
       </div>
       <IconPopup
         someDropOpen={someDropOpen}
@@ -343,22 +442,26 @@ export function CropStep({
       <SliderDots nbrOfDots={files.length} selectedDot={selectedFile} />
 
       {/* grid */}
-
-      <div className={styles.grid} style={isPointerDown ? { opacity: 1 } : {}}>
-        <div className={styles.line} style={{ top: `${100 / 3}%` }}></div>
-        <div className={styles.line} style={{ top: `${(100 / 3) * 2}%` }}></div>
-        <div
-          className={`${styles.line} ${styles.horizontal}`}
-          style={{ left: `${100 / 3}%` }}
-        ></div>
-        <div
-          className={`${styles.line} ${styles.horizontal}`}
-          style={{ left: `${(100 / 3) * 2}%` }}
-        ></div>
-      </div>
     </div>
   );
 }
+
+const Grid = ({ isPointerDown }: { isPointerDown: boolean }) => {
+  return (
+    <div className={styles.grid} style={isPointerDown ? { opacity: 1 } : {}}>
+      <div className={styles.line} style={{ top: `${100 / 3}%` }}></div>
+      <div className={styles.line} style={{ top: `${(100 / 3) * 2}%` }}></div>
+      <div
+        className={`${styles.line} ${styles.horizontal}`}
+        style={{ left: `${100 / 3}%` }}
+      ></div>
+      <div
+        className={`${styles.line} ${styles.horizontal}`}
+        style={{ left: `${(100 / 3) * 2}%` }}
+      ></div>
+    </div>
+  );
+};
 
 // getBoundingClientRect()
 

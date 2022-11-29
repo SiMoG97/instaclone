@@ -32,9 +32,11 @@ function SmallPopup({
         ) : null}
         <ul>
           {buttonList && buttonList.length > 0
-            ? buttonList.map((btn) => (
+            ? buttonList.map((btn, i) => (
                 <li
-                  className={btn.danger ? styles.danger : ""}
+                  className={`${btn.danger ? styles.danger : ""} ${
+                    titleOrPic && i === 0 ? styles.borderTop : ""
+                  }`}
                   onClick={btn.method}
                   key={btn.text}
                 >

@@ -340,7 +340,6 @@ export function CropStep({
         const hiddenPartsHeight =
           imageHeight - cropAreaRef.current.offsetHeight;
         cords.current.yBorder = ((hiddenPartsHeight / 2) * 100) / imageHeight;
-        // console.log(translate);
       }, 300);
     }
   }, [files, croppingDiv, selectFile, aspectRatio]);
@@ -368,7 +367,7 @@ export function CropStep({
       >
         <div
           ref={croppingDiv}
-          style={isPointerDown ? {} : { transition: ".3s" }}
+          style={isPointerDown ? {} : { transition: "transform .3s" }}
           className={styles.imgToCrop}
         ></div>
         <Grid isPointerDown={isPointerDown} />

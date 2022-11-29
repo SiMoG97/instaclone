@@ -220,7 +220,7 @@
   justify-content: center;
   .cropArea {
     background-color: var(--bg-c-1);
-    // transition: 0.3s;
+    // transition: 0.1s;
     // transition-delay: 0.2s;
     position: relative;
     overflow: hidden;
@@ -237,7 +237,6 @@
     }
 
     .imgToCrop {
-      // transition: 0.3s;
       background-repeat: no-repeat;
       background-size: cover;
       width: 100%;
@@ -256,8 +255,6 @@
   .sixteenToNine {
     width: 100%;
     height: calc(100% * 9 / 16);
-  }
-  .original {
   }
   .grid {
     opacity: 0;

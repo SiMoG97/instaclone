@@ -127,6 +127,11 @@ export function CropStep({
         width: `calc(100% * ${ar})`,
         height: "100%",
       };
+    } else {
+      return {
+        width: "auto",
+        height: "auto",
+      };
     }
   }, []);
 
@@ -135,49 +140,58 @@ export function CropStep({
     startY: number;
     tx: number;
     ty: number;
+    xBorder: number;
+    yBorder: number;
   };
   const cords = useRef<Cords>({
     startX: 0,
     startY: 0,
     tx: 0,
     ty: 0,
+    xBorder: 0,
+    yBorder: 0,
   });
   // const isPointerDown = useRef(false);
-  const [isPointerDown, setIsPointerDown] = useState(false);
-  const pointerDownHandler = (e: React.PointerEvent<HTMLDivElement>) => {
-    console.log("mousedown");
-    e.currentTarget.setPointerCapture(e.pointerId);
-    // isPointerDown.current = true;
-    setIsPointerDown(() => true);
-    // document.body.style.cursor = "pointer";
 
-    // // setIsMouseDown(true);
-    // document.body.style.cursor = "grabbing";
+  const [isPointerDown, setIsPointerDown] = useState(false);
+
+  const pointerDownHandler = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.currentTarget.setPointerCapture(e.pointerId);
+    setIsPointerDown(() => true);
     cords.current.startX = e.clientX;
     cords.current.startY = e.clientY;
   };
 
   const pointerUpHandler = (e: React.PointerEvent<HTMLDivElement>) => {
     console.log("mouseup");
-    if (!croppingDiv.current) return;
-    if (!cropAreaRef.current) return;
+    if (!croppingDiv.current || !cropAreaRef.current) return;
     setIsPointerDown(() => false);
 
     const {
       x: movingX,
       y: movingY,
       width,
+      height,
     } = croppingDiv.current.getBoundingClientRect();
 
-    const { x: containerX, width: containerWidth } =
-      cropAreaRef.current.getBoundingClientRect();
+    const {
+      x: containerX,
+      y: containerY,
+      width: containerWidth,
+      height: containerHeight,
+    } = cropAreaRef.current.getBoundingClientRect();
 
     if (movingX > containerX) {
-      // cords.current.tx = 0;
+      cords.current.tx = cords.current.xBorder;
     }
-
     if (containerX + containerWidth > movingX + width) {
-      // cords.current.tx = 0;
+      cords.current.tx = -cords.current.xBorder;
+    }
+    if (movingY > containerY) {
+      cords.current.ty = cords.current.yBorder;
+    }
+    if (containerY + containerHeight > movingY + height) {
+      cords.current.ty = -cords.current.yBorder;
     }
 
     const newFiles = files.map((file, i) => {
@@ -200,8 +214,7 @@ export function CropStep({
   };
 
   const PointerMoveHandler = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!croppingDiv.current) return;
-    if (!cropAreaRef.current) return;
+    if (!croppingDiv.current || !cropAreaRef.current) return;
     if (isPointerDown) {
       const { startX, startY } = cords.current;
       const {
@@ -210,18 +223,36 @@ export function CropStep({
         x: movingX,
         y: movingY,
       } = croppingDiv.current.getBoundingClientRect();
-      const { x: containerX, width: containerWidth } =
-        cropAreaRef.current.getBoundingClientRect();
+      const {
+        x: containerX,
+        y: containerY,
+        width: containerWidth,
+      } = cropAreaRef.current.getBoundingClientRect();
       const { scale, x, y } = files[selectedFile];
 
       ///////////////////////////////////////////
       let resistanceX = 0;
+      // let count = 0;
+      // console.log(movingY > containerY);
+
       if (
-        movingX > containerX ||
-        containerX + containerWidth > movingX + width
+        movingX > containerX
+        // ||
+        // containerX + containerWidth > movingX + width
       ) {
+        // cords.current.counter++;
+        // if (cords.current.counter === 1) {
+        //   console.log(cords.current.tx);
+        //   console.log(cords.current.counter);
+        //   console.log(cords.current.tx);
+        //   cords.current.leftX = cords.current.tx;
+        // }
+        // console.log("noooo");
         // resistanceX = ((e.clientX - startX) * 100) / (width * 1.2);
+      } else {
+        // cords.current.counter = 0;
       }
+
       // console.log(clientX);
       const xPercent = x - resistanceX + ((e.clientX - startX) * 100) / width;
       const YPercent = y + ((e.clientY - startY) * 100) / height;
@@ -260,26 +291,19 @@ export function CropStep({
   //   }
   // }, [isPointerDown]);
 
-  useEffect(() => {
-    // if (!cropAreaRef.current) return;
-
-    // cropAreaRef.current.addEventListener("load", () => {
+  useLayoutEffect(() => {
     if (files.length > 0 && croppingDiv.current) {
       const { img } = files[selectedFile];
       const image = document.createElement("img");
       image.src = img.src;
       if (!cropAreaRef.current) return;
       let ar = image.naturalWidth / image.naturalHeight;
-      console.log(ar);
-
       if (ar === 1) {
         cropAreaRef.current.style.flexDirection = "column";
         croppingDiv.current.style.width = "100%";
         croppingDiv.current.style.height = "100%";
       } else if (ar > 1) {
-        console.log("d5elt");
         cropAreaRef.current.style.flexDirection = "column";
-
         croppingDiv.current.style.width = `${
           (image.naturalWidth * cropAreaRef.current.offsetHeight) /
           image.naturalHeight
@@ -296,7 +320,7 @@ export function CropStep({
     }
   }, [files, croppingDiv, selectedFile, aspectRatio]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (files.length > 0 && croppingDiv.current) {
       const { img, scale, x, y } = files[selectedFile];
 
@@ -305,8 +329,23 @@ export function CropStep({
         ""
       )}")`;
       croppingDiv.current.style.transform = `scale(${scale}) translate(${x}%,${y}%)`;
+      setTimeout(() => {
+        // console.log("changed");
+        if (!croppingDiv.current || !cropAreaRef.current) return;
+        const imageWidth = croppingDiv.current.offsetWidth * scale;
+        const hiddenPartsWidth = imageWidth - cropAreaRef.current.offsetWidth;
+        cords.current.xBorder = ((hiddenPartsWidth / 2) * 100) / imageWidth;
+
+        const imageHeight = croppingDiv.current.offsetHeight * scale;
+        const hiddenPartsHeight =
+          imageHeight - cropAreaRef.current.offsetHeight;
+        cords.current.yBorder = ((hiddenPartsHeight / 2) * 100) / imageHeight;
+        // console.log(translate);
+      }, 300);
     }
-  }, [files, croppingDiv, selectFile]);
+  }, [files, croppingDiv, selectFile, aspectRatio]);
+
+  useLayoutEffect(() => {}, []);
 
   return (
     <div className={`${styles.stepContainer} ${styles.cropContainer}`}>

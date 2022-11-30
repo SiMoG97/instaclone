@@ -381,15 +381,12 @@
 }
 
 .smallPopup {
-  // background-color: #ffffff;
   background-color: var(--sm-popup-bg);
   text-align: center;
   border-radius: 1rem;
   width: 100%;
   max-width: 40rem;
   margin: 1rem;
-  .borderTop {
-  }
   li {
     color: var(--txt-c-1);
     list-style: none;

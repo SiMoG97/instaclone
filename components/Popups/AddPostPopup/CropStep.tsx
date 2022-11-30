@@ -142,6 +142,10 @@ export function CropStep({
     ty: number;
     xBorder: number;
     yBorder: number;
+    counterX: number;
+    passedX: boolean;
+    counterY: number;
+    passedY: boolean;
   };
   const cords = useRef<Cords>({
     startX: 0,
@@ -150,6 +154,10 @@ export function CropStep({
     ty: 0,
     xBorder: 0,
     yBorder: 0,
+    counterX: 0,
+    passedX: false,
+    counterY: 0,
+    passedY: false,
   });
   // const isPointerDown = useRef(false);
 
@@ -162,8 +170,8 @@ export function CropStep({
     cords.current.startY = e.clientY;
   };
 
-  const pointerUpHandler = (e: React.PointerEvent<HTMLDivElement>) => {
-    console.log("mouseup");
+  // const pointerUpHandler = (e: React.PointerEvent<HTMLDivElement>) => {
+  const pointerUpHandler = () => {
     if (!croppingDiv.current || !cropAreaRef.current) return;
     setIsPointerDown(() => false);
 
@@ -227,35 +235,83 @@ export function CropStep({
         x: containerX,
         y: containerY,
         width: containerWidth,
+        height: containerHeight,
       } = cropAreaRef.current.getBoundingClientRect();
       const { scale, x, y } = files[selectedFile];
 
       ///////////////////////////////////////////
-      let resistanceX = 0;
-      // let count = 0;
-      // console.log(movingY > containerY);
-
+      let resistanceX = 1;
+      let resistanceY = 1;
+      // interact(croppingDiv.current)
       if (
-        movingX > containerX
-        // ||
-        // containerX + containerWidth > movingX + width
+        movingX > containerX ||
+        containerX + containerWidth > movingX + width
       ) {
-        // cords.current.counter++;
-        // if (cords.current.counter === 1) {
-        //   console.log(cords.current.tx);
-        //   console.log(cords.current.counter);
-        //   console.log(cords.current.tx);
-        //   cords.current.leftX = cords.current.tx;
-        // }
-        // console.log("noooo");
-        // resistanceX = ((e.clientX - startX) * 100) / (width * 1.2);
+        // cords.current.passedX = true;
+        cords.current.counterX++;
+        if (cords.current.counterX === 1) {
+          let newX = cords.current.xBorder;
+          if (containerX + containerWidth > movingX + width) {
+            newX = -newX;
+          }
+          // console.log(newX);
+          // const newFiles = files.map((file, i) => {
+          //   if (selectedFile === i) {
+          //     return { ...file, x: newX };
+          //   }
+          //   return file;
+          // });
+          // setFiles(() => newFiles);
+          // console.log(x);
+        }
+        // resistanceX = 10;
       } else {
-        // cords.current.counter = 0;
+        resistanceX = 1;
+        cords.current.counterX = 0;
+        // cords.current.passedX = false;
       }
 
-      // console.log(clientX);
-      const xPercent = x - resistanceX + ((e.clientX - startX) * 100) / width;
-      const YPercent = y + ((e.clientY - startY) * 100) / height;
+      // if (
+      //   movingY > containerY ||
+      //   containerY + containerHeight > movingY + height
+      // ) {
+      //   console.log("hmmmm");
+      // }
+
+      // if (
+      //   movingY > containerY ||
+      //   containerY + containerHeight > movingY + height
+      // ) {
+      //   cords.current.passedY = true;
+      //   cords.current.counterY++;
+      //   if ((cords.current.passedY = true && cords.current.counterY === 1)) {
+      //     let newY = cords.current.yBorder;
+      //     if (containerY + containerHeight > movingY + height) {
+      //       newY = -newY;
+      //     }
+      //     const newFiles = files.map((file, i) => {
+      //       if (selectedFile === i) {
+      //         return { ...file, y: newY };
+      //       }
+      //       return file;
+      //     });
+      //     setFiles(() => newFiles);
+      //   }
+      //   resistanceY = 10;
+      // } else {
+      //   resistanceY = 1;
+      //   cords.current.counterY = 0;
+      //   cords.current.passedY = false;
+      // }
+      // console.log(resistanceX);
+      console.log(x);
+
+      const distX = ((e.clientX - startX) * 100) / width;
+      const distY = ((e.clientY - startY) * 100) / height;
+      // console.log(x + distX / resistanceX);
+
+      const xPercent = x + distX / resistanceX;
+      const YPercent = y + distY / resistanceY;
 
       croppingDiv.current.style.transform = `scale(${scale}) translate(${xPercent}%,${YPercent}%)`;
       cords.current.tx = xPercent;
@@ -274,9 +330,6 @@ export function CropStep({
       // var matrix = new WebKitCSSMatrix(style.transform);
       // matrix.translateSelf(200, 0, 0);
       // const oldX = (matrix.m41 * 100) / width;
-      // console.log(oldX);
-      // console.log("translateX: ", matrix.m41);
-      // console.log("translateY: ", matrix.m42);
       // console.log(getComputedStyle(croppingDiv.current).transform);
 
       // console.log(e.clientX);
@@ -286,65 +339,67 @@ export function CropStep({
       // console.log(e);
     }
   };
-  // useEffect(() => {
-  //   if (isPointerDown) {
-  //   }
-  // }, [isPointerDown]);
+
+  const imageToBackground = () => {
+    if (files.length === 0 || !croppingDiv.current) return;
+    const { img } = files[selectedFile];
+    const image = document.createElement("img");
+    image.src = img.src;
+    if (!cropAreaRef.current) return;
+    let ar = image.naturalWidth / image.naturalHeight;
+    if (ar === 1) {
+      cropAreaRef.current.style.flexDirection = "column";
+      croppingDiv.current.style.width = "100%";
+      croppingDiv.current.style.height = "100%";
+    } else if (ar > 1) {
+      cropAreaRef.current.style.flexDirection = "column";
+      croppingDiv.current.style.width = `${
+        (image.naturalWidth * cropAreaRef.current.offsetHeight) /
+        image.naturalHeight
+      }px`;
+      croppingDiv.current.style.height = `${cropAreaRef.current.offsetHeight}px`;
+    } else if (ar < 1) {
+      cropAreaRef.current.style.flexDirection = "row";
+      croppingDiv.current.style.width = `${cropAreaRef.current.offsetWidth}px`;
+      croppingDiv.current.style.height = `${
+        (image.naturalHeight * cropAreaRef.current.offsetWidth) /
+        image.naturalWidth
+      }px`;
+    }
+  };
 
   useLayoutEffect(() => {
-    if (files.length > 0 && croppingDiv.current) {
-      const { img } = files[selectedFile];
-      const image = document.createElement("img");
-      image.src = img.src;
-      if (!cropAreaRef.current) return;
-      let ar = image.naturalWidth / image.naturalHeight;
-      if (ar === 1) {
-        cropAreaRef.current.style.flexDirection = "column";
-        croppingDiv.current.style.width = "100%";
-        croppingDiv.current.style.height = "100%";
-      } else if (ar > 1) {
-        cropAreaRef.current.style.flexDirection = "column";
-        croppingDiv.current.style.width = `${
-          (image.naturalWidth * cropAreaRef.current.offsetHeight) /
-          image.naturalHeight
-        }px`;
-        croppingDiv.current.style.height = `${cropAreaRef.current.offsetHeight}px`;
-      } else if (ar < 1) {
-        cropAreaRef.current.style.flexDirection = "row";
-        croppingDiv.current.style.width = `${cropAreaRef.current.offsetWidth}px`;
-        croppingDiv.current.style.height = `${
-          (image.naturalHeight * cropAreaRef.current.offsetWidth) /
-          image.naturalWidth
-        }px`;
-      }
-    }
+    imageToBackground();
   }, [files, croppingDiv, selectedFile, aspectRatio]);
 
   useLayoutEffect(() => {
-    if (files.length > 0 && croppingDiv.current) {
-      const { img, scale, x, y } = files[selectedFile];
+    window.addEventListener("resize", imageToBackground);
+    return () => {
+      window.removeEventListener("resize", imageToBackground);
+    };
+  }, [files, croppingDiv, selectedFile, aspectRatio]);
 
-      croppingDiv.current.style.backgroundImage = `url("${img.src.replace(
-        /(\r\n|\n|\r)/gm,
-        ""
-      )}")`;
-      croppingDiv.current.style.transform = `scale(${scale}) translate(${x}%,${y}%)`;
-      setTimeout(() => {
-        // console.log("changed");
-        if (!croppingDiv.current || !cropAreaRef.current) return;
-        const imageWidth = croppingDiv.current.offsetWidth * scale;
-        const hiddenPartsWidth = imageWidth - cropAreaRef.current.offsetWidth;
-        cords.current.xBorder = ((hiddenPartsWidth / 2) * 100) / imageWidth;
+  useLayoutEffect(() => {
+    if (files.length === 0 || !croppingDiv.current) return;
 
-        const imageHeight = croppingDiv.current.offsetHeight * scale;
-        const hiddenPartsHeight =
-          imageHeight - cropAreaRef.current.offsetHeight;
-        cords.current.yBorder = ((hiddenPartsHeight / 2) * 100) / imageHeight;
-      }, 300);
-    }
+    const { img, scale, x, y } = files[selectedFile];
+
+    croppingDiv.current.style.backgroundImage = `url("${img.src.replace(
+      /(\r\n|\n|\r)/gm,
+      ""
+    )}")`;
+    croppingDiv.current.style.transform = `scale(${scale}) translate(${x}%,${y}%)`;
+    setTimeout(() => {
+      if (!croppingDiv.current || !cropAreaRef.current) return;
+      const imageWidth = croppingDiv.current.offsetWidth * scale;
+      const hiddenPartsWidth = imageWidth - cropAreaRef.current.offsetWidth;
+      cords.current.xBorder = ((hiddenPartsWidth / 2) * 100) / imageWidth;
+
+      const imageHeight = croppingDiv.current.offsetHeight * scale;
+      const hiddenPartsHeight = imageHeight - cropAreaRef.current.offsetHeight;
+      cords.current.yBorder = ((hiddenPartsHeight / 2) * 100) / imageHeight;
+    }, 300);
   }, [files, croppingDiv, selectFile, aspectRatio]);
-
-  useLayoutEffect(() => {}, []);
 
   return (
     <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
@@ -470,8 +525,6 @@ export function CropStep({
         </div>
       ) : null}
       <SliderDots nbrOfDots={files.length} selectedDot={selectedFile} />
-
-      {/* grid */}
     </div>
   );
 }

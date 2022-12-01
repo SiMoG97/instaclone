@@ -8,12 +8,14 @@ import SavedTab from "./SavedTab";
 import TaggedTab from "./TaggedTab";
 import VideosTab from "./VideosTab";
 import { useRouter } from "next/router";
+import PrivateProfile from "./PrivateProfile";
 
 export type TabsNames = "posts" | "tagged" | "saved" | "videos" | "reels";
 
 const ProfileComponent = () => {
   const [tabName, setTabName] = useState<TabsNames>("posts");
   const router = useRouter();
+  const isPrivateAccount = true;
   useEffect(() => {
     if (!router.isReady) return;
     if (!router.query.tab) return;
@@ -56,8 +58,14 @@ const ProfileComponent = () => {
     <>
       <div>
         <ProfileHeader username="Toto Hamza" />
-        <ProfileTabs tabName={tabName} setTabName={setTabName} />
-        {showTab()}
+        {isPrivateAccount ? (
+          <PrivateProfile />
+        ) : (
+          <>
+            <ProfileTabs tabName={tabName} setTabName={setTabName} />
+            {showTab()}
+          </>
+        )}
       </div>
       <Footer centered={true} />
     </>

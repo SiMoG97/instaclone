@@ -54,6 +54,7 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
   // const [isOpen, setIsOpen] = useState(true);
   const [step, setStep] = useState(0);
   const [files, setFiles] = useState<ImgFileType[]>([] as ImgFileType[]);
+  const [selectedFile, setSelectedFile] = useState(0);
   const [showDiscardPopup, setShowDiscardPopup] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string>("");
   const alertDiv = useRef<HTMLDivElement>(null);
@@ -107,6 +108,33 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
       return prev;
     });
   };
+  function nextFile() {
+    setSelectedFile((i) => {
+      if (i >= files.length - 1) {
+        return i;
+      }
+      i++;
+      return i;
+    });
+  }
+  function prevFile() {
+    setSelectedFile((i) => {
+      if (i <= 0) {
+        return 0;
+      }
+      i--;
+      return i;
+    });
+  }
+  // function selectFile(idx: number) {
+  //   let i = idx;
+  //   if (idx > files.length - 1) {
+  //     i = files.length - 1;
+  //   } else if (idx < 0) {
+  //     i = 0;
+  //   }
+  //   setSelectedFile(() => i);
+  // }
 
   useEffect(() => {}, [nextStep]);
   useEffect(() => {
@@ -169,8 +197,9 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
                 <CropStep
                   files={files}
                   setFiles={setFiles}
-                  nextStep={nextStep}
-                  prevStep={prevStep}
+                  selectedFile={selectedFile}
+                  nextFile={nextFile}
+                  prevFile={prevFile}
                 />
               )}
               {step === 2 && <EditStep />}

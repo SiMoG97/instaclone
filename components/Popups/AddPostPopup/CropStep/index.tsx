@@ -1,9 +1,8 @@
-import styles from "../popup.module.scss";
-import CropIcon from "../../../public/crop.svg";
-import MagnidyingGlass from "../../../public/magnifyingGlass.svg";
-import PostsIcon from "../../../public/postsIcon.svg";
-import ArrowL from "../../../public/arrowL.svg";
-import ArrowR from "../../../public/arrowR.svg";
+import styles from "../../popup.module.scss";
+import CropIcon from "../../../../public/crop.svg";
+import PostsIcon from "../../../../public/postsIcon.svg";
+import ArrowL from "../../../../public/arrowL.svg";
+import ArrowR from "../../../../public/arrowR.svg";
 import {
   CSSProperties,
   ReactNode,
@@ -13,13 +12,14 @@ import {
   useRef,
   useState,
 } from "react";
-import IconCircle from "../../CommonComponents/IconCircle";
-import RangeSlide from "../../FormComponents/RangeSlide";
-import { AspectRatioDropUp } from "./AspectRatioDropUp";
-import { ImgFileType } from "./";
-import { IconPopup } from "./IconPopup";
-import { SliderDots } from "../../CommonComponents/SliderDots";
-import SmallPopup from "../SmallPopup";
+import IconCircle from "../../../CommonComponents/IconCircle";
+import RangeSlide from "../../../FormComponents/RangeSlide";
+import AspectRatioDropUp from "./AspectRatioDropUp";
+import { ImgFileType } from "..";
+import { IconPopup } from "../IconPopup";
+import { SliderDots } from "../../../CommonComponents/SliderDots";
+import SmallPopup from "../../SmallPopup";
+import ZoomDropup from "./ZoomDropup";
 
 export type ARStateType =
   | "original"
@@ -30,79 +30,27 @@ export type ARStateType =
 type CropStepProps = {
   files: ImgFileType[];
   setFiles: React.Dispatch<React.SetStateAction<ImgFileType[]>>;
-  nextStep: () => void;
-  prevStep: () => void;
+  selectedFile: number;
+  nextFile: () => void;
+  prevFile: () => void;
 };
 export function CropStep({
   files,
   setFiles,
-  nextStep,
-  prevStep,
+  nextFile,
+  prevFile,
+  selectedFile,
 }: CropStepProps) {
   const [someDropOpen, setSomeDropOpen] = useState(false);
   const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
-  const [selectedFile, setSelectedFile] = useState(0);
-  // const [isMouseDown, setIsMouseDown] = useState(false);
-  // const mouseDownRef = useRef(false);
   const croppingDiv = useRef<HTMLDivElement>(null);
   const cropAreaRef = useRef<HTMLDivElement>(null);
 
-  function scaleHandler(scaleValue: number) {
-    const scale = 1 + scaleValue / 100;
-    if (croppingDiv.current) {
-      croppingDiv.current.style.transform = `scale(${scale}) translate(${files[selectedFile].x}%,${files[selectedFile].y}%)`;
-    }
-  }
-
-  function nextFile() {
-    setSelectedFile((i) => {
-      if (i >= files.length - 1) {
-        return i;
-      }
-      i++;
-      return i;
-    });
-  }
-  function prevFile() {
-    setSelectedFile((i) => {
-      if (i <= 0) {
-        return 0;
-      }
-      i--;
-      return i;
-    });
-  }
-  function selectFile(idx: number) {
-    let i = idx;
-    if (idx > files.length - 1) {
-      i = files.length - 1;
-    } else if (idx < 0) {
-      i = 0;
-    }
-    setSelectedFile(() => i);
-  }
   function removeFile(idx: number) {
     const newFiles = files.filter((file, i) => i === idx);
     setFiles(() => newFiles);
   }
 
-  function updateScaleValue() {
-    if (croppingDiv.current) {
-      console.log("updating");
-      const scale =
-        croppingDiv.current.getBoundingClientRect().width /
-        croppingDiv.current.offsetWidth;
-      if (files.length > 0) {
-        const newState = files.map((file, i) => {
-          if (selectedFile === i) {
-            return { ...file, scale };
-          }
-          return file;
-        });
-        setFiles(() => newState);
-      }
-    }
-  }
   const originalArCalcul = useCallback((width: number, height: number) => {
     let ar = width / height;
     if (ar === 1) {
@@ -399,7 +347,7 @@ export function CropStep({
       const hiddenPartsHeight = imageHeight - cropAreaRef.current.offsetHeight;
       cords.current.yBorder = ((hiddenPartsHeight / 2) * 100) / imageHeight;
     }, 300);
-  }, [files, croppingDiv, selectFile, aspectRatio]);
+  }, [files, croppingDiv, aspectRatio]);
 
   return (
     <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
@@ -427,43 +375,19 @@ export function CropStep({
         ></div>
         <Grid isPointerDown={isPointerDown} />
       </div>
-      <IconPopup
-        someDropOpen={someDropOpen}
-        setSomeDropOpen={setSomeDropOpen}
-        Icon={CropIcon}
-        style={{ left: "2rem" }}
-        DropUp={
-          <AspectRatioDropUp
-            aspectRatio={aspectRatio}
-            setAspectRatio={setAspectRatio}
-          />
-        }
+      <AspectRatioDropUp
+        isOpen={someDropOpen}
+        setIsOpen={setSomeDropOpen}
+        aspectRatio={aspectRatio}
+        setAspectRatio={setAspectRatio}
       />
-      <IconPopup
-        someDropOpen={someDropOpen}
-        setSomeDropOpen={setSomeDropOpen}
-        Icon={MagnidyingGlass}
-        style={{ left: "8rem" }}
-        callback={updateScaleValue}
-        dropUpStyle={{
-          width: "13.2rem",
-          display: "flex",
-          alignItems: "center",
-          padding: "1.5rem 1rem",
-          borderRadius: ".8rem",
-        }}
-        DropUp={
-          <RangeSlide
-            startFrom="left"
-            changeHandler={scaleHandler}
-            lineColor="#000000"
-            thumbColor="#ffffff"
-            thumbSize="1.7rem"
-            setedValue={
-              files.length > 0 ? (files[selectedFile].scale - 1) * 100 : 0
-            }
-          />
-        }
+      <ZoomDropup
+        element={croppingDiv}
+        files={files}
+        isOpen={someDropOpen}
+        selectedFile={selectedFile}
+        setFiles={setFiles}
+        setIsOpen={setSomeDropOpen}
       />
       {/* <IconPopup
         someDropOpen={someDropOpen}
@@ -510,7 +434,6 @@ export function CropStep({
           <IconCircle Icon={ArrowL} />
         </div>
       ) : null}
-
       {selectedFile < files.length - 1 ? (
         <div
           style={{

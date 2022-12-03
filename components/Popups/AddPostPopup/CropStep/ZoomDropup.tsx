@@ -50,7 +50,7 @@ const ZoomDropup = ({
       someDropOpen={isOpen}
       setSomeDropOpen={setIsOpen}
       Icon={MagnidyingGlass}
-      style={{ left: "8rem" }}
+      style={{ left: "8rem", zIndex: "1" }}
       callback={updateScaleValue}
       dropUpStyle={{
         width: "13.2rem",

@@ -126,17 +126,16 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
       return i;
     });
   }
-  // function selectFile(idx: number) {
-  //   let i = idx;
-  //   if (idx > files.length - 1) {
-  //     i = files.length - 1;
-  //   } else if (idx < 0) {
-  //     i = 0;
-  //   }
-  //   setSelectedFile(() => i);
-  // }
+  function selectFile(idx: number) {
+    let i = idx;
+    if (idx > files.length - 1) {
+      i = files.length - 1;
+    } else if (idx < 0) {
+      i = 0;
+    }
+    setSelectedFile(() => i);
+  }
 
-  useEffect(() => {}, [nextStep]);
   useEffect(() => {
     setTimeout(() => {
       if (alertDiv.current) {

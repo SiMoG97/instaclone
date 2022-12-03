@@ -20,6 +20,7 @@ import { IconPopup } from "../IconPopup";
 import { SliderDots } from "../../../CommonComponents/SliderDots";
 import SmallPopup from "../../SmallPopup";
 import ZoomDropup from "./ZoomDropup";
+import AdditionalPostsDropup from "./AdditionalPostsDropup";
 
 export type ARStateType =
   | "original"
@@ -347,7 +348,7 @@ export function CropStep({
       const hiddenPartsHeight = imageHeight - cropAreaRef.current.offsetHeight;
       cords.current.yBorder = ((hiddenPartsHeight / 2) * 100) / imageHeight;
     }, 300);
-  }, [files, croppingDiv, aspectRatio]);
+  }, [files, croppingDiv, aspectRatio, selectedFile]);
 
   return (
     <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
@@ -375,52 +376,31 @@ export function CropStep({
         ></div>
         <Grid isPointerDown={isPointerDown} />
       </div>
-      <AspectRatioDropUp
-        isOpen={someDropOpen}
-        setIsOpen={setSomeDropOpen}
-        aspectRatio={aspectRatio}
-        setAspectRatio={setAspectRatio}
-      />
-      <ZoomDropup
-        element={croppingDiv}
-        files={files}
-        isOpen={someDropOpen}
-        selectedFile={selectedFile}
-        setFiles={setFiles}
-        setIsOpen={setSomeDropOpen}
-      />
-      {/* <IconPopup
-        someDropOpen={someDropOpen}
-        setSomeDropOpen={setSomeDropOpen}
-        Icon={MagnidyingGlass}
-        style={{ right: "2rem" }}
-        dropUpStyle={{
-          width: "13.2rem",
-          display: "flex",
-          alignItems: "center",
-          padding: "1.5rem 1rem",
-          borderRadius: ".8rem",
-        }}
-        DropUp={
-          <RangeSlide
-            startFrom="mid"
-            changeHandler={() => {
-              console.log("yay changed");
-            }}
-            lineColor="green"
-            thumbColor="#ffffff"
+      <div className={styles.bottomBtnsContainer}>
+        <div>
+          <AspectRatioDropUp
+            isOpen={someDropOpen}
+            setIsOpen={setSomeDropOpen}
+            aspectRatio={aspectRatio}
+            setAspectRatio={setAspectRatio}
           />
-        }
-      /> */}
-      {/* <IconPopup
-        someDropOpen={someDropOpen}
-        setSomeDropOpen={setSomeDropOpen}
-        Icon={PostsIcon}
-        style={{ right: "2rem" }}
-        DropUp={AspectRatioDropUp}
-      /> */}
-      {/* <IconCicle Icon={PostsIcon} /> */}
-      {/* test div */}
+          <ZoomDropup
+            element={croppingDiv}
+            files={files}
+            isOpen={someDropOpen}
+            selectedFile={selectedFile}
+            setFiles={setFiles}
+            setIsOpen={setSomeDropOpen}
+          />
+          <AdditionalPostsDropup
+            isOpen={someDropOpen}
+            setIsOpen={setSomeDropOpen}
+            files={files}
+            setFiles={setFiles}
+          />
+        </div>
+      </div>
+
       {selectedFile > 0 ? (
         <div
           style={{

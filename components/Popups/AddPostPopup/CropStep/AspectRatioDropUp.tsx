@@ -24,7 +24,7 @@ const AspectRatioDropUp = ({
       someDropOpen={isOpen}
       setSomeDropOpen={setIsOpen}
       Icon={CropIcon}
-      style={{ left: "2rem" }}
+      style={{ left: "2rem", zIndex: "1" }}
       DropUp={
         <ARList aspectRatio={aspectRatio} setAspectRatio={setAspectRatio} />
       }

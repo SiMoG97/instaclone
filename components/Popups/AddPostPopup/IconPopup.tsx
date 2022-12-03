@@ -10,6 +10,7 @@ export type IconPopupPorps = {
   setSomeDropOpen: React.Dispatch<React.SetStateAction<boolean>>;
   DropUp: JSX.Element;
   dropUpStyle?: React.CSSProperties;
+  IconStyle?: React.CSSProperties;
   callback?: () => void;
 };
 
@@ -20,6 +21,7 @@ export function IconPopup({
   DropUp,
   style,
   dropUpStyle,
+  IconStyle,
   callback = () => {},
 }: IconPopupPorps) {
   const [active, setActive] = useState(false);
@@ -49,7 +51,7 @@ export function IconPopup({
         } `}
         onClick={activeToggler}
       >
-        <IconCicle Icon={Icon} />
+        <IconCicle Icon={Icon} style={IconStyle} />
       </div>
 
       {active && (

@@ -32,6 +32,7 @@ type CropStepProps = {
   files: ImgFileType[];
   setFiles: React.Dispatch<React.SetStateAction<ImgFileType[]>>;
   selectedFile: number;
+  setSelectedFile: React.Dispatch<React.SetStateAction<number>>;
   nextFile: () => void;
   prevFile: () => void;
 };
@@ -41,6 +42,7 @@ export function CropStep({
   nextFile,
   prevFile,
   selectedFile,
+  setSelectedFile,
 }: CropStepProps) {
   const [someDropOpen, setSomeDropOpen] = useState(false);
   const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
@@ -330,7 +332,6 @@ export function CropStep({
 
   useLayoutEffect(() => {
     if (files.length === 0 || !croppingDiv.current) return;
-
     const { img, scale, x, y } = files[selectedFile];
 
     croppingDiv.current.style.backgroundImage = `url("${img.src.replace(
@@ -397,6 +398,8 @@ export function CropStep({
             setIsOpen={setSomeDropOpen}
             files={files}
             setFiles={setFiles}
+            selectedFile={selectedFile}
+            setSelectedFile={setSelectedFile}
           />
         </div>
       </div>
@@ -448,17 +451,3 @@ const Grid = ({ isPointerDown }: { isPointerDown: boolean }) => {
     </div>
   );
 };
-
-// getBoundingClientRect()
-
-/*  check right */
-// (right out) should be less than or equal (right in) which means  (right in ) >= (right out)
-
-/*  check left */
-// (left in) sould be less than or equal (left out) which neans  (left out) >= (left in)
-
-/*  check top */
-// (top in) sould be less than or equal (top out) which neans  (top out) >= (top in)
-
-/*  check bottom */
-// (bottom out) sould be less than or equal (bottom in) which neans  (bottom in) >= (bottom out)

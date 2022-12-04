@@ -39,6 +39,8 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
       method: () => {
         setStep(() => 0);
         setFiles(() => []);
+        // setSelectedFile({} as ImgFileType);
+        setSelectedFile(0);
         setShowDiscardPopup(() => false);
       },
       danger: true,
@@ -54,6 +56,7 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
   // const [isOpen, setIsOpen] = useState(true);
   const [step, setStep] = useState(0);
   const [files, setFiles] = useState<ImgFileType[]>([] as ImgFileType[]);
+  // const [selectedFile, setSelectedFile] = useState<ImgFileType>(files[0]);
   const [selectedFile, setSelectedFile] = useState(0);
   const [showDiscardPopup, setShowDiscardPopup] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string>("");
@@ -126,15 +129,15 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
       return i;
     });
   }
-  function selectFile(idx: number) {
-    let i = idx;
-    if (idx > files.length - 1) {
-      i = files.length - 1;
-    } else if (idx < 0) {
-      i = 0;
-    }
-    setSelectedFile(() => i);
-  }
+  // function selectFile(idx: number) {
+  //   let i = idx;
+  //   if (idx > files.length - 1) {
+  //     i = files.length - 1;
+  //   } else if (idx < 0) {
+  //     i = 0;
+  //   }
+  //   setSelectedFile(() => i);
+  // }
 
   useEffect(() => {
     setTimeout(() => {
@@ -190,15 +193,17 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
                   setFiles={setFiles}
                   nextStep={nextStep}
                   setAlertMessage={setAlertMessage}
+                  // setSelectedFile={setSelectedFile}
                 />
               )}
               {step === 1 && (
                 <CropStep
                   files={files}
                   setFiles={setFiles}
-                  selectedFile={selectedFile}
                   nextFile={nextFile}
                   prevFile={prevFile}
+                  selectedFile={selectedFile}
+                  setSelectedFile={setSelectedFile}
                 />
               )}
               {step === 2 && <EditStep />}

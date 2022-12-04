@@ -7,6 +7,7 @@ import styles from "../../popup.module.scss";
 import CrossIcon from "../../../../public/smallCross.svg";
 
 import { IconPopup } from "../IconPopup";
+import { useState } from "react";
 
 type AdditionalPostsDropupProps = AdditionImgsSlideProps & {
   isOpen: boolean;
@@ -17,8 +18,8 @@ const AdditionalPostsDropup = ({
   setIsOpen,
   files,
   setFiles,
-  selectedFile,
   setSelectedFile,
+  selectedFileIdRef,
 }: AdditionalPostsDropupProps) => {
   return (
     <IconPopup
@@ -29,10 +30,10 @@ const AdditionalPostsDropup = ({
       style={{ paddingRight: "2rem", width: "100%" }}
       DropUp={
         <AdditionImgsSlide
-          selectedFile={selectedFile}
           files={files}
           setFiles={setFiles}
           setSelectedFile={setSelectedFile}
+          selectedFileIdRef={selectedFileIdRef}
         />
       }
       dropUpStyle={{
@@ -46,15 +47,15 @@ const AdditionalPostsDropup = ({
 type AdditionImgsSlideProps = {
   files: ImgFileType[];
   setFiles: React.Dispatch<React.SetStateAction<ImgFileType[]>>;
-  selectedFile: number;
   setSelectedFile: React.Dispatch<React.SetStateAction<number>>;
+  selectedFileIdRef: React.MutableRefObject<string>;
 };
 
 const AdditionImgsSlide = ({
   files,
   setFiles,
-  selectedFile,
   setSelectedFile,
+  selectedFileIdRef,
 }: AdditionImgsSlideProps) => {
   return (
     <div className={styles.addPostSlide}>
@@ -73,8 +74,11 @@ const AdditionImgsSlide = ({
                 file={file}
                 key={file.img.src}
                 imgSrc={file.img.src}
-                isSelected={selectedFile === index}
-                onMouseDown={() => setSelectedFile(() => index)}
+                isSelected={file.id === selectedFileIdRef.current}
+                onMouseUp={() => {
+                  selectedFileIdRef.current = file.id;
+                  setSelectedFile(() => index);
+                }}
               />
             );
           })}
@@ -88,12 +92,12 @@ type SliderItemProps = {
   file: ImgFileType;
   imgSrc: string;
   isSelected: boolean;
-  onMouseDown: () => void;
+  onMouseUp: () => void;
 };
 const SliderItem = ({
   imgSrc,
   isSelected,
-  onMouseDown,
+  onMouseUp,
   file,
 }: SliderItemProps) => {
   return (
@@ -102,19 +106,20 @@ const SliderItem = ({
       value={file}
       className={styles.slideItem}
       style={isSelected ? { filter: "brightness(1)" } : {}}
-      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      // onMouseUp
     >
-      <motion.div
+      <div
         className={styles.images}
         style={{ backgroundImage: bgImg(imgSrc) }}
-      ></motion.div>
+      ></div>
       {isSelected ? (
-        <motion.div className={styles.crossIconContainer}>
+        <div className={styles.crossIconContainer}>
           <IconCircle
             Icon={CrossIcon}
             style={{ width: "2rem", height: "2rem" }}
           />
-        </motion.div>
+        </div>
       ) : null}
     </Reorder.Item>
   );

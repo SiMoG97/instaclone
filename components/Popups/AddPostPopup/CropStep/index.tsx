@@ -35,6 +35,7 @@ type CropStepProps = {
   setSelectedFile: React.Dispatch<React.SetStateAction<number>>;
   nextFile: () => void;
   prevFile: () => void;
+  selectedFileIdRef: React.MutableRefObject<string>;
 };
 export function CropStep({
   files,
@@ -43,6 +44,7 @@ export function CropStep({
   prevFile,
   selectedFile,
   setSelectedFile,
+  selectedFileIdRef,
 }: CropStepProps) {
   const [someDropOpen, setSomeDropOpen] = useState(false);
   const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
@@ -398,12 +400,13 @@ export function CropStep({
             setIsOpen={setSomeDropOpen}
             files={files}
             setFiles={setFiles}
-            selectedFile={selectedFile}
             setSelectedFile={setSelectedFile}
+            selectedFileIdRef={selectedFileIdRef}
           />
         </div>
       </div>
 
+      {/* {files.indexOf(selectedFile) > 0 ? ( */}
       {selectedFile > 0 ? (
         <div
           style={{
@@ -417,6 +420,7 @@ export function CropStep({
           <IconCircle Icon={ArrowL} />
         </div>
       ) : null}
+      {/* {files.indexOf(selectedFile) < files.length - 1 ? ( */}
       {selectedFile < files.length - 1 ? (
         <div
           style={{
@@ -431,6 +435,10 @@ export function CropStep({
         </div>
       ) : null}
       <SliderDots nbrOfDots={files.length} selectedDot={selectedFile} />
+      {/* <SliderDots
+        nbrOfDots={files.length}
+        selectedDot={files.indexOf(selectedFile)}
+      /> */}
     </div>
   );
 }

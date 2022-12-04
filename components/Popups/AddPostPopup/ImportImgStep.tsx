@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import styles from "../popup.module.scss";
 import PicVidIcon from "../../../public/picVideoImp.svg";
 import ExclamIcon from "../../../public/exclamation.svg";
@@ -7,6 +8,7 @@ import {
   Dispatch,
   DragEvent,
   SetStateAction,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -16,15 +18,22 @@ import FileExtChecker from "../../../utils/FileExtChecker";
 import { ImgFileType } from ".";
 
 type ImportImgStepProps = {
+  files: ImgFileType[];
   setFiles: Dispatch<SetStateAction<ImgFileType[]>>;
   nextStep: () => void;
   setAlertMessage: Dispatch<SetStateAction<string>>;
+  setSelectedFile: React.Dispatch<React.SetStateAction<number>>;
+  // setSelectedFile: React.Dispatch<React.SetStateAction<ImgFileType>>;
+  selectedFileIdRef: React.MutableRefObject<string>;
 };
 
 export function ImportImgStep({
+  files,
   setFiles,
   nextStep,
   setAlertMessage,
+  setSelectedFile,
+  selectedFileIdRef,
 }: ImportImgStepProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
@@ -79,9 +88,9 @@ export function ImportImgStep({
       validteFiles(files);
     }
   }
-  function validteFiles(files: FileList) {
-    let arrFiles = Object.keys(files)
-      .map((obj: any) => files[obj])
+  function validteFiles(importedFiles: FileList) {
+    let arrFiles = Object.keys(importedFiles)
+      .map((obj: any) => importedFiles[obj])
       .slice(0, 10);
 
     let uploadError = false;
@@ -108,8 +117,8 @@ export function ImportImgStep({
       }
     }
     if (uploadError) return;
-    if (files.length !== arrFiles.length) {
-      const notUploadedFilesNbr = files.length - 10;
+    if (importedFiles.length !== arrFiles.length) {
+      const notUploadedFilesNbr = importedFiles.length - 10;
       const messageAlert =
         notUploadedFilesNbr === 1
           ? `${notUploadedFilesNbr} file is not uploaded. You can only chose 10 or fewer files.`
@@ -123,16 +132,21 @@ export function ImportImgStep({
       reader.addEventListener("load", () => {
         const img = new Image();
         img.src = `${reader.result}`;
-        imgFilesArr.push({ img, scale: 1, x: 0, y: 0 });
+        imgFilesArr.push({ img, scale: 1, x: 0, y: 0, id: uuidv4() });
       });
       reader.readAsDataURL(file);
     });
-    console.log(imgFilesArr);
     setFiles(() => imgFilesArr);
     setTimeout(() => {
+      // setSelectedFile(() => imgFilesArr[0]);
+      selectedFileIdRef.current = imgFilesArr[0].id;
       nextStep();
     }, 20);
   }
+  // useEffect(() => {
+  //   // console.log("hmmmm");
+  //   // setSelectedFile(() => files[0]);
+  // }, [files]);
   return (
     <>
       <div

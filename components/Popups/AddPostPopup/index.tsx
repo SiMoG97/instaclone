@@ -23,6 +23,7 @@ export type ImgFileType = {
   scale: number;
   x: number;
   y: number;
+  id: string;
 };
 
 type AddPostPopupType = {
@@ -56,12 +57,16 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
   // const [isOpen, setIsOpen] = useState(true);
   const [step, setStep] = useState(0);
   const [files, setFiles] = useState<ImgFileType[]>([] as ImgFileType[]);
-  // const [selectedFile, setSelectedFile] = useState<ImgFileType>(files[0]);
+  // const [selectedFile, setSelectedFile] = useState<ImgFileType>(
+  //   {} as ImgFileType
+  // );
   const [selectedFile, setSelectedFile] = useState(0);
   const [showDiscardPopup, setShowDiscardPopup] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string>("");
   const alertDiv = useRef<HTMLDivElement>(null);
   const croppingDiv = useRef<HTMLDivElement>(null);
+  const selectedFileIdRef = useRef<string>("");
+
   const [discardPopupButtons, setDiscardPopupButtons] =
     useState(initDiscardBtns);
 
@@ -111,6 +116,26 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
       return prev;
     });
   };
+  // function nextFile() {
+  //   setSelectedFile((currFile) => {
+  //     let i = files.indexOf(currFile);
+  //     if (i >= files.length - 1) {
+  //       return files[i];
+  //     }
+  //     i++;
+  //     return files[i];
+  //   });
+  // }
+  // function prevFile() {
+  //   setSelectedFile((currFile) => {
+  //     let i = files.indexOf(currFile);
+  //     if (i <= 0) {
+  //       return files[0];
+  //     }
+  //     i--;
+  //     return files[i];
+  //   });
+  // }
   function nextFile() {
     setSelectedFile((i) => {
       if (i >= files.length - 1) {
@@ -129,6 +154,10 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
       return i;
     });
   }
+  useEffect(() => {
+    if (!files[selectedFile]) return;
+    selectedFileIdRef.current = files[selectedFile].id;
+  }, [selectedFile]);
   // function selectFile(idx: number) {
   //   let i = idx;
   //   if (idx > files.length - 1) {
@@ -190,10 +219,12 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
             <div style={{ transition: "2s" }}>
               {step === 0 && (
                 <ImportImgStep
+                  files={files}
                   setFiles={setFiles}
                   nextStep={nextStep}
                   setAlertMessage={setAlertMessage}
-                  // setSelectedFile={setSelectedFile}
+                  setSelectedFile={setSelectedFile}
+                  selectedFileIdRef={selectedFileIdRef}
                 />
               )}
               {step === 1 && (
@@ -204,6 +235,7 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
                   prevFile={prevFile}
                   selectedFile={selectedFile}
                   setSelectedFile={setSelectedFile}
+                  selectedFileIdRef={selectedFileIdRef}
                 />
               )}
               {step === 2 && <EditStep />}

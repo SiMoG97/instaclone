@@ -463,7 +463,7 @@
         height: 100%;
         background-size: cover;
         background-position: center;
-        transition: 0.3s;
+        transition: 0.2s;
       }
       > .crossIconContainer {
         width: 3rem;
@@ -480,7 +480,8 @@
         opacity: 0.6;
       }
       &:active > .crossIconContainer {
-        display: none;
+        // display: none;
+        opacity: 0;
       }
     }
   }

@@ -236,6 +236,7 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
                   selectedFile={selectedFile}
                   setSelectedFile={setSelectedFile}
                   selectedFileIdRef={selectedFileIdRef}
+                  setStep={setStep}
                 />
               )}
               {step === 2 && <EditStep />}

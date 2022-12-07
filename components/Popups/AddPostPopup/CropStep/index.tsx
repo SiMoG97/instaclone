@@ -36,6 +36,7 @@ type CropStepProps = {
   nextFile: () => void;
   prevFile: () => void;
   selectedFileIdRef: React.MutableRefObject<string>;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
 };
 export function CropStep({
   files,
@@ -45,16 +46,12 @@ export function CropStep({
   selectedFile,
   setSelectedFile,
   selectedFileIdRef,
+  setStep,
 }: CropStepProps) {
   const [someDropOpen, setSomeDropOpen] = useState(false);
   const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
   const croppingDiv = useRef<HTMLDivElement>(null);
   const cropAreaRef = useRef<HTMLDivElement>(null);
-
-  function removeFile(idx: number) {
-    const newFiles = files.filter((file, i) => i === idx);
-    setFiles(() => newFiles);
-  }
 
   const originalArCalcul = useCallback((width: number, height: number) => {
     let ar = width / height;
@@ -402,6 +399,7 @@ export function CropStep({
             setFiles={setFiles}
             setSelectedFile={setSelectedFile}
             selectedFileIdRef={selectedFileIdRef}
+            setStep={setStep}
           />
         </div>
       </div>

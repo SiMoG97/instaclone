@@ -7,7 +7,8 @@ import styles from "../../popup.module.scss";
 import CrossIcon from "../../../../public/smallCross.svg";
 
 import { IconPopup } from "../IconPopup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import SmallPopup from "../../SmallPopup";
 
 type AdditionalPostsDropupProps = AdditionImgsSlideProps & {
   isOpen: boolean;
@@ -20,6 +21,7 @@ const AdditionalPostsDropup = ({
   setFiles,
   setSelectedFile,
   selectedFileIdRef,
+  setStep,
 }: AdditionalPostsDropupProps) => {
   return (
     <IconPopup
@@ -34,6 +36,7 @@ const AdditionalPostsDropup = ({
           setFiles={setFiles}
           setSelectedFile={setSelectedFile}
           selectedFileIdRef={selectedFileIdRef}
+          setStep={setStep}
         />
       }
       dropUpStyle={{
@@ -49,6 +52,7 @@ type AdditionImgsSlideProps = {
   setFiles: React.Dispatch<React.SetStateAction<ImgFileType[]>>;
   setSelectedFile: React.Dispatch<React.SetStateAction<number>>;
   selectedFileIdRef: React.MutableRefObject<string>;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const AdditionImgsSlide = ({
@@ -56,35 +60,81 @@ const AdditionImgsSlide = ({
   setFiles,
   setSelectedFile,
   selectedFileIdRef,
+  setStep,
 }: AdditionImgsSlideProps) => {
+  const [showDiscardPopup, setShowDiscardPopup] = useState(false);
+
+  const DiscardBtns = [
+    {
+      text: "Discard",
+      method: () => {
+        const newFiles = files.filter(
+          (file) => file.id !== selectedFileIdRef.current
+        );
+        setFiles(() => newFiles);
+        setSelectedFile((currIdx) => {
+          if (currIdx === 0) {
+            selectedFileIdRef.current = files[0].id;
+            return 0;
+          }
+          selectedFileIdRef.current = files[currIdx - 1].id;
+          return currIdx - 1;
+        });
+        setShowDiscardPopup(() => false);
+      },
+      danger: true,
+    },
+    {
+      text: "Cancel",
+      method: () => {
+        setShowDiscardPopup(() => false);
+      },
+    },
+  ];
+  useEffect(() => {
+    if (files.length === 0) {
+      setStep(() => 0);
+    }
+  }, [files.length]);
   return (
-    <div className={styles.addPostSlide}>
-      <Reorder.Group
-        as="div"
-        axis="x"
-        className={styles.slideContainer}
-        style={{ width: `${files.length * (95 + 13)}px` }}
-        onReorder={setFiles}
-        values={files}
-      >
-        <AnimatePresence initial={false}>
-          {files.map((file, index) => {
-            return (
-              <SliderItem
-                file={file}
-                key={file.img.src}
-                imgSrc={file.img.src}
-                isSelected={file.id === selectedFileIdRef.current}
-                onMouseUp={() => {
-                  selectedFileIdRef.current = file.id;
-                  setSelectedFile(() => index);
-                }}
-              />
-            );
-          })}
-        </AnimatePresence>
-      </Reorder.Group>
-    </div>
+    <>
+      <div className={styles.addPostSlide}>
+        <Reorder.Group
+          as="div"
+          axis="x"
+          className={styles.slideContainer}
+          style={{ width: `${files.length * (95 + 13)}px` }}
+          onReorder={setFiles}
+          values={files}
+        >
+          <AnimatePresence initial={false}>
+            {files.map((file, index) => {
+              return (
+                <SliderItem
+                  file={file}
+                  key={file.id}
+                  imgSrc={file.img.src}
+                  isSelected={file.id === selectedFileIdRef.current}
+                  setShowDiscardPopup={setShowDiscardPopup}
+                  onMouseUp={() => {
+                    selectedFileIdRef.current = file.id;
+                    setSelectedFile(() => index);
+                  }}
+                />
+              );
+            })}
+          </AnimatePresence>
+        </Reorder.Group>
+      </div>
+      {showDiscardPopup ? (
+        <SmallPopup
+          titleOrPic="Discard photo?"
+          text="This will remove the photo from your post."
+          buttonList={DiscardBtns}
+          popupCloser={setShowDiscardPopup}
+        />
+      ) : null}
+    </>
   );
 };
 
@@ -93,12 +143,14 @@ type SliderItemProps = {
   imgSrc: string;
   isSelected: boolean;
   onMouseUp: () => void;
+  setShowDiscardPopup: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const SliderItem = ({
   imgSrc,
   isSelected,
   onMouseUp,
   file,
+  setShowDiscardPopup,
 }: SliderItemProps) => {
   return (
     <Reorder.Item
@@ -107,17 +159,19 @@ const SliderItem = ({
       className={styles.slideItem}
       style={isSelected ? { filter: "brightness(1)" } : {}}
       onMouseUp={onMouseUp}
-      // onMouseUp
     >
       <div
         className={styles.images}
         style={{ backgroundImage: bgImg(imgSrc) }}
       ></div>
       {isSelected ? (
-        <div className={styles.crossIconContainer}>
+        <div
+          className={styles.crossIconContainer}
+          onClick={() => setShowDiscardPopup(true)}
+        >
           <IconCircle
             Icon={CrossIcon}
-            style={{ width: "2rem", height: "2rem" }}
+            style={{ width: "2rem", height: "2rem", pointerEvents: "none" }}
           />
         </div>
       ) : null}

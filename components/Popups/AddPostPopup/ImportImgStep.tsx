@@ -143,10 +143,6 @@ export function ImportImgStep({
       nextStep();
     }, 20);
   }
-  // useEffect(() => {
-  //   // console.log("hmmmm");
-  //   // setSelectedFile(() => files[0]);
-  // }, [files]);
   return (
     <>
       <div

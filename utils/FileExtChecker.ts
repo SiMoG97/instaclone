@@ -1,5 +1,14 @@
 const FileExtChecker = (fileName: string) => {
-  const extensions = ["jpeg", "jpg", "png", "heic", "heif", "mp4", "quicktime"];
+  const extensions = [
+    "jpeg",
+    "jpg",
+    "png",
+    "jfif",
+    "heic",
+    "heif",
+    "mp4",
+    "quicktime",
+  ];
 
   function getExtension(fileName: string) {
     const parts = fileName.split(".");

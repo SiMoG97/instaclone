@@ -1,14 +1,18 @@
 import { Reorder, AnimatePresence, motion } from "framer-motion";
+import { v4 as uuidv4 } from "uuid";
 
 import { ImgFileType } from "..";
 import PostsIcon from "../../../../public/postsIcon.svg";
 import IconCircle from "../../../CommonComponents/IconCircle";
 import styles from "../../popup.module.scss";
 import CrossIcon from "../../../../public/smallCross.svg";
+import PlusIcon from "../../../../public/plusIcon.svg";
 
 import { IconPopup } from "../IconPopup";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SmallPopup from "../../SmallPopup";
+import { FileInput } from "../../../FormComponents/FileInput";
+import FileExtChecker from "../../../../utils/FileExtChecker";
 
 type AdditionalPostsDropupProps = AdditionImgsSlideProps & {
   isOpen: boolean;
@@ -22,6 +26,8 @@ const AdditionalPostsDropup = ({
   setSelectedFile,
   selectedFileIdRef,
   setStep,
+  selectedFile,
+  setAlertMessage,
 }: AdditionalPostsDropupProps) => {
   return (
     <IconPopup
@@ -37,6 +43,8 @@ const AdditionalPostsDropup = ({
           setSelectedFile={setSelectedFile}
           selectedFileIdRef={selectedFileIdRef}
           setStep={setStep}
+          selectedFile={selectedFile}
+          setAlertMessage={setAlertMessage}
         />
       }
       dropUpStyle={{
@@ -50,9 +58,11 @@ const AdditionalPostsDropup = ({
 type AdditionImgsSlideProps = {
   files: ImgFileType[];
   setFiles: React.Dispatch<React.SetStateAction<ImgFileType[]>>;
+  selectedFile: number;
   setSelectedFile: React.Dispatch<React.SetStateAction<number>>;
   selectedFileIdRef: React.MutableRefObject<string>;
   setStep: React.Dispatch<React.SetStateAction<number>>;
+  setAlertMessage: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const AdditionImgsSlide = ({
@@ -61,9 +71,11 @@ const AdditionImgsSlide = ({
   setSelectedFile,
   selectedFileIdRef,
   setStep,
+  selectedFile,
+  setAlertMessage,
 }: AdditionImgsSlideProps) => {
   const [showDiscardPopup, setShowDiscardPopup] = useState(false);
-
+  const inputRef = useRef<HTMLInputElement>(null);
   const DiscardBtns = [
     {
       text: "Discard",
@@ -71,13 +83,19 @@ const AdditionImgsSlide = ({
         const newFiles = files.filter(
           (file) => file.id !== selectedFileIdRef.current
         );
+
+        if (newFiles.length > 0) {
+          if (selectedFile === 0) {
+            selectedFileIdRef.current = newFiles[0].id;
+          } else {
+            selectedFileIdRef.current = newFiles[selectedFile - 1].id;
+          }
+        }
         setFiles(() => newFiles);
         setSelectedFile((currIdx) => {
           if (currIdx === 0) {
-            selectedFileIdRef.current = files[0].id;
             return 0;
           }
-          selectedFileIdRef.current = files[currIdx - 1].id;
           return currIdx - 1;
         });
         setShowDiscardPopup(() => false);
@@ -96,6 +114,50 @@ const AdditionImgsSlide = ({
       setStep(() => 0);
     }
   }, [files.length]);
+
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const uploadedFiles = e.target.files;
+    if (uploadedFiles) {
+      validteFiles(uploadedFiles);
+    }
+  }
+
+  const validteFiles = (uploadedFiles: FileList) => {
+    const nbrOfFileAllowedToUpload = 10 - files.length;
+    let arrFiles = Object.keys(uploadedFiles)
+      .map((obj: any) => uploadedFiles[obj])
+      .slice(0, nbrOfFileAllowedToUpload);
+    const allowedFilesArr = [];
+    for (const file of arrFiles) {
+      const fileSize = file.size;
+      const filename = file.name;
+      if (!FileExtChecker(filename)) continue;
+      if (fileSize < 4096) continue;
+      allowedFilesArr.push(file);
+    }
+    if (uploadedFiles.length > allowedFilesArr.length) {
+      const notUploadedFilesNbr = uploadedFiles.length - allowedFilesArr.length;
+      const messageAlert =
+        notUploadedFilesNbr === 1
+          ? `${notUploadedFilesNbr} file is not uploaded. You can only chose 10 or fewer files.`
+          : `${notUploadedFilesNbr} files are not uploaded. You can only chose 10 or fewer files.`;
+      setAlertMessage(messageAlert);
+    }
+    const imgFilesArr: ImgFileType[] = [];
+    allowedFilesArr.forEach((file: File) => {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        const img = new Image();
+        img.src = `${reader.result}`;
+        imgFilesArr.push({ img, scale: 1, x: 0, y: 0, id: uuidv4() });
+      });
+      reader.readAsDataURL(file);
+    });
+    setTimeout(() => {
+      console.log(imgFilesArr, imgFilesArr.length);
+      setFiles((currFiles) => [...currFiles, ...imgFilesArr]);
+    }, 100);
+  };
   return (
     <>
       <div className={styles.addPostSlide}>
@@ -125,6 +187,20 @@ const AdditionImgsSlide = ({
             })}
           </AnimatePresence>
         </Reorder.Group>
+        {files.length < 10 ? (
+          <div className={styles.addFileButtonContainer}>
+            <div
+              className={styles.circle}
+              onClick={() => {
+                if (inputRef.current) {
+                  inputRef.current.click();
+                }
+              }}
+            >
+              <PlusIcon />
+            </div>
+          </div>
+        ) : null}
       </div>
       {showDiscardPopup ? (
         <SmallPopup
@@ -134,6 +210,7 @@ const AdditionImgsSlide = ({
           popupCloser={setShowDiscardPopup}
         />
       ) : null}
+      <FileInput ref={inputRef} onChange={handleInputChange} />
     </>
   );
 };

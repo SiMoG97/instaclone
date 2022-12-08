@@ -138,7 +138,6 @@ export function ImportImgStep({
     });
     setFiles(() => imgFilesArr);
     setTimeout(() => {
-      // setSelectedFile(() => imgFilesArr[0]);
       selectedFileIdRef.current = imgFilesArr[0].id;
       nextStep();
     }, 20);

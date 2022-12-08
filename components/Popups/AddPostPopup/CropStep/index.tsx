@@ -37,6 +37,7 @@ type CropStepProps = {
   prevFile: () => void;
   selectedFileIdRef: React.MutableRefObject<string>;
   setStep: React.Dispatch<React.SetStateAction<number>>;
+  setAlertMessage: React.Dispatch<React.SetStateAction<string>>;
 };
 export function CropStep({
   files,
@@ -47,6 +48,7 @@ export function CropStep({
   setSelectedFile,
   selectedFileIdRef,
   setStep,
+  setAlertMessage,
 }: CropStepProps) {
   const [someDropOpen, setSomeDropOpen] = useState(false);
   const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
@@ -400,6 +402,8 @@ export function CropStep({
             setSelectedFile={setSelectedFile}
             selectedFileIdRef={selectedFileIdRef}
             setStep={setStep}
+            selectedFile={selectedFile}
+            setAlertMessage={setAlertMessage}
           />
         </div>
       </div>

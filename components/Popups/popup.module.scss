@@ -441,6 +441,24 @@
   overflow: hidden;
   border-left: solid 1rem transparent;
   border-right: solid 1rem transparent;
+  justify-content: flex-end;
+  .arrow {
+    position: absolute;
+    transform: scale(0.8);
+    &.left {
+      left: 0;
+    }
+    &.right {
+      right: 0;
+    }
+  }
+  .groupContaienr {
+    display: flex;
+    align-items: center;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+  }
   .addFileButtonContainer {
     height: 100%;
     display: flex;
@@ -465,7 +483,8 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    overflow: hidden;
+    // overflow: hidden;
+    transition: 0.3s;
     gap: 1.3rem;
     width: 100%;
     .slideItem {

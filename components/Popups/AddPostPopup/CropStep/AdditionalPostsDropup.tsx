@@ -9,13 +9,15 @@ import CrossIcon from "../../../../public/smallCross.svg";
 import PlusIcon from "../../../../public/plusIcon.svg";
 
 import { IconPopup } from "../IconPopup";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import SmallPopup from "../../SmallPopup";
 import { FileInput } from "../../../FormComponents/FileInput";
 import FileExtChecker from "../../../../utils/FileExtChecker";
+import ArrowL from "../../../../public/arrowL.svg";
+import ArrowR from "../../../../public/arrowR.svg";
 
 type AdditionalPostsDropupProps = AdditionImgsSlideProps & {
-  isOpen: boolean;
+  // isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const AdditionalPostsDropup = ({
@@ -38,6 +40,7 @@ const AdditionalPostsDropup = ({
       style={{ paddingRight: "2rem", width: "100%" }}
       DropUp={
         <AdditionImgsSlide
+          isOpen={isOpen}
           files={files}
           setFiles={setFiles}
           setSelectedFile={setSelectedFile}
@@ -56,6 +59,7 @@ const AdditionalPostsDropup = ({
   );
 };
 type AdditionImgsSlideProps = {
+  isOpen: boolean;
   files: ImgFileType[];
   setFiles: React.Dispatch<React.SetStateAction<ImgFileType[]>>;
   selectedFile: number;
@@ -66,6 +70,7 @@ type AdditionImgsSlideProps = {
 };
 
 const AdditionImgsSlide = ({
+  isOpen,
   files,
   setFiles,
   setSelectedFile,
@@ -74,8 +79,11 @@ const AdditionImgsSlide = ({
   selectedFile,
   setAlertMessage,
 }: AdditionImgsSlideProps) => {
+  const sliderContainer = useRef<HTMLDivElement>(null);
+  const slider = useRef<HTMLDivElement>(null);
   const [showDiscardPopup, setShowDiscardPopup] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [_, setForceUpdate] = useState(0);
   const DiscardBtns = [
     {
       text: "Discard",
@@ -109,6 +117,70 @@ const AdditionImgsSlide = ({
       },
     },
   ];
+
+  const slideDetails = useRef({
+    nbrOfParts: 0,
+    part: 0,
+  });
+  // const [slideDetails, setSlideDetails] = useState({
+  //   nbrOfParts: 0,
+  //   part: 0,
+  // });
+
+  const slideLeft = () => {
+    if (!slider.current || !sliderContainer.current) return;
+
+    // if()
+  };
+  const slideRight = () => {
+    if (!slider.current || !sliderContainer.current) return;
+    const { nbrOfParts, part } = slideDetails.current;
+    // const { nbrOfParts, part } = slideDetails;
+    if (part + 1 < nbrOfParts - 1) {
+      slideDetails.current.part = part + 1;
+      // setSlideDetails((currDetails) => ({
+      //   ...currDetails,
+      //   part: currDetails.part + 1,
+      // }));
+    } else {
+      slideDetails.current.part = nbrOfParts - 1;
+      // setSlideDetails((currDetails) => ({
+      //   ...currDetails,
+      //   part: currDetails.nbrOfParts - 1,
+      // }));
+    }
+    const slidContainerWidth =
+      sliderContainer.current.getBoundingClientRect().width;
+    slider.current.style.transform = `translateX(-${
+      slidContainerWidth * slideDetails.current.part + 20
+      // slidContainerWidth * slideDetails.part + 20
+    }px)`;
+    setForceUpdate((curr) => curr + 1);
+  };
+  const sliderHandler = () => {
+    if (!slider.current || !sliderContainer.current) return;
+    const sliderContainerWidth =
+      sliderContainer.current.getBoundingClientRect().width;
+    const sliderWidth = slider.current.getBoundingClientRect().width;
+    slideDetails.current.nbrOfParts = sliderWidth / sliderContainerWidth;
+    setForceUpdate((curr) => curr + 1);
+    // setSlideDetails((currDetails) => ({
+    //   ...currDetails,
+    //   nbrOfParts: sliderWidth / sliderContainerWidth,
+    // }));
+  };
+
+  useEffect(() => {
+    sliderHandler();
+  }, []);
+
+  useLayoutEffect(() => {
+    window.addEventListener("resize", sliderHandler);
+    return () => {
+      window.removeEventListener("resize", sliderHandler);
+    };
+  }, []);
+
   useEffect(() => {
     if (files.length === 0) {
       setStep(() => 0);
@@ -153,40 +225,66 @@ const AdditionImgsSlide = ({
       });
       reader.readAsDataURL(file);
     });
+    // console.log(reader);
     setTimeout(() => {
-      console.log(imgFilesArr, imgFilesArr.length);
+      // console.log(imgFilesArr, imgFilesArr.length);
       setFiles((currFiles) => [...currFiles, ...imgFilesArr]);
     }, 100);
   };
+  // console.log(slideDetails);
   return (
     <>
-      <div className={styles.addPostSlide}>
-        <Reorder.Group
-          as="div"
-          axis="x"
-          className={styles.slideContainer}
-          style={{ width: `${files.length * (95 + 13)}px` }}
-          onReorder={setFiles}
-          values={files}
+      <div className={styles.addPostSlide} ref={sliderContainer}>
+        <div
+          style={{ position: "relative" }}
+          className={styles.groupContaienr}
+          ref={sliderContainer}
         >
-          <AnimatePresence initial={false}>
-            {files.map((file, index) => {
-              return (
-                <SliderItem
-                  file={file}
-                  key={file.id}
-                  imgSrc={file.img.src}
-                  isSelected={file.id === selectedFileIdRef.current}
-                  setShowDiscardPopup={setShowDiscardPopup}
-                  onMouseUp={() => {
-                    selectedFileIdRef.current = file.id;
-                    setSelectedFile(() => index);
-                  }}
-                />
-              );
-            })}
-          </AnimatePresence>
-        </Reorder.Group>
+          <Reorder.Group
+            as="div"
+            axis="x"
+            className={styles.slideContainer}
+            style={{ width: `${files.length * (95 + 13)}px` }}
+            onReorder={setFiles}
+            values={files}
+            ref={slider}
+          >
+            <AnimatePresence initial={false}>
+              {files.map((file, index) => {
+                return (
+                  <SliderItem
+                    file={file}
+                    key={file.id}
+                    imgSrc={file.img.src}
+                    isSelected={file.id === selectedFileIdRef.current}
+                    setShowDiscardPopup={setShowDiscardPopup}
+                    onMouseUp={() => {
+                      selectedFileIdRef.current = file.id;
+                      setSelectedFile(() => index);
+                    }}
+                  />
+                );
+              })}
+            </AnimatePresence>
+          </Reorder.Group>
+          {/* // {slideDetails.nbrOfParts > 1 ? ( */}
+          {slideDetails.current.nbrOfParts > 1 ? (
+            <>
+              {slideDetails.current.nbrOfParts - 1 >
+              slideDetails.current.part ? (
+                <div
+                  className={`${styles.arrow} ${styles.right}`}
+                  onClick={slideRight}
+                >
+                  <IconCircle light Icon={ArrowR} />
+                </div>
+              ) : null}
+              <div className={`${styles.arrow} ${styles.left}`}>
+                <IconCircle light Icon={ArrowL} />
+              </div>
+            </>
+          ) : null}
+        </div>
         {files.length < 10 ? (
           <div className={styles.addFileButtonContainer}>
             <div

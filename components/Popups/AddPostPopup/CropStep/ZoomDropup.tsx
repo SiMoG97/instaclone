@@ -65,6 +65,8 @@ const ZoomDropup = ({
         alignItems: "center",
         padding: "1.5rem 1rem",
         borderRadius: ".8rem",
+        left: "8rem",
+        bottom: "6rem",
       }}
       DropUp={
         <RangeSlide

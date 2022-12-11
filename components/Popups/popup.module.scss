@@ -284,15 +284,15 @@
     height: auto;
   }
 }
-.bottomBtnsContainer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  > div {
-    position: relative;
-    width: 100%;
-  }
-}
+// .bottomBtnsContainer {
+//   position: absolute;
+//   bottom: 0;
+//   width: 100%;
+//   > div {
+//     position: relative;
+//     width: 100%;
+//   }
+// }
 
 .iconPopup {
   position: absolute;
@@ -320,6 +320,14 @@
   bottom: 5rem;
   left: 0;
   border-radius: 0.7rem;
+  &.showDropup {
+    pointer-events: all;
+    opacity: 1;
+  }
+  &.hideDropup {
+    pointer-events: none;
+    opacity: 0;
+  }
 }
 .dropUpIElmContainer {
   list-style-type: none;

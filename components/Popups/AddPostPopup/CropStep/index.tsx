@@ -378,35 +378,34 @@ export function CropStep({
         ></div>
         <Grid isPointerDown={isPointerDown} />
       </div>
-      <div className={styles.bottomBtnsContainer}>
-        <div>
-          <AspectRatioDropUp
-            isOpen={someDropOpen}
-            setIsOpen={setSomeDropOpen}
-            aspectRatio={aspectRatio}
-            setAspectRatio={setAspectRatio}
-          />
-          <ZoomDropup
-            element={croppingDiv}
-            files={files}
-            isOpen={someDropOpen}
-            selectedFile={selectedFile}
-            setFiles={setFiles}
-            setIsOpen={setSomeDropOpen}
-          />
-          <AdditionalPostsDropup
-            isOpen={someDropOpen}
-            setIsOpen={setSomeDropOpen}
-            files={files}
-            setFiles={setFiles}
-            setSelectedFile={setSelectedFile}
-            selectedFileIdRef={selectedFileIdRef}
-            setStep={setStep}
-            selectedFile={selectedFile}
-            setAlertMessage={setAlertMessage}
-          />
-        </div>
-      </div>
+      <AspectRatioDropUp
+        isOpen={someDropOpen}
+        setIsOpen={setSomeDropOpen}
+        aspectRatio={aspectRatio}
+        setAspectRatio={setAspectRatio}
+      />
+      <ZoomDropup
+        element={croppingDiv}
+        files={files}
+        isOpen={someDropOpen}
+        selectedFile={selectedFile}
+        setFiles={setFiles}
+        setIsOpen={setSomeDropOpen}
+      />
+      <AdditionalPostsDropup
+        isOpen={someDropOpen}
+        setIsOpen={setSomeDropOpen}
+        files={files}
+        setFiles={setFiles}
+        setSelectedFile={setSelectedFile}
+        selectedFileIdRef={selectedFileIdRef}
+        setStep={setStep}
+        selectedFile={selectedFile}
+        setAlertMessage={setAlertMessage}
+      />
+      {/* <div className={styles.bottomBtnsContainer}>
+        <div></div>
+      </div> */}
 
       {/* {files.indexOf(selectedFile) > 0 ? ( */}
       {selectedFile > 0 ? (

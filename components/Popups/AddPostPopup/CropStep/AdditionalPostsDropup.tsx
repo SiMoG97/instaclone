@@ -36,8 +36,17 @@ const AdditionalPostsDropup = ({
       someDropOpen={isOpen}
       setSomeDropOpen={setIsOpen}
       Icon={PostsIcon}
-      IconStyle={{ marginLeft: "auto" }}
-      style={{ paddingRight: "2rem", width: "100%" }}
+      IconStyle={{}}
+      style={{
+        paddingRight: "2rem",
+        right: "0",
+        // width: "100%",
+        // width: "3rem",
+        // position: "unset",
+        // transform: "translateY(-20px)",
+        // marginLeft: "auto",
+      }}
+      // unmount={false}
       DropUp={
         <AdditionImgsSlide
           isOpen={isOpen}
@@ -54,6 +63,7 @@ const AdditionalPostsDropup = ({
         right: "2rem",
         left: "auto",
         maxWidth: "calc(100% - 4rem)",
+        bottom: "6rem",
       }}
     />
   );
@@ -91,7 +101,6 @@ const AdditionImgsSlide = ({
         const newFiles = files.filter(
           (file) => file.id !== selectedFileIdRef.current
         );
-
         if (newFiles.length > 0) {
           if (selectedFile === 0) {
             selectedFileIdRef.current = newFiles[0].id;
@@ -106,6 +115,11 @@ const AdditionImgsSlide = ({
           }
           return currIdx - 1;
         });
+        if (slider.current && slideDetails.current.nbrOfParts > 1) {
+          slider.current.style.transform = `translateX(${
+            -slideDetails.current.translateX - 95
+          }px)`;
+        }
         setShowDiscardPopup(() => false);
       },
       danger: true,
@@ -121,6 +135,7 @@ const AdditionImgsSlide = ({
   const slideDetails = useRef({
     nbrOfParts: 0,
     part: 0,
+    translateX: 0,
   });
   // const [slideDetails, setSlideDetails] = useState({
   //   nbrOfParts: 0,
@@ -149,30 +164,43 @@ const AdditionImgsSlide = ({
       //   part: currDetails.nbrOfParts - 1,
       // }));
     }
+    console.log(slideDetails.current.part);
     const slidContainerWidth =
       sliderContainer.current.getBoundingClientRect().width;
-    slider.current.style.transform = `translateX(-${
-      slidContainerWidth * slideDetails.current.part + 20
-      // slidContainerWidth * slideDetails.part + 20
-    }px)`;
-    setForceUpdate((curr) => curr + 1);
+    slideDetails.current.translateX =
+      slidContainerWidth * slideDetails.current.part;
+    slider.current.style.transform = `translateX(${slideDetails.current.translateX}px)`;
+    // slidContainerWidth * slideDetails.part + 20
+    // setForceUpdate((curr) => curr + 1);
   };
   const sliderHandler = () => {
-    if (!slider.current || !sliderContainer.current) return;
-    const sliderContainerWidth =
-      sliderContainer.current.getBoundingClientRect().width;
-    const sliderWidth = slider.current.getBoundingClientRect().width;
-    slideDetails.current.nbrOfParts = sliderWidth / sliderContainerWidth;
-    setForceUpdate((curr) => curr + 1);
-    // setSlideDetails((currDetails) => ({
-    //   ...currDetails,
-    //   nbrOfParts: sliderWidth / sliderContainerWidth,
-    // }));
+    setTimeout(() => {
+      if (!slider.current || !sliderContainer.current) return;
+      const sliderContainerWidth =
+        sliderContainer.current.getBoundingClientRect().width;
+      const sliderWidth = slider.current.getBoundingClientRect().width;
+      slideDetails.current.nbrOfParts =
+        sliderWidth / (sliderContainerWidth - 20);
+      if (sliderWidth / sliderContainerWidth <= 1) {
+        slider.current.style.transform = "translateX(0)";
+      }
+      // setForceUpdate((curr) => curr + 1);
+      // setSlideDetails((currDetails) => ({
+      //   ...currDetails,
+      //   nbrOfParts: sliderWidth / sliderContainerWidth,
+      // }));
+      console.log(
+        "from function",
+        slider.current?.getBoundingClientRect().width
+      );
+      // console.log(slideDetails.current);
+    }, 500);
   };
 
   useEffect(() => {
     sliderHandler();
-  }, []);
+  }, [files]);
+  // }, [slider.current?.offsetWidth]);
 
   useLayoutEffect(() => {
     window.addEventListener("resize", sliderHandler);
@@ -201,10 +229,8 @@ const AdditionImgsSlide = ({
       .slice(0, nbrOfFileAllowedToUpload);
     const allowedFilesArr = [];
     for (const file of arrFiles) {
-      const fileSize = file.size;
-      const filename = file.name;
-      if (!FileExtChecker(filename)) continue;
-      if (fileSize < 4096) continue;
+      if (!FileExtChecker(file.name)) continue;
+      if (file.size < 4096) continue;
       allowedFilesArr.push(file);
     }
     if (uploadedFiles.length > allowedFilesArr.length) {
@@ -215,23 +241,31 @@ const AdditionImgsSlide = ({
           : `${notUploadedFilesNbr} files are not uploaded. You can only chose 10 or fewer files.`;
       setAlertMessage(messageAlert);
     }
-    const imgFilesArr: ImgFileType[] = [];
+    // const imgFilesArr: ImgFileType[] = [];
     allowedFilesArr.forEach((file: File) => {
       const reader = new FileReader();
       reader.addEventListener("load", () => {
         const img = new Image();
         img.src = `${reader.result}`;
-        imgFilesArr.push({ img, scale: 1, x: 0, y: 0, id: uuidv4() });
+        setFiles((currFiles) => [
+          ...currFiles,
+          { img, scale: 1, x: 0, y: 0, id: uuidv4() },
+        ]);
+        console.log("wow");
+        // imgFilesArr.push({ img, scale: 1, x: 0, y: 0, id: uuidv4() });
       });
       reader.readAsDataURL(file);
     });
     // console.log(reader);
-    setTimeout(() => {
-      // console.log(imgFilesArr, imgFilesArr.length);
-      setFiles((currFiles) => [...currFiles, ...imgFilesArr]);
-    }, 100);
+    // setTimeout(() => {
+    //   // console.log(imgFilesArr, imgFilesArr.length);
+    //   setFiles((currFiles) => [...currFiles, ...imgFilesArr]);
+    // }, 100);
   };
   // console.log(slideDetails);
+  // console.log(slideDetails);
+  // console.log("hmmm");
+  console.log(slider.current?.getBoundingClientRect().width);
   return (
     <>
       <div className={styles.addPostSlide} ref={sliderContainer}>
@@ -244,7 +278,7 @@ const AdditionImgsSlide = ({
             as="div"
             axis="x"
             className={styles.slideContainer}
-            style={{ width: `${files.length * (95 + 13)}px` }}
+            style={{ width: `${files.length * (95 + 13) - 13}px` }}
             onReorder={setFiles}
             values={files}
             ref={slider}

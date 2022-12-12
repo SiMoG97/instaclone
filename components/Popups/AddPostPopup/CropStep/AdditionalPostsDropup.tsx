@@ -93,7 +93,7 @@ const AdditionImgsSlide = ({
   const slider = useRef<HTMLDivElement>(null);
   const [showDiscardPopup, setShowDiscardPopup] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [_, setForceUpdate] = useState(0);
+  const [_, ForceRender] = useState(0);
   const DiscardBtns = [
     {
       text: "Discard",
@@ -116,8 +116,9 @@ const AdditionImgsSlide = ({
           return currIdx - 1;
         });
         if (slider.current && slideDetails.current.nbrOfParts > 1) {
+          console.log("mn temma");
           slider.current.style.transform = `translateX(${
-            -slideDetails.current.translateX - 95
+            -slideDetails.current.translateX + 95 + 13
           }px)`;
         }
         setShowDiscardPopup(() => false);
@@ -134,7 +135,7 @@ const AdditionImgsSlide = ({
 
   const slideDetails = useRef({
     nbrOfParts: 0,
-    part: 0,
+    part: 1,
     translateX: 0,
   });
   // const [slideDetails, setSlideDetails] = useState({
@@ -144,35 +145,38 @@ const AdditionImgsSlide = ({
 
   const slideLeft = () => {
     if (!slider.current || !sliderContainer.current) return;
-
-    // if()
+    const { nbrOfParts, part } = slideDetails.current;
+    if (part === nbrOfParts && nbrOfParts % 1 < 1 && nbrOfParts % 1 > 0) {
+      slideDetails.current.part = nbrOfParts - (nbrOfParts % 1);
+    } else if (part === 1) {
+      slideDetails.current.part = 1;
+    } else {
+      slideDetails.current.part = part - 1;
+    }
+    slideDetails.current.translateX =
+      slideDetails.current.part * sliderContainer.current.offsetWidth -
+      sliderContainer.current.offsetWidth;
+    slider.current.style.transform = `translateX(${-slideDetails.current
+      .translateX}px)`;
+    ForceRender((curr) => curr + 1);
   };
+
   const slideRight = () => {
     if (!slider.current || !sliderContainer.current) return;
     const { nbrOfParts, part } = slideDetails.current;
-    // const { nbrOfParts, part } = slideDetails;
-    if (part + 1 < nbrOfParts - 1) {
+    if (part + 1 < nbrOfParts) {
       slideDetails.current.part = part + 1;
-      // setSlideDetails((currDetails) => ({
-      //   ...currDetails,
-      //   part: currDetails.part + 1,
-      // }));
     } else {
-      slideDetails.current.part = nbrOfParts - 1;
-      // setSlideDetails((currDetails) => ({
-      //   ...currDetails,
-      //   part: currDetails.nbrOfParts - 1,
-      // }));
+      slideDetails.current.part = nbrOfParts;
     }
-    console.log(slideDetails.current.part);
-    const slidContainerWidth =
-      sliderContainer.current.getBoundingClientRect().width;
     slideDetails.current.translateX =
-      slidContainerWidth * slideDetails.current.part;
-    slider.current.style.transform = `translateX(${slideDetails.current.translateX}px)`;
-    // slidContainerWidth * slideDetails.part + 20
-    // setForceUpdate((curr) => curr + 1);
+      slideDetails.current.part * sliderContainer.current.offsetWidth -
+      sliderContainer.current.offsetWidth;
+    slider.current.style.transform = `translateX(${-slideDetails.current
+      .translateX}px)`;
+    ForceRender((curr) => curr + 1);
   };
+
   const sliderHandler = () => {
     setTimeout(() => {
       if (!slider.current || !sliderContainer.current) return;
@@ -189,16 +193,18 @@ const AdditionImgsSlide = ({
       //   ...currDetails,
       //   nbrOfParts: sliderWidth / sliderContainerWidth,
       // }));
-      console.log(
-        "from function",
-        slider.current?.getBoundingClientRect().width
-      );
+      // console.log(
+      //   "from function",
+      //   slider.current?.getBoundingClientRect().width
+      // );
       // console.log(slideDetails.current);
-    }, 500);
+      ForceRender((curr) => curr + 1);
+    }, 300);
   };
 
   useEffect(() => {
     sliderHandler();
+    console.log("wow");
   }, [files]);
   // }, [slider.current?.offsetWidth]);
 
@@ -265,7 +271,7 @@ const AdditionImgsSlide = ({
   // console.log(slideDetails);
   // console.log(slideDetails);
   // console.log("hmmm");
-  console.log(slider.current?.getBoundingClientRect().width);
+  // console.log(slider.current);
   return (
     <>
       <div className={styles.addPostSlide} ref={sliderContainer}>
@@ -304,8 +310,7 @@ const AdditionImgsSlide = ({
           {/* // {slideDetails.nbrOfParts > 1 ? ( */}
           {slideDetails.current.nbrOfParts > 1 ? (
             <>
-              {slideDetails.current.nbrOfParts - 1 >
-              slideDetails.current.part ? (
+              {slideDetails.current.nbrOfParts > slideDetails.current.part ? (
                 <div
                   className={`${styles.arrow} ${styles.right}`}
                   onClick={slideRight}
@@ -313,9 +318,14 @@ const AdditionImgsSlide = ({
                   <IconCircle light Icon={ArrowR} />
                 </div>
               ) : null}
-              <div className={`${styles.arrow} ${styles.left}`}>
-                <IconCircle light Icon={ArrowL} />
-              </div>
+              {slideDetails.current.part !== 1 ? (
+                <div
+                  className={`${styles.arrow} ${styles.left}`}
+                  onClick={slideLeft}
+                >
+                  <IconCircle light Icon={ArrowL} />
+                </div>
+              ) : null}
             </>
           ) : null}
         </div>

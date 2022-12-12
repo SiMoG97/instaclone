@@ -126,21 +126,29 @@ export function ImportImgStep({
       setAlertMessage(messageAlert);
     }
 
-    const imgFilesArr: ImgFileType[] = [];
-    arrFiles.forEach((file: File) => {
+    // const imgFilesArr: ImgFileType[] = [];
+    // let firstFiles: ImgFileType;
+    arrFiles.forEach((file: File, i: number) => {
       const reader = new FileReader();
       reader.addEventListener("load", () => {
         const img = new Image();
         img.src = `${reader.result}`;
-        imgFilesArr.push({ img, scale: 1, x: 0, y: 0, id: uuidv4() });
+        const newFile = { img, scale: 1, x: 0, y: 0, id: uuidv4() };
+        if (i === 0) {
+          selectedFileIdRef.current = newFile.id;
+        }
+        setFiles((currFiles) => {
+          return [...currFiles, newFile];
+        });
+        // imgFilesArr.push({ img, scale: 1, x: 0, y: 0, id: uuidv4() });
       });
       reader.readAsDataURL(file);
     });
-    setFiles(() => imgFilesArr);
+    // setFiles(() => imgFilesArr);
     setTimeout(() => {
-      selectedFileIdRef.current = imgFilesArr[0].id;
+      // selectedFileIdRef.current = files[0].id;
       nextStep();
-    }, 20);
+    }, 200);
   }
   return (
     <>

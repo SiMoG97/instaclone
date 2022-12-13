@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import RangeSlide from "../../../FormComponents/RangeSlide";
 import MagnidyingGlass from "../../../../public/magnifyingGlass.svg";
 
@@ -24,27 +24,23 @@ const ZoomDropup = ({
   setFiles,
 }: ZoomDropupProps) => {
   function updateScaleValue() {
-    if (element.current) {
-      console.log("updating");
-      const scale =
-        element.current.getBoundingClientRect().width /
-        element.current.offsetWidth;
-      if (files.length > 0) {
-        const newState = files.map((file, i) => {
-          // console.log(selectedFile);
-          // console.log(selectedFile.id === file.id);
-          // console.log(selectedFile == file);
-          // console.log(JSON.stringify(selectedFile) === JSON.stringify(file));
-          if (selectedFile === i) {
-            // if (selectedFile.id === file.id) {
-            return { ...file, scale };
-          }
-          return file;
-        });
-        setFiles(() => newState);
+    if (!element.current || files.length === 0) return;
+    const scale =
+      element.current.getBoundingClientRect().width /
+      element.current.offsetWidth;
+    const newState = files.map((file, i) => {
+      if (selectedFile === i) {
+        return { ...file, scale };
       }
-    }
+      return file;
+    });
+    setFiles(() => newState);
   }
+  useEffect(() => {
+    if (!isOpen) {
+      updateScaleValue();
+    }
+  }, [isOpen]);
   function scaleHandler(scaleValue: number) {
     const scale = 1 + scaleValue / 100;
     if (element.current) {

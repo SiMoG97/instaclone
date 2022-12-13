@@ -262,16 +262,7 @@ const AdditionImgsSlide = ({
       });
       reader.readAsDataURL(file);
     });
-    // console.log(reader);
-    // setTimeout(() => {
-    //   // console.log(imgFilesArr, imgFilesArr.length);
-    //   setFiles((currFiles) => [...currFiles, ...imgFilesArr]);
-    // }, 100);
   };
-  // console.log(slideDetails);
-  // console.log(slideDetails);
-  // console.log("hmmm");
-  // console.log(slider.current);
   return (
     <>
       <div className={styles.addPostSlide} ref={sliderContainer}>

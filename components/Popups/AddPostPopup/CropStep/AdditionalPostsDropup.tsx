@@ -31,22 +31,19 @@ const AdditionalPostsDropup = ({
   selectedFile,
   setAlertMessage,
 }: AdditionalPostsDropupProps) => {
+  const [active, setActive] = useState(false);
   return (
     <IconPopup
       someDropOpen={isOpen}
       setSomeDropOpen={setIsOpen}
       Icon={PostsIcon}
       IconStyle={{}}
+      active={active}
+      setActive={setActive}
       style={{
         paddingRight: "2rem",
         right: "0",
-        // width: "100%",
-        // width: "3rem",
-        // position: "unset",
-        // transform: "translateY(-20px)",
-        // marginLeft: "auto",
       }}
-      // unmount={false}
       DropUp={
         <AdditionImgsSlide
           isOpen={isOpen}
@@ -117,9 +114,9 @@ const AdditionImgsSlide = ({
         });
         if (slider.current && slideDetails.current.nbrOfParts > 1) {
           console.log("mn temma");
-          slider.current.style.transform = `translateX(${
-            -slideDetails.current.translateX + 95 + 13
-          }px)`;
+          // slider.current.style.transform = `translateX(${
+          //   -slideDetails.current.translateX + 95 + 13
+          // }px)`;
         }
         setShowDiscardPopup(() => false);
       },
@@ -199,6 +196,7 @@ const AdditionImgsSlide = ({
       // );
       // console.log(slideDetails.current);
       ForceRender((curr) => curr + 1);
+      console.log("wakwaaak");
     }, 300);
   };
 

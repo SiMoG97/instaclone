@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import RangeSlide from "../../../FormComponents/RangeSlide";
 import MagnidyingGlass from "../../../../public/magnifyingGlass.svg";
 
@@ -9,7 +9,6 @@ type ZoomDropupProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   files: ImgFileType[];
-  // selectedFile: ImgFileType;
   selectedFile: number;
   element: React.RefObject<HTMLDivElement>;
   setFiles: React.Dispatch<React.SetStateAction<ImgFileType[]>>;
@@ -23,6 +22,7 @@ const ZoomDropup = ({
   element,
   setFiles,
 }: ZoomDropupProps) => {
+  const [active, setActive] = useState(false);
   function updateScaleValue() {
     if (!element.current || files.length === 0) return;
     const scale =
@@ -37,33 +37,28 @@ const ZoomDropup = ({
     setFiles(() => newState);
   }
   useEffect(() => {
-    if (!isOpen) {
+    if (!element.current) return;
+    if (!active) {
       updateScaleValue();
+    } else {
+      element.current.style.transition = "none";
     }
-  }, [isOpen]);
+  }, [active]);
   function scaleHandler(scaleValue: number) {
+    if (!element.current) return;
     const scale = 1 + scaleValue / 100;
-    if (element.current) {
-      // element.current.style.transform = `scale(${scale}) translate(${selectedFile.x}%,${selectedFile.y}%)`;
-      element.current.style.transform = `scale(${scale}) translate(${files[selectedFile].x}%,${files[selectedFile].y}%)`;
-    }
+    element.current.style.transform = `scale(${scale}) translate(${files[selectedFile].x}%,${files[selectedFile].y}%)`;
   }
   return (
     <IconPopup
+      active={active}
+      setActive={setActive}
       someDropOpen={isOpen}
       setSomeDropOpen={setIsOpen}
       Icon={MagnidyingGlass}
       style={{ left: "8rem", zIndex: "1" }}
       callback={updateScaleValue}
-      dropUpStyle={{
-        width: "13.2rem",
-        display: "flex",
-        alignItems: "center",
-        padding: "1.5rem 1rem",
-        borderRadius: ".8rem",
-        left: "8rem",
-        bottom: "6rem",
-      }}
+      dropUpStyle={dropUpStyle}
       DropUp={
         <RangeSlide
           startFrom="left"
@@ -78,6 +73,15 @@ const ZoomDropup = ({
       }
     />
   );
+};
+const dropUpStyle = {
+  width: "13.2rem",
+  display: "flex",
+  alignItems: "center",
+  padding: "1.5rem 1rem",
+  borderRadius: ".8rem",
+  left: "8rem",
+  bottom: "6rem",
 };
 
 export default ZoomDropup;

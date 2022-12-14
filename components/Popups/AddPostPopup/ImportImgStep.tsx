@@ -133,7 +133,13 @@ export function ImportImgStep({
       reader.addEventListener("load", () => {
         const img = new Image();
         img.src = `${reader.result}`;
-        const newFile = { img, scale: 1, x: 0, y: 0, id: uuidv4() };
+        const newFile: ImgFileType = {
+          img,
+          scale: 1,
+          x: 0,
+          y: 0,
+          id: uuidv4(),
+        };
         if (i === 0) {
           selectedFileIdRef.current = newFile.id;
         }

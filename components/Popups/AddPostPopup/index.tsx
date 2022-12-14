@@ -17,6 +17,7 @@ import styles from "../popup.module.scss";
 import SmallPopup from "../SmallPopup";
 import AddPost from "../../../public/addPost.svg";
 import AddPostActive from "../../../public/addPostActive.svg";
+import SidebarContainer from "./SidebarContainer";
 
 export type ImgFileType = {
   img: HTMLImageElement;
@@ -30,6 +31,19 @@ type AddPostPopupType = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
+export type FiltersType =
+  | "Original"
+  | "Clarendon"
+  | "Gingham"
+  | "Moon"
+  | "Lark"
+  | "Reyes"
+  | "Juno"
+  | "Slumber"
+  | "Crema"
+  | "Ludwig"
+  | "Aden"
+  | "Perpetua";
 
 const headers = ["Create new post", "Crop", "Edit", "Create new post"];
 
@@ -216,8 +230,8 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
           className={styles.postStepsBody}
         >
           <>
-            <div style={{ transition: "2s" }}>
-              {step === 0 && (
+            <div style={{ transition: "2s", display: "flex" }}>
+              {step === 0 ? (
                 <ImportImgStep
                   files={files}
                   setFiles={setFiles}
@@ -226,8 +240,8 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
                   setSelectedFile={setSelectedFile}
                   selectedFileIdRef={selectedFileIdRef}
                 />
-              )}
-              {step === 1 && (
+              ) : null}
+              {step === 1 ? (
                 <CropStep
                   files={files}
                   setFiles={setFiles}
@@ -239,9 +253,26 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
                   setStep={setStep}
                   setAlertMessage={setAlertMessage}
                 />
-              )}
-              {step === 2 && <EditStep />}
-              {step === 3 && <SharePostStep />}
+              ) : null}
+              {step === 2 ? (
+                <>
+                  <EditStep />
+                </>
+              ) : null}
+              {step === 3 ? <SharePostStep /> : null}
+              {/*  */}
+              {/* Sidebar */}
+              <SidebarContainer step={step} />
+              {/* <div
+                style={{
+                  width: step > 1 ? "300px" : "0",
+                  height: step > 1 ? "auto" : "0",
+                  background: "red",
+                  transition: "width 0.3s",
+                }}
+              ></div> */}
+              {/* Sidebar */}
+              {/*  */}
             </div>
             {alertMessage ? (
               <div ref={alertDiv} className={styles.alertMessage}>

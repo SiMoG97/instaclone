@@ -13,6 +13,8 @@ export type IconPopupPorps = {
   IconStyle?: React.CSSProperties;
   callback?: () => void;
   unmount?: boolean;
+  active: boolean;
+  setActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function IconPopup({
@@ -25,8 +27,10 @@ export function IconPopup({
   IconStyle,
   callback = () => {},
   unmount = true,
+  active,
+  setActive,
 }: IconPopupPorps) {
-  const [active, setActive] = useState(false);
+  // const [active, setActive] = useState(false);
   const parent = useRef<HTMLDivElement>(null);
   const buttonOpen = useRef<HTMLDivElement>(null);
 

@@ -6,6 +6,7 @@ import OneToOneIcon from "../../../../public/AspectRatioIcons/oneToOne.svg";
 import { ARStateType } from ".";
 import { IconPopup } from "../IconPopup";
 import CropIcon from "../../../../public/crop.svg";
+import { useState } from "react";
 
 type AspectRatioDropUpProps = {
   isOpen: boolean;
@@ -19,8 +20,12 @@ const AspectRatioDropUp = ({
   aspectRatio,
   setAspectRatio,
 }: AspectRatioDropUpProps) => {
+  const [active, setActive] = useState(false);
+
   return (
     <IconPopup
+      active={active}
+      setActive={setActive}
       someDropOpen={isOpen}
       setSomeDropOpen={setIsOpen}
       Icon={CropIcon}

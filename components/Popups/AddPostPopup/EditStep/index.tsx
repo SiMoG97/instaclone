@@ -1,3 +1,5 @@
+import styles from "../../popup.module.scss";
+
 export function EditStep() {
-  return <div style={{ width: "100rem" }}>edit</div>;
+  return <div className={styles.EditStep}>edit</div>;
 }

@@ -542,13 +542,59 @@
   flex-shrink: 0;
   opacity: 0;
   pointer-events: none;
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--txt-c-4);
+    margin-bottom: 1rem;
+    > div {
+      cursor: pointer;
+      flex-grow: 1;
+      text-align: center;
+      padding: 1.8rem 0;
+      transform: translateY(1px);
+      transition: 0.3s;
+      font-weight: 500;
+      color: var(--txt-c-2);
+      border-bottom: 1px solid transparent;
+      &.selectedTab {
+        color: var(--txt-c-1);
+        border-color: var(--txt-c-1);
+      }
+    }
+  }
+  .editSideBarContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .bottomRangeContainer {
+    padding: 2.3rem 1.6rem;
+    border-top: 1px solid var(--txt-c-4);
+    display: flex;
+    align-items: center;
+    margin-top: auto;
+  }
+  .RangeValueContainer {
+    display: flex;
+    align-items: center;
+    margin-top: auto;
+    margin: 2.6rem 0;
+  }
+  .numberValue {
+    font-size: 1.2rem;
+    margin-left: 1rem;
+    color: var(--txt-c-2);
+    &.changed {
+      color: var(--txt-c-1);
+    }
+  }
   .inContainer {
-    width: calc(322px - 16px);
+    width: calc(34rem - 16px);
   }
   &.sidebarFullWidth {
     opacity: 1 !important;
     pointer-events: all !important;
-    width: 32.3rem;
+    width: 34rem;
     height: auto;
     border-left: solid 1px var(--txt-c-4);
   }
@@ -591,4 +637,32 @@
     margin-bottom: 1.6rem;
     color: var(--txt-c-2);
   }
+  .AdjustmentsSection {
+    padding: 1.6rem;
+    .RangeUnit {
+      margin: 1rem 0;
+      &:hover .RangeReset {
+        display: block;
+      }
+    }
+    .RangeUnitTop {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .RangeHeader {
+      color: var(--txt-c-1);
+    }
+    .RangeReset {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--helper-primary);
+      display: none;
+      cursor: pointer;
+    }
+  }
+}
+.EditStep {
+  width: 83rem;
+  height: 83rem;
 }

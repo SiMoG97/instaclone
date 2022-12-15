@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { PointerEvent, useEffect, useRef, useState } from "react";
 
 import styles from "./style.module.scss";
 
@@ -26,29 +26,28 @@ function RangeSlide({
 }: RangeSlideProps) {
   const rangeRef = useRef<HTMLInputElement>(null);
   const [rangeValue, setRangeValue] = useState(setedValue);
-  useEffect(() => {
-    if (rangeRef.current) {
-      document.documentElement.style.setProperty("--thumbColor", thumbColor);
-      document.documentElement.style.setProperty("--thumbSize", thumbSize);
-      // rangeRef.current.value = `${rangeValue}`;
 
-      const range = rangeRef.current;
-      // console.log(range.value);
-      // range.value = ;
-      if (startFrom === "left") {
-        range.style.background = `linear-gradient(to right, ${thumbColor} 0%, ${thumbColor} ${rangeValue}%, ${lineColor} ${rangeValue}%, ${lineColor} 100%)`;
-      } else {
-        range.style.background = `linear-gradient(to right,
-      ${lineColor} 0%,
-      ${lineColor} 50%,
-      ${thumbColor} 50%,
-      ${thumbColor} 50%,
-      ${lineColor} 50%,
-      ${lineColor} 100%
-    )`;
-      }
+  const defaultRangeStyle = () => {
+    if (!rangeRef.current) return;
+    if (startFrom === "left") {
+      rangeRef.current.style.background = `linear-gradient(to right, ${thumbColor} 0%, ${thumbColor} ${setedValue}%, ${lineColor} ${setedValue}%, ${lineColor} 100%)`;
+    } else {
+      rangeRef.current.style.background = `linear-gradient(to right,${lineColor} 0%,${lineColor} 50%,${thumbColor} 50%,${thumbColor} 50%,${lineColor} 50%,${lineColor} 100%)`;
     }
-  }, [lineColor, thumbColor, startFrom, thumbSize, setedValue, rangeValue]);
+  };
+  useEffect(() => {
+    if (!rangeRef.current) return;
+    document.documentElement.style.setProperty("--thumbColor", thumbColor);
+    document.documentElement.style.setProperty("--thumbSize", thumbSize);
+    defaultRangeStyle();
+  }, [lineColor, thumbColor, startFrom, thumbSize]);
+
+  useEffect(() => {
+    if (!rangeRef.current || setedValue !== 0) return;
+    rangeRef.current.value = "0";
+    setRangeValue(() => 0);
+    defaultRangeStyle();
+  }, [setedValue]);
 
   const midRangeHandler = ({ target }: InputTargetType) => {
     const value = Number(target.value);
@@ -74,7 +73,6 @@ function RangeSlide({
     target.style.background = `linear-gradient(to right, ${thumbColor} 0%, ${thumbColor} ${target.value}%, ${lineColor} ${target.value}%, ${lineColor} 100%)`;
     setRangeValue(() => Number(target.value));
     changeHandler(Number(target.value));
-    // console.log(1 + Number(target.value) / 100);
   };
 
   const handleChange =
@@ -90,7 +88,6 @@ function RangeSlide({
       }`}
       onChange={handleChange}
       {...(startFrom === "mid" && { min: "-100" })}
-      // defaultValue="0"
     />
   );
 }

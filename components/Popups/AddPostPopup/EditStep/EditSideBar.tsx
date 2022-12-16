@@ -26,10 +26,24 @@ const EditSidebar = () => {
 export default EditSidebar;
 
 const BottomRange = () => {
+  const [filterValue, setFilterValue] = useState(100);
+  const changeValue = (newValue: number) => {
+    setFilterValue(() => newValue);
+  };
   return (
     <div className={styles.bottomRangeContainer}>
-      <RangeSlide startFrom="left" setedValue={100} changeHandler={() => {}} />
-      <div className={styles.numberValue}>100</div>
+      <RangeSlide
+        startFrom="left"
+        setedValue={filterValue}
+        changeHandler={changeValue}
+      />
+      <div
+        className={`${styles.numberValue} ${
+          filterValue !== 0 ? styles.changed : ""
+        }`}
+      >
+        {filterValue}
+      </div>
     </div>
   );
 };

@@ -75,6 +75,10 @@ function RangeSlide({
     changeHandler(Number(target.value));
   };
 
+  const handlePointerUp = () => {
+    console.log(rangeValue);
+  };
+
   const handleChange =
     startFrom === "left" ? leftRangeHandler : midRangeHandler;
 
@@ -86,6 +90,7 @@ function RangeSlide({
       className={`${styles.inputRange} ${className} ${
         startFrom === "left" ? styles.left : styles.mid
       }`}
+      onPointerUp={handlePointerUp}
       onChange={handleChange}
       {...(startFrom === "mid" && { min: "-100" })}
     />

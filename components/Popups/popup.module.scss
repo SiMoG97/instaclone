@@ -216,7 +216,18 @@
     fill: var(--helper-primary) !important;
   }
 }
-
+.oneToOne {
+  width: 100%;
+  height: 100%;
+}
+.fourToFive {
+  width: calc(100% * 4 / 5);
+  height: 100%;
+}
+.sixteenToNine {
+  width: 100%;
+  height: calc(100% * 9 / 16);
+}
 .cropContainer {
   display: flex;
   align-items: center;
@@ -247,18 +258,7 @@
       background-position: center center;
     }
   }
-  .oneToOne {
-    width: 100%;
-    height: 100%;
-  }
-  .fourToFive {
-    width: calc(100% * 4 / 5);
-    height: 100%;
-  }
-  .sixteenToNine {
-    width: 100%;
-    height: calc(100% * 9 / 16);
-  }
+
   .grid {
     opacity: 0;
     position: absolute;
@@ -665,4 +665,15 @@
 .EditStep {
   width: 83rem;
   height: 83rem;
+  .canvasContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  canvas {
+    background-color: red;
+    // height: 100%;
+  }
 }

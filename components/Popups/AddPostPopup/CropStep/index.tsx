@@ -15,18 +15,12 @@ import {
 import IconCircle from "../../../CommonComponents/IconCircle";
 import RangeSlide from "../../../FormComponents/RangeSlide";
 import AspectRatioDropUp from "./AspectRatioDropUp";
-import { ImgFileType } from "..";
+import { ARStateType, ImgFileType, originalArCalcul } from "..";
 import { IconPopup } from "../IconPopup";
 import { SliderDots } from "../../../CommonComponents/SliderDots";
 import SmallPopup from "../../SmallPopup";
 import ZoomDropup from "./ZoomDropup";
 import AdditionalPostsDropup from "./AdditionalPostsDropup";
-
-export type ARStateType =
-  | "original"
-  | "oneToOne"
-  | "fourToFive"
-  | "sixteenToNine";
 
 type CropStepProps = {
   files: ImgFileType[];
@@ -38,6 +32,8 @@ type CropStepProps = {
   selectedFileIdRef: React.MutableRefObject<string>;
   setStep: React.Dispatch<React.SetStateAction<number>>;
   setAlertMessage: React.Dispatch<React.SetStateAction<string>>;
+  aspectRatio: ARStateType;
+  setAspectRatio: React.Dispatch<React.SetStateAction<ARStateType>>;
 };
 export function CropStep({
   files,
@@ -49,57 +45,14 @@ export function CropStep({
   selectedFileIdRef,
   setStep,
   setAlertMessage,
+  aspectRatio,
+  setAspectRatio,
 }: CropStepProps) {
   const [someDropOpen, setSomeDropOpen] = useState(false);
-  const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
   const croppingDiv = useRef<HTMLDivElement>(null);
   const cropAreaRef = useRef<HTMLDivElement>(null);
 
-  const originalArCalcul = useCallback((width: number, height: number) => {
-    let ar = width / height;
-    if (ar === 1) {
-      return {
-        width: "100%",
-        height: "100%",
-      };
-    }
-    if (ar > 1.91) {
-      ar = 1.91;
-    } else if (ar < 0.8) {
-      ar = 0.8;
-    }
-    if (ar > 1) {
-      return {
-        width: "100%",
-        height: `calc(100% / ${ar})`,
-      };
-    } else if (ar < 1) {
-      return {
-        // width: `calc(${width}px * ${ar})`,
-        width: `calc(100% * ${ar})`,
-        height: "100%",
-      };
-    } else {
-      return {
-        width: "auto",
-        height: "auto",
-      };
-    }
-  }, []);
-
-  type Cords = {
-    startX: number;
-    startY: number;
-    tx: number;
-    ty: number;
-    xBorder: number;
-    yBorder: number;
-    counterX: number;
-    passedX: boolean;
-    counterY: number;
-    passedY: boolean;
-  };
-  const cords = useRef<Cords>({
+  const cords = useRef({
     startX: 0,
     startY: 0,
     tx: 0,

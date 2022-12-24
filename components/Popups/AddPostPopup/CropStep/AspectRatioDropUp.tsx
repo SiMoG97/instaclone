@@ -3,7 +3,7 @@ import OriginalIcon from "../../../../public/AspectRatioIcons/originalAR.svg";
 import RectangleIcon from "../../../../public/AspectRatioIcons/rectangle.svg";
 import RectangleVIcon from "../../../../public/AspectRatioIcons/rectangleV.svg";
 import OneToOneIcon from "../../../../public/AspectRatioIcons/oneToOne.svg";
-import { ARStateType } from ".";
+import { ARStateType } from "../";
 import { IconPopup } from "../IconPopup";
 import CropIcon from "../../../../public/crop.svg";
 import { useState } from "react";

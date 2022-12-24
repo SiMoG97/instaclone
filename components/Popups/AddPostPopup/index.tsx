@@ -44,10 +44,17 @@ export type FiltersType =
   | "Ludwig"
   | "Aden"
   | "Perpetua";
+export type ARStateType =
+  | "original"
+  | "oneToOne"
+  | "fourToFive"
+  | "sixteenToNine";
 
 const headers = ["Create new post", "Crop", "Edit", "Create new post"];
 
 function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
+  const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
+
   const initDiscardBtns = [
     {
       text: "Discard",
@@ -252,11 +259,19 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
                   selectedFileIdRef={selectedFileIdRef}
                   setStep={setStep}
                   setAlertMessage={setAlertMessage}
+                  aspectRatio={aspectRatio}
+                  setAspectRatio={setAspectRatio}
                 />
               ) : null}
               {step === 2 ? (
                 <>
-                  <EditStep />
+                  <EditStep
+                    files={files}
+                    setFiles={setFiles}
+                    nextFile={nextFile}
+                    prevFile={prevFile}
+                    aspectRatio={aspectRatio}
+                  />
                 </>
               ) : null}
               {step === 3 ? <SharePostStep /> : null}
@@ -295,3 +310,35 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
 }
 
 export default AddPostPopup;
+
+export const originalArCalcul = (width: number, height: number) => {
+  let ar = width / height;
+  if (ar === 1) {
+    return {
+      width: "100%",
+      height: "100%",
+    };
+  }
+  if (ar > 1.91) {
+    ar = 1.91;
+  } else if (ar < 0.8) {
+    ar = 0.8;
+  }
+  if (ar > 1) {
+    return {
+      width: "100%",
+      height: `calc(100% / ${ar})`,
+    };
+  } else if (ar < 1) {
+    return {
+      // width: `calc(${width}px * ${ar})`,
+      width: `calc(100% * ${ar})`,
+      height: "100%",
+    };
+  } else {
+    return {
+      width: "auto",
+      height: "auto",
+    };
+  }
+};

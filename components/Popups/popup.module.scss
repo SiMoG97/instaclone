@@ -13,6 +13,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  @include media("<tablet") {
+    overflow-y: hidden;
+  }
 }
 .popupContainer {
   background-color: var(--bg-c-1);
@@ -25,8 +28,9 @@
   position: relative;
   @include media("<=tablet") {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 52px);
     border-radius: 0;
+    transform: translateY(-2.6rem);
   }
   @include media(">tablet") {
     margin: 1rem;
@@ -57,8 +61,14 @@
   box-shadow: 0 0 0 0.02rem var(--txt-c-2);
   color: var(--txt-c-1);
   overflow: hidden;
+  flex-shrink: 0;
 }
-
+.likesBody {
+  @include media(">=tablet") {
+    width: 40rem;
+    height: 40rem;
+  }
+}
 .likesContainer {
   padding: 1rem;
   overflow-y: scroll;
@@ -182,17 +192,24 @@
   // max-width: 83rem;
   // max-height: 83rem;
   @include media("<=laptop") {
-    background-color: red;
     width: 76rem;
     height: 76rem;
   }
   @include media("<tablet") {
-    background-color: greenyellow;
     width: 100%;
     height: 100%;
   }
 }
-
+.previewAndSidebarContainer {
+  transition: 0.2s;
+  display: flex;
+  @include media("<tablet") {
+    flex-direction: column;
+    overflow-y: auto;
+    // width: 100%;
+    // height: 100%;
+  }
+}
 .importImgStep {
   // background-color: red;
   display: flex;
@@ -218,15 +235,18 @@
 }
 .oneToOne {
   width: 100%;
-  height: 100%;
+  // height: 100%;
+  aspect-ratio: 1;
 }
 .fourToFive {
-  width: calc(100% * 4 / 5);
+  aspect-ratio: 4/5;
+  // width: calc(100% * 4 / 5);
   height: 100%;
 }
 .sixteenToNine {
   width: 100%;
-  height: calc(100% * 9 / 16);
+  // height: calc(100% * 9 / 16);
+  aspect-ratio: 16/9;
 }
 .cropContainer {
   display: flex;
@@ -234,6 +254,7 @@
   justify-content: center;
   .cropArea {
     background-color: var(--bg-c-1);
+    touch-action: none;
     // transition: 0.1s;
     // transition-delay: 0.2s;
     position: relative;
@@ -590,6 +611,10 @@
   }
   .inContainer {
     width: calc(34rem - 16px);
+    @include media("<tablet") {
+      width: 100%;
+      // height: 100%;
+    }
   }
   &.sidebarFullWidth {
     opacity: 1 !important;
@@ -597,12 +622,41 @@
     width: 34rem;
     height: auto;
     border-left: solid 1px var(--txt-c-4);
+    @include media("<tablet") {
+      width: 100%;
+      // height: 100%;
+    }
+  }
+  .filtersSction {
+    width: 100%;
+    &::-webkit-scrollbar {
+      height: 1px;
+    }
+
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(252, 252, 252, 0) !important;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 0px;
+      background: var(--txt-c-2);
+    }
+    @include media("<tablet") {
+      overflow-x: scroll;
+    }
   }
   .filters {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     margin: 0.8rem;
+    @include media("<tablet") {
+      justify-content: left;
+      justify-content: space-around;
+      // gap: 2rem;
+      // height: 100%;
+      width: calc(8.8rem * 12 + 12rem);
+    }
   }
   .filterContainer {
     display: flex;
@@ -610,6 +664,12 @@
     align-items: center;
     width: 33.33333%;
     cursor: pointer;
+    @include media("<tablet") {
+      width: 8.8rem;
+      // height: 8.8rem;
+      // width: auto;
+      // height: 100%;
+    }
     &:active {
       opacity: 0.7;
       .filterConainerImg {
@@ -665,6 +725,10 @@
 .EditStep {
   width: 83rem;
   height: 83rem;
+  @include media("<tablet") {
+    width: 100%;
+    height: 100%;
+  }
   .canvasContainer {
     display: flex;
     justify-content: center;

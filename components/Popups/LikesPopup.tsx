@@ -17,7 +17,7 @@ export default function LikesPopup({ isOpen, setIsOpen }: LikesPopup) {
       <PopupBody
         popupHeader="Likes"
         setIsOpen={setIsOpen}
-        style={{ width: "400px", height: "400px" }}
+        className={styles.likesBody}
       >
         <div className={styles.likesContainer}>
           {[
@@ -26,7 +26,7 @@ export default function LikesPopup({ isOpen, setIsOpen }: LikesPopup) {
           ].map((person, i) => (
             <div key={i} className={styles.likedUser}>
               <PicUsername
-                src="./baif.jpg"
+                src="/baif.jpg"
                 primaryText="thebrahimbaif"
                 secondaryText="Brahim Baif"
                 size="size-3"

@@ -237,7 +237,10 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
           className={styles.postStepsBody}
         >
           <>
-            <div style={{ transition: "2s", display: "flex" }}>
+            <div
+              className={styles.previewAndSidebarContainer}
+              style={{ transition: "2s", display: "flex" }}
+            >
               {step === 0 ? (
                 <ImportImgStep
                   files={files}

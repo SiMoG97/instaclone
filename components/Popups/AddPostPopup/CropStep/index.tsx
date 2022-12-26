@@ -70,6 +70,11 @@ export function CropStep({
 
   const pointerDownHandler = (e: React.PointerEvent<HTMLDivElement>) => {
     e.currentTarget.setPointerCapture(e.pointerId);
+    // if (!croppingDiv.current) return;
+    // console.log(croppingDiv.current);
+    // e.preventDefault();
+    // croppingDiv.current.setPointerCapture(e.pointerId);
+    // console.log(e.currentTarget);
     setIsPointerDown(() => true);
     cords.current.startX = e.clientX;
     cords.current.startY = e.clientY;
@@ -77,6 +82,7 @@ export function CropStep({
 
   // const pointerUpHandler = (e: React.PointerEvent<HTMLDivElement>) => {
   const pointerUpHandler = () => {
+    console.log("tle3 hmm");
     if (!croppingDiv.current || !cropAreaRef.current) return;
     setIsPointerDown(() => false);
 
@@ -127,6 +133,7 @@ export function CropStep({
   };
 
   const PointerMoveHandler = (e: React.PointerEvent<HTMLDivElement>) => {
+    console.log("moooving");
     if (!croppingDiv.current || !cropAreaRef.current) return;
     if (isPointerDown) {
       const { startX, startY } = cords.current;
@@ -209,7 +216,6 @@ export function CropStep({
       //   cords.current.passedY = false;
       // }
       // console.log(resistanceX);
-      console.log(x);
 
       const distX = ((e.clientX - startX) * 100) / width;
       const distY = ((e.clientY - startY) * 100) / height;
@@ -312,6 +318,9 @@ export function CropStep({
         onPointerMove={PointerMoveHandler}
         onPointerDown={pointerDownHandler}
         onPointerUp={pointerUpHandler}
+        onPointerCancel={() => {
+          console.log("cancel");
+        }}
         style={
           aspectRatio === "original"
             ? originalArCalcul(

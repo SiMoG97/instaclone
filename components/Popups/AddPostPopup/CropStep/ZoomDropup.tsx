@@ -30,6 +30,7 @@ const ZoomDropup = ({
       element.current.offsetWidth;
     const newState = files.map((file, i) => {
       if (selectedFile === i) {
+        console.log("hmmm");
         return { ...file, scale };
       }
       return file;
@@ -37,13 +38,10 @@ const ZoomDropup = ({
     setFiles(() => newState);
   }
   useEffect(() => {
-    if (!element.current) return;
-    if (!active) {
-      updateScaleValue();
-    } else {
-      element.current.style.transition = "none";
-    }
+    if (!element.current || !active) return;
+    element.current.style.transition = "none";
   }, [active]);
+
   function scaleHandler(scaleValue: number) {
     if (!element.current) return;
     const scale = 1 + scaleValue / 100;
@@ -66,6 +64,7 @@ const ZoomDropup = ({
           lineColor="#000000"
           thumbColor="#ffffff"
           thumbSize="1.7rem"
+          pointerUp={updateScaleValue}
           setedValue={
             files.length > 0 ? (files[selectedFile].scale - 1) * 100 : 0
           }

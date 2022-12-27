@@ -10,6 +10,7 @@ type RangeSlideProps = {
   className?: string;
   thumbSize?: string;
   changeHandler: (scaleValue: number) => any;
+  pointerUp?: () => void;
 };
 
 type InputTargetType = {
@@ -23,6 +24,7 @@ function RangeSlide({
   lineColor = "var(--txt-c-3)",
   thumbSize = "2rem",
   changeHandler,
+  pointerUp,
 }: RangeSlideProps) {
   const rangeRef = useRef<HTMLInputElement>(null);
   const [rangeValue, setRangeValue] = useState(setedValue);
@@ -76,7 +78,8 @@ function RangeSlide({
   };
 
   const handlePointerUp = () => {
-    console.log(rangeValue);
+    if (!pointerUp) return;
+    pointerUp();
   };
 
   const handleChange =

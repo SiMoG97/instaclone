@@ -113,7 +113,6 @@ const AdditionImgsSlide = ({
           return currIdx - 1;
         });
         if (slider.current && slideDetails.current.nbrOfParts > 1) {
-          console.log("mn temma");
           // slider.current.style.transform = `translateX(${
           //   -slideDetails.current.translateX + 95 + 13
           // }px)`;
@@ -185,18 +184,7 @@ const AdditionImgsSlide = ({
       if (sliderWidth / sliderContainerWidth <= 1) {
         slider.current.style.transform = "translateX(0)";
       }
-      // setForceUpdate((curr) => curr + 1);
-      // setSlideDetails((currDetails) => ({
-      //   ...currDetails,
-      //   nbrOfParts: sliderWidth / sliderContainerWidth,
-      // }));
-      // console.log(
-      //   "from function",
-      //   slider.current?.getBoundingClientRect().width
-      // );
-      // console.log(slideDetails.current);
       ForceRender((curr) => curr + 1);
-      console.log("wakwaaak");
     }, 300);
   };
 
@@ -204,7 +192,6 @@ const AdditionImgsSlide = ({
     sliderHandler();
     console.log("wow");
   }, [files]);
-  // }, [slider.current?.offsetWidth]);
 
   useLayoutEffect(() => {
     window.addEventListener("resize", sliderHandler);
@@ -255,7 +242,6 @@ const AdditionImgsSlide = ({
           ...currFiles,
           { img, scale: 1, x: 0, y: 0, id: uuidv4() },
         ]);
-        console.log("wow");
         // imgFilesArr.push({ img, scale: 1, x: 0, y: 0, id: uuidv4() });
       });
       reader.readAsDataURL(file);

@@ -97,27 +97,27 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
     }
   }, [isOpen]);
 
-  const cropingFiles = () => {
-    files.forEach(async (file) => {
-      if (croppingDiv.current) {
-        const { img, scale, x, y } = file;
-        const cropdiv = croppingDiv.current;
-        // cropdiv.style.backgroundImage =
-        cropdiv.style.backgroundImage = `url("${img.src.replace(
-          /(\r\n|\n|\r)/gm,
-          ""
-        )}")`;
-        cropdiv.style.transform = `scale(${scale}) translate(${x},${y})`;
-        // const canvas = await html2canvas(cropdiv);
-        // const image = canvas.toDataURL("image/png", 0.5);
-        // console.log(image);
-      }
-    });
-  };
+  // const cropingFiles = () => {
+  //   files.forEach(async (file) => {
+  //     if (croppingDiv.current) {
+  //       const { img, scale, x, y } = file;
+  //       const cropdiv = croppingDiv.current;
+  //       // cropdiv.style.backgroundImage =
+  //       cropdiv.style.backgroundImage = `url("${img.src.replace(
+  //         /(\r\n|\n|\r)/gm,
+  //         ""
+  //       )}")`;
+  //       cropdiv.style.transform = `scale(${scale}) translate(${x},${y})`;
+  //       // const canvas = await html2canvas(cropdiv);
+  //       // const image = canvas.toDataURL("image/png", 0.5);
+  //       // console.log(image);
+  //     }
+  //   });
+  // };
 
   const nextStep = useCallback(() => {
     if (step === 1) {
-      console.log("crop here");
+      // console.log("crop here");
     }
     setStep((prev) => {
       if (prev === headers.length - 1) {
@@ -274,6 +274,8 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
                     nextFile={nextFile}
                     prevFile={prevFile}
                     aspectRatio={aspectRatio}
+                    selectedFile={selectedFile}
+                    setSelectedFile={setSelectedFile}
                   />
                 </>
               ) : null}

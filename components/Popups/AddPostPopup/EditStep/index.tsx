@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { ARStateType, ImgFileType, originalArCalcul } from "..";
 import styles from "../../popup.module.scss";
+import ArrowsAndDots from "../ArrowsAndDots";
 
 type EditProps = {
   files: ImgFileType[];
@@ -28,14 +29,14 @@ export function EditStep({
     const ctx = canvasRef.current.getContext("2d");
     const { img, scale, x, y } = files[selectedFile];
     drawImageOnCanvas(canvasRef.current, ctx, img, x, y, scale);
-  }, []);
+  }, [selectedFile]);
   return (
     <div className={styles.EditStep}>
       <div className={styles.canvasContainer}>
         <canvas
           ref={canvasRef}
-          width="800"
-          height="800"
+          width="830"
+          height="830"
           style={
             aspectRatio === "original"
               ? originalArCalcul(
@@ -47,6 +48,12 @@ export function EditStep({
           className={`${aspectRatio !== "original" ? styles[aspectRatio] : ""}`}
         ></canvas>
       </div>
+      <ArrowsAndDots
+        files={files}
+        nextFile={nextFile}
+        prevFile={prevFile}
+        selectedFile={selectedFile}
+      />
     </div>
   );
 }
@@ -60,16 +67,16 @@ const drawImageOnCanvas = (
   scale: number
 ) => {
   if (!ctx) return;
-
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   const aspectRatio = image.width / image.height;
 
-  const canvasWidth = canvas.getBoundingClientRect().width * scale;
-  const canvasHeight = canvas.getBoundingClientRect().height * scale;
-  console.log(canvasWidth, canvasHeight);
+  const canvasWidth = canvas.width * scale;
+  const canvasHeight = canvas.height * scale;
+  // const canvasWidth = canvas.width;
+  // const canvasHeight = canvas.height;
   let width = canvasWidth;
   let height = canvasHeight;
 
-  // console.log(canvasWidth);
   if (aspectRatio > 1) {
     height = canvasHeight;
     width = height * aspectRatio;
@@ -77,13 +84,10 @@ const drawImageOnCanvas = (
     width = canvasWidth;
     height = width / aspectRatio;
   }
-  // console.log(width, height);
 
-  // console.log(height, width);
-  // console.log("cords:", cordsX, cordsY);
   const x = (canvasWidth - width) / 2 + (width * cordsX) / 100;
   const y = (canvasHeight - height) / 2 + (height * cordsY) / 100;
+  // ctx.translate(110, -500);
   // ctx.scale(scale, scale);
-  // console.log(width, height);
   ctx.drawImage(image, x, y, width, height);
 };

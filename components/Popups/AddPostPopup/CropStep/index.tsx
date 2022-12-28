@@ -21,6 +21,7 @@ import { SliderDots } from "../../../CommonComponents/SliderDots";
 import SmallPopup from "../../SmallPopup";
 import ZoomDropup from "./ZoomDropup";
 import AdditionalPostsDropup from "./AdditionalPostsDropup";
+import ArrowsAndDots from "../ArrowsAndDots";
 
 type CropStepProps = {
   files: ImgFileType[];
@@ -261,43 +262,12 @@ export function CropStep({
         selectedFile={selectedFile}
         setAlertMessage={setAlertMessage}
       />
-      {/* <div className={styles.bottomBtnsContainer}>
-        <div></div>
-      </div> */}
-
-      {/* {files.indexOf(selectedFile) > 0 ? ( */}
-      {selectedFile > 0 ? (
-        <div
-          style={{
-            position: "absolute",
-            left: ".8rem",
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-          onClick={prevFile}
-        >
-          <IconCircle Icon={ArrowL} />
-        </div>
-      ) : null}
-      {/* {files.indexOf(selectedFile) < files.length - 1 ? ( */}
-      {selectedFile < files.length - 1 ? (
-        <div
-          style={{
-            position: "absolute",
-            right: ".8rem",
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-          onClick={nextFile}
-        >
-          <IconCircle Icon={ArrowR} />
-        </div>
-      ) : null}
-      <SliderDots nbrOfDots={files.length} selectedDot={selectedFile} />
-      {/* <SliderDots
-        nbrOfDots={files.length}
-        selectedDot={files.indexOf(selectedFile)}
-      /> */}
+      <ArrowsAndDots
+        files={files}
+        nextFile={nextFile}
+        prevFile={prevFile}
+        selectedFile={selectedFile}
+      />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { ARStateType, ImgFileType, originalArCalcul } from "..";
 import styles from "../../popup.module.scss";
 import ArrowsAndDots from "../ArrowsAndDots";
+import { CanvasWidthHeight } from "./utils";
 
 type EditProps = {
   files: ImgFileType[];
@@ -25,9 +26,17 @@ export function EditStep({
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    // console.log("out");
     if (!canvasRef.current) return;
-    const ctx = canvasRef.current.getContext("2d");
+    // console.log("in");
+    const { width, height } = CanvasWidthHeight(aspectRatio, files[0].img);
+    canvasRef.current.width = width;
+    canvasRef.current.height = height;
+  }, []);
+  useEffect(() => {
+    if (!canvasRef.current) return;
     const { img, scale, x, y } = files[selectedFile];
+    const ctx = canvasRef.current.getContext("2d");
     drawImageOnCanvas(canvasRef.current, ctx, img, x, y, scale);
   }, [selectedFile]);
   return (
@@ -35,8 +44,6 @@ export function EditStep({
       <div className={styles.canvasContainer}>
         <canvas
           ref={canvasRef}
-          width="830"
-          height="830"
           style={
             aspectRatio === "original"
               ? originalArCalcul(
@@ -72,6 +79,8 @@ const drawImageOnCanvas = (
 
   const canvasWidth = canvas.width * scale;
   const canvasHeight = canvas.height * scale;
+  // console.log(canvasWidth);
+  // console.log(canvasHeight);
   // const canvasWidth = canvas.width;
   // const canvasHeight = canvas.height;
   let width = canvasWidth;
@@ -83,11 +92,20 @@ const drawImageOnCanvas = (
   } else if (aspectRatio < 1) {
     width = canvasWidth;
     height = width / aspectRatio;
+  } else {
+    width = 830 * scale;
+    height = 830 * scale;
   }
-
+  // console.log(width, height, aspectRatio);
+  // console.log(scale);
+  // const x = (canvasWidth - width) / 2;
+  // const y = (canvasHeight - height) / 2;
+  // console.log((width * cordsX) / 100);
   const x = (canvasWidth - width) / 2 + (width * cordsX) / 100;
   const y = (canvasHeight - height) / 2 + (height * cordsY) / 100;
+  // console.log(width, cordsX);
   // ctx.translate(110, -500);
   // ctx.scale(scale, scale);
   ctx.drawImage(image, x, y, width, height);
+  // ctx.drawImage(image, 0, 0, width, height);
 };

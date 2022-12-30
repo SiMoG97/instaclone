@@ -75,37 +75,25 @@ const drawImageOnCanvas = (
 ) => {
   if (!ctx) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const aspectRatio = image.width / image.height;
+  const ar = image.width / image.height;
 
-  const canvasWidth = canvas.width * scale;
-  const canvasHeight = canvas.height * scale;
-  // console.log(canvasWidth);
-  // console.log(canvasHeight);
-  // const canvasWidth = canvas.width;
-  // const canvasHeight = canvas.height;
+  const canvasWidth = canvas.width * scale; /* canvas width scaled */
+  const canvasHeight = canvas.height * scale; /* canvas height scaled */
+
   let width = canvasWidth;
   let height = canvasHeight;
 
-  if (aspectRatio > 1) {
+  if (ar > 1) {
     height = canvasHeight;
-    width = height * aspectRatio;
-  } else if (aspectRatio < 1) {
+    width = height * ar;
+  } else if (ar < 1) {
     width = canvasWidth;
-    height = width / aspectRatio;
+    height = width / ar;
   } else {
     width = 830 * scale;
     height = 830 * scale;
   }
-  // console.log(width, height, aspectRatio);
-  // console.log(scale);
-  // const x = (canvasWidth - width) / 2;
-  // const y = (canvasHeight - height) / 2;
-  // console.log((width * cordsX) / 100);
-  const x = (canvasWidth - width) / 2 + (width * cordsX) / 100;
-  const y = (canvasHeight - height) / 2 + (height * cordsY) / 100;
-  // console.log(width, cordsX);
-  // ctx.translate(110, -500);
-  // ctx.scale(scale, scale);
+  const x = (canvas.width - width) / 2 + (width * cordsX) / 100;
+  const y = (canvas.height - height) / 2 + (height * cordsY) / 100;
   ctx.drawImage(image, x, y, width, height);
-  // ctx.drawImage(image, 0, 0, width, height);
 };

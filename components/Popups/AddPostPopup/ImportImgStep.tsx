@@ -139,6 +139,15 @@ export function ImportImgStep({
           x: 0,
           y: 0,
           id: uuidv4(),
+          filter: "Original",
+          adjustSettings: {
+            brightness: 0,
+            contrast: 0,
+            saturation: 0,
+            temperature: 0,
+            fade: 0,
+            vignette: 0,
+          },
         };
         if (i === 0) {
           selectedFileIdRef.current = newFile.id;

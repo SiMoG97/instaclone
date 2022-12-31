@@ -711,6 +711,7 @@
       justify-content: space-between;
     }
     .RangeHeader {
+      text-transform: capitalize;
       color: var(--txt-c-1);
     }
     .RangeReset {
@@ -739,7 +740,7 @@
   }
   canvas {
     transform-origin: center;
-    background-color: red;
+    // background-color: red;
     // height: 100%;
   }
 }

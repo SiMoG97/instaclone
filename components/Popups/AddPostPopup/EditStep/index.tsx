@@ -26,9 +26,7 @@ export function EditStep({
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    // console.log("out");
     if (!canvasRef.current) return;
-    // console.log("in");
     const { width, height } = CanvasWidthHeight(aspectRatio, files[0].img);
     canvasRef.current.width = width;
     canvasRef.current.height = height;
@@ -90,8 +88,8 @@ const drawImageOnCanvas = (
     width = canvasWidth;
     height = width / ar;
   } else {
-    width = 830 * scale;
-    height = 830 * scale;
+    width = 600 * scale;
+    height = 600 * scale;
   }
   const x = (canvas.width - width) / 2 + (width * cordsX) / 100;
   const y = (canvas.height - height) / 2 + (height * cordsY) / 100;

@@ -192,7 +192,6 @@ const AdditionImgsSlide = ({
     sliderHandler();
     console.log("wow");
   }, [files]);
-
   useLayoutEffect(() => {
     window.addEventListener("resize", sliderHandler);
     return () => {
@@ -240,7 +239,22 @@ const AdditionImgsSlide = ({
         img.src = `${reader.result}`;
         setFiles((currFiles) => [
           ...currFiles,
-          { img, scale: 1, x: 0, y: 0, id: uuidv4() },
+          {
+            img,
+            scale: 1,
+            x: 0,
+            y: 0,
+            id: uuidv4(),
+            filter: "Original",
+            adjustSettings: {
+              brightness: 0,
+              contrast: 0,
+              saturation: 0,
+              temperature: 0,
+              fade: 0,
+              vignette: 0,
+            },
+          },
         ]);
         // imgFilesArr.push({ img, scale: 1, x: 0, y: 0, id: uuidv4() });
       });

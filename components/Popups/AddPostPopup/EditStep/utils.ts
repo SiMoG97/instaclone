@@ -1,6 +1,10 @@
 import { ARStateType } from "..";
 
-export const CanvasWidthHeight = (ar: ARStateType, image: HTMLImageElement) => {
+export const CanvasWidthHeight = (
+  ar: ARStateType,
+  image: HTMLImageElement
+): { width: number; height: number } => {
+  const normalWidth = 600;
   if (ar === "original") {
     let imgAr = image.width / image.height;
     if (imgAr > 1.91) {
@@ -10,28 +14,28 @@ export const CanvasWidthHeight = (ar: ARStateType, image: HTMLImageElement) => {
     }
     if (imgAr > 1) {
       return {
-        width: 830,
-        height: 830 / imgAr,
+        width: normalWidth,
+        height: normalWidth / imgAr,
       };
     } else if (imgAr < 1) {
       return {
-        width: 830 * imgAr,
-        height: 830,
+        width: normalWidth * imgAr,
+        height: normalWidth,
       };
     }
   } else if (ar === "sixteenToNine") {
     return {
-      width: 830,
-      height: 830 / (16 / 9),
+      width: normalWidth,
+      height: normalWidth / (16 / 9),
     };
   } else if (ar === "fourToFive") {
     return {
-      width: 830 * (4 / 5),
-      height: 830,
+      width: normalWidth * (4 / 5),
+      height: normalWidth,
     };
   }
   return {
-    width: 830,
-    height: 830,
+    width: normalWidth,
+    height: normalWidth,
   };
 };

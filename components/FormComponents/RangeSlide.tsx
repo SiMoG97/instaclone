@@ -29,52 +29,63 @@ function RangeSlide({
   const rangeRef = useRef<HTMLInputElement>(null);
   const [rangeValue, setRangeValue] = useState(setedValue);
 
-  const defaultRangeStyle = () => {
+  useEffect(() => {
+    defaultRangeStyle(setedValue);
+    setRangeValue(() => setedValue);
+  }, [setedValue]);
+  const defaultRangeStyle = (value: number) => {
     if (!rangeRef.current) return;
     if (startFrom === "left") {
-      rangeRef.current.style.background = `linear-gradient(to right, ${thumbColor} 0%, ${thumbColor} ${setedValue}%, ${lineColor} ${setedValue}%, ${lineColor} 100%)`;
+      rangeRef.current.style.background = leftBgHandler(value);
     } else {
-      rangeRef.current.style.background = `linear-gradient(to right,${lineColor} 0%,${lineColor} 50%,${thumbColor} 50%,${thumbColor} 50%,${lineColor} 50%,${lineColor} 100%)`;
+      rangeRef.current.style.background = midBgHandler(value);
     }
   };
   useEffect(() => {
     if (!rangeRef.current) return;
     document.documentElement.style.setProperty("--thumbColor", thumbColor);
     document.documentElement.style.setProperty("--thumbSize", thumbSize);
-    defaultRangeStyle();
+    defaultRangeStyle(rangeValue);
   }, [lineColor, thumbColor, startFrom, thumbSize]);
 
   useEffect(() => {
     if (!rangeRef.current || setedValue !== 0) return;
     rangeRef.current.value = "0";
     setRangeValue(() => 0);
-    defaultRangeStyle();
+    defaultRangeStyle(0);
   }, [setedValue]);
 
   const midRangeHandler = ({ target }: InputTargetType) => {
     const value = Number(target.value);
+    target.style.background = midBgHandler(value);
+    setRangeValue(() => Number(target.value));
+    changeHandler(Number(target.value));
+  };
+  const leftRangeHandler = ({ target }: InputTargetType) => {
+    target.style.background = leftBgHandler(Number(target.value));
+    setRangeValue(() => Number(target.value));
+    changeHandler(Number(target.value));
+  };
+
+  const leftBgHandler = (val: number) => {
+    return `linear-gradient(to right, ${thumbColor} 0%, ${thumbColor} ${val}%, ${lineColor} ${val}%, ${lineColor} 100%)`;
+  };
+  const midBgHandler = (val: number) => {
     const gradientValues = {
       lineLeft: 50,
       thumbLeft: 50,
       lineRight: 50,
       thumbRight: 50,
     };
-    const percentage = (value + 100) / 2;
-    if (value > 0) {
+    const percentage = (val + 100) / 2;
+    if (val > 0) {
       gradientValues.lineRight = percentage;
       gradientValues.thumbRight = percentage;
     } else {
       gradientValues.lineLeft = percentage;
       gradientValues.thumbLeft = percentage;
     }
-    target.style.background = `linear-gradient(to right,${lineColor} 0%,${lineColor} ${gradientValues.lineLeft}%,${thumbColor} ${gradientValues.thumbLeft}%,${thumbColor} ${gradientValues.thumbRight}%,${lineColor} ${gradientValues.lineRight}%,${lineColor} 100%)`;
-    setRangeValue(() => Number(target.value));
-    changeHandler(Number(target.value));
-  };
-  const leftRangeHandler = ({ target }: InputTargetType) => {
-    target.style.background = `linear-gradient(to right, ${thumbColor} 0%, ${thumbColor} ${target.value}%, ${lineColor} ${target.value}%, ${lineColor} 100%)`;
-    setRangeValue(() => Number(target.value));
-    changeHandler(Number(target.value));
+    return `linear-gradient(to right,${lineColor} 0%,${lineColor} ${gradientValues.lineLeft}%,${thumbColor} ${gradientValues.thumbLeft}%,${thumbColor} ${gradientValues.thumbRight}%,${lineColor} ${gradientValues.lineRight}%,${lineColor} 100%)`;
   };
 
   const handlePointerUp = () => {
@@ -84,7 +95,6 @@ function RangeSlide({
 
   const handleChange =
     startFrom === "left" ? leftRangeHandler : midRangeHandler;
-
   return (
     <input
       ref={rangeRef}

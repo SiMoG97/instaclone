@@ -18,6 +18,7 @@ import SmallPopup from "../SmallPopup";
 import AddPost from "../../../public/addPost.svg";
 import AddPostActive from "../../../public/addPostActive.svg";
 import SidebarContainer from "./SidebarContainer";
+import EditSidebar from "./EditStep/EditSideBar";
 
 export type ImgFileType = {
   img: HTMLImageElement;
@@ -25,6 +26,15 @@ export type ImgFileType = {
   x: number;
   y: number;
   id: string;
+  filter: FiltersType;
+  adjustSettings: {
+    brightness: number;
+    contrast: number;
+    saturation: number;
+    temperature: number;
+    fade: number;
+    vignette: number;
+  };
 };
 
 type AddPostPopupType = {
@@ -282,7 +292,22 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
               {step === 3 ? <SharePostStep /> : null}
               {/*  */}
               {/* Sidebar */}
-              <SidebarContainer step={step} />
+              <SidebarContainer step={step}>
+                {step === 2 ? (
+                  <EditSidebar
+                    files={files}
+                    setFiles={setFiles}
+                    selectedFile={selectedFile}
+                  />
+                ) : null}
+                {step === 3 ? <h1>step 3 </h1> : null}
+              </SidebarContainer>
+              {/* <SidebarContainer
+                step={step}
+                files={files}
+                setFiles={setFiles}
+                selectedFile={selectedFile}
+              /> */}
               {/* <div
                 style={{
                   width: step > 1 ? "300px" : "0",

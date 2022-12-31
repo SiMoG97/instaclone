@@ -1,16 +1,25 @@
 import styles from "../../popup.module.scss";
 import Image from "next/image";
+import { FiltersType } from "..";
 
-export const FilterSection = () => {
+type FilterSectionType = {
+  setFilter: (filterName: FiltersType) => void;
+  currFilter: FiltersType;
+};
+
+export const FilterSection = ({ setFilter, currFilter }: FilterSectionType) => {
   return (
     <div className={styles.filtersSction}>
       <div className={`${styles.filters} ${styles.inContainer}`}>
         {filtersNames.map((name, i) => {
           return (
             <div
+              onClick={() => {
+                setFilter(name);
+              }}
               key={name}
               className={`${styles.filterContainer} ${
-                i === 0 ? styles.selected : ""
+                name === currFilter ? styles.selected : ""
               }`}
             >
               <div className={styles.filterConainerImg}>
@@ -28,7 +37,8 @@ export const FilterSection = () => {
     </div>
   );
 };
-const filtersNames = [
+
+const filtersNames: FiltersType[] = [
   "Original",
   "Clarendon",
   "Gingham",

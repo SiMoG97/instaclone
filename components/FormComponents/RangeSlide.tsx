@@ -104,6 +104,7 @@ function RangeSlide({
         startFrom === "left" ? styles.left : styles.mid
       }`}
       onPointerUp={handlePointerUp}
+      onTouchEnd={handlePointerUp}
       onChange={handleChange}
       {...(startFrom === "mid" && { min: "-100" })}
     />

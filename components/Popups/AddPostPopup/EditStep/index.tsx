@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { ARStateType, ImgFileType, originalArCalcul } from "..";
 import styles from "../../popup.module.scss";
 import ArrowsAndDots from "../ArrowsAndDots";
+import { applyMoonFilter } from "./filters";
 import { CanvasWidthHeight } from "./utils";
 
 type EditProps = {
@@ -35,6 +36,7 @@ export function EditStep({
     if (!canvasRef.current) return;
     const { img, scale, x, y } = files[selectedFile];
     const ctx = canvasRef.current.getContext("2d");
+    applyMoonFilter(0, canvasRef.current, ctx);
     drawImageOnCanvas(canvasRef.current, ctx, img, x, y, scale);
   }, [selectedFile]);
   return (

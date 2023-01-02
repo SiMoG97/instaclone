@@ -1,13 +1,22 @@
 import styles from "../../popup.module.scss";
 import Image from "next/image";
 import { FiltersType } from "..";
+import { filter, filtersRefT } from "./EditSideBar";
 
 type FilterSectionType = {
   setFilter: (filterName: FiltersType) => void;
   currFilter: FiltersType;
+  // filtersVal: {
+  //   postId: string;
+  //   filters: filter[];
+  // };
 };
 
-export const FilterSection = ({ setFilter, currFilter }: FilterSectionType) => {
+export const FilterSection = ({
+  setFilter,
+  currFilter,
+}: // filtersVal,
+FilterSectionType) => {
   return (
     <div className={styles.filtersSction}>
       <div className={`${styles.filters} ${styles.inContainer}`}>
@@ -38,7 +47,7 @@ export const FilterSection = ({ setFilter, currFilter }: FilterSectionType) => {
   );
 };
 
-const filtersNames: FiltersType[] = [
+export const filtersNames: FiltersType[] = [
   "Original",
   "Clarendon",
   "Gingham",

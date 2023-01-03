@@ -219,7 +219,9 @@ const AdditionImgsSlide = ({
       .slice(0, nbrOfFileAllowedToUpload);
     const allowedFilesArr = [];
     for (const file of arrFiles) {
-      if (!FileExtChecker(file.name)) continue;
+      const { fileType, isFileAllowed } = FileExtChecker(file.name);
+
+      if (!isFileAllowed) continue;
       if (file.size < 4096) continue;
       allowedFilesArr.push(file);
     }

@@ -17,9 +17,15 @@ const FileExtChecker = (fileName: string) => {
   const ext = getExtension(fileName);
   const idx = extensions.indexOf(ext.toLowerCase());
   if (idx === -1) {
-    return false;
+    return {
+      isFileAllowed: false,
+      fileType: "file format not allowed",
+    };
   }
-  return true;
+  return {
+    isFileAllowed: true,
+    fileType: ext.toLowerCase() === "mp4" ? "video" : "image",
+  };
 };
 
 export default FileExtChecker;

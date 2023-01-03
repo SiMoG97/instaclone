@@ -56,6 +56,11 @@ export function ImportImgStep({
         message:
           " is too small. To continue, choose a file that's 4KB or more.",
       },
+      {
+        title: "Files must be 100 MB or less.",
+        message:
+          " is too large. To continue, choose a file that's 100 MB or less.",
+      },
     ],
     []
   );
@@ -97,7 +102,8 @@ export function ImportImgStep({
     for (const file of arrFiles) {
       const fileSize = file.size;
       const filename = file.name;
-      if (!FileExtChecker(filename)) {
+      const { fileType, isFileAllowed } = FileExtChecker(filename);
+      if (!isFileAllowed) {
         setFileError(() => ({
           error: true,
           filename,
@@ -106,11 +112,20 @@ export function ImportImgStep({
         uploadError = true;
         break;
       }
-      if (fileSize < 4096) {
+      if (fileType === "image" && fileSize < 4096) {
         setFileError(() => ({
           error: true,
           filename,
           errorMessage: errorMessages[1],
+        }));
+        uploadError = true;
+        break;
+      }
+      if (fileType === "video" && fileSize > 100000000) {
+        setFileError(() => ({
+          error: true,
+          filename,
+          errorMessage: errorMessages[2],
         }));
         uploadError = true;
         break;

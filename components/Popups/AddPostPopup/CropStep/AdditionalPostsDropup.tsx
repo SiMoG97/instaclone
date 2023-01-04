@@ -15,6 +15,7 @@ import { FileInput } from "../../../FormComponents/FileInput";
 import FileExtChecker from "../../../../utils/FileExtChecker";
 import ArrowL from "../../../../public/arrowL.svg";
 import ArrowR from "../../../../public/arrowR.svg";
+import { newFileConstructor } from "../ImportImgStep";
 
 type AdditionalPostsDropupProps = AdditionImgsSlideProps & {
   // isOpen: boolean;
@@ -241,24 +242,8 @@ const AdditionImgsSlide = ({
         img.src = `${reader.result}`;
         setFiles((currFiles) => [
           ...currFiles,
-          {
-            img,
-            scale: 1,
-            x: 0,
-            y: 0,
-            id: uuidv4(),
-            filter: "Original",
-            adjustSettings: {
-              brightness: 0,
-              contrast: 0,
-              saturation: 0,
-              temperature: 0,
-              fade: 0,
-              vignette: 0,
-            },
-          },
+          newFileConstructor({ type: "image", img }),
         ]);
-        // imgFilesArr.push({ img, scale: 1, x: 0, y: 0, id: uuidv4() });
       });
       reader.readAsDataURL(file);
     });

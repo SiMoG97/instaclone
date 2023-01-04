@@ -97,7 +97,7 @@ export function ImportImgStep({
     let arrFiles = Object.keys(importedFiles)
       .map((obj: any) => importedFiles[obj])
       .slice(0, 10);
-
+    console.log(arrFiles);
     let uploadError = false;
     for (const file of arrFiles) {
       const fileSize = file.size;
@@ -144,37 +144,25 @@ export function ImportImgStep({
     // const imgFilesArr: ImgFileType[] = [];
     // let firstFiles: ImgFileType;
     arrFiles.forEach((file: File, i: number) => {
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        const img = new Image();
-        img.src = `${reader.result}`;
-        const newFile: ImgFileType = {
-          img,
-          scale: 1,
-          x: 0,
-          y: 0,
-          id: uuidv4(),
-          filter: "Original",
-          adjustSettings: {
-            brightness: 0,
-            contrast: 0,
-            saturation: 0,
-            temperature: 0,
-            fade: 0,
-            vignette: 0,
-          },
-        };
-        if (i === 0) {
-          selectedFileIdRef.current = newFile.id;
-        }
-        setFiles((currFiles) => {
-          return [...currFiles, newFile];
+      const { fileType } = FileExtChecker(file.name);
+      if (fileType === "image") {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+          const img = new Image();
+          img.src = `${reader.result}`;
+          const newFile = newFileConstructor({ type: "image", img });
+          if (i === 0) {
+            selectedFileIdRef.current = newFile.id;
+          }
+          setFiles((currFiles) => {
+            return [...currFiles, newFile];
+          });
         });
-        // imgFilesArr.push({ img, scale: 1, x: 0, y: 0, id: uuidv4() });
-      });
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+      } else {
+        pushVideoState(file, setFiles);
+      }
     });
-    // setFiles(() => imgFilesArr);
     setTimeout(() => {
       // selectedFileIdRef.current = files[0].id;
       nextStep();
@@ -259,3 +247,58 @@ export function ImportImgStep({
     </>
   );
 }
+
+type FileConstructorType = {
+  type: "image" | "video";
+  img?: HTMLImageElement;
+  vidUrl?: string;
+  startsAt?: number;
+  endsAt?: number;
+};
+
+export const newFileConstructor = ({
+  type,
+  img = new Image(),
+  vidUrl = "",
+  startsAt = 0,
+  endsAt = 0,
+}: FileConstructorType) => {
+  const newFile: ImgFileType = {
+    type,
+    img,
+    scale: 1,
+    x: 0,
+    y: 0,
+    id: uuidv4(),
+    filter: "Original",
+    adjustSettings: {
+      brightness: 0,
+      contrast: 0,
+      saturation: 0,
+      temperature: 0,
+      fade: 0,
+      vignette: 0,
+    },
+    vidUrl,
+    startsAt,
+    endsAt,
+  };
+  return newFile;
+};
+
+const pushVideoState = (
+  file: File,
+  setFiles: Dispatch<SetStateAction<ImgFileType[]>>
+) => {
+  const video = document.createElement("video");
+  const vidUrl = URL.createObjectURL(file);
+  video.src = vidUrl;
+  video.addEventListener("loadeddata", function () {
+    const newFile = newFileConstructor({
+      type: "video",
+      vidUrl,
+      endsAt: video.duration,
+    });
+    setFiles((currFiles) => [...currFiles, newFile]);
+  });
+};

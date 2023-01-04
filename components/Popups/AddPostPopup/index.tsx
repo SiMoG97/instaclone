@@ -21,6 +21,7 @@ import SidebarContainer from "./SidebarContainer";
 import EditSidebar from "./EditStep/EditSideBar";
 
 export type ImgFileType = {
+  type: "video" | "image";
   img: HTMLImageElement;
   scale: number;
   x: number;
@@ -35,12 +36,54 @@ export type ImgFileType = {
     fade: number;
     vignette: number;
   };
+  vidUrl: string;
+  startsAt: number;
+  endsAt: number;
 };
+// export type VideoFileType = {
+//   vidUrl: string;
+//   scale: 1;
+//   x: number;
+//   y: number;
+//   id: string;
+//   startsAt: number;
+//   endsAt: number;
+// };
+// export type ImgVidT = (VideoFileType | ImgFileType)[];
 
 type AddPostPopupType = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
+// const someArr: SM = [
+//   {
+//     img: new Image(),
+//     scale: 1,
+//     x: 0,
+//     y: 0,
+//     id: "asfasdfas",
+//     filter: "Original",
+//     adjustSettings: {
+//       brightness: 0,
+//       contrast: 0,
+//       saturation: 0,
+//       temperature: 0,
+//       fade: 0,
+//       vignette: 0,
+//     },
+//   },
+//   {
+//     vidUrl: "string",
+//     scale: 1,
+//     x: 0,
+//     y: 0,
+//     id: "string",
+//     startsAt: 0,
+//     endsAt: 0,
+//   },
+// ];
+
 export type FiltersType =
   | "Original"
   | "Clarendon"

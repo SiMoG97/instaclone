@@ -153,10 +153,13 @@ export function CropStep({
 
   const imageToBackground = () => {
     if (files.length === 0 || !croppingDiv.current) return;
+    if (!cropAreaRef.current) return;
     const { img } = files[selectedFile];
     const image = document.createElement("img");
     image.src = img.src;
-    if (!cropAreaRef.current) return;
+    if (files[selectedFile].type === "image") {
+      const file = files[selectedFile].img;
+    }
     let ar = image.naturalWidth / image.naturalHeight;
     if (ar === 1) {
       cropAreaRef.current.style.flexDirection = "column";

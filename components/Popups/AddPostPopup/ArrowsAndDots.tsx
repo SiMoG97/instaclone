@@ -2,14 +2,14 @@ import React from "react";
 import IconCircle from "./../../CommonComponents/IconCircle";
 import ArrowL from "./../../../public/arrowL.svg";
 import ArrowR from "./../../../public/arrowR.svg";
-import { ImgFileType } from ".";
+import { ImgVidFileType } from ".";
 import { SliderDots } from "../../CommonComponents/SliderDots";
 
 type ArrowsAndDotsProps = {
   selectedFile: number;
   prevFile: () => void;
   nextFile: () => void;
-  files: ImgFileType[];
+  files: ImgVidFileType[];
 };
 
 const ArrowsAndDots = ({

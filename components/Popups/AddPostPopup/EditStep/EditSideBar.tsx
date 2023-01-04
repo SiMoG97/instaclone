@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { FiltersType, ImgFileType } from "..";
+import { FiltersType, ImgVidFileType } from "..";
 import RangeSlide from "../../../FormComponents/RangeSlide";
 import styles from "../../popup.module.scss";
 import { AdjustmentsSection } from "./AdjustmentsSection";
@@ -7,8 +7,8 @@ import { Tabs } from "./EditTabs";
 import { FilterSection, filtersNames } from "./FilterSection";
 
 type EditSideBarType = {
-  files: ImgFileType[];
-  setFiles: React.Dispatch<React.SetStateAction<ImgFileType[]>>;
+  files: ImgVidFileType[];
+  setFiles: React.Dispatch<React.SetStateAction<ImgVidFileType[]>>;
   selectedFile: number;
 };
 
@@ -144,7 +144,7 @@ const BottomRange = ({ currFilterValue, handleChange }: BottomRangeType) => {
 };
 const useInitFilterVal = (
   filtersRef: React.MutableRefObject<filtersRefT | undefined>,
-  files: ImgFileType[]
+  files: ImgVidFileType[]
 ) => {
   useEffect(() => {
     filtersRef.current = files.map((file) => ({

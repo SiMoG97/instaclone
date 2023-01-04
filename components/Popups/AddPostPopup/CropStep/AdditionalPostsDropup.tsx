@@ -1,7 +1,6 @@
 import { Reorder, AnimatePresence, motion } from "framer-motion";
-import { v4 as uuidv4 } from "uuid";
 
-import { ImgFileType } from "..";
+import { ImgVidFileType } from "..";
 import PostsIcon from "../../../../public/postsIcon.svg";
 import IconCircle from "../../../CommonComponents/IconCircle";
 import styles from "../../popup.module.scss";
@@ -15,7 +14,9 @@ import { FileInput } from "../../../FormComponents/FileInput";
 import FileExtChecker from "../../../../utils/FileExtChecker";
 import ArrowL from "../../../../public/arrowL.svg";
 import ArrowR from "../../../../public/arrowR.svg";
-import { newFileConstructor } from "../ImportImgStep";
+import { newFileConstructor } from "../ImportFileStep/newFileConstructor";
+import { pushVidToState } from "../ImportFileStep/pushVidToState";
+import { pushImgToState } from "../ImportFileStep/pushImgToState";
 
 type AdditionalPostsDropupProps = AdditionImgsSlideProps & {
   // isOpen: boolean;
@@ -68,8 +69,8 @@ const AdditionalPostsDropup = ({
 };
 type AdditionImgsSlideProps = {
   isOpen: boolean;
-  files: ImgFileType[];
-  setFiles: React.Dispatch<React.SetStateAction<ImgFileType[]>>;
+  files: ImgVidFileType[];
+  setFiles: React.Dispatch<React.SetStateAction<ImgVidFileType[]>>;
   selectedFile: number;
   setSelectedFile: React.Dispatch<React.SetStateAction<number>>;
   selectedFileIdRef: React.MutableRefObject<string>;
@@ -224,6 +225,7 @@ const AdditionImgsSlide = ({
 
       if (!isFileAllowed) continue;
       if (file.size < 4096) continue;
+      if (fileType === "video" && file.size > 100000000) continue;
       allowedFilesArr.push(file);
     }
     if (uploadedFiles.length > allowedFilesArr.length) {
@@ -235,17 +237,13 @@ const AdditionImgsSlide = ({
       setAlertMessage(messageAlert);
     }
     // const imgFilesArr: ImgFileType[] = [];
-    allowedFilesArr.forEach((file: File) => {
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        const img = new Image();
-        img.src = `${reader.result}`;
-        setFiles((currFiles) => [
-          ...currFiles,
-          newFileConstructor({ type: "image", img }),
-        ]);
-      });
-      reader.readAsDataURL(file);
+    allowedFilesArr.forEach((file: File, i) => {
+      const { fileType } = FileExtChecker(file.name);
+      if (fileType === "image") {
+        pushImgToState({ file, setFiles });
+      } else {
+        pushVidToState(file, setFiles);
+      }
     });
   };
   return (
@@ -334,7 +332,7 @@ const AdditionImgsSlide = ({
 };
 
 type SliderItemProps = {
-  file: ImgFileType;
+  file: ImgVidFileType;
   imgSrc: string;
   isSelected: boolean;
   onMouseUp: () => void;

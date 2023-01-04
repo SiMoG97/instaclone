@@ -15,7 +15,7 @@ import {
 import IconCircle from "../../../CommonComponents/IconCircle";
 import RangeSlide from "../../../FormComponents/RangeSlide";
 import AspectRatioDropUp from "./AspectRatioDropUp";
-import { ARStateType, ImgFileType, originalArCalcul } from "..";
+import { ARStateType, ImgVidFileType, originalArCalcul } from "..";
 import { IconPopup } from "../IconPopup";
 import { SliderDots } from "../../../CommonComponents/SliderDots";
 import SmallPopup from "../../SmallPopup";
@@ -24,8 +24,8 @@ import AdditionalPostsDropup from "./AdditionalPostsDropup";
 import ArrowsAndDots from "../ArrowsAndDots";
 
 type CropStepProps = {
-  files: ImgFileType[];
-  setFiles: React.Dispatch<React.SetStateAction<ImgFileType[]>>;
+  files: ImgVidFileType[];
+  setFiles: React.Dispatch<React.SetStateAction<ImgVidFileType[]>>;
   selectedFile: number;
   setSelectedFile: React.Dispatch<React.SetStateAction<number>>;
   nextFile: () => void;

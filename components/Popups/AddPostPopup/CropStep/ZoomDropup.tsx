@@ -3,15 +3,15 @@ import RangeSlide from "../../../FormComponents/RangeSlide";
 import MagnidyingGlass from "../../../../public/magnifyingGlass.svg";
 
 import { IconPopup } from "../IconPopup";
-import { ImgFileType } from "..";
+import { ImgVidFileType } from "..";
 
 type ZoomDropupProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  files: ImgFileType[];
+  files: ImgVidFileType[];
   selectedFile: number;
   element: React.RefObject<HTMLDivElement>;
-  setFiles: React.Dispatch<React.SetStateAction<ImgFileType[]>>;
+  setFiles: React.Dispatch<React.SetStateAction<ImgVidFileType[]>>;
 };
 
 const ZoomDropup = ({

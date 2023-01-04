@@ -10,7 +10,7 @@ import PopupBody from "../PopupBody";
 import PopupContainer, { SetIsOpenType } from "../PopupContainer";
 import { CropStep } from "./CropStep";
 import { EditStep } from "./EditStep";
-import { ImportImgStep } from "./ImportImgStep";
+import { ImportImgStep } from "./ImportFileStep";
 import { SharePostStep } from "./SharePostStep";
 import { NextPrevStepHeader } from "./NextPrevStepHeader";
 import styles from "../popup.module.scss";
@@ -20,7 +20,7 @@ import AddPostActive from "../../../public/addPostActive.svg";
 import SidebarContainer from "./SidebarContainer";
 import EditSidebar from "./EditStep/EditSideBar";
 
-export type ImgFileType = {
+export type ImgVidFileType = {
   type: "video" | "image";
   img: HTMLImageElement;
   scale: number;
@@ -130,7 +130,7 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
   // const [isOpen, setIsOpen] = useState(false);
   // const [isOpen, setIsOpen] = useState(true);
   const [step, setStep] = useState(0);
-  const [files, setFiles] = useState<ImgFileType[]>([] as ImgFileType[]);
+  const [files, setFiles] = useState<ImgVidFileType[]>([] as ImgVidFileType[]);
   // const [selectedFile, setSelectedFile] = useState<ImgFileType>(
   //   {} as ImgFileType
   // );

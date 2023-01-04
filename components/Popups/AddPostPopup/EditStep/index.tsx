@@ -1,13 +1,13 @@
 import { useEffect, useRef } from "react";
-import { ARStateType, ImgFileType, originalArCalcul } from "..";
+import { ARStateType, ImgVidFileType, originalArCalcul } from "..";
 import styles from "../../popup.module.scss";
 import ArrowsAndDots from "../ArrowsAndDots";
 import { applyMoonFilter } from "./filters";
 import { CanvasWidthHeight } from "./utils";
 
 type EditProps = {
-  files: ImgFileType[];
-  setFiles: React.Dispatch<React.SetStateAction<ImgFileType[]>>;
+  files: ImgVidFileType[];
+  setFiles: React.Dispatch<React.SetStateAction<ImgVidFileType[]>>;
   nextFile: () => void;
   prevFile: () => void;
   aspectRatio: ARStateType;

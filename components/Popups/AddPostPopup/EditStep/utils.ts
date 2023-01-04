@@ -39,3 +39,5 @@ export const CanvasWidthHeight = (
     height: normalWidth,
   };
 };
+
+const getImagesFromVid = () => {};

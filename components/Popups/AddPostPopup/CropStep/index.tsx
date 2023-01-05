@@ -246,14 +246,16 @@ export function CropStep({
         aspectRatio={aspectRatio}
         setAspectRatio={setAspectRatio}
       />
-      <ZoomDropup
-        element={croppingDiv}
-        files={files}
-        isOpen={someDropOpen}
-        selectedFile={selectedFile}
-        setFiles={setFiles}
-        setIsOpen={setSomeDropOpen}
-      />
+      {files.length > 0 && files[selectedFile].type === "image" ? (
+        <ZoomDropup
+          element={croppingDiv}
+          files={files}
+          isOpen={someDropOpen}
+          selectedFile={selectedFile}
+          setFiles={setFiles}
+          setIsOpen={setSomeDropOpen}
+        />
+      ) : null}
       <AdditionalPostsDropup
         isOpen={someDropOpen}
         setIsOpen={setSomeDropOpen}

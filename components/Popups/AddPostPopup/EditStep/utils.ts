@@ -1,9 +1,9 @@
 import { ARStateType } from "..";
 
-export const CanvasWidthHeight = (
+export function CanvasWidthHeight(
   ar: ARStateType,
   image: HTMLImageElement
-): { width: number; height: number } => {
+): { width: number; height: number } {
   const normalWidth = 600;
   if (ar === "original") {
     let imgAr = image.width / image.height;
@@ -38,6 +38,27 @@ export const CanvasWidthHeight = (
     width: normalWidth,
     height: normalWidth,
   };
-};
+}
 
-const getImagesFromVid = () => {};
+type GetFramesFromVidType = {
+  vidUrl: string;
+  frameTime: number;
+};
+export const getFramesFromVid = ({
+  frameTime,
+  vidUrl,
+}: GetFramesFromVidType) => {
+  const video = document.createElement("video");
+  video.src = vidUrl;
+  video.addEventListener("loadeddata", () => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    video.currentTime = frameTime;
+    ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+    console.log(canvas.toDataURL("image/jpeg"));
+  });
+  //
+};

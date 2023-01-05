@@ -17,6 +17,7 @@ import FileExtChecker from "../../../../utils/FileExtChecker";
 import { ImgVidFileType } from "..";
 import { newFileConstructor } from "./newFileConstructor";
 import { pushVidToState } from "./pushVidToState";
+import { pushImgToState } from "./pushImgToState";
 
 type ImportImgStepProps = {
   files: ImgVidFileType[];
@@ -144,31 +145,22 @@ export function ImportImgStep({
 
     // const imgFilesArr: ImgFileType[] = [];
     // let firstFiles: ImgFileType;
-    arrFiles.forEach((file: File, i: number) => {
+    arrFiles.forEach((file: File, i: number, thisArr) => {
       const { fileType } = FileExtChecker(file.name);
       if (fileType === "image") {
-        pushImgToState({ file, setFiles, i, selectedFileIdRef });
-        // const reader = new FileReader();
-        // reader.addEventListener("load", () => {
-        //   const img = new Image();
-        //   img.src = `${reader.result}`;
-        //   const newFile = newFileConstructor({ type: "image", img });
-        //   if (i === 0) {
-        //     selectedFileIdRef.current = newFile.id;
-        //   }
-        //   setFiles((currFiles) => {
-        //     return [...currFiles, newFile];
-        //   });
-        // });
-        // reader.readAsDataURL(file);
+        pushImgToState({ file, setFiles, i, selectedFileIdRef }, () => {
+          goToNextStep(thisArr.length, i);
+        });
       } else {
-        pushVidToState(file, setFiles);
+        pushVidToState(file, setFiles, () => {
+          goToNextStep(thisArr.length, i);
+        });
       }
     });
-    setTimeout(() => {
-      // selectedFileIdRef.current = files[0].id;
-      nextStep();
-    }, 200);
+  }
+  function goToNextStep(nbrFiles: number, index: number) {
+    if (index < nbrFiles - 1) return;
+    nextStep();
   }
   return (
     <>
@@ -255,23 +247,4 @@ type pushImgToStateType = {
   selectedFileIdRef?: React.MutableRefObject<string>;
   setFiles: React.Dispatch<React.SetStateAction<ImgVidFileType[]>>;
   i?: number;
-};
-
-const pushImgToState = ({
-  file,
-  selectedFileIdRef = undefined,
-  i = 1,
-  setFiles,
-}: pushImgToStateType) => {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => {
-    const img = new Image();
-    img.src = `${reader.result}`;
-    const newFile = newFileConstructor({ type: "image", img });
-    if (selectedFileIdRef && i === 0) {
-      selectedFileIdRef.current = newFile.id;
-    }
-    setFiles((currFiles) => [...currFiles, newFile]);
-  });
-  reader.readAsDataURL(file);
 };

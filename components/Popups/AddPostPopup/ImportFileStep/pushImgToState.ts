@@ -8,12 +8,10 @@ type pushImgToStateType = {
   i?: number;
 };
 
-export const pushImgToState = ({
-  file,
-  selectedFileIdRef = undefined,
-  i = 1,
-  setFiles,
-}: pushImgToStateType) => {
+export function pushImgToState(
+  { file, selectedFileIdRef = undefined, i = 1, setFiles }: pushImgToStateType,
+  callBack?: () => void
+) {
   const reader = new FileReader();
   reader.addEventListener("load", () => {
     const img = new Image();
@@ -23,6 +21,9 @@ export const pushImgToState = ({
       selectedFileIdRef.current = newFile.id;
     }
     setFiles((currFiles) => [...currFiles, newFile]);
+    if (callBack) {
+      callBack();
+    }
   });
   reader.readAsDataURL(file);
-};
+}

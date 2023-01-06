@@ -58,6 +58,7 @@ export const getFramesFromVid = ({
     canvas.height = video.videoHeight;
     video.currentTime = frameTime;
     ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+
     console.log(canvas.toDataURL("image/jpeg"));
   });
   //

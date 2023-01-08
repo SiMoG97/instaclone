@@ -242,7 +242,7 @@ const AdditionImgsSlide = ({
       if (fileType === "image") {
         pushImgToState({ file, setFiles });
       } else {
-        pushVidToState(file, setFiles);
+        pushVidToState({ file, setFiles });
       }
     });
   };

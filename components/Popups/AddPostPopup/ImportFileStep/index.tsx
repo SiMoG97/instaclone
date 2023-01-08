@@ -152,7 +152,7 @@ export function ImportImgStep({
           goToNextStep(thisArr.length, i);
         });
       } else {
-        pushVidToState(file, setFiles, () => {
+        pushVidToState({ file, setFiles, i, selectedFileIdRef }, () => {
           goToNextStep(thisArr.length, i);
         });
       }

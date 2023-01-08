@@ -41,8 +41,8 @@ export function CanvasWidthHeight(
 }
 
 type GetFramesFromVidType = {
-  vidUrl: string;
   frameTime: number;
+  vidUrl: string;
 };
 export const getFramesFromVid = ({
   frameTime,
@@ -57,7 +57,7 @@ export const getFramesFromVid = ({
       canvas.height = video.videoHeight;
       video.currentTime = frameTime;
     });
-    video.addEventListener("seeked", async () => {
+    video.addEventListener("seeked", () => {
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);

@@ -52,6 +52,7 @@ export function CropStep({
   const [someDropOpen, setSomeDropOpen] = useState(false);
   const croppingDiv = useRef<HTMLDivElement>(null);
   const cropAreaRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const cords = useRef({
     startX: 0,
@@ -152,36 +153,133 @@ export function CropStep({
   };
 
   const imageToBackground = () => {
-    if (files.length === 0 || !croppingDiv.current) return;
-    if (!cropAreaRef.current) return;
+    if (files.length < 1 || !croppingDiv.current || !cropAreaRef.current)
+      return;
     const { img } = files[selectedFile];
     const image = document.createElement("img");
     image.src = img.src;
-    if (files[selectedFile].type === "image") {
-      const file = files[selectedFile].img;
-    }
-    let ar = image.naturalWidth / image.naturalHeight;
-    if (ar === 1) {
-      cropAreaRef.current.style.flexDirection = "column";
-      croppingDiv.current.style.width = "100%";
-      croppingDiv.current.style.height = "100%";
-    } else if (ar > 1) {
-      cropAreaRef.current.style.flexDirection = "column";
-      croppingDiv.current.style.width = `${
-        (image.naturalWidth * cropAreaRef.current.offsetHeight) /
-        image.naturalHeight
-      }px`;
-      croppingDiv.current.style.height = `${cropAreaRef.current.offsetHeight}px`;
-    } else if (ar < 1) {
-      cropAreaRef.current.style.flexDirection = "row";
-      croppingDiv.current.style.width = `${cropAreaRef.current.offsetWidth}px`;
-      croppingDiv.current.style.height = `${
-        (image.naturalHeight * cropAreaRef.current.offsetWidth) /
-        image.naturalWidth
-      }px`;
+    let imgAR = image.naturalWidth / image.naturalHeight;
+    // console.log()
+    const containerAR =
+      cropAreaRef.current.offsetWidth / cropAreaRef.current.offsetHeight;
+    console.log(containerAR);
+    const container = cropAreaRef.current;
+    if (containerAR === 1) {
+      if (imgAR === 1) {
+        const [w, h] = [container.offsetWidth, container.offsetHeight];
+        imgVidAndContainerDimensions(w, h);
+        // croppingDiv.current.style.width = `${w}px`;
+        // croppingDiv.current.style.height = `${h}px`;
+      } else if (imgAR > 1) {
+        const [w, h] = [container.offsetWidth * imgAR, container.offsetHeight];
+        imgVidAndContainerDimensions(w, h);
+
+        // croppingDiv.current.style.width = `${w}px`;
+        // croppingDiv.current.style.height = `${h}px`;
+      } else if (imgAR < 1) {
+        const [w, h] = [container.offsetWidth, container.offsetWidth / imgAR];
+        imgVidAndContainerDimensions(w, h);
+
+        // croppingDiv.current.style.width = `${w}px`;
+        // croppingDiv.current.style.height = `${h}px`;
+      }
+      // if (videoRef.current) {
+      //   videoRef.current.style.width = "100%";
+      //   videoRef.current.style.height = "100%";
+      // }
+    } else if (containerAR > 1) {
+      console.log("d5elaat");
+      // cropAreaRef.current.style.flexDirection = "column";
+
+      // let [widthStyle, heightStyle] = [
+      //   (image.naturalWidth * croppingDiv.current.offsetHeight) /
+      //     image.naturalHeight,
+      //   croppingDiv.current.offsetHeight,
+      // ];
+      // if (widthStyle < cropAreaRef.current.offsetWidth) {
+      //   // cropAreaRef.current.style.flexDirection = "unset";
+      //   const newWidth = cropAreaRef.current.offsetWidth;
+      //   const newHeight = cropAreaRef.current.offsetWidth / imgAR;
+      //   console.log(croppingDiv.current.offsetWidth, imgAR);
+      //   // console.log("hmm", heightStyle);
+      //   // (heightStyle * cropAreaRef.current.offsetHeight) / widthStyle;
+      //   widthStyle = newWidth;
+      //   heightStyle = newHeight;
+      // }
+      // console.log(widthStyle, heightStyle, cropAreaRef.current.offsetWidth);
+      // cropAreaRef.current.style.flexDirection = "column";
+      // croppingDiv.current.style.width = `${widthStyle}px`;
+      // croppingDiv.current.style.height = `${heightStyle}px`;
+      // if (videoRef.current) {
+      //   videoRef.current.style.width = widthStyle;
+      //   videoRef.current.style.height = heightStyle;
+      // }
+
+      if (imgAR === 1) {
+        const [w, h] = [container.offsetWidth, container.offsetWidth];
+        imgVidAndContainerDimensions(w, h);
+        // croppingDiv.current.style.width = `${w}px`;
+        // croppingDiv.current.style.height = `${h}px`;
+      } else if (imgAR > 1) {
+        const [w, h] = [container.offsetWidth, container.offsetWidth / imgAR];
+        imgVidAndContainerDimensions(w, h);
+
+        // croppingDiv.current.style.width = `${container.offsetWidth}px`;
+        // croppingDiv.current.style.height = `${container.offsetWidth / imgAR}px`;
+      } else if (imgAR < 1) {
+        const [w, h] = [container.offsetWidth, container.offsetWidth / imgAR];
+        imgVidAndContainerDimensions(w, h);
+        // croppingDiv.current.style.width = `${container.offsetWidth}px`;
+        // croppingDiv.current.style.height = `${container.offsetWidth / imgAR}px`;
+      }
+    } else if (containerAR < 1) {
+      if (imgAR === 1) {
+        const [w, h] = [container.offsetHeight, container.offsetHeight];
+        imgVidAndContainerDimensions(w, h);
+        // croppingDiv.current.style.width = `${container.offsetHeight}px`;
+        // croppingDiv.current.style.height = `${container.offsetHeight}px`;
+      } else if (imgAR > 1) {
+        const [w, h] = [container.offsetHeight * imgAR, container.offsetHeight];
+        imgVidAndContainerDimensions(w, h);
+        croppingDiv.current.style.width = `${container.offsetHeight * imgAR}px`;
+        croppingDiv.current.style.height = `${container.offsetHeight}px`;
+      } else if (imgAR < 1) {
+        let w = container.offsetWidth;
+        let h = container.offsetWidth / imgAR;
+        if (h < container.offsetHeight) {
+          h = container.offsetHeight;
+          w = h * imgAR;
+        }
+        croppingDiv.current.style.width = `${w}px`;
+        croppingDiv.current.style.height = `${h}px`;
+      }
+
+      // const [widthStyle, heightStyle] = [
+      //   `${cropAreaRef.current.offsetWidth}px`,
+      //   `${
+      //     (image.naturalHeight * cropAreaRef.current.offsetWidth) /
+      //     image.naturalWidth
+      //   }px`,
+      // ];
+      // console.log(widthStyle, heightStyle);
+      // // cropAreaRef.current.style.flexDirection = "row";
+      // croppingDiv.current.style.width = widthStyle;
+      // croppingDiv.current.style.height = heightStyle;
+      // // if (videoRef.current) {
+      // //   videoRef.current.style.width = widthStyle;
+      // //   videoRef.current.style.height = heightStyle;
+      // // }
     }
   };
 
+  function imgVidAndContainerDimensions(w: number, h: number) {
+    if (!croppingDiv.current) return;
+    croppingDiv.current.style.width = `${w}px`;
+    croppingDiv.current.style.height = `${h}px`;
+    if (!videoRef.current) return;
+    videoRef.current.style.width = `${w}px`;
+    videoRef.current.style.height = `${h}px`;
+  }
   useLayoutEffect(() => {
     imageToBackground();
   }, [files, croppingDiv, selectedFile, aspectRatio]);
@@ -193,14 +291,35 @@ export function CropStep({
     };
   }, [files, croppingDiv, selectedFile, aspectRatio]);
 
+  // useEffect(() => {
+  //   if (!croppingDiv.current) return;
+  //   const { img, type, vidUrl } = files[selectedFile];
+  //   if (type === "image") {
+  //     croppingDiv.current.style.backgroundImage = `url("${img.src.replace(
+  //       /(\r\n|\n|\r)/gm,
+  //       ""
+  //     )}")`;
+  //   } else {
+  //     croppingDiv.current.style.backgroundImage = "";
+  //     if (!videoRef.current) return;
+  //     videoRef.current.src = vidUrl;
+  //   }
+  // }, [selectedFile, croppingDiv]);
+
   useLayoutEffect(() => {
     if (files.length === 0 || !croppingDiv.current) return;
-    const { img, scale, x, y } = files[selectedFile];
+    const { img, scale, x, y, type, vidUrl } = files[selectedFile];
 
-    croppingDiv.current.style.backgroundImage = `url("${img.src.replace(
-      /(\r\n|\n|\r)/gm,
-      ""
-    )}")`;
+    if (type === "image") {
+      croppingDiv.current.style.backgroundImage = `url("${img.src.replace(
+        /(\r\n|\n|\r)/gm,
+        ""
+      )}")`;
+    } else {
+      croppingDiv.current.style.backgroundImage = "";
+      if (!videoRef.current) return;
+      videoRef.current.src = vidUrl;
+    }
     croppingDiv.current.style.transform = `scale(${scale}) translate(${x}%,${y}%)`;
     setTimeout(() => {
       if (!croppingDiv.current || !cropAreaRef.current) return;
@@ -237,7 +356,16 @@ export function CropStep({
           ref={croppingDiv}
           style={isPointerDown ? {} : { transition: "transform .3s" }}
           className={styles.imgToCrop}
-        ></div>
+        >
+          {files[selectedFile].type === "video" ? (
+            <video
+              autoPlay
+              muted
+              ref={videoRef}
+              className={styles.videoCrop}
+            ></video>
+          ) : null}
+        </div>
         <Grid isPointerDown={isPointerDown} />
       </div>
       <AspectRatioDropUp

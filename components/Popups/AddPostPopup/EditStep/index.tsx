@@ -46,7 +46,7 @@ export function EditStep({
           ref={canvasRef}
           style={
             aspectRatio === "original"
-              ? originalArCalcul(
+              ? CalcOriginal(
                   files[0].img.naturalWidth,
                   files[0].img.naturalHeight
                 )
@@ -97,3 +97,25 @@ const drawImageOnCanvas = (
   const y = (canvas.height - height) / 2 + (height * cordsY) / 100;
   ctx.drawImage(image, x, y, width, height);
 };
+
+function CalcOriginal(w: number, h: number) {
+  const ar = w / h;
+  if (ar === 1) {
+    return {
+      width: "100%",
+      height: "100%",
+      aspectRatio: `${ar}`,
+    };
+  } else if (ar > 1) {
+    return {
+      width: "100%",
+      height: "auto",
+      aspectRatio: `${ar}`,
+    };
+  }
+  return {
+    width: "auto",
+    height: "100%",
+    aspectRatio: `${ar}`,
+  };
+}

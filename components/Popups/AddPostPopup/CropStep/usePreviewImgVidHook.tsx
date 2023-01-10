@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import { cordType } from ".";
 import { ARStateType, ImgVidFileType } from "..";
 
@@ -11,7 +11,7 @@ export const usePreviewImgVid = (
   cords: React.MutableRefObject<cordType>,
   aspectRatio: ARStateType
 ) => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!croppingDiv.current) return;
     const { img, type, vidUrl } = files[selectedFile];
     if (type === "image") {
@@ -27,10 +27,11 @@ export const usePreviewImgVid = (
   }, [selectedFile, croppingDiv, files.length]);
 
   useLayoutEffect(() => {
-    if (files.length === 0 || !croppingDiv.current) return;
+    if (files.length === 0 || !croppingDiv.current || !cropAreaRef.current)
+      return;
     const { scale, x, y } = files[selectedFile];
     croppingDiv.current.style.transform = `scale(${scale}) translate(${x}%,${y}%)`;
-    setTimeout(() => {
+    window.requestAnimationFrame(() => {
       if (!croppingDiv.current || !cropAreaRef.current) return;
       const imageWidth = croppingDiv.current.offsetWidth * scale;
       const hiddenPartsWidth = imageWidth - cropAreaRef.current.offsetWidth;
@@ -39,6 +40,6 @@ export const usePreviewImgVid = (
       const imageHeight = croppingDiv.current.offsetHeight * scale;
       const hiddenPartsHeight = imageHeight - cropAreaRef.current.offsetHeight;
       cords.current.yBorder = ((hiddenPartsHeight / 2) * 100) / imageHeight;
-    }, 300);
+    });
   }, [files, croppingDiv, aspectRatio, selectedFile]);
 };

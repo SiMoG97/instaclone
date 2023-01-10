@@ -1,7 +1,7 @@
 import styles from "../../popup.module.scss";
 import Image from "next/image";
 import { FiltersType } from "..";
-import { filter, filtersRefT } from "./EditSideBar";
+// import { filter, filtersRefT } from "./EditImage";
 
 type FilterSectionType = {
   setFilter: (filterName: FiltersType) => void;

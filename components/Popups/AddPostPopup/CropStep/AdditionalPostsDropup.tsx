@@ -192,8 +192,7 @@ const AdditionImgsSlide = ({
 
   useEffect(() => {
     sliderHandler();
-    console.log("wow");
-  }, [files]);
+  }, []);
   useLayoutEffect(() => {
     window.addEventListener("resize", sliderHandler);
     return () => {

@@ -8,9 +8,8 @@ export function widthAndHeightCalc(
       return { w: pW, h: pH };
     } else if (imgAR > 1) {
       return { w: pW * imgAR, h: pH };
-    } else {
-      return { w: pW, h: pW / imgAR };
     }
+    return { w: pW, h: pW / imgAR };
   } else if (parentAR > 1) {
     if (imgAR === 1) {
       return { w: pW, h: pW };
@@ -21,23 +20,20 @@ export function widthAndHeightCalc(
         w = h * imgAR;
       }
       return { w, h };
-    } else {
-      return { w: pW, h: pW / imgAR };
     }
-  } else {
-    if (imgAR === 1) {
-      return { w: pH, h: pH };
-    } else if (imgAR > 1) {
-      return { w: pH * imgAR, h: pH };
-    } else {
-      let [w, h] = [pW, pW / imgAR];
-      if (h < pH) {
-        h = pH;
-        w = h * imgAR;
-      }
-      return { w, h };
-    }
+    return { w: pW, h: pW / imgAR };
   }
+  if (imgAR === 1) {
+    return { w: pH, h: pH };
+  } else if (imgAR > 1) {
+    return { w: pH * imgAR, h: pH };
+  }
+  let [w, h] = [pW, pW / imgAR];
+  if (h < pH) {
+    h = pH;
+    w = h * imgAR;
+  }
+  return { w, h };
 }
 
 export function getFramesFromVid({

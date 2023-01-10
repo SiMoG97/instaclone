@@ -60,26 +60,6 @@ export function IconPopup({
         >
           <IconCicle Icon={Icon} style={IconStyle} />
         </div>
-
-        {/* {unmount ? (
-          <>
-            {active ? (
-              <div ref={parent} className={styles.dropUp} style={dropUpStyle}>
-                {DropUp}
-              </div>
-            ) : null}
-          </>
-        ) : (
-          <div
-            ref={parent}
-            className={`${styles.dropUp} ${
-              active ? styles.showDropup : styles.hideDropup
-            }`}
-            style={dropUpStyle}
-          >
-            {DropUp}
-          </div>
-        )} */}
       </div>
       {unmount ? (
         <>

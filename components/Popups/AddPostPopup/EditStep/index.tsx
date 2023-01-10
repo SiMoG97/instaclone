@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { ARStateType, ImgVidFileType, originalArCalcul } from "..";
 import styles from "../../popup.module.scss";
 import ArrowsAndDots from "../ArrowsAndDots";
+import { widthAndHeightCalc } from "../utils";
 import { applyMoonFilter } from "./filters";
 import { CanvasWidthHeight } from "./utils";
 
@@ -25,35 +26,47 @@ export function EditStep({
   setSelectedFile,
 }: EditProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const vidCanvasDimRef = useRef({
+    ...CanvasWidthHeight(aspectRatio, files[0].img),
+  });
 
-  useEffect(() => {
-    if (!canvasRef.current) return;
-    const { width, height } = CanvasWidthHeight(aspectRatio, files[0].img);
-    canvasRef.current.width = width;
-    canvasRef.current.height = height;
-  }, []);
   useEffect(() => {
     if (!canvasRef.current) return;
     const { img, scale, x, y } = files[selectedFile];
     const ctx = canvasRef.current.getContext("2d");
-    applyMoonFilter(0, canvasRef.current, ctx);
+    // applyMoonFilter(0, canvasRef.current, ctx);
     drawImageOnCanvas(canvasRef.current, ctx, img, x, y, scale);
   }, [selectedFile]);
   return (
     <div className={styles.EditStep}>
       <div className={styles.canvasContainer}>
-        <canvas
-          ref={canvasRef}
-          style={
-            aspectRatio === "original"
-              ? CalcOriginal(
-                  files[0].img.naturalWidth,
-                  files[0].img.naturalHeight
-                )
-              : {}
-          }
-          className={`${aspectRatio !== "original" ? styles[aspectRatio] : ""}`}
-        ></canvas>
+        {files[selectedFile].type === "video" ? (
+          // <h1>video hhh </h1>
+          <video
+            src={files[selectedFile].vidUrl}
+            style={{
+              width: `${vidCanvasDimRef.current.width}`,
+              height: `${vidCanvasDimRef.current.height}`,
+            }}
+          ></video>
+        ) : (
+          <canvas
+            ref={canvasRef}
+            width={vidCanvasDimRef.current.width}
+            height={vidCanvasDimRef.current.height}
+            style={
+              aspectRatio === "original"
+                ? CalcOriginal(
+                    files[0].img.naturalWidth,
+                    files[0].img.naturalHeight
+                  )
+                : {}
+            }
+            className={`${
+              aspectRatio !== "original" ? styles[aspectRatio] : ""
+            }`}
+          ></canvas>
+        )}
       </div>
       <ArrowsAndDots
         files={files}
@@ -65,38 +78,26 @@ export function EditStep({
   );
 }
 
-const drawImageOnCanvas = (
+function drawImageOnCanvas(
   canvas: HTMLCanvasElement,
   ctx: CanvasRenderingContext2D | null,
   image: HTMLImageElement,
   cordsX: number,
   cordsY: number,
   scale: number
-) => {
+): void {
   if (!ctx) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const ar = image.width / image.height;
+  const imgAR = image.width / image.height;
 
-  const canvasWidth = canvas.width * scale; /* canvas width scaled */
-  const canvasHeight = canvas.height * scale; /* canvas height scaled */
-
-  let width = canvasWidth;
-  let height = canvasHeight;
-
-  if (ar > 1) {
-    height = canvasHeight;
-    width = height * ar;
-  } else if (ar < 1) {
-    width = canvasWidth;
-    height = width / ar;
-  } else {
-    width = 600 * scale;
-    height = 600 * scale;
-  }
-  const x = (canvas.width - width) / 2 + (width * cordsX) / 100;
-  const y = (canvas.height - height) / 2 + (height * cordsY) / 100;
-  ctx.drawImage(image, x, y, width, height);
-};
+  const parentW = canvas.width * scale; /* canvas width scaled if scale!=1 */
+  const parentH = canvas.height * scale; /* canvas height scaled if scale!=1 */
+  /* this function below returns the width and height of the image to be drawn */
+  const { w, h } = widthAndHeightCalc({ parentW, parentH }, imgAR);
+  const x = (canvas.width - w) / 2 + (w * cordsX) / 100;
+  const y = (canvas.height - h) / 2 + (h * cordsY) / 100;
+  ctx.drawImage(image, x, y, w, h);
+}
 
 function CalcOriginal(w: number, h: number) {
   const ar = w / h;

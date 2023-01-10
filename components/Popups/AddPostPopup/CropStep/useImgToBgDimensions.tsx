@@ -1,6 +1,7 @@
 import { useLayoutEffect } from "react";
 import { ARStateType, ImgVidFileType } from "..";
 import useResizeEffect from "../../../../Hooks/useResizeEffect";
+import { widthAndHeightCalc } from "../utils";
 
 export const useImgToBgDimensions = (
   files: ImgVidFileType[],
@@ -16,48 +17,11 @@ export const useImgToBgDimensions = (
     const { img } = files[selectedFile];
     const image = document.createElement("img");
     image.src = img.src;
-    let imgAR = image.naturalWidth / image.naturalHeight;
-    const containerAR =
-      cropAreaRef.current.offsetWidth / cropAreaRef.current.offsetHeight;
+    const imgAR = image.naturalWidth / image.naturalHeight;
     const container = cropAreaRef.current;
-    if (containerAR === 1) {
-      if (imgAR === 1) {
-        const [w, h] = [container.offsetWidth, container.offsetHeight];
-        imgVidAndContainerDimensions(w, h);
-      } else if (imgAR > 1) {
-        const [w, h] = [container.offsetWidth * imgAR, container.offsetHeight];
-        imgVidAndContainerDimensions(w, h);
-      } else if (imgAR < 1) {
-        const [w, h] = [container.offsetWidth, container.offsetWidth / imgAR];
-        imgVidAndContainerDimensions(w, h);
-      }
-    } else if (containerAR > 1) {
-      if (imgAR === 1) {
-        const [w, h] = [container.offsetWidth, container.offsetWidth];
-        imgVidAndContainerDimensions(w, h);
-      } else if (imgAR > 1) {
-        const [w, h] = [container.offsetWidth, container.offsetWidth / imgAR];
-        imgVidAndContainerDimensions(w, h);
-      } else if (imgAR < 1) {
-        const [w, h] = [container.offsetWidth, container.offsetWidth / imgAR];
-        imgVidAndContainerDimensions(w, h);
-      }
-    } else if (containerAR < 1) {
-      if (imgAR === 1) {
-        const [w, h] = [container.offsetHeight, container.offsetHeight];
-        imgVidAndContainerDimensions(w, h);
-      } else if (imgAR > 1) {
-        const [w, h] = [container.offsetHeight * imgAR, container.offsetHeight];
-        imgVidAndContainerDimensions(w, h);
-      } else if (imgAR < 1) {
-        let [w, h] = [container.offsetWidth, container.offsetWidth / imgAR];
-        if (h < container.offsetHeight) {
-          h = container.offsetHeight;
-          w = h * imgAR;
-        }
-        imgVidAndContainerDimensions(w, h);
-      }
-    }
+    const [parentW, parentH] = [container.offsetWidth, container.offsetHeight];
+    const { w, h } = widthAndHeightCalc({ parentW, parentH }, imgAR);
+    imgVidAndContainerDimensions(w, h);
   }
   function imgVidAndContainerDimensions(w: number, h: number) {
     if (!croppingDiv.current) return;

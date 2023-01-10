@@ -1,5 +1,5 @@
 import { ImgVidFileType } from "..";
-import { getFramesFromVid } from "../EditStep/utils";
+import { getFramesFromVid } from "../utils";
 import { newFileConstructor } from "./newFileConstructor";
 
 type pushVidStateType = {

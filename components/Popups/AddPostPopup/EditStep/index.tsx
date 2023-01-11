@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { ARStateType, ImgVidFileType, originalArCalcul } from "..";
+import useResizeEffect from "../../../../Hooks/useResizeEffect";
 import styles from "../../popup.module.scss";
 import ArrowsAndDots from "../ArrowsAndDots";
 import { widthAndHeightCalc } from "../utils";
@@ -26,34 +27,54 @@ export function EditStep({
   setSelectedFile,
 }: EditProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const vidCanvasDimRef = useRef({
+  const canvasDimRef = useRef({
     ...CanvasWidthHeight(aspectRatio, files[0].img),
   });
-
+  const vidRef = useRef<HTMLVideoElement>(null);
+  const previewContainerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!canvasRef.current) return;
     const { img, scale, x, y } = files[selectedFile];
     const ctx = canvasRef.current.getContext("2d");
-    // applyMoonFilter(0, canvasRef.current, ctx);
     drawImageOnCanvas(canvasRef.current, ctx, img, x, y, scale);
   }, [selectedFile]);
+
+  usePositionVid(files, previewContainerRef, vidRef, selectedFile);
+
   return (
     <div className={styles.EditStep}>
-      <div className={styles.canvasContainer}>
+      <div className={styles.canvasVidContainer}>
         {files[selectedFile].type === "video" ? (
-          // <h1>video hhh </h1>
-          <video
-            src={files[selectedFile].vidUrl}
-            style={{
-              width: `${vidCanvasDimRef.current.width}`,
-              height: `${vidCanvasDimRef.current.height}`,
-            }}
-          ></video>
+          <div
+            ref={previewContainerRef}
+            style={
+              aspectRatio === "original"
+                ? {
+                    ...CalcOriginal(
+                      files[0].img.naturalWidth,
+                      files[0].img.naturalHeight
+                    ),
+                    overflow: "hidden",
+                  }
+                : { overflow: "hidden" }
+            }
+            className={`${styles.previewVidContainer} ${
+              aspectRatio !== "original" ? styles[aspectRatio] : ""
+            }`}
+          >
+            <video
+              autoPlay
+              muted
+              ref={vidRef}
+              style={{ position: "absolute" }}
+              src={files[selectedFile].vidUrl}
+            ></video>
+          </div>
         ) : (
           <canvas
             ref={canvasRef}
-            width={vidCanvasDimRef.current.width}
-            height={vidCanvasDimRef.current.height}
+            width={canvasDimRef.current.width}
+            height={canvasDimRef.current.height}
             style={
               aspectRatio === "original"
                 ? CalcOriginal(
@@ -119,4 +140,36 @@ function CalcOriginal(w: number, h: number) {
     height: "100%",
     aspectRatio: `${ar}`,
   };
+}
+
+function usePositionVid(
+  files: ImgVidFileType[],
+  previewContainerRef: React.RefObject<HTMLDivElement>,
+  vidRef: React.RefObject<HTMLVideoElement>,
+  selectedFile: number
+) {
+  function positionVid() {
+    if (
+      files[selectedFile].type !== "video" ||
+      !previewContainerRef.current ||
+      !vidRef.current
+    )
+      return;
+    const { img, x, y } = files[selectedFile];
+    const imgAR = img.naturalWidth / img.naturalHeight;
+    const preview = previewContainerRef.current;
+    const [parentW, parentH] = [preview.offsetWidth, preview.offsetHeight];
+    const { w, h } = widthAndHeightCalc({ parentW, parentH }, imgAR);
+    vidRef.current.style.width = `${w}px`;
+    vidRef.current.style.height = `${h}px`;
+    console.log(parentW, parentH);
+    // vidRef.current.style.maxWidth = `${w}px`;
+    // vidRef.current.style.maxHeight = `${h}px`;
+    vidRef.current.style.transform = `translate(${x}%,${y}%)`;
+    // console.log("change ?");
+  }
+  useEffect(() => {
+    positionVid();
+  }, [files, selectedFile]);
+  useResizeEffect(positionVid, [files, selectedFile]);
 }

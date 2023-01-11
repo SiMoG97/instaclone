@@ -736,7 +736,13 @@
     width: 100%;
     height: 100%;
   }
-  .canvasContainer {
+  .previewVidContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .canvasVidContainer {
     display: flex;
     justify-content: center;
     align-items: center;

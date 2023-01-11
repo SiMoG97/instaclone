@@ -136,10 +136,6 @@ const AdditionImgsSlide = ({
     part: 1,
     translateX: 0,
   });
-  // const [slideDetails, setSlideDetails] = useState({
-  //   nbrOfParts: 0,
-  //   part: 0,
-  // });
 
   const slideLeft = () => {
     if (!slider.current || !sliderContainer.current) return;

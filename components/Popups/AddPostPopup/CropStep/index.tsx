@@ -89,7 +89,9 @@ export function CropStep({
     selectedFile,
     aspectRatio
   );
+  // if(files.length === 0 ){
 
+  // }
   return (
     <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
       <div
@@ -114,7 +116,7 @@ export function CropStep({
           style={isPointerDown ? {} : { transition: "transform .3s" }}
           className={styles.imgToCrop}
         >
-          {files[selectedFile].type === "video" ? (
+          {files[selectedFile]?.type === "video" ? (
             <video
               autoPlay
               muted

@@ -12,7 +12,7 @@ export const usePreviewImgVid = (
   aspectRatio: ARStateType
 ) => {
   useLayoutEffect(() => {
-    if (!croppingDiv.current) return;
+    if (!croppingDiv.current || files.length === 0) return;
     const { img, type, vidUrl } = files[selectedFile];
     if (type === "image") {
       croppingDiv.current.style.backgroundImage = `url("${img.src.replace(

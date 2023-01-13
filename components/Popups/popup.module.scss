@@ -235,17 +235,20 @@
 }
 .oneToOne {
   width: 100%;
-  // height: 100%;
   aspect-ratio: 1;
 }
 .fourToFive {
   aspect-ratio: 4/5;
-  // width: calc(100% * 4 / 5);
   height: 100%;
+  @media (max-width: 1030px) {
+    &.responsive {
+      width: 100%;
+      height: auto;
+    }
+  }
 }
 .sixteenToNine {
   width: 100%;
-  // height: calc(100% * 9 / 16);
   aspect-ratio: 16/9;
 }
 .cropContainer {
@@ -741,6 +744,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+    video {
+      position: absolute;
+    }
+    .playBtnImg {
+      position: relative;
+      width: 8rem;
+      height: 8rem;
+      pointer-events: none;
+    }
   }
   .canvasVidContainer {
     display: flex;

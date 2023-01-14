@@ -81,7 +81,7 @@ function usePositionVid(
     const { w, h } = widthAndHeightCalc({ parentW, parentH }, imgAR);
     vidRef.current.style.width = `${w}px`;
     vidRef.current.style.height = `${h}px`;
-    console.log(parentW, parentH);
+    // console.log(parentW, parentH);
     vidRef.current.style.transform = `translate(${x}%,${y}%)`;
   }
   useEffect(() => {

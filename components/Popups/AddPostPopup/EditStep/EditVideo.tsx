@@ -1,16 +1,35 @@
-import { useEffect } from "react";
+import { ImgVidFileType } from "..";
+import styles from "../../popup.module.scss";
+import { ChooseThumbNail } from "./ChooseThumbNail";
+import { videosFramesT } from "./EditSideBar";
 
-export function EditVideo() {
-  // useEffect
-  // useEffect(() => {}, []);
-  // const todos = useSyncExternalStore(
-  //   todosStore.subscribe,
-  //   todosStore.getSnapshot
-  // );
-
+type EditVideoType = {
+  files: ImgVidFileType[];
+  setFiles: React.Dispatch<React.SetStateAction<ImgVidFileType[]>>;
+  selectedFile: number;
+  videoFrames: videosFramesT[];
+};
+export function EditVideo({
+  files,
+  selectedFile,
+  setFiles,
+  videoFrames,
+}: EditVideoType) {
+  function findVideoFrames() {
+    let vidFrames = videoFrames.find(
+      (vidFrame) => vidFrame.id === files[selectedFile].id
+    );
+    if (!vidFrames) {
+      vidFrames = { id: "", frames: [""] };
+    }
+    return vidFrames;
+  }
   return (
-    <>
-      <h1>video hmmmm</h1>
-    </>
+    <div className={styles.editVideoContainer}>
+      <ChooseThumbNail
+        file={files[selectedFile]}
+        Vidframes={findVideoFrames()}
+      />
+    </div>
   );
 }

@@ -769,3 +769,23 @@
     // height: 100%;
   }
 }
+.editVideoContainer {
+  width: 100%;
+  padding: 1rem;
+  .oneFrame {
+    width: calc(100% / 5);
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+.chooseThumbnailContainer {
+  border-radius: 0.6rem;
+  overflow: hidden;
+  .thumbnailFrames {
+    display: flex;
+    width: 100%;
+    height: 100px;
+  }
+}

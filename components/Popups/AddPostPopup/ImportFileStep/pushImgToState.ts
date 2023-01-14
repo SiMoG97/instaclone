@@ -27,3 +27,11 @@ export function pushImgToState(
   });
   reader.readAsDataURL(file);
 }
+
+function dataURLToBlob(dataURL: string) {
+  var parts = dataURL.split(",");
+  var contentType = parts[0].split(":")[1];
+  var raw = parts[1];
+
+  return new Blob([raw], { type: contentType });
+}

@@ -57,21 +57,41 @@ export function getFramesFromVid({
       if (!ctx) return;
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       const src = canvas.toDataURL();
-      resolve(src);
+      fetch(src)
+        .then((res) => res.blob())
+        .then((blob) => {
+          const blobUrl = URL.createObjectURL(blob);
+          resolve(blobUrl);
+        });
     });
   });
 }
+// function dataURLtoBlob(dataurl: string) {
+//   // if (dataurl.length === 0) return "";
+//   let arr = dataurl.split(","),
+//     mime = arr[0].match(/:(.*?);/)[1],
+//     bstr = atob(arr[1]),
+//     n = bstr.length,
+//     u8arr = new Uint8Array(n);
+//   while (n--) {
+//     u8arr[n] = bstr.charCodeAt(n);
+//   }
+//   return new Blob([u8arr], { type: mime });
+// }
 
-export function getFiveFrame(
+export async function getFiveFrames(
   vidUrl: string,
-  duration: number,
-  frames: string[]
-): void {
-  for (let i = 0; i < 5; i++) {
-    const frameTime = i * (duration / 5);
-    getFramesFromVid({ vidUrl, frameTime }).then((src) => {
+  duration: number
+): Promise<string[]> {
+  return new Promise(async (resolve) => {
+    const frames: string[] = [];
+    for (let i = 0; i < 5; i++) {
+      const frameTime = i * (duration / 5);
+      const src = await getFramesFromVid({ vidUrl, frameTime });
       frames.push(src);
-      console.log(frames);
-    });
-  }
+      if (i === 4) {
+        resolve(frames);
+      }
+    }
+  });
 }

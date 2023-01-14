@@ -5,7 +5,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import html2canvas from "html2canvas";
 import PopupBody from "../PopupBody";
 import PopupContainer, { SetIsOpenType } from "../PopupContainer";
 import { CropStep } from "./CropStep";
@@ -39,6 +38,7 @@ export type ImgVidFileType = {
   vidUrl: string;
   startsAt: number;
   endsAt: number;
+  duration: number;
 };
 // export type VideoFileType = {
 //   vidUrl: string;
@@ -251,7 +251,6 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
   }, [alertMessage]);
 
   const PopupContainerCallback = () => {
-    console.log("click out");
     if (step !== 0) {
       const btns = discardPopupButtons;
       btns[0].method = () => {

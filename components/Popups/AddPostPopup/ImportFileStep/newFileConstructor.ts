@@ -35,6 +35,7 @@ export const newFileConstructor = ({
     vidUrl,
     startsAt,
     endsAt,
+    duration: endsAt,
   };
   return newFile;
 };

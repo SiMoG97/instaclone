@@ -99,7 +99,6 @@ export function ImportImgStep({
     let arrFiles = Object.keys(importedFiles)
       .map((obj: any) => importedFiles[obj])
       .slice(0, 10);
-    console.log(arrFiles);
     let uploadError = false;
     for (const file of arrFiles) {
       const fileSize = file.size;

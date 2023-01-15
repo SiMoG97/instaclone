@@ -2,6 +2,7 @@ import { ImgVidFileType } from "..";
 import styles from "../../popup.module.scss";
 import { ChooseThumbNail } from "./ChooseThumbNail";
 import { videosFramesT } from "./EditSideBar";
+import Trim from "./Trim";
 
 type EditVideoType = {
   files: ImgVidFileType[];
@@ -30,6 +31,17 @@ export function EditVideo({
         file={files[selectedFile]}
         Vidframes={findVideoFrames()}
       />
+      <Trim Vidframes={findVideoFrames()} />
     </div>
   );
 }
+
+// export function useFindVideoFrames({}:{videoFrames:videosFramesT[],files:}) {
+//   let vidFrames = videoFrames.find(
+//     (vidFrame) => vidFrame.id === files[selectedFile].id
+//   );
+//   if (!vidFrames) {
+//     vidFrames = { id: "", frames: [""] };
+//   }
+//   return vidFrames;
+// }

@@ -783,6 +783,30 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
+  .coverContaienr {
+    position: relative;
+    width: 100%;
+  }
+  .thumbnailPreview {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 7.4rem;
+    height: 10.6rem;
+    top: -1px;
+    border: 2px solid var(--bg-c-1);
+    border-radius: 0.6rem;
+    box-shadow: 0 0 4px rgb(0 0 0 / 15%), 0 0 10px rgb(0 0 0 / 30%);
+    overflow: hidden;
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+    }
+    video {
+      height: 100%;
+      object-fit: cover;
+    }
+  }
 }
 .chooseThumbnailContainer {
   .thumbnailFrames {

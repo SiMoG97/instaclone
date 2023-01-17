@@ -1,15 +1,20 @@
 import { useEffect, useRef, useState } from "react";
-import { ImgVidFileType } from "..";
-import styles from "../../popup.module.scss";
-import { videosFramesT } from "./EditSideBar";
+import { ImgVidFileType } from "../..";
+import styles from "../../../popup.module.scss";
+import { videosFramesT } from "../EditSideBar";
 import { ImagesPreview } from "./ImagesPreview";
 
 type ChooseThumbNailType = {
   file: ImgVidFileType;
   Vidframes: videosFramesT;
+  updateCoverTime(id: string, coverTime: number): void;
 };
 
-export function ChooseThumbNail({ file, Vidframes }: ChooseThumbNailType) {
+export function ChooseThumbNail({
+  file,
+  Vidframes,
+  updateCoverTime,
+}: ChooseThumbNailType) {
   const framesContainerRef = useRef<HTMLDivElement>(null);
   return (
     <div className={styles.chooseThumbnailContainer}>
@@ -17,8 +22,9 @@ export function ChooseThumbNail({ file, Vidframes }: ChooseThumbNailType) {
       <div className={styles.coverContaienr} ref={framesContainerRef}>
         <ImagesPreview Vidframes={Vidframes} />
         <CoverPreviewVid
-          vidUrl={file.vidUrl}
+          file={file}
           containerRef={framesContainerRef}
+          updateCoverTime={updateCoverTime}
         />
       </div>
     </div>
@@ -26,16 +32,24 @@ export function ChooseThumbNail({ file, Vidframes }: ChooseThumbNailType) {
 }
 
 function CoverPreviewVid({
-  vidUrl,
+  file,
   containerRef,
+  updateCoverTime,
 }: {
-  vidUrl: string;
+  file: ImgVidFileType;
   containerRef: React.RefObject<HTMLDivElement>;
+  updateCoverTime(id: string, coverTime: number): void;
 }) {
   const thumbSliderRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const { pointerDownHandler, pointerUpHandler, pointerMoveHandler } =
-    usePointerHandlers({ thumbSliderRef, containerRef, videoRef });
+    usePointerHandlers({
+      file,
+      thumbSliderRef,
+      containerRef,
+      videoRef,
+      updateCoverTime,
+    });
   return (
     <div
       onPointerDown={pointerDownHandler}
@@ -44,25 +58,38 @@ function CoverPreviewVid({
       ref={thumbSliderRef}
       className={styles.thumbnailPreview}
     >
-      <video ref={videoRef} src={vidUrl}></video>
+      <video ref={videoRef} src={file.vidUrl}></video>
     </div>
   );
 }
 
 function usePointerHandlers({
+  file,
   thumbSliderRef,
   containerRef,
   videoRef,
+  updateCoverTime,
 }: {
+  file: ImgVidFileType;
   thumbSliderRef: React.RefObject<HTMLDivElement>;
   containerRef: React.RefObject<HTMLDivElement>;
   videoRef: React.RefObject<HTMLVideoElement>;
+  updateCoverTime(id: string, coverTime: number): void;
 }) {
   const [isPointerDown, setIsPointerDown] = useState(false);
   const cords = useRef({
     startX: 0,
     slidPosition: 0,
   });
+
+  useEffect(() => {
+    if (!thumbSliderRef.current || !containerRef.current || !videoRef.current)
+      return;
+    const containerW = containerRef.current.offsetWidth;
+    const newDist = (file.coverTime * containerW) / file.duration;
+    thumbSliderRef.current.style.transform = `translateX(${newDist}%)`;
+    videoRef.current.currentTime = file.coverTime;
+  }, [file.id, containerRef.current?.offsetWidth]);
 
   function pointerDownHandler(e: React.PointerEvent<HTMLDivElement>) {
     if (!thumbSliderRef.current || !containerRef.current) return;
@@ -76,6 +103,9 @@ function usePointerHandlers({
 
   function pointerUpHandler() {
     setIsPointerDown(() => false);
+    if (!videoRef.current) return;
+    // console.log(videoRef.current.currentTime);
+    updateCoverTime(file.id, videoRef.current.currentTime);
   }
 
   function pointerMoveHandler(e: React.PointerEvent<HTMLDivElement>) {
@@ -114,12 +144,6 @@ function usePointerHandlers({
   };
 }
 
-function getTranslateXValue(element: HTMLElement) {
-  const matrex = window.getComputedStyle(element).getPropertyValue("transform");
-  const matrexArr = matrex.split(", ");
-  return parseInt(matrexArr[4]);
-}
-
 function updateVidTime({
   containerW,
   slideW,
@@ -134,3 +158,9 @@ function updateVidTime({
   const hundredP = containerW - slideW;
   return vidDur * (value / hundredP);
 }
+
+// function getTranslateXValue(element: HTMLElement) {
+//   const matrex = window.getComputedStyle(element).getPropertyValue("transform");
+//   const matrexArr = matrex.split(", ");
+//   return parseInt(matrexArr[4]);
+// }

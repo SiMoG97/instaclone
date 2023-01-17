@@ -13,7 +13,7 @@ type videoPreviewType = {
   aspectRatio: ARStateType;
 };
 export function VideoPreview({ file, aspectRatio }: videoPreviewType) {
-  const [isPaused, setIsPaused] = useState(false);
+  const [isPaused, setIsPaused] = useState(true);
   const vidRef = useRef<HTMLVideoElement>(null);
   const previewContainerRef = useRef<HTMLDivElement>(null);
 
@@ -48,7 +48,8 @@ export function VideoPreview({ file, aspectRatio }: videoPreviewType) {
     >
       <video
         loop
-        autoPlay
+        // autoPlay
+        autoPlay={false}
         muted
         ref={vidRef}
         src={file.vidUrl}

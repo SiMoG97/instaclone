@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import RangeSlide from "../../../FormComponents/RangeSlide";
+import RangeSlide from "../../../../FormComponents/RangeSlide";
 import { AdjustmentsSection } from "./AdjustmentsSection";
 import { Tabs } from "./EditImageTabs";
 import { FilterSection, filtersNames } from "./FilterSection";
-import styles from "../../popup.module.scss";
-import { FiltersType, ImgVidFileType } from "..";
+import styles from "../../../popup.module.scss";
+import { FiltersType, ImgVidFileType } from "../..";
 
 export type AdjustNameType =
   | "brightness"

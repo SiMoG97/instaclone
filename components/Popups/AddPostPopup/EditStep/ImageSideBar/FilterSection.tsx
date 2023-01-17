@@ -1,6 +1,6 @@
-import styles from "../../popup.module.scss";
+import styles from "../../../popup.module.scss";
 import Image from "next/image";
-import { FiltersType } from "..";
+import { FiltersType } from "../..";
 // import { filter, filtersRefT } from "./EditImage";
 
 type FilterSectionType = {

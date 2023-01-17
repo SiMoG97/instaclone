@@ -1,7 +1,7 @@
-import { ImgVidFileType } from "..";
-import styles from "../../popup.module.scss";
+import { ImgVidFileType } from "../..";
+import styles from "../../../popup.module.scss";
 import { ChooseThumbNail } from "./ChooseThumbNail";
-import { videosFramesT } from "./EditSideBar";
+import { videosFramesT } from "../EditSideBar";
 import Trim from "./Trim";
 
 type EditVideoType = {
@@ -25,13 +25,22 @@ export function EditVideo({
     }
     return vidFrames;
   }
+  function updateCoverTime(id: string, coverTime: number) {
+    const newFiles = files.map((file) => {
+      if (file.id !== id) return file;
+      file.coverTime = coverTime;
+      return file;
+    });
+    setFiles(() => newFiles);
+  }
   return (
     <div className={styles.editVideoContainer}>
       <ChooseThumbNail
         file={files[selectedFile]}
         Vidframes={findVideoFrames()}
+        updateCoverTime={updateCoverTime}
       />
-      <Trim Vidframes={findVideoFrames()} />
+      <Trim file={files[selectedFile]} Vidframes={findVideoFrames()} />
     </div>
   );
 }

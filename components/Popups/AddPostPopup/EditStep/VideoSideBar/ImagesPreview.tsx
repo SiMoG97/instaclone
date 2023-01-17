@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import styles from "../../popup.module.scss";
-import { videosFramesT } from "./EditSideBar";
+import styles from "../../../popup.module.scss";
+import { videosFramesT } from "../EditSideBar";
 
 export function ImagesPreview({ Vidframes }: { Vidframes: videosFramesT }) {
   return (

@@ -1,9 +1,9 @@
 //
 
 import { useEffect, useState } from "react";
-import RangeSlide from "../../../FormComponents/RangeSlide";
-import styles from "../../popup.module.scss";
-import { AdjustNameType } from "./EditSideBar";
+import RangeSlide from "../../../../FormComponents/RangeSlide";
+import styles from "../../../popup.module.scss";
+import { AdjustNameType } from "../EditSideBar";
 
 //
 

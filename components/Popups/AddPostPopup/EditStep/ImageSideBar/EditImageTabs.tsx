@@ -1,4 +1,4 @@
-import styles from "../../popup.module.scss";
+import styles from "../../../popup.module.scss";
 
 type TabsProps = {
   tab: "Filters" | "Adjustments";

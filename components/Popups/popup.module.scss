@@ -794,7 +794,7 @@
     width: 7.4rem;
     height: 10.6rem;
     top: -1px;
-    border: 2px solid var(--bg-c-1);
+    border: 2px solid #fff;
     border-radius: 0.6rem;
     box-shadow: 0 0 4px rgb(0 0 0 / 15%), 0 0 10px rgb(0 0 0 / 30%);
     overflow: hidden;
@@ -824,5 +824,36 @@
   width: 100%;
   .thumbnailFrames {
     height: 6.4rem;
+  }
+  .trimTime {
+    width: 100%;
+    height: 10px;
+    margin-top: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.8rem;
+  }
+  .dots {
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: var(--txt-c-4);
+    border-radius: 50%;
+    position: relative;
+    @for $i from 1 through 9 {
+      @if ($i - 1) % 4 == 0 {
+        &:nth-child(#{$i}) {
+          background-color: var(--txt-c-2);
+          &::after {
+            content: attr(data-time);
+            position: absolute;
+            color: var(--txt-c-2);
+            font-size: 1.2rem;
+            top: 7px;
+            left: -2px;
+          }
+        }
+      }
+    }
   }
 }

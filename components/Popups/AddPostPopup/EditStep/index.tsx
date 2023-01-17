@@ -4,7 +4,7 @@ import useResizeEffect from "../../../../Hooks/useResizeEffect";
 import styles from "../../popup.module.scss";
 import ArrowsAndDots from "../ArrowsAndDots";
 import { widthAndHeightCalc } from "../utils";
-import { applyMoonFilter } from "./filters";
+import { applyMoonFilter } from "./ImageSideBar/filters";
 import { ImagePreview } from "./ImagePreview";
 import { CanvasWidthHeight } from "./utils";
 import { VideoPreview } from "./VideoPreview";

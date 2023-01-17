@@ -3,11 +3,11 @@ import { FiltersType, ImgVidFileType } from "..";
 import RangeSlide from "../../../FormComponents/RangeSlide";
 import styles from "../../popup.module.scss";
 import { getFiveFrames, getFramesFromVid } from "../utils";
-import { AdjustmentsSection } from "./AdjustmentsSection";
-import { EditImage, filtersRefT } from "./EditImage";
-import { Tabs } from "./EditImageTabs";
-import { EditVideo } from "./EditVideo";
-import { FilterSection, filtersNames } from "./FilterSection";
+import { AdjustmentsSection } from "./ImageSideBar/AdjustmentsSection";
+import { EditImage, filtersRefT } from "./ImageSideBar/EditImage";
+import { Tabs } from "./ImageSideBar/EditImageTabs";
+import { EditVideo } from "./VideoSideBar/EditVideo";
+import { FilterSection, filtersNames } from "./ImageSideBar/FilterSection";
 
 type EditSideBarType = {
   files: ImgVidFileType[];

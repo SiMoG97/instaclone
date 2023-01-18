@@ -856,4 +856,58 @@
       }
     }
   }
+  .trimTimeline {
+    position: relative;
+  }
+  .videoRangeContainer {
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    .selectedRange {
+      width: 300px;
+      height: 100%;
+      border: solid 2px #fff;
+      border-left: none;
+      border-right: none;
+      box-shadow: 0 4px 4px -4px rgb(0 0 0 / 15%), 0 4px 10px rgb(0 0 0 / 30%);
+      border-radius: 0.6rem;
+    }
+    .darkArea {
+      position: relative;
+      width: 40%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 0.6rem;
+    }
+    .startsFrom {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .endsAt {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    $thmbSize: 10px;
+    .thumb {
+      position: absolute;
+      width: $thmbSize;
+      height: 100%;
+      background-color: red;
+      border-radius: 0.6rem;
+    }
+    .leftThumb {
+      right: -$thmbSize;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .rightThumb {
+      left: -$thmbSize;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
 }
+// ew-resize

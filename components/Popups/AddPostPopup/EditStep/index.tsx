@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { ARStateType, ImgVidFileType, originalArCalcul } from "..";
-import useResizeEffect from "../../../../Hooks/useResizeEffect";
+import useWindowEventHandler from "../../../../Hooks/useWindowEventHandler";
 import styles from "../../popup.module.scss";
 import ArrowsAndDots from "../ArrowsAndDots";
 import { widthAndHeightCalc } from "../utils";

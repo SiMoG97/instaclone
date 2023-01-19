@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { cordType } from ".";
 import { ImgVidFileType } from "..";
+import useThrottle from "../../../../Hooks/useThrottle";
 
 type useDragImgVidHandlersT = {
   files: ImgVidFileType[];
@@ -48,18 +49,22 @@ export function useDragImgVidHandlers({
     setFiles(() => newFiles);
   };
   let [xPercent, yPercent] = [0, 0];
-  const PointerMoveHandler = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!croppingDiv.current || !cropAreaRef.current || !isPointerDown) return;
-    const { startX, startY } = cords.current;
-    const { width, height } = croppingDiv.current.getBoundingClientRect();
-    const { scale, x, y } = files[selectedFile];
-    const distX = ((e.clientX - startX) * 100) / width;
-    const distY = ((e.clientY - startY) * 100) / height;
-    xPercent = x + distX;
-    yPercent = y + distY;
-    croppingDiv.current.style.transform = `scale(${scale}) translate(${xPercent}%,${yPercent}%)`;
-  };
-
+  const PointerMoveHandler = useThrottle<React.PointerEvent<HTMLDivElement>>(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!croppingDiv.current || !cropAreaRef.current || !isPointerDown)
+        return;
+      console.log("called");
+      const { startX, startY } = cords.current;
+      const { width, height } = croppingDiv.current.getBoundingClientRect();
+      const { scale, x, y } = files[selectedFile];
+      const distX = ((e.clientX - startX) * 100) / width;
+      const distY = ((e.clientY - startY) * 100) / height;
+      xPercent = x + distX;
+      yPercent = y + distY;
+      croppingDiv.current.style.transform = `scale(${scale}) translate(${xPercent}%,${yPercent}%)`;
+    },
+    30
+  );
   return {
     isPointerDown,
     pointerDownHandler,

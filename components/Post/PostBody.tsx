@@ -13,6 +13,7 @@ import React, {
   useState,
 } from "react";
 import { SliderDots } from "../CommonComponents/SliderDots";
+import useWindowEventHandler from "../../Hooks/useWindowEventHandler";
 
 type PostBodyProps = {
   // children: ReactNode;
@@ -132,17 +133,8 @@ const PostBody = ({ sources }: PostBodyProps) => {
       }px)`;
     }
   }, [selectedImg]);
-  useLayoutEffect(() => {
-    const postContainer = postBodyRef.current;
-    if (postContainer) {
-      window.addEventListener("resize", sliderResizer);
-    }
-    return () => {
-      if (postContainer) {
-        window.removeEventListener("resize", sliderResizer);
-      }
-    };
-  }, [sliderResizer]);
+
+  useWindowEventHandler(sliderResizer, [sliderResizer]);
 
   return (
     <div ref={postBodyRef} className={styles.postBody}>

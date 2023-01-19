@@ -10,6 +10,7 @@ import styles from "./suggestions.module.scss";
 import Button from "../Button";
 import Link from "next/link";
 import PicUsername from "../PicUsername";
+import useWindowEventHandler from "../../Hooks/useWindowEventHandler";
 
 type props = {
   postsContainer: MutableRefObject<HTMLDivElement | null>;
@@ -22,7 +23,6 @@ const Suggestions = ({ postsContainer, myUserName, myFullName }: props) => {
 
   const calculatingSuggestPos = useCallback(() => {
     if (!postsContainer.current) return;
-    // if (!suggesEl.current) return;
 
     if (window.innerWidth <= 1000) {
       setShowSugges(false);
@@ -39,11 +39,8 @@ const Suggestions = ({ postsContainer, myUserName, myFullName }: props) => {
     calculatingSuggestPos();
   }, [calculatingSuggestPos]);
 
-  useLayoutEffect(() => {
-    window.addEventListener("resize", () => {
-      calculatingSuggestPos();
-    });
-  });
+  useWindowEventHandler(calculatingSuggestPos, [], "resize", 20);
+
   return showSugges ? (
     <div className={styles.suggestions} ref={suggesEl}>
       <div className={`${styles.suggestionHeader} ${styles.suggestionUnit}`}>

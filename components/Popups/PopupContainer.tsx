@@ -11,6 +11,7 @@ import {
 import { useTransition, animated } from "react-spring";
 import styles from "./popup.module.scss";
 import CrossX from "../../public/cross.svg";
+import useWindowEventHandler from "../../Hooks/useWindowEventHandler";
 
 export type SetIsOpenType = Dispatch<SetStateAction<boolean>>;
 
@@ -107,18 +108,10 @@ const PopupContainer = ({
     },
     [animateDesk, animateMobile]
   );
-
-  useEffect(() => {
-    let x = window.matchMedia("(max-width: 768px)");
-    window.addEventListener("resize", () => {
-      checkMediaQuery(x);
-    });
-    return () => {
-      window.removeEventListener("resize", () => {
-        checkMediaQuery(x);
-      });
-    };
-  }, [isOpen, checkMediaQuery]);
+  useWindowEventHandler(
+    checkMediaQuery.bind(this, window.matchMedia("(max-width: 768px)")),
+    [isOpen, checkMediaQuery]
+  );
   useEffect(() => {
     let x = window.matchMedia("(max-width: 768px)");
     checkMediaQuery(x);

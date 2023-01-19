@@ -1,6 +1,6 @@
 import { useLayoutEffect } from "react";
 import { ARStateType, ImgVidFileType } from "..";
-import useResizeEffect from "../../../../Hooks/useResizeEffect";
+import useWindowEventHandler from "../../../../Hooks/useWindowEventHandler";
 import { widthAndHeightCalc } from "../utils";
 
 export const useImgToBgDimensions = (
@@ -36,7 +36,7 @@ export const useImgToBgDimensions = (
     imageToBackground();
   }, [files, croppingDiv, selectedFile, aspectRatio]);
 
-  useResizeEffect(imageToBackground, [
+  useWindowEventHandler(imageToBackground, [
     files,
     croppingDiv,
     selectedFile,

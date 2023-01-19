@@ -11,6 +11,7 @@ import PostHeader from "../PostHeader";
 import PostReactions from "../PostReactions";
 import styles from "./postPopup.module.scss";
 import Link from "next/link";
+import useWindowEventHandler from "../../../Hooks/useWindowEventHandler";
 
 type PostPopupProps = {
   sources: string[];
@@ -27,17 +28,15 @@ const PostPopup = ({ sources, isOpen, setIsOpen }: PostPopupProps) => {
 
   const CalculatePostContainerWidth = () => {
     if (!imgVidSectionRef.current) return;
+    console.log("calculate");
     const height = imgVidSectionRef.current.clientHeight;
     imgVidSectionRef.current.style.width = `${height}px`;
   };
-
   useLayoutEffect(() => {
     CalculatePostContainerWidth();
-    window.addEventListener("resize", CalculatePostContainerWidth);
-    return () => {
-      window.removeEventListener("resize", CalculatePostContainerWidth);
-    };
   }, []);
+
+  useWindowEventHandler(CalculatePostContainerWidth);
 
   return (
     <>

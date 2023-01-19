@@ -17,6 +17,7 @@ import ArrowR from "../../../../public/arrowR.svg";
 import { newFileConstructor } from "../ImportFileStep/newFileConstructor";
 import { pushVidToState } from "../ImportFileStep/pushVidToState";
 import { pushImgToState } from "../ImportFileStep/pushImgToState";
+import useWindowEventHandler from "../../../../Hooks/useWindowEventHandler";
 
 type AdditionalPostsDropupProps = AdditionImgsSlideProps & {
   // isOpen: boolean;
@@ -189,12 +190,8 @@ const AdditionImgsSlide = ({
   useEffect(() => {
     sliderHandler();
   }, []);
-  useLayoutEffect(() => {
-    window.addEventListener("resize", sliderHandler);
-    return () => {
-      window.removeEventListener("resize", sliderHandler);
-    };
-  }, []);
+
+  useWindowEventHandler(sliderHandler);
 
   useEffect(() => {
     if (files.length === 0) {

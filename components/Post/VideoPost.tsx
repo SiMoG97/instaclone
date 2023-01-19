@@ -3,6 +3,7 @@ import styles from "./postStyles.module.scss";
 import MutedSvg from "../../public/muted.svg";
 import UnmutedSvg from "../../public/unmuted.svg";
 import Image from "next/image";
+import useWindowEventHandler from "../../Hooks/useWindowEventHandler";
 type VideoPostProps = {
   src: string;
   isSelected: boolean;
@@ -27,12 +28,11 @@ export const VideoPost = ({ src, isSelected }: VideoPostProps) => {
     playVidWhenVisible();
   }, [isSelected, playVidWhenVisible]);
 
-  useEffect(() => {
-    window.addEventListener("scroll", playVidWhenVisible);
-    return () => {
-      window.removeEventListener("scroll", playVidWhenVisible);
-    };
-  }, [isSelected, playVidWhenVisible]);
+  useWindowEventHandler(
+    playVidWhenVisible,
+    [isSelected, playVidWhenVisible],
+    "scroll"
+  );
 
   const handleTimeUpdate = () => {
     if (rangeRef.current && videoRef.current) {

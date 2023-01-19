@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ImgVidFileType } from "../..";
+import useThrottle from "../../../../../Hooks/useThrottle";
 import styles from "../../../popup.module.scss";
 import { videosFramesT } from "../EditSideBar";
 import { ImagesPreview } from "./ImagesPreview";
@@ -104,38 +105,39 @@ function usePointerHandlers({
   function pointerUpHandler() {
     setIsPointerDown(() => false);
     if (!videoRef.current) return;
-    // console.log(videoRef.current.currentTime);
     updateCoverTime(file.id, videoRef.current.currentTime);
   }
 
-  function pointerMoveHandler(e: React.PointerEvent<HTMLDivElement>) {
-    if (
-      !thumbSliderRef.current ||
-      !isPointerDown ||
-      !containerRef.current ||
-      !videoRef.current
-    )
-      return;
+  const pointerMoveHandler = useThrottle(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (
+        !thumbSliderRef.current ||
+        !isPointerDown ||
+        !containerRef.current ||
+        !videoRef.current
+      )
+        return;
+      const slideW = thumbSliderRef.current.offsetWidth;
+      const containerW = containerRef.current.offsetWidth;
+      const dist = e.clientX - cords.current.startX;
+      let newdist = cords.current.slidPosition + dist;
 
-    const slideW = thumbSliderRef.current.offsetWidth;
-    const containerW = containerRef.current.offsetWidth;
-    const dist = e.clientX - cords.current.startX;
-    let newdist = cords.current.slidPosition + dist;
+      if (newdist <= 0) {
+        newdist = 0;
+      } else if (newdist >= containerW - slideW) {
+        newdist = containerW - slideW;
+      }
+      thumbSliderRef.current.style.transform = `translateX(${newdist}px)`;
 
-    if (newdist <= 0) {
-      newdist = 0;
-    } else if (newdist >= containerW - slideW) {
-      newdist = containerW - slideW;
-    }
-    thumbSliderRef.current.style.transform = `translateX(${newdist}px)`;
-
-    videoRef.current.currentTime = updateVidTime({
-      slideW,
-      containerW,
-      value: newdist,
-      vidDur: videoRef.current.duration,
-    });
-  }
+      videoRef.current.currentTime = updateVidTime({
+        slideW,
+        containerW,
+        value: newdist,
+        vidDur: videoRef.current.duration,
+      });
+    },
+    60
+  );
 
   return {
     pointerDownHandler,

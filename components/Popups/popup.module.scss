@@ -866,27 +866,45 @@
     justify-content: space-between;
     width: 100%;
     height: 100%;
+    .controlsContainer {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      // background-color: red;
+      border-radius: 0.6rem;
+    }
     .selectedRange {
-      width: 300px;
+      position: absolute;
+      left: 30%;
+      width: 128px;
       height: 100%;
       border: solid 2px #fff;
       border-left: none;
       border-right: none;
       box-shadow: 0 4px 4px -4px rgb(0 0 0 / 15%), 0 4px 10px rgb(0 0 0 / 30%);
+      // border-radius: 0.6rem;
+    }
+    .darkAreaContainer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
       border-radius: 0.6rem;
     }
     .darkArea {
-      position: relative;
-      width: 40%;
+      position: absolute;
+      width: 30%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
       border-radius: 0.6rem;
     }
-    .startsFrom {
+    .leftArea {
+      left: 0;
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
     }
-    .endsAt {
+    .rightArea {
+      right: 0;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
@@ -895,16 +913,28 @@
       position: absolute;
       width: $thmbSize;
       height: 100%;
-      background-color: red;
+      background-color: #fff;
       border-radius: 0.6rem;
+      z-index: 1;
+      cursor: ew-resize;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      > div {
+        pointer-events: none;
+        background-color: #000;
+        width: 0.2rem;
+        height: 2.3rem;
+      }
     }
     .leftThumb {
-      right: -$thmbSize;
+      left: calc(30% - $thmbSize);
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
     }
     .rightThumb {
-      left: -$thmbSize;
+      right: calc(30% - $thmbSize);
+      // left: -$thmbSize;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }

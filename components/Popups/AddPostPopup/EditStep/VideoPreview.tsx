@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ARStateType, ImgVidFileType } from "..";
-import useResizeEffect from "../../../../Hooks/useResizeEffect";
+import useWindowEventHandler from "../../../../Hooks/useWindowEventHandler";
 import { widthAndHeightCalc } from "../utils";
 import styles from "../../popup.module.scss";
 import { CalcOriginal } from ".";
@@ -88,5 +88,5 @@ function usePositionVid(
   useEffect(() => {
     positionVid();
   }, [file]);
-  useResizeEffect(positionVid, [file]);
+  useWindowEventHandler(positionVid, [file]);
 }

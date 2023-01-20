@@ -33,6 +33,13 @@ export function EditVideo({
     });
     setFiles(() => newFiles);
   }
+  function updateVideoStartAndEnd(newFile: ImgVidFileType) {
+    const newFiles = files.map((file) => {
+      if (file.id !== newFile.id) return file;
+      return newFile;
+    });
+    setFiles(() => newFiles);
+  }
   return (
     <div className={styles.editVideoContainer}>
       <ChooseThumbNail
@@ -40,7 +47,11 @@ export function EditVideo({
         Vidframes={findVideoFrames()}
         updateCoverTime={updateCoverTime}
       />
-      <Trim file={files[selectedFile]} Vidframes={findVideoFrames()} />
+      <Trim
+        file={files[selectedFile]}
+        Vidframes={findVideoFrames()}
+        updateVideoStartAndEnd={updateVideoStartAndEnd}
+      />
     </div>
   );
 }

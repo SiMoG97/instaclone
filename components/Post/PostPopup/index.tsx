@@ -28,7 +28,6 @@ const PostPopup = ({ sources, isOpen, setIsOpen }: PostPopupProps) => {
 
   const CalculatePostContainerWidth = () => {
     if (!imgVidSectionRef.current) return;
-    console.log("calculate");
     const height = imgVidSectionRef.current.clientHeight;
     imgVidSectionRef.current.style.width = `${height}px`;
   };

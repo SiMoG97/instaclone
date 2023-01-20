@@ -1,57 +1,73 @@
-import { useEffect, useRef } from "react";
+import React, { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 import { ImgVidFileType } from "../..";
+import useThrottle from "../../../../../Hooks/useThrottle";
 import styles from "../../../popup.module.scss";
 import { videosFramesT } from "../EditSideBar";
 import { ImagesPreview } from "./ImagesPreview";
+import { useInitControlPositions, usePointerEventHandlers } from "./TrimLogic";
+
+type PointerT = React.PointerEvent<HTMLDivElement>;
+type DivRefT = React.RefObject<HTMLDivElement>;
+export type ControlValuesT = {
+  lThumbX: number;
+  rThumbX: number;
+  thumbW: number;
+  leftAreaW: number;
+  rightAreaW: number;
+  oneSecGap: number;
+};
+type ControlsT = React.MutableRefObject<ControlValuesT>;
 
 type TrimType = {
   file: ImgVidFileType;
   Vidframes: videosFramesT;
+  updateVideoStartAndEnd(newFile: ImgVidFileType): void;
 };
 
-export default function Trim({ file, Vidframes }: TrimType) {
+export default function Trim({
+  file,
+  Vidframes,
+  updateVideoStartAndEnd,
+}: TrimType) {
+  const selectedArea = useRef<HTMLDivElement>(null);
   const leftThumbRef = useRef<HTMLDivElement>(null);
   const rightThumbRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const leftAreaRef = useRef<HTMLDivElement>(null);
   const rightAreaRef = useRef<HTMLDivElement>(null);
-  const controls = useRef({
+  const controls = useRef<ControlValuesT>({
     lThumbX: 0,
     rThumbX: 0,
+    thumbW: 0,
     leftAreaW: 0,
     rightAreaW: 0,
+    oneSecGap: 0,
   });
-  useEffect(() => {
-    const timeoutID = setTimeout(() => {
-      if (!containerRef.current) return;
-      initControlsCords();
-    }, 300);
-    return () => {
-      clearTimeout(timeoutID);
-    };
-  }, []);
-  function initControlsCords() {
-    if (
-      !leftThumbRef.current ||
-      !rightThumbRef.current ||
-      !containerRef.current ||
-      !leftAreaRef.current ||
-      !rightAreaRef.current
-    )
-      return;
-    const { x: containerX, width: containerW } =
-      containerRef.current.getBoundingClientRect();
-    const thumbW = leftThumbRef.current.getBoundingClientRect().width;
-    const lThmbX = leftThumbRef.current.getBoundingClientRect().x - containerX;
-    const rThumbX =
-      rightThumbRef.current.getBoundingClientRect().x - containerX;
 
-    console.log("containerX", containerX);
-    console.log("containerW", containerW);
-    console.log("lThmbX", lThmbX);
-    console.log("rThumbX", rThumbX);
-    console.log("thumbW", thumbW);
-  }
+  useInitControlPositions({
+    file,
+    containerRef,
+    leftAreaRef,
+    leftThumbRef,
+    rightAreaRef,
+    rightThumbRef,
+    selectedArea,
+    controls,
+  });
+
+  const { pointerDownHandler, pointerUpHandler, pointerMoveHandler } =
+    usePointerEventHandlers({
+      file,
+      containerRef,
+      leftThumbRef,
+      leftAreaRef,
+      rightThumbRef,
+      rightAreaRef,
+      selectedArea,
+      controls,
+      updateVideoStartAndEnd,
+    });
+
   return (
     <div className={styles.Trim}>
       <h3 className={styles.editSectionTitle}>Trim</h3>
@@ -72,13 +88,19 @@ export default function Trim({ file, Vidframes }: TrimType) {
             <div
               className={`${styles.thumb} ${styles.leftThumb}`}
               ref={leftThumbRef}
+              onPointerDown={pointerDownHandler}
+              onPointerUp={pointerUpHandler}
+              onPointerMove={pointerMoveHandler}
             >
               <div></div>
             </div>
-            <div className={styles.selectedRange}></div>
+            <div className={styles.selectedRange} ref={selectedArea}></div>
             <div
               className={`${styles.thumb} ${styles.rightThumb}`}
               ref={rightThumbRef}
+              onPointerDown={pointerDownHandler}
+              onPointerUp={pointerUpHandler}
+              onPointerMove={pointerMoveHandler}
             >
               <div></div>
             </div>
@@ -102,17 +124,4 @@ function BottomTimeTrim({ duration }: { duration: number }) {
       ))}
     </div>
   );
-}
-
-function calcLeftArea() {
-  console.log("hmmmmm");
-}
-function calcRightArea() {
-  console.log("hmmmmm");
-}
-function fromPxToTime() {
-  console.log("hmmmmm");
-}
-function fromTimeToPx() {
-  console.log("hmmmmm");
 }

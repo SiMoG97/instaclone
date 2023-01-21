@@ -1,13 +1,10 @@
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { ImgVidFileType } from "../..";
-import useThrottle from "../../../../../Hooks/useThrottle";
 import styles from "../../../popup.module.scss";
 import { videosFramesT } from "../EditSideBar";
 import { ImagesPreview } from "./ImagesPreview";
 import { useInitControlPositions, usePointerEventHandlers } from "./TrimLogic";
 
-type PointerT = React.PointerEvent<HTMLDivElement>;
-type DivRefT = React.RefObject<HTMLDivElement>;
 export type ControlValuesT = {
   lThumbX: number;
   rThumbX: number;
@@ -16,7 +13,6 @@ export type ControlValuesT = {
   rightAreaW: number;
   oneSecGap: number;
 };
-type ControlsT = React.MutableRefObject<ControlValuesT>;
 
 type TrimType = {
   file: ImgVidFileType;

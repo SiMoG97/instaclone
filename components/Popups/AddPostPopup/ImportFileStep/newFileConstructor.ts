@@ -37,6 +37,7 @@ export const newFileConstructor = ({
     endsAt,
     duration: endsAt,
     coverTime: 0,
+    sound: true,
   };
   return newFile;
 };

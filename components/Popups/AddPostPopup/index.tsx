@@ -40,6 +40,7 @@ export type ImgVidFileType = {
   endsAt: number;
   duration: number;
   coverTime: number;
+  sound: boolean;
 };
 // export type VideoFileType = {
 //   vidUrl: string;

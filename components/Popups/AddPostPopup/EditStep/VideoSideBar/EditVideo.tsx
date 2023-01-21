@@ -3,6 +3,7 @@ import styles from "../../../popup.module.scss";
 import { ChooseThumbNail } from "./ChooseThumbNail";
 import { videosFramesT } from "../EditSideBar";
 import Trim from "./Trim";
+import SoundOnOff from "./SoundOnOff";
 
 type EditVideoType = {
   files: ImgVidFileType[];
@@ -40,6 +41,14 @@ export function EditVideo({
     });
     setFiles(() => newFiles);
   }
+
+  function updateSoundOnOff(newFile: ImgVidFileType) {
+    const newFiles = files.map((file) => {
+      if (file.id !== newFile.id) return file;
+      return newFile;
+    });
+    setFiles(() => newFiles);
+  }
   return (
     <div className={styles.editVideoContainer}>
       <ChooseThumbNail
@@ -51,6 +60,10 @@ export function EditVideo({
         file={files[selectedFile]}
         Vidframes={findVideoFrames()}
         updateVideoStartAndEnd={updateVideoStartAndEnd}
+      />
+      <SoundOnOff
+        file={files[selectedFile]}
+        updateSoundOnOff={updateSoundOnOff}
       />
     </div>
   );

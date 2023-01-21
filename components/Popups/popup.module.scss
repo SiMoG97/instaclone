@@ -940,4 +940,17 @@
     }
   }
 }
-// ew-resize
+.soundOnOffContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4rem;
+  font-size: 1.8rem;
+  color: var(--txt-c-2);
+  .SwitchSoundBtn {
+    height: 2.5rem;
+    div:nth-child(3) {
+      width: 2.2rem;
+      height: 2.2rem;
+    }
+  }
+}

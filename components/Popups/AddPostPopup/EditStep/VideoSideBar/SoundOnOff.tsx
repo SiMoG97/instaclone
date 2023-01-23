@@ -18,6 +18,11 @@ function SoundOnOff({ file, updateSoundOnOff }: SoundOnOffType) {
     updateSoundOnOff(newFile);
   }, [isSoundOn]);
 
+  // update sound state if the user change the current video
+  useEffect(() => {
+    setIsSoundOn(() => file.sound);
+  }, [file.id]);
+
   return (
     <div className={styles.soundOnOffContainer}>
       <div>Sound on</div>
@@ -28,7 +33,7 @@ function SoundOnOff({ file, updateSoundOnOff }: SoundOnOffType) {
           clickHandler={() => {
             setIsSoundOn((prev) => !prev);
           }}
-          className={styles.SwitchSoundBtn}
+          variation="large"
         />
       </div>
     </div>

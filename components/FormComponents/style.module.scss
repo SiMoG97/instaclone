@@ -1,50 +1,67 @@
 .switchLabel {
-  width: 4rem;
-  height: 2rem;
   display: flex;
   border-radius: 5rem;
   overflow: hidden;
   position: relative;
   justify-content: space-between;
-  outline: 1px solid var(--txt-c-3);
+  background-color: rgb(142, 142, 142);
+  transition: 0.3s;
   cursor: pointer;
-  > div {
-    height: 100%;
-    transition: 0.2s;
+  &.normal {
+    --nl-w: 4rem;
+    --nl-h: 2rem;
+    width: var(--nl-w);
+    height: var(--nl-h);
+    .circle {
+      --nl-pad-x: 0.3rem;
+      --nl-cicle-w-h: calc(var(--nl-h) - 0.4rem);
+      height: var(--nl-cicle-w-h);
+      left: var(--nl-pad-x);
+    }
   }
-  > div:nth-child(1) {
-    background-color: var(--helper-primary);
-    width: 30%;
-  }
-  > div:nth-child(2) {
-    width: 70%;
+  &.large {
+    --lg-w: 4.4rem;
+    --lg-h: 2.8rem;
+    width: var(--lg-w);
+    height: var(--lg-h);
+    .circle {
+      --lg-pad-x: 0.3rem;
+      --lg-cicle-w-h: calc(var(--lg-h) - 0.6rem);
+      height: var(--lg-cicle-w-h);
+      left: var(--lg-pad-x);
+    }
   }
   .circle {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
     position: absolute;
-    background-color: var(--txt-c-2);
-    border: solid 3px var(--bg-c-1);
-    transition: 0.2s;
-    transform: translateX(0);
+    top: 50%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: transform 0.3s;
+    transform: translate(0, -50%);
   }
 }
 .checkboxInput {
   display: none;
 }
 .checkboxInput:checked ~ .switchLabel {
-  > div:nth-child(1) {
-    width: 70%;
+  background-color: var(--helper-primary);
+  &.large {
+    .circle {
+      transform: translate(100%, -50%);
+    }
   }
-  > div:nth-child(2) {
-    width: 30%;
+  &.normal .circle {
+    transform: translate(
+      calc(var(--nl-w) - var(--nl-cicle-w-h) - var(--nl-pad-x) * 2),
+      -50%
+    );
   }
-  .circle {
-    transform: translateX(100%);
-    left: auto;
-    border: solid 3px var(--helper-primary);
-    background-color: #fff;
+  &.large .circle {
+    transform: translate(
+      calc(var(--lg-w) - var(--lg-cicle-w-h) - var(--lg-pad-x) * 2),
+      -50%
+    );
   }
 }
 .something {

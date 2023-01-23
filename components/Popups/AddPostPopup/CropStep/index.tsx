@@ -89,9 +89,7 @@ export function CropStep({
     selectedFile,
     aspectRatio
   );
-  // if(files.length === 0 ){
 
-  // }
   return (
     <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
       <div

@@ -5,13 +5,13 @@ type switchProps = {
   id: string;
   isChecked: boolean;
   clickHandler: () => void;
-  className?: string;
+  variation?: "normal" | "large";
 };
 const SwitchButton = ({
   id,
   isChecked = false,
   clickHandler,
-  className = "",
+  variation = "normal",
 }: switchProps) => {
   return (
     <div>
@@ -23,9 +23,12 @@ const SwitchButton = ({
         onClick={clickHandler}
         onChange={() => {}}
       />
-      <label htmlFor={id} className={`${styles.switchLabel} ${className}`}>
-        <div></div>
-        <div></div>
+      <label
+        htmlFor={id}
+        className={`${styles.switchLabel} ${
+          variation === "large" ? styles.large : styles.normal
+        }`}
+      >
         <div className={styles.circle}></div>
       </label>
     </div>

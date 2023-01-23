@@ -30,6 +30,11 @@ export function VideoPreview({ file, aspectRatio }: videoPreviewType) {
       return !prev;
     });
   }
+  // if the user change the video stop the current video
+  useEffect(() => {
+    setIsPaused(() => true);
+  }, [file.id]);
+
   return (
     <div
       ref={previewContainerRef}
@@ -48,9 +53,8 @@ export function VideoPreview({ file, aspectRatio }: videoPreviewType) {
     >
       <video
         loop
-        // autoPlay
         autoPlay={false}
-        muted
+        muted={!file.sound}
         ref={vidRef}
         src={file.vidUrl}
         onClick={togglePause}

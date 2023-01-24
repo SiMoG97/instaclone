@@ -87,8 +87,10 @@ export default function Trim({
               onPointerDown={pointerDownHandler}
               onPointerUp={pointerUpHandler}
               onPointerMove={pointerMoveHandler}
+              // data-curr-time="chi7aja"
             >
-              <div></div>
+              <div data-curr-time="asdfasdf"></div>
+              {/* <div></div> */}
             </div>
             <div className={styles.selectedRange} ref={selectedArea}></div>
             <div
@@ -97,8 +99,9 @@ export default function Trim({
               onPointerDown={pointerDownHandler}
               onPointerUp={pointerUpHandler}
               onPointerMove={pointerMoveHandler}
+              // data-curr-time="asdfasdg"
             >
-              <div></div>
+              <div data-curr-time="asdf"></div>
             </div>
           </div>
         </div>

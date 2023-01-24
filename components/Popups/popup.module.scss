@@ -921,22 +921,41 @@
       justify-content: center;
       align-items: center;
       transition: var(--transition-d);
+      &:active > div::before {
+        opacity: 1;
+      }
       > div {
+        position: relative;
         pointer-events: none;
         background-color: #000;
         width: 0.2rem;
         height: 2.3rem;
+        &::before {
+          content: attr(data-curr-time);
+          color: var(--txt-c-1);
+          position: absolute;
+          top: -40px;
+          display: inline-block;
+          font-size: 1.2rem;
+          opacity: 0;
+        }
       }
     }
     .leftThumb {
       left: calc(30% - $thmbSize);
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
+      > div::before {
+        left: -10px;
+      }
     }
     .rightThumb {
       right: calc(30% - $thmbSize);
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
+      > div::before {
+        left: -16px;
+      }
     }
   }
 }

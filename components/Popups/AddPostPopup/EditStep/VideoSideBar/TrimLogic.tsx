@@ -12,7 +12,8 @@ function calcLeftArea(
   leftAreaRef: DivRefT,
   selectedArea: DivRefT,
   controls: ControlsT,
-  clientX: number
+  clientX: number,
+  duration: number
 ) {
   if (
     !containerRef.current ||
@@ -21,7 +22,8 @@ function calcLeftArea(
     !selectedArea.current
   )
     return;
-  const { x: containerX } = containerRef.current.getBoundingClientRect();
+  const { x: containerX, width: containerW } =
+    containerRef.current.getBoundingClientRect();
   const { rThumbX, oneSecGap, thumbW } = controls.current;
   let lThumbPos = clientX - containerX;
   if (lThumbPos <= 0) {
@@ -31,6 +33,12 @@ function calcLeftArea(
   }
   leftThumbRef.current.style.left = `${lThumbPos}px`;
   leftAreaRef.current.style.width = `${lThumbPos}px`;
+  if (leftThumbRef.current.firstChild) {
+    const child = leftThumbRef.current.firstChild as HTMLDivElement;
+    child.dataset.currTime = formatTime(
+      fromPxToTime(lThumbPos, duration, containerW)
+    );
+  }
   selectedArea.current.style.left = `${lThumbPos + thumbW}px`;
   selectedArea.current.style.width = `${rThumbX - thumbW - lThumbPos}px`;
   controls.current.lThumbX = lThumbPos;
@@ -42,7 +50,8 @@ function calcRightArea(
   rightAreaRef: DivRefT,
   selectedArea: DivRefT,
   controls: ControlsT,
-  clientX: number
+  clientX: number,
+  duration: number
 ) {
   if (
     !containerRef.current ||
@@ -63,11 +72,27 @@ function calcRightArea(
   }
   const rAreaW = containerW - rThumbPos - thumbW;
   rightThumbRef.current.style.left = `${rThumbPos}px`;
+  if (rightThumbRef.current.firstChild) {
+    const child = rightThumbRef.current.firstChild as HTMLDivElement;
+    child.dataset.currTime = formatTime(
+      fromPxToTime(rThumbPos, duration, containerW)
+    );
+  }
   rightAreaRef.current.style.width = `${rAreaW}px`;
   selectedArea.current.style.left = `${lThumbX + thumbW}px`;
   selectedArea.current.style.width = `${rThumbPos - thumbW - lThumbX}px`;
   controls.current.rThumbX = rThumbPos;
   controls.current.rightAreaW = rAreaW;
+}
+function formatTime(seconds: number) {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds - hours * 3600) / 60);
+  const secs = Math.floor(seconds - hours * 3600 - minutes * 60);
+
+  let strMin = `${minutes < 10 ? "0" + minutes : minutes}`;
+  let strSec = `${secs < 10 ? "0" + secs : secs}`;
+
+  return strMin + ":" + strSec;
 }
 function fromPxToTime(pos: number, duration: number, containerW: number) {
   return (pos * duration) / containerW;
@@ -140,7 +165,8 @@ export function usePointerEventHandlers({
         leftAreaRef,
         selectedArea,
         controls,
-        e.clientX
+        e.clientX,
+        file.duration
       );
     } else {
       calcRightArea(
@@ -149,7 +175,8 @@ export function usePointerEventHandlers({
         rightAreaRef,
         selectedArea,
         controls,
-        e.clientX
+        e.clientX,
+        file.duration
       );
     }
   }, 50);
@@ -191,12 +218,23 @@ export function useInitControlPositions({
     controls.current.thumbW = thumbW;
 
     leftThumbRef.current.style.left = `${LthumbP}px`;
+    leftThumbRef.current.dataset.currTime = formatTime(file.startsAt);
     leftAreaRef.current.style.width = `${LthumbP}px`;
+    if (leftThumbRef.current.firstChild) {
+      const child = leftThumbRef.current.firstChild as HTMLDivElement;
+      child.dataset.currTime = formatTime(file.startsAt);
+    }
+
     controls.current.lThumbX = LthumbP;
     controls.current.leftAreaW = LthumbP;
 
     rightThumbRef.current.style.left = `${RthumbP}px`;
+    rightThumbRef.current.dataset.currTime = formatTime(file.endsAt);
     rightAreaRef.current.style.width = `${containerW - RthumbP - thumbW}px`;
+    if (rightThumbRef.current.firstChild) {
+      const child = rightThumbRef.current.firstChild as HTMLDivElement;
+      child.dataset.currTime = formatTime(file.endsAt);
+    }
     controls.current.rThumbX = RthumbP;
     controls.current.rightAreaW = containerW - RthumbP - thumbW;
 

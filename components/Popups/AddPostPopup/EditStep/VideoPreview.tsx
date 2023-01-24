@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ARStateType, ImgVidFileType } from "..";
 import useWindowEventHandler from "../../../../Hooks/useWindowEventHandler";
 import { widthAndHeightCalc } from "../utils";
 import styles from "../../popup.module.scss";
 import { CalcOriginal } from ".";
 import Image from "next/image";
+// import { setInterval } from "timers/promises";
 
 // import PlayImg
 
@@ -35,6 +36,20 @@ export function VideoPreview({ file, aspectRatio }: videoPreviewType) {
     setIsPaused(() => true);
   }, [file.id]);
 
+  useEffect(() => {
+    if (!vidRef.current || isPaused) return;
+    vidRef.current.currentTime = file.startsAt;
+    const myInterval = setInterval(() => {
+      if (!vidRef.current) return;
+      if (vidRef.current.currentTime >= file.endsAt) {
+        vidRef.current.currentTime = file.startsAt;
+      }
+    }, 80);
+    return () => {
+      clearInterval(myInterval);
+    };
+  }, [file.id, file.startsAt, file.endsAt, vidRef.current, isPaused]);
+
   return (
     <div
       ref={previewContainerRef}
@@ -57,7 +72,7 @@ export function VideoPreview({ file, aspectRatio }: videoPreviewType) {
         muted={!file.sound}
         ref={vidRef}
         src={file.vidUrl}
-        onClick={togglePause}
+        onPointerUp={togglePause}
       ></video>
       {isPaused ? (
         <div className={styles.playBtnImg}>
@@ -86,7 +101,6 @@ function usePositionVid(
     const { w, h } = widthAndHeightCalc({ parentW, parentH }, imgAR);
     vidRef.current.style.width = `${w}px`;
     vidRef.current.style.height = `${h}px`;
-    // console.log(parentW, parentH);
     vidRef.current.style.transform = `translate(${x}%,${y}%)`;
   }
   useEffect(() => {

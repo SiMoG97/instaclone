@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ImgVidFileType } from "../..";
 import useThrottle from "../../../../../Hooks/useThrottle";
+import useWindowEventHandler from "../../../../../Hooks/useWindowEventHandler";
 import { ControlValuesT } from "./Trim";
 
 type ControlsT = React.MutableRefObject<ControlValuesT>;
@@ -202,6 +203,17 @@ export function useInitControlPositions({
     selectedArea.current.style.left = `${LthumbP + thumbW}px`;
     selectedArea.current.style.width = `${RthumbP - thumbW - LthumbP}px`;
   }
+
+  useWindowEventHandler(initControlsCords, [
+    file,
+    containerRef.current,
+    leftThumbRef.current,
+    leftAreaRef.current,
+    rightThumbRef.current,
+    rightAreaRef.current,
+    controls.current,
+  ]);
+
   useEffect(() => {
     const timeoutID = setTimeout(() => {
       if (!containerRef.current) return;

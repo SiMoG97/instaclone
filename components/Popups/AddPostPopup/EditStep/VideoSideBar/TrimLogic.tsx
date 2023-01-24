@@ -152,7 +152,7 @@ export function usePointerEventHandlers({
         e.clientX
       );
     }
-  }, 30);
+  }, 50);
   return {
     pointerDownHandler,
     pointerUpHandler,

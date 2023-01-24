@@ -795,6 +795,7 @@
     box-shadow: 0 0 4px rgb(0 0 0 / 15%), 0 0 10px rgb(0 0 0 / 30%);
     overflow: hidden;
     cursor: grab;
+    transition: 100ms;
     &:active {
       cursor: grabbing;
     }
@@ -862,6 +863,7 @@
     justify-content: space-between;
     width: 100%;
     height: 100%;
+    --transition-d: 50ms;
     .controlsContainer {
       position: relative;
       width: 100%;
@@ -878,6 +880,7 @@
       border-left: none;
       border-right: none;
       box-shadow: 0 4px 4px -4px rgb(0 0 0 / 15%), 0 4px 10px rgb(0 0 0 / 30%);
+      transition: var(--transition-d);
       // border-radius: 0.6rem;
     }
     .darkAreaContainer {
@@ -893,6 +896,7 @@
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
       border-radius: 0.6rem;
+      transition: var(--transition-d);
     }
     .leftArea {
       left: 0;
@@ -916,6 +920,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      transition: var(--transition-d);
       > div {
         pointer-events: none;
         background-color: #000;
@@ -930,7 +935,6 @@
     }
     .rightThumb {
       right: calc(30% - $thmbSize);
-      // left: -$thmbSize;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }

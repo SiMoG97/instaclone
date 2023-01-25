@@ -17,7 +17,10 @@ export const useImgToBgDimensions = (
     const { img } = files[selectedFile];
     const image = document.createElement("img");
     image.src = img.src;
-    const imgAR = image.naturalWidth / image.naturalHeight;
+    let imgAR = image.naturalWidth / image.naturalHeight;
+    if (files[selectedFile].type === "video") {
+      imgAR = img.width / img.height;
+    }
     const container = cropAreaRef.current;
     const [parentW, parentH] = [container.offsetWidth, container.offsetHeight];
     const { w, h } = widthAndHeightCalc({ parentW, parentH }, imgAR);
@@ -28,6 +31,7 @@ export const useImgToBgDimensions = (
     croppingDiv.current.style.width = `${w}px`;
     croppingDiv.current.style.height = `${h}px`;
     if (!videoRef.current) return;
+    // console.log(w, h);
     videoRef.current.style.width = `${w}px`;
     videoRef.current.style.height = `${h}px`;
   }

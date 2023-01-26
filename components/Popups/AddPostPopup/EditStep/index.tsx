@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ARStateType, ImgVidFileType, originalArCalcul } from "..";
 import styles from "../../popup.module.scss";
 import ArrowsAndDots from "../ArrowsAndDots";
@@ -33,7 +33,8 @@ export function EditStep({
   const canvasDimRef = useRef({
     ...CanvasWidthHeight(aspectRatio, files[0].img),
   });
-
+  const [isPaused, setIsPaused] = useState(true);
+  const [vidCurrTime, setVidCurrTime] = useState(0);
   return (
     <>
       <div className={styles.EditStep}>
@@ -42,6 +43,9 @@ export function EditStep({
             <VideoPreview
               file={files[selectedFile]}
               aspectRatio={aspectRatio}
+              setVidCurrTime={setVidCurrTime}
+              isPaused={isPaused}
+              setIsPaused={setIsPaused}
             />
           ) : (
             <ImagePreview
@@ -65,6 +69,9 @@ export function EditStep({
           files={files}
           setFiles={setFiles}
           selectedFile={selectedFile}
+          vidCurrTime={vidCurrTime}
+          isPaused={isPaused}
+          setIsPaused={setIsPaused}
         />
       </SidebarContainer>
     </>

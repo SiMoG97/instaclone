@@ -10,12 +10,18 @@ type EditVideoType = {
   setFiles: React.Dispatch<React.SetStateAction<ImgVidFileType[]>>;
   selectedFile: number;
   videoFrames: videosFramesT[];
+  vidCurrTime: number;
+  isPaused: boolean;
+  setIsPaused: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export function EditVideo({
   files,
   selectedFile,
   setFiles,
   videoFrames,
+  vidCurrTime,
+  isPaused,
+  setIsPaused,
 }: EditVideoType) {
   function findVideoFrames() {
     let vidFrames = videoFrames.find(
@@ -60,6 +66,9 @@ export function EditVideo({
         file={files[selectedFile]}
         Vidframes={findVideoFrames()}
         updateVideoStartAndEnd={updateVideoStartAndEnd}
+        vidCurrTime={vidCurrTime}
+        isPaused={isPaused}
+        setIsPaused={setIsPaused}
       />
       <SoundOnOff
         file={files[selectedFile]}

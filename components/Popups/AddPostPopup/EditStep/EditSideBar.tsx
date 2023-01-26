@@ -13,6 +13,9 @@ type EditSideBarType = {
   files: ImgVidFileType[];
   setFiles: React.Dispatch<React.SetStateAction<ImgVidFileType[]>>;
   selectedFile: number;
+  vidCurrTime: number;
+  isPaused: boolean;
+  setIsPaused: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type AdjustNameType =
@@ -23,7 +26,14 @@ export type AdjustNameType =
   | "fade"
   | "vignette";
 
-const EditSidebar = ({ files, setFiles, selectedFile }: EditSideBarType) => {
+const EditSidebar = ({
+  files,
+  setFiles,
+  selectedFile,
+  vidCurrTime,
+  isPaused,
+  setIsPaused,
+}: EditSideBarType) => {
   const filtersRef = useRef<filtersRefT | undefined>();
   useInitFilterVal(filtersRef, files);
   const videoFrames = useGetFramesForVideos({ files });
@@ -43,6 +53,9 @@ const EditSidebar = ({ files, setFiles, selectedFile }: EditSideBarType) => {
           setFiles={setFiles}
           selectedFile={selectedFile}
           videoFrames={videoFrames}
+          vidCurrTime={vidCurrTime}
+          isPaused={isPaused}
+          setIsPaused={setIsPaused}
         />
       )}
     </div>

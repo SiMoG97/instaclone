@@ -103,7 +103,7 @@ function thumbPositionCalc(duration: number, containerW: number, time: number) {
 function oneSecGapCalc(duration: number, containerW: number) {
   return containerW / duration;
 }
-
+function fromTimeToPx() {}
 type PointerT = React.PointerEvent<HTMLDivElement>;
 type DivRefT = React.RefObject<HTMLDivElement>;
 
@@ -119,6 +119,7 @@ type TrimRefsType = {
 };
 type PointerHandlersT = TrimRefsType & {
   updateVideoStartAndEnd(newFile: ImgVidFileType): void;
+  setIsPaused: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function usePointerEventHandlers({
@@ -131,6 +132,7 @@ export function usePointerEventHandlers({
   selectedArea,
   controls,
   updateVideoStartAndEnd,
+  setIsPaused,
 }: PointerHandlersT) {
   const [pointerDown, setPointerDown] = useState(false);
 
@@ -138,6 +140,7 @@ export function usePointerEventHandlers({
     if (!leftThumbRef.current || !rightThumbRef.current) return;
 
     setPointerDown(() => true);
+    setIsPaused(() => true);
     if (leftThumbRef.current === e.target) {
       leftThumbRef.current.setPointerCapture(e.pointerId);
     } else {
@@ -149,6 +152,7 @@ export function usePointerEventHandlers({
     if (!containerRef.current) return;
     const containerW = containerRef.current.offsetWidth;
     setPointerDown(() => false);
+    setIsPaused(() => false);
     const { lThumbX, rThumbX, thumbW } = controls.current;
     const startsAt = fromPxToTime(lThumbX, file.duration, containerW);
     const endsAt = fromPxToTime(rThumbX + thumbW, file.duration, containerW);
@@ -261,4 +265,38 @@ export function useInitControlPositions({
       clearTimeout(timeoutID);
     };
   }, [file.id]);
+}
+
+export function useCurrTimeIndicatorPosition({
+  file,
+  controls,
+  timeIndicatorRef,
+  vidCurrTime,
+  containerRef,
+  isPaused,
+}: {
+  file: ImgVidFileType;
+  containerRef: DivRefT;
+  controls: ControlsT;
+  timeIndicatorRef: React.RefObject<HTMLDivElement>;
+  vidCurrTime: number;
+  isPaused: boolean;
+}) {
+  function timeIndicPos() {
+    if (!timeIndicatorRef.current || !containerRef.current) return;
+    const { width: containerW } = containerRef.current.getBoundingClientRect();
+    const trimedDur = file.endsAt - file.startsAt;
+    const { leftAreaW, rightAreaW } = controls.current;
+    const trimedPartWidth = containerW - (leftAreaW + rightAreaW);
+    const currentIndicX = (vidCurrTime * trimedPartWidth) / trimedDur;
+
+    timeIndicatorRef.current.style.left = `${currentIndicX}px`;
+  }
+  useEffect(() => {
+    if (isPaused) return;
+    timeIndicPos();
+  }, [isPaused]);
+  useEffect(() => {
+    timeIndicPos();
+  }, [vidCurrTime, file.endsAt, file.startsAt]);
 }

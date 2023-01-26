@@ -1,9 +1,13 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { ImgVidFileType } from "../..";
 import styles from "../../../popup.module.scss";
 import { videosFramesT } from "../EditSideBar";
 import { ImagesPreview } from "./ImagesPreview";
-import { useInitControlPositions, usePointerEventHandlers } from "./TrimLogic";
+import {
+  useCurrTimeIndicatorPosition,
+  useInitControlPositions,
+  usePointerEventHandlers,
+} from "./TrimLogic";
 
 export type ControlValuesT = {
   lThumbX: number;
@@ -18,12 +22,18 @@ type TrimType = {
   file: ImgVidFileType;
   Vidframes: videosFramesT;
   updateVideoStartAndEnd(newFile: ImgVidFileType): void;
+  vidCurrTime: number;
+  isPaused: boolean;
+  setIsPaused: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function Trim({
   file,
   Vidframes,
   updateVideoStartAndEnd,
+  vidCurrTime,
+  isPaused,
+  setIsPaused,
 }: TrimType) {
   const selectedArea = useRef<HTMLDivElement>(null);
   const leftThumbRef = useRef<HTMLDivElement>(null);
@@ -31,6 +41,7 @@ export default function Trim({
   const containerRef = useRef<HTMLDivElement>(null);
   const leftAreaRef = useRef<HTMLDivElement>(null);
   const rightAreaRef = useRef<HTMLDivElement>(null);
+  const timeIndicatorRef = useRef<HTMLDivElement>(null);
   const controls = useRef<ControlValuesT>({
     lThumbX: 0,
     rThumbX: 0,
@@ -62,8 +73,17 @@ export default function Trim({
       selectedArea,
       controls,
       updateVideoStartAndEnd,
+      setIsPaused,
     });
 
+  useCurrTimeIndicatorPosition({
+    file,
+    controls,
+    timeIndicatorRef,
+    vidCurrTime,
+    containerRef,
+    isPaused,
+  });
   return (
     <div className={styles.Trim}>
       <h3 className={styles.editSectionTitle}>Trim</h3>
@@ -87,21 +107,24 @@ export default function Trim({
               onPointerDown={pointerDownHandler}
               onPointerUp={pointerUpHandler}
               onPointerMove={pointerMoveHandler}
-              // data-curr-time="chi7aja"
             >
-              <div data-curr-time="asdfasdf"></div>
-              {/* <div></div> */}
+              <div data-curr-time=""></div>
             </div>
             <div className={styles.selectedRange} ref={selectedArea}></div>
+            {!isPaused ? (
+              <div
+                className={styles.timeIndicator}
+                ref={timeIndicatorRef}
+              ></div>
+            ) : null}
             <div
               className={`${styles.thumb} ${styles.rightThumb}`}
               ref={rightThumbRef}
               onPointerDown={pointerDownHandler}
               onPointerUp={pointerUpHandler}
               onPointerMove={pointerMoveHandler}
-              // data-curr-time="asdfasdg"
             >
-              <div data-curr-time="asdf"></div>
+              <div data-curr-time=""></div>
             </div>
           </div>
         </div>

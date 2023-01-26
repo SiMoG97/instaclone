@@ -745,6 +745,7 @@
     overflow: hidden;
     video {
       position: absolute;
+      transition: 100ms;
     }
     .playBtnImg {
       position: relative;
@@ -786,6 +787,7 @@
   }
   .thumbnailPreview {
     position: absolute;
+    touch-action: none;
     display: flex;
     justify-content: center;
     width: 7.4rem;
@@ -909,9 +911,20 @@
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
+    .timeIndicator {
+      position: absolute;
+      width: 0.6rem;
+      height: 7.6rem;
+      background-color: #fff;
+      border-radius: 6px;
+      top: -6px;
+      box-shadow: 0 0 4px rgb(0 0 0 / 15%), 0 0 10px rgb(0 0 0 / 30%);
+      z-index: 3;
+    }
     $thmbSize: 10px;
     .thumb {
       position: absolute;
+      touch-action: none;
       width: $thmbSize;
       height: 100%;
       background-color: #fff;

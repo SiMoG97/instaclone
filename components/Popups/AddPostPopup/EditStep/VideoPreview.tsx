@@ -5,6 +5,7 @@ import { widthAndHeightCalc } from "../utils";
 import styles from "../../popup.module.scss";
 import { CalcOriginal } from ".";
 import Image from "next/image";
+import { useCurrTimeContext } from "./CurrTimeContext";
 // import { setInterval } from "timers/promises";
 
 // import PlayImg
@@ -19,6 +20,7 @@ export function VideoPreview({ file, aspectRatio }: videoPreviewType) {
   const previewContainerRef = useRef<HTMLDivElement>(null);
 
   usePositionVid(file, previewContainerRef, vidRef);
+  useLoopVideoFromstartToEnd({ file, vidRef, isPaused, setIsPaused });
 
   function togglePause() {
     setIsPaused((prev) => {
@@ -31,24 +33,6 @@ export function VideoPreview({ file, aspectRatio }: videoPreviewType) {
       return !prev;
     });
   }
-  // if the user change the video stop the current video
-  useEffect(() => {
-    setIsPaused(() => true);
-  }, [file.id]);
-
-  useEffect(() => {
-    if (!vidRef.current || isPaused) return;
-    vidRef.current.currentTime = file.startsAt;
-    const myInterval = setInterval(() => {
-      if (!vidRef.current) return;
-      if (vidRef.current.currentTime >= file.endsAt) {
-        vidRef.current.currentTime = file.startsAt;
-      }
-    }, 80);
-    return () => {
-      clearInterval(myInterval);
-    };
-  }, [file.id, file.startsAt, file.endsAt, vidRef.current, isPaused]);
 
   return (
     <div
@@ -107,4 +91,38 @@ function usePositionVid(
     positionVid();
   }, [file]);
   useWindowEventHandler(positionVid, [file]);
+}
+
+type LoopVidT = {
+  file: ImgVidFileType;
+  vidRef: React.RefObject<HTMLVideoElement>;
+  isPaused: boolean;
+  setIsPaused: React.Dispatch<React.SetStateAction<boolean>>;
+};
+function useLoopVideoFromstartToEnd({
+  file,
+  vidRef,
+  isPaused,
+  setIsPaused,
+}: LoopVidT) {
+  // if the user change the video stop the current video
+  useEffect(() => {
+    setIsPaused(() => true);
+  }, [file.id]);
+
+  useEffect(() => {
+    if (!vidRef.current || isPaused) return;
+    if (vidRef.current.currentTime < file.startsAt) {
+      vidRef.current.currentTime = file.startsAt;
+    }
+    const myInterval = setInterval(() => {
+      if (!vidRef.current) return;
+      if (vidRef.current.currentTime >= file.endsAt) {
+        vidRef.current.currentTime = file.startsAt;
+      }
+    }, 80);
+    return () => {
+      clearInterval(myInterval);
+    };
+  }, [file.id, file.startsAt, file.endsAt, vidRef.current, isPaused]);
 }

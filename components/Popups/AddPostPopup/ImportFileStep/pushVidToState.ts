@@ -20,12 +20,8 @@ export function pushVidToState(
     const img = new Image();
     const src = await getFramesFromVid({ vidUrl, frameTime: 0 });
     img.src = src;
-    // img.width = 500
     img.width = video.videoWidth;
     img.height = video.videoHeight;
-    // console.log(video.videoWidth, video.videoHeight);
-    // console.log(img.naturalWidth, img.naturalHeight);
-
     const newFile = newFileConstructor({
       type: "video",
       img,
@@ -39,8 +35,5 @@ export function pushVidToState(
     if (callBack) {
       callBack();
     }
-    // video.addEventListener("loadedmetadata", () => {
-    //   console.log(video.videoWidth);
-    // });
   });
 }

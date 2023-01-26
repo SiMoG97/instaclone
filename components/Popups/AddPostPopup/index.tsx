@@ -42,49 +42,11 @@ export type ImgVidFileType = {
   coverTime: number;
   sound: boolean;
 };
-// export type VideoFileType = {
-//   vidUrl: string;
-//   scale: 1;
-//   x: number;
-//   y: number;
-//   id: string;
-//   startsAt: number;
-//   endsAt: number;
-// };
-// export type ImgVidT = (VideoFileType | ImgFileType)[];
 
 type AddPostPopupType = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
-// const someArr: SM = [
-//   {
-//     img: new Image(),
-//     scale: 1,
-//     x: 0,
-//     y: 0,
-//     id: "asfasdfas",
-//     filter: "Original",
-//     adjustSettings: {
-//       brightness: 0,
-//       contrast: 0,
-//       saturation: 0,
-//       temperature: 0,
-//       fade: 0,
-//       vignette: 0,
-//     },
-//   },
-//   {
-//     vidUrl: "string",
-//     scale: 1,
-//     x: 0,
-//     y: 0,
-//     id: "string",
-//     startsAt: 0,
-//     endsAt: 0,
-//   },
-// ];
 
 export type FiltersType =
   | "Original"
@@ -99,6 +61,7 @@ export type FiltersType =
   | "Ludwig"
   | "Aden"
   | "Perpetua";
+
 export type ARStateType =
   | "original"
   | "oneToOne"
@@ -132,6 +95,7 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
   // const [isOpen, setIsOpen] = useState(false);
   // const [isOpen, setIsOpen] = useState(true);
   const [step, setStep] = useState(0);
+  const prevStepRef = useRef(0);
   const [files, setFiles] = useState<ImgVidFileType[]>([] as ImgVidFileType[]);
   // const [selectedFile, setSelectedFile] = useState<ImgFileType>(
   //   {} as ImgFileType
@@ -152,32 +116,13 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
     }
   }, [isOpen]);
 
-  // const cropingFiles = () => {
-  //   files.forEach(async (file) => {
-  //     if (croppingDiv.current) {
-  //       const { img, scale, x, y } = file;
-  //       const cropdiv = croppingDiv.current;
-  //       // cropdiv.style.backgroundImage =
-  //       cropdiv.style.backgroundImage = `url("${img.src.replace(
-  //         /(\r\n|\n|\r)/gm,
-  //         ""
-  //       )}")`;
-  //       cropdiv.style.transform = `scale(${scale}) translate(${x},${y})`;
-  //       // const canvas = await html2canvas(cropdiv);
-  //       // const image = canvas.toDataURL("image/png", 0.5);
-  //       // console.log(image);
-  //     }
-  //   });
-  // };
-
   const nextStep = useCallback(() => {
-    if (step === 1) {
-      // console.log("crop here");
-    }
     setStep((prev) => {
       if (prev === headers.length - 1) {
+        prevStepRef.current = headers.length - 2;
         return headers.length - 1;
       }
+      prevStepRef.current = prev;
       prev++;
       return prev;
     });
@@ -186,8 +131,10 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
   const prevStep = () => {
     setStep((prev) => {
       if (prev === 0) {
+        prevStepRef.current = 0;
         return prev;
       }
+      prevStepRef.current = prev;
       prev--;
       return prev;
     });
@@ -307,6 +254,7 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
               ) : null}
               {step === 1 ? (
                 <CropStep
+                  prevStep={prevStepRef.current}
                   files={files}
                   setFiles={setFiles}
                   nextFile={nextFile}
@@ -323,6 +271,7 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
               {step === 2 ? (
                 <>
                   <EditStep
+                    prevStep={prevStepRef.current}
                     files={files}
                     setFiles={setFiles}
                     nextFile={nextFile}
@@ -333,19 +282,19 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
                   />
                 </>
               ) : null}
-              {step === 3 ? <SharePostStep /> : null}
+              {step === 3 ? <SharePostStep step={step} /> : null}
               {/*  */}
               {/* Sidebar */}
-              <SidebarContainer step={step}>
+              {/* <SidebarContainer step={step}>
                 {step === 2 ? (
                   <EditSidebar
                     files={files}
                     setFiles={setFiles}
                     selectedFile={selectedFile}
                   />
-                ) : null}
-                {step === 3 ? <h1>step 3 </h1> : null}
-              </SidebarContainer>
+                ) : null} */}
+              {/* {step === 3 ? <h1>step 3 </h1> : null} */}
+              {/* </SidebarContainer> */}
               {/* <SidebarContainer
                 step={step}
                 files={files}

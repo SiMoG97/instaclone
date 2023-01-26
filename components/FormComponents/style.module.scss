@@ -74,15 +74,13 @@
   -webkit-appearance: none;
   width: 100%;
   height: 0.2rem;
-  &::-webkit-slider-thumb,
-  &::-moz-range-thumb,
-  &::-ms-thumb {
+  &::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: var(--thumbSize);
     height: var(--thumbSize);
     border-radius: 50%;
-    background: var(--thumbColor);
+    background-color: var(--thumbColor);
   }
   &.left {
     background: linear-gradient(

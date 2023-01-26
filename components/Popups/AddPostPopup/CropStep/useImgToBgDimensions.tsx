@@ -31,7 +31,6 @@ export const useImgToBgDimensions = (
     croppingDiv.current.style.width = `${w}px`;
     croppingDiv.current.style.height = `${h}px`;
     if (!videoRef.current) return;
-    // console.log(w, h);
     videoRef.current.style.width = `${w}px`;
     videoRef.current.style.height = `${h}px`;
   }

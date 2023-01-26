@@ -201,7 +201,7 @@
   }
 }
 .previewAndSidebarContainer {
-  transition: 0.2s;
+  // transition: 0.2s;
   display: flex;
   @include media("<tablet") {
     flex-direction: column;
@@ -394,7 +394,7 @@
   padding: 0 1rem;
   // background-color: red;
   .crossX {
-    background-color: red;
+    // background-color: red;
     @include media(">=tablet") {
       // display: none !important;
       visibility: hidden;
@@ -456,7 +456,7 @@
 
     li:nth-child(1) {
       border-top: 1px solid var(--txt-c-4) !important;
-      background-color: red;
+      // background-color: red;
     }
   }
   p {
@@ -561,12 +561,12 @@
 }
 
 .sidebarContainer {
-  width: 0;
-  height: 0;
-  transition: width 0.3s;
+  // width: 0;
+  // height: 0;
+  // transition: width 0.3s;
   flex-shrink: 0;
-  opacity: 0;
-  pointer-events: none;
+  // opacity: 0;
+  // pointer-events: none;
   .tabs {
     display: flex;
     border-bottom: 1px solid var(--txt-c-4);
@@ -621,18 +621,19 @@
     }
   }
   &.sidebarFullWidth {
-    opacity: 1 !important;
+    // opacity: 1 !important;
     pointer-events: all !important;
-    width: 34rem;
+    // width: 34rem;
     height: auto;
     border-left: solid 1px var(--txt-c-4);
     @include media("<tablet") {
-      width: 100%;
+      width: 100% !important;
       // height: 100%;
     }
   }
   .filtersSction {
     width: 100%;
+    // background: red;
     &::-webkit-scrollbar {
       height: 1px;
     }

@@ -7,8 +7,10 @@ import { applyMoonFilter } from "./ImageSideBar/filters";
 import { ImagePreview } from "./ImagePreview";
 import { CanvasWidthHeight } from "./utils";
 import { VideoPreview } from "./VideoPreview";
-
+import SidebarContainer from "../SidebarContainer";
+import EditSidebar from "./EditSideBar";
 type EditProps = {
+  prevStep: number;
   files: ImgVidFileType[];
   setFiles: React.Dispatch<React.SetStateAction<ImgVidFileType[]>>;
   nextFile: () => void;
@@ -19,6 +21,7 @@ type EditProps = {
 };
 
 export function EditStep({
+  prevStep,
   files,
   setFiles,
   aspectRatio,
@@ -32,26 +35,39 @@ export function EditStep({
   });
 
   return (
-    <div className={styles.EditStep}>
-      <div className={styles.canvasVidContainer}>
-        {files[selectedFile].type === "video" ? (
-          <VideoPreview file={files[selectedFile]} aspectRatio={aspectRatio} />
-        ) : (
-          <ImagePreview
-            file={files[selectedFile]}
-            width={canvasDimRef.current.width}
-            height={canvasDimRef.current.height}
-            aspectRatio={aspectRatio}
-          />
-        )}
+    <>
+      <div className={styles.EditStep}>
+        <div className={styles.canvasVidContainer}>
+          {files[selectedFile].type === "video" ? (
+            <VideoPreview
+              file={files[selectedFile]}
+              aspectRatio={aspectRatio}
+            />
+          ) : (
+            <ImagePreview
+              file={files[selectedFile]}
+              width={canvasDimRef.current.width}
+              height={canvasDimRef.current.height}
+              aspectRatio={aspectRatio}
+            />
+          )}
+        </div>
+        <ArrowsAndDots
+          files={files}
+          nextFile={nextFile}
+          prevFile={prevFile}
+          selectedFile={selectedFile}
+        />
       </div>
-      <ArrowsAndDots
-        files={files}
-        nextFile={nextFile}
-        prevFile={prevFile}
-        selectedFile={selectedFile}
-      />
-    </div>
+
+      <SidebarContainer step={2} prevStep={prevStep}>
+        <EditSidebar
+          files={files}
+          setFiles={setFiles}
+          selectedFile={selectedFile}
+        />
+      </SidebarContainer>
+    </>
   );
 }
 

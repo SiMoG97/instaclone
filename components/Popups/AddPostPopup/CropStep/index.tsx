@@ -9,8 +9,10 @@ import { usePreviewImgVid } from "./usePreviewImgVidHook";
 import { Grid } from "./Grid";
 import { useImgToBgDimensions } from "./useImgToBgDimensions";
 import { useDragImgVidHandlers } from "./useDragImgVidHandlers";
+import SidebarContainer from "../SidebarContainer";
 
 type CropStepProps = {
+  prevStep: number;
   files: ImgVidFileType[];
   setFiles: React.Dispatch<React.SetStateAction<ImgVidFileType[]>>;
   selectedFile: number;
@@ -32,6 +34,7 @@ export type cordType = {
   passedY: boolean;
 };
 export function CropStep({
+  prevStep,
   files,
   setFiles,
   nextFile,
@@ -91,73 +94,78 @@ export function CropStep({
   );
 
   return (
-    <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
-      <div
-        ref={cropAreaRef}
-        onPointerMove={PointerMoveHandler}
-        onPointerDown={pointerDownHandler}
-        onPointerUp={pointerUpHandler}
-        style={
-          aspectRatio === "original"
-            ? originalArCalcul(
-                files[0].img.naturalWidth,
-                files[0].img.naturalHeight
-              )
-            : {}
-        }
-        className={`${styles.cropArea} ${
-          aspectRatio !== "original" ? styles[aspectRatio] : ""
-        }`}
-      >
+    <>
+      <div className={`${styles.stepContainer} ${styles.cropContainer}`}>
         <div
-          ref={croppingDiv}
-          style={isPointerDown ? {} : { transition: "transform .3s" }}
-          className={styles.imgToCrop}
+          ref={cropAreaRef}
+          onPointerMove={PointerMoveHandler}
+          onPointerDown={pointerDownHandler}
+          onPointerUp={pointerUpHandler}
+          style={
+            aspectRatio === "original"
+              ? originalArCalcul(
+                  files[0].img.naturalWidth,
+                  files[0].img.naturalHeight
+                )
+              : {}
+          }
+          className={`${styles.cropArea} ${
+            aspectRatio !== "original" ? styles[aspectRatio] : ""
+          }`}
         >
-          {files[selectedFile]?.type === "video" ? (
-            <video
-              autoPlay
-              muted
-              ref={videoRef}
-              className={styles.videoCrop}
-            ></video>
-          ) : null}
+          <div
+            ref={croppingDiv}
+            style={isPointerDown ? {} : { transition: "transform .3s" }}
+            className={styles.imgToCrop}
+          >
+            {files[selectedFile]?.type === "video" ? (
+              <video
+                autoPlay
+                muted
+                ref={videoRef}
+                className={styles.videoCrop}
+              ></video>
+            ) : null}
+          </div>
+          <Grid isPointerDown={isPointerDown} />
         </div>
-        <Grid isPointerDown={isPointerDown} />
-      </div>
-      <AspectRatioDropUp
-        isOpen={someDropOpen}
-        setIsOpen={setSomeDropOpen}
-        aspectRatio={aspectRatio}
-        setAspectRatio={setAspectRatio}
-      />
-      {files.length > 0 && files[selectedFile].type === "image" ? (
-        <ZoomDropup
-          element={croppingDiv}
-          files={files}
+        <AspectRatioDropUp
           isOpen={someDropOpen}
-          selectedFile={selectedFile}
-          setFiles={setFiles}
           setIsOpen={setSomeDropOpen}
+          aspectRatio={aspectRatio}
+          setAspectRatio={setAspectRatio}
         />
-      ) : null}
-      <AdditionalPostsDropup
-        isOpen={someDropOpen}
-        setIsOpen={setSomeDropOpen}
-        files={files}
-        setFiles={setFiles}
-        setSelectedFile={setSelectedFile}
-        selectedFileIdRef={selectedFileIdRef}
-        setStep={setStep}
-        selectedFile={selectedFile}
-        setAlertMessage={setAlertMessage}
-      />
-      <ArrowsAndDots
-        files={files}
-        nextFile={nextFile}
-        prevFile={prevFile}
-        selectedFile={selectedFile}
-      />
-    </div>
+        {files.length > 0 && files[selectedFile].type === "image" ? (
+          <ZoomDropup
+            element={croppingDiv}
+            files={files}
+            isOpen={someDropOpen}
+            selectedFile={selectedFile}
+            setFiles={setFiles}
+            setIsOpen={setSomeDropOpen}
+          />
+        ) : null}
+        <AdditionalPostsDropup
+          isOpen={someDropOpen}
+          setIsOpen={setSomeDropOpen}
+          files={files}
+          setFiles={setFiles}
+          setSelectedFile={setSelectedFile}
+          selectedFileIdRef={selectedFileIdRef}
+          setStep={setStep}
+          selectedFile={selectedFile}
+          setAlertMessage={setAlertMessage}
+        />
+        <ArrowsAndDots
+          files={files}
+          nextFile={nextFile}
+          prevFile={prevFile}
+          selectedFile={selectedFile}
+        />
+      </div>
+      <SidebarContainer step={1} prevStep={prevStep}>
+        <div></div>
+      </SidebarContainer>
+    </>
   );
 }

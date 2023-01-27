@@ -1,13 +1,15 @@
 export function applyMoonFilter(
   amount: number,
-  canvas: HTMLCanvasElement,
+  // canvas: HTMLCanvasElement,
   ctx: CanvasRenderingContext2D | null
 ) {
   if (!ctx) return;
   // ctx.filter = "grayscale(150%) brightness(180%) contrast(70%)";
   // ctx.filter = "grayscale(150%) brightness(180%) contrast(70%)";
-  ctx.filter = "brightness(70%)";
-  // const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  ctx.filter = `brightness(${100 + amount}%)`;
+  console.log(ctx);
+  // console.log("hmmmm");
+  // const imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
   // const data = imageData.data;
   // const newPixels = moonFilter(imageData);
 
@@ -102,6 +104,8 @@ export const brightness = (pixels: ImageData, adj: number) => {
   }
   return pixels;
 };
+
+// Filters
 export const moonFilter = (pixels: ImageData) => {
   pixels = grayscale.apply(this, [pixels]);
   pixels = contrast.apply(this, [pixels, -0.14]);

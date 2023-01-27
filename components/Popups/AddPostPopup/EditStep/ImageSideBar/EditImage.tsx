@@ -5,6 +5,7 @@ import { Tabs } from "./EditImageTabs";
 import { FilterSection, filtersNames } from "./FilterSection";
 import styles from "../../../popup.module.scss";
 import { FiltersType, ImgVidFileType } from "../..";
+import { CanvasCtxType } from "..";
 
 export type AdjustNameType =
   | "brightness"
@@ -24,6 +25,7 @@ type EditImageType = {
   setFiles: React.Dispatch<React.SetStateAction<ImgVidFileType[]>>;
   selectedFile: number;
   filtersRef: React.MutableRefObject<filtersRefT | undefined>;
+  contextCanvasRef: React.MutableRefObject<CanvasCtxType>;
 };
 
 export function EditImage({
@@ -31,6 +33,7 @@ export function EditImage({
   setFiles,
   selectedFile,
   filtersRef,
+  contextCanvasRef,
 }: EditImageType) {
   const [tab, setTab] = useState<"Filters" | "Adjustments">("Filters");
   const [currFilterVal, setCurrFilterVal] = useState(100);
@@ -86,6 +89,7 @@ export function EditImage({
             <BottomRange
               handleChange={handleRangeChange}
               currFilterValue={currFilterVal}
+              contextCanvasRef={contextCanvasRef}
             />
           ) : null}
         </>
@@ -93,6 +97,7 @@ export function EditImage({
         <AdjustmentsSection
           adjustmentSettings={files[selectedFile].adjustSettings}
           setAdjust={setAdjsutSettingsToSelectedImg}
+          contextCanvasRef={contextCanvasRef}
         />
       )}
     </>
@@ -102,11 +107,18 @@ export function EditImage({
 type BottomRangeType = {
   currFilterValue: number;
   handleChange: (newValue: number) => void;
+  contextCanvasRef: React.MutableRefObject<CanvasCtxType>;
 };
 
-const BottomRange = ({ currFilterValue, handleChange }: BottomRangeType) => {
+const BottomRange = ({
+  currFilterValue,
+  handleChange,
+  contextCanvasRef,
+}: BottomRangeType) => {
   const [filterValue, setFilterValue] = useState(currFilterValue);
   const changeValue = (newValue: number) => {
+    if (!contextCanvasRef.current.ctx) return;
+    console.log(newValue);
     setFilterValue(() => newValue);
   };
   useEffect(() => {

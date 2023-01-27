@@ -9,6 +9,10 @@ import { CanvasWidthHeight } from "./utils";
 import { VideoPreview } from "./VideoPreview";
 import SidebarContainer from "../SidebarContainer";
 import EditSidebar from "./EditSideBar";
+
+export type CanvasCtxType = {
+  ctx: CanvasRenderingContext2D | null;
+};
 type EditProps = {
   prevStep: number;
   files: ImgVidFileType[];
@@ -19,7 +23,14 @@ type EditProps = {
   selectedFile: number;
   setSelectedFile: React.Dispatch<React.SetStateAction<number>>;
 };
-
+type AdjustT = {
+  brightness: number;
+  contrast: number;
+  saturation: number;
+  temperature: number;
+  fade: number;
+  vignette: number;
+};
 export function EditStep({
   prevStep,
   files,
@@ -33,6 +44,21 @@ export function EditStep({
   const canvasDimRef = useRef({
     ...CanvasWidthHeight(aspectRatio, files[0].img),
   });
+  const [adjustments, setAdjustments] = useState<AdjustT>({} as AdjustT);
+
+  useEffect(() => {
+    if (files[selectedFile].type !== "image") return;
+    const { adjustSettings } = files[selectedFile];
+    setAdjustments(() => adjustSettings);
+    console.log(adjustSettings);
+    // setAdjustSettings
+  }, [selectedFile]);
+  const contextCanvasRef = useRef<CanvasCtxType>({
+    ctx: null,
+  });
+  useEffect(() => {
+    // console.log(contextCanvasRef.current.ctx);
+  }, [files[selectedFile].filter]);
   const [isPaused, setIsPaused] = useState(true);
   const [vidCurrTime, setVidCurrTime] = useState(0);
   return (
@@ -53,6 +79,7 @@ export function EditStep({
               width={canvasDimRef.current.width}
               height={canvasDimRef.current.height}
               aspectRatio={aspectRatio}
+              contextCanvasRef={contextCanvasRef}
             />
           )}
         </div>
@@ -72,6 +99,7 @@ export function EditStep({
           vidCurrTime={vidCurrTime}
           isPaused={isPaused}
           setIsPaused={setIsPaused}
+          contextCanvasRef={contextCanvasRef}
         />
       </SidebarContainer>
     </>

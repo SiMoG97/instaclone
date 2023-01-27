@@ -1,9 +1,11 @@
 //
 
 import { useEffect, useState } from "react";
+import { CanvasCtxType } from "..";
 import RangeSlide from "../../../../FormComponents/RangeSlide";
 import styles from "../../../popup.module.scss";
 import { AdjustNameType } from "../EditSideBar";
+import { applyMoonFilter } from "./filters";
 
 //
 
@@ -13,10 +15,12 @@ type adjustmentSettingsType = {
 type AdjustmentsSectionType = {
   adjustmentSettings: adjustmentSettingsType;
   setAdjust: (adjustName: AdjustNameType, newValue: number) => void;
+  contextCanvasRef: React.MutableRefObject<CanvasCtxType>;
 };
 export const AdjustmentsSection = ({
   setAdjust,
   adjustmentSettings,
+  contextCanvasRef,
 }: AdjustmentsSectionType) => {
   // console.log(adjustmentSettings);
   return (
@@ -28,6 +32,7 @@ export const AdjustmentsSection = ({
           header={header}
           startedFrom={startedFrom}
           currentValue={adjustmentSettings[header]}
+          contextCanvasRef={contextCanvasRef}
         />
       ))}
     </div>
@@ -39,15 +44,19 @@ type RangeUnitProps = {
   startedFrom: "left" | "mid";
   setAdjust: (adjustName: AdjustNameType, newValue: number) => void;
   currentValue: number;
+  contextCanvasRef: React.MutableRefObject<CanvasCtxType>;
 };
 const RangeUnit = ({
   header,
   startedFrom,
   setAdjust,
   currentValue,
+  contextCanvasRef,
 }: RangeUnitProps) => {
   const [value, setValue] = useState(currentValue);
   const changeValue = (newValue: number) => {
+    // console.log(newValue);
+    applyMoonFilter(newValue, contextCanvasRef.current.ctx);
     setValue(() => newValue);
   };
   const resetValue = () => {

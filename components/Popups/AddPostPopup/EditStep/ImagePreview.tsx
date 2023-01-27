@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import styles from "../../popup.module.scss";
-import { CalcOriginal } from ".";
+import { CalcOriginal, CanvasCtxType } from ".";
 import { ARStateType, ImgVidFileType } from "..";
 import { widthAndHeightCalc } from "../utils";
 
@@ -9,20 +9,31 @@ type ImagePreviewType = {
   width: number;
   height: number;
   aspectRatio: ARStateType;
+  contextCanvasRef: React.MutableRefObject<CanvasCtxType>;
 };
 export function ImagePreview({
   file,
   width,
   height,
   aspectRatio,
+  contextCanvasRef,
 }: ImagePreviewType) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     if (!canvasRef.current) return;
     const { img, scale, x, y } = file;
     const ctx = canvasRef.current.getContext("2d");
+    // console.log(ctx);
+    contextCanvasRef.current.ctx = ctx;
     drawImageOnCanvas(canvasRef.current, ctx, img, x, y, scale);
   }, [file]);
+
+  // useEffect(() => {
+  //   console.log(file.filter);
+  // }, [file.filter]);
+  // useEffect(() => {
+  //   console.log(file.adjustSettings);
+  // }, [file.adjustSettings.brightness]);
   return (
     <canvas
       ref={canvasRef}

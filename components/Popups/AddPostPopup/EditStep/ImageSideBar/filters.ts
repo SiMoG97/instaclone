@@ -78,6 +78,7 @@ export const grayscale = (pixels: ImageData) => {
     // avg = avg * 0;
     d[i] = d[i + 1] = d[i + 2] = avg;
   }
+
   return pixels;
 };
 export const contrast = (pixels: ImageData, adj: number) => {

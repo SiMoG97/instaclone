@@ -106,6 +106,34 @@ export const brightness = (pixels: ImageData, adj: number) => {
   return pixels;
 };
 
+export const vignette = (
+  pixels: ImageData,
+  adj: number,
+  c: HTMLCanvasElement
+) => {
+  let d = pixels.data;
+
+  // const data = imageData.data;
+  const w = c.width;
+  const h = c.height;
+  const centerX = c.width / 2;
+  const centerY = c.height / 2;
+
+  for (let i = 0; i < d.length; i += 4) {
+    const x = (i / 4) % w;
+    const y = Math.floor(i / 4 / w);
+
+    const distance = Math.sqrt(
+      Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2)
+    );
+    const vignette = 1 - adj * (distance / Math.max(w, h));
+
+    d[i] *= vignette;
+    d[i + 1] *= vignette;
+    d[i + 2] *= vignette;
+  }
+  return pixels;
+};
 // Filters
 export const moonFilter = (pixels: ImageData) => {
   pixels = grayscale.apply(this, [pixels]);

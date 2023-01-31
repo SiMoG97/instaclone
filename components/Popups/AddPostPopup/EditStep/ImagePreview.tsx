@@ -3,7 +3,7 @@ import styles from "../../popup.module.scss";
 import { AdjustT, CalcOriginal, CanvasCtxType } from ".";
 import { ARStateType, ImgVidFileType } from "..";
 import { widthAndHeightCalc } from "../utils";
-import { brightness } from "./ImageSideBar/filters";
+import { brightness, vignette } from "./ImageSideBar/filters";
 
 type ImagePreviewType = {
   file: ImgVidFileType;
@@ -41,7 +41,7 @@ export function ImagePreview({
   }
   useApplyBrightContSatur(adjustValues, ctxRef, drawImage);
   // useApplyBrightContSatur(adjustValues, canvasRef, ctxRef, drawImage);
-  useApplyVignette(ctxRef, adjustValues.vignette / 100, drawImage);
+  useApplyVignette(ctxRef, adjustValues, drawImage);
   useApplyBrightness(adjustValues, ctxRef, drawImage);
   // useApplyBrightness(adjustValues, ctxRef, drawImage);
   // },);
@@ -109,10 +109,9 @@ function useApplyBrightness(
       canvas.width,
       canvas.height
     );
-    const newImgData = brightness(
-      imageData,
-      adjustValues.brightness / 10 / 100
-    );
+    let newImgData = brightness(imageData, adjustValues.brightness / 1000);
+
+    newImgData = vignette(newImgData, adjustValues.vignette / 200, canvas);
     ctxRef.current.putImageData(newImgData, 0, 0);
   }, [adjustValues.brightness]);
 }
@@ -197,7 +196,7 @@ function useApplyBrightContSatur(
 
 function useApplyVignette(
   ctxRef: React.MutableRefObject<CanvasRenderingContext2D | null>,
-  size: number,
+  adjustValues: AdjustT,
   drawImage: (ctx: CanvasRenderingContext2D | null) => void
 ) {
   useEffect(() => {
@@ -205,37 +204,39 @@ function useApplyVignette(
     // const ctx = canvasRef.current.getContext("2d");
     // if (!ctx) return;
     if (!ctxRef.current) return;
-    console.log(size);
+    // console.log(size);
     const { canvas } = ctxRef.current;
     drawImage(ctxRef.current);
 
     // const canvas = canvasRef.current;
-    const imageData = ctxRef.current.getImageData(
+    let imageData = ctxRef.current.getImageData(
       0,
       0,
       canvas.width,
       canvas.height
     );
-    const data = imageData.data;
+    imageData = brightness(imageData, adjustValues.brightness / 1000);
 
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
+    imageData = vignette(imageData, adjustValues.vignette / 200, canvas);
+    // const data = imageData.data;
+    // const centerX = canvas.width / 2;
+    // const centerY = canvas.height / 2;
 
-    for (let i = 0; i < imageData.data.length; i += 4) {
-      const x = (i / 4) % canvas.width;
-      const y = Math.floor(i / 4 / canvas.width);
+    // for (let i = 0; i < imageData.data.length; i += 4) {
+    //   const x = (i / 4) % canvas.width;
+    //   const y = Math.floor(i / 4 / canvas.width);
 
-      const distance = Math.sqrt(
-        Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2)
-      );
-      const vignette =
-        1 - size * (distance / Math.max(canvas.width, canvas.height));
+    //   const distance = Math.sqrt(
+    //     Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2)
+    //   );
+    //   const vignette =
+    //     1 - size * (distance / Math.max(canvas.width, canvas.height));
 
-      data[i] *= vignette;
-      data[i + 1] *= vignette;
-      data[i + 2] *= vignette;
-    }
+    //   data[i] *= vignette;
+    //   data[i + 1] *= vignette;
+    //   data[i + 2] *= vignette;
+    // }
 
     ctxRef.current.putImageData(imageData, 0, 0);
-  }, [size]);
+  }, [adjustValues.vignette]);
 }

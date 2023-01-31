@@ -8,7 +8,7 @@ import { EditImage, filtersRefT } from "./ImageSideBar/EditImage";
 import { Tabs } from "./ImageSideBar/EditImageTabs";
 import { EditVideo } from "./VideoSideBar/EditVideo";
 import { FilterSection, filtersNames } from "./ImageSideBar/FilterSection";
-import { CanvasCtxType } from ".";
+import { AdjustT, CanvasCtxType } from ".";
 
 type EditSideBarType = {
   files: ImgVidFileType[];
@@ -17,7 +17,8 @@ type EditSideBarType = {
   vidCurrTime: number;
   isPaused: boolean;
   setIsPaused: React.Dispatch<React.SetStateAction<boolean>>;
-  contextCanvasRef: React.MutableRefObject<CanvasCtxType>;
+  adjustValues: AdjustT;
+  setAdjustValues: React.Dispatch<React.SetStateAction<AdjustT>>;
 };
 
 export type AdjustNameType =
@@ -35,7 +36,8 @@ const EditSidebar = ({
   vidCurrTime,
   isPaused,
   setIsPaused,
-  contextCanvasRef,
+  adjustValues,
+  setAdjustValues,
 }: EditSideBarType) => {
   const filtersRef = useRef<filtersRefT | undefined>();
   useInitFilterVal(filtersRef, files);
@@ -49,7 +51,8 @@ const EditSidebar = ({
           setFiles={setFiles}
           selectedFile={selectedFile}
           filtersRef={filtersRef}
-          contextCanvasRef={contextCanvasRef}
+          adjustValues={adjustValues}
+          setAdjustValues={setAdjustValues}
         />
       ) : (
         <EditVideo

@@ -1,11 +1,10 @@
 //
 
 import { useEffect, useState } from "react";
-import { CanvasCtxType } from "..";
+import { AdjustT } from "..";
 import RangeSlide from "../../../../FormComponents/RangeSlide";
 import styles from "../../../popup.module.scss";
 import { AdjustNameType } from "../EditSideBar";
-import { applyMoonFilter } from "./filters";
 
 //
 
@@ -15,13 +14,17 @@ type adjustmentSettingsType = {
 type AdjustmentsSectionType = {
   adjustmentSettings: adjustmentSettingsType;
   setAdjust: (adjustName: AdjustNameType, newValue: number) => void;
-  contextCanvasRef: React.MutableRefObject<CanvasCtxType>;
+  updateAdjustValues(adjustName: AdjustNameType, newValue: number): void;
+  adjustValues: AdjustT;
+  setAdjustValues: React.Dispatch<React.SetStateAction<AdjustT>>;
 };
 export const AdjustmentsSection = ({
   setAdjust,
   adjustmentSettings,
-  contextCanvasRef,
+  updateAdjustValues,
+  setAdjustValues,
 }: AdjustmentsSectionType) => {
+  // console.log(adjustmentSettings);
   // console.log(adjustmentSettings);
   return (
     <div className={styles.AdjustmentsSection}>
@@ -32,7 +35,8 @@ export const AdjustmentsSection = ({
           header={header}
           startedFrom={startedFrom}
           currentValue={adjustmentSettings[header]}
-          contextCanvasRef={contextCanvasRef}
+          updateAdjustValues={updateAdjustValues}
+          setAdjustValues={setAdjustValues}
         />
       ))}
     </div>
@@ -43,25 +47,27 @@ type RangeUnitProps = {
   header: AdjustNameType;
   startedFrom: "left" | "mid";
   setAdjust: (adjustName: AdjustNameType, newValue: number) => void;
+  updateAdjustValues(adjustName: AdjustNameType, newValue: number): void;
   currentValue: number;
-  contextCanvasRef: React.MutableRefObject<CanvasCtxType>;
+  setAdjustValues: React.Dispatch<React.SetStateAction<AdjustT>>;
 };
 const RangeUnit = ({
   header,
   startedFrom,
   setAdjust,
+  updateAdjustValues,
   currentValue,
-  contextCanvasRef,
+  setAdjustValues,
 }: RangeUnitProps) => {
   const [value, setValue] = useState(currentValue);
   const changeValue = (newValue: number) => {
-    // console.log(newValue);
-    applyMoonFilter(newValue, contextCanvasRef.current.ctx);
+    updateAdjustValues(header, newValue);
     setValue(() => newValue);
   };
   const resetValue = () => {
     setValue(() => 0);
     setAdjust(header, 0);
+    updateAdjustValues(header, 0);
   };
   useEffect(() => {
     setValue(() => currentValue);

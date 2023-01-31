@@ -23,7 +23,7 @@ type EditProps = {
   selectedFile: number;
   setSelectedFile: React.Dispatch<React.SetStateAction<number>>;
 };
-type AdjustT = {
+export type AdjustT = {
   brightness: number;
   contrast: number;
   saturation: number;
@@ -44,21 +44,20 @@ export function EditStep({
   const canvasDimRef = useRef({
     ...CanvasWidthHeight(aspectRatio, files[0].img),
   });
-  const [adjustments, setAdjustments] = useState<AdjustT>({} as AdjustT);
-
+  const [adjustValues, setAdjustValues] = useState<AdjustT>({} as AdjustT);
+  // const [someAdjustValue, setSomeAdjustValue] = useState(0);
+  // console.log("rerender");
   useEffect(() => {
     if (files[selectedFile].type !== "image") return;
     const { adjustSettings } = files[selectedFile];
-    setAdjustments(() => adjustSettings);
-    console.log(adjustSettings);
+    setAdjustValues(() => adjustSettings);
+    // console.log(files[selectedFile]);
     // setAdjustSettings
   }, [selectedFile]);
-  const contextCanvasRef = useRef<CanvasCtxType>({
-    ctx: null,
-  });
+
   useEffect(() => {
-    // console.log(contextCanvasRef.current.ctx);
-  }, [files[selectedFile].filter]);
+    // console.log("hmmmmm");
+  }, [adjustValues]);
   const [isPaused, setIsPaused] = useState(true);
   const [vidCurrTime, setVidCurrTime] = useState(0);
   return (
@@ -79,7 +78,8 @@ export function EditStep({
               width={canvasDimRef.current.width}
               height={canvasDimRef.current.height}
               aspectRatio={aspectRatio}
-              contextCanvasRef={contextCanvasRef}
+              adjustValues={adjustValues}
+              setAdjustValues={setAdjustValues}
             />
           )}
         </div>
@@ -99,7 +99,8 @@ export function EditStep({
           vidCurrTime={vidCurrTime}
           isPaused={isPaused}
           setIsPaused={setIsPaused}
-          contextCanvasRef={contextCanvasRef}
+          adjustValues={adjustValues}
+          setAdjustValues={setAdjustValues}
         />
       </SidebarContainer>
     </>

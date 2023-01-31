@@ -15,7 +15,7 @@ export type TabsNames = "posts" | "tagged" | "saved" | "videos" | "reels";
 const ProfileComponent = () => {
   const [tabName, setTabName] = useState<TabsNames>("posts");
   const router = useRouter();
-  const isPrivateAccount = true;
+  const isPrivateAccount = false;
   useEffect(() => {
     if (!router.isReady) return;
     if (!router.query.tab) return;

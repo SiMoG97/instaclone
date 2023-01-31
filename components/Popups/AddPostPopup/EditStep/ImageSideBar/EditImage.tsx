@@ -5,7 +5,7 @@ import { Tabs } from "./EditImageTabs";
 import { FilterSection, filtersNames } from "./FilterSection";
 import styles from "../../../popup.module.scss";
 import { FiltersType, ImgVidFileType } from "../..";
-import { CanvasCtxType } from "..";
+import { AdjustT, CanvasCtxType } from "..";
 
 export type AdjustNameType =
   | "brightness"
@@ -25,7 +25,8 @@ type EditImageType = {
   setFiles: React.Dispatch<React.SetStateAction<ImgVidFileType[]>>;
   selectedFile: number;
   filtersRef: React.MutableRefObject<filtersRefT | undefined>;
-  contextCanvasRef: React.MutableRefObject<CanvasCtxType>;
+  adjustValues: AdjustT;
+  setAdjustValues: React.Dispatch<React.SetStateAction<AdjustT>>;
 };
 
 export function EditImage({
@@ -33,7 +34,8 @@ export function EditImage({
   setFiles,
   selectedFile,
   filtersRef,
-  contextCanvasRef,
+  adjustValues,
+  setAdjustValues,
 }: EditImageType) {
   const [tab, setTab] = useState<"Filters" | "Adjustments">("Filters");
   const [currFilterVal, setCurrFilterVal] = useState(100);
@@ -55,12 +57,23 @@ export function EditImage({
     const adjustSettings = files[selectedFile].adjustSettings;
     adjustSettings[adjustName] = newValue;
     const newFiles = files.map((file, i) => {
-      if (i === selectedFile) return file;
+      if (i !== selectedFile) return file;
       return { ...file, adjustSettings };
     });
     setFiles(() => newFiles);
   };
-
+  function updateAdjustValues(adjustName: AdjustNameType, newValue: number) {
+    const newAdjustValues = { ...adjustValues };
+    newAdjustValues[adjustName] = newValue;
+    // console.log(newAdjustValues);
+    if (adjustValues === newAdjustValues) {
+      // console.log("b7al b7al");
+    }
+    setAdjustValues(() => {
+      // console.log("rah d5el");
+      return newAdjustValues;
+    });
+  }
   const handleRangeChange = (newValue: number) => {
     if (!filtersRef.current) return;
     const newFiltersValue = filtersRef.current.map((item) => {
@@ -89,7 +102,6 @@ export function EditImage({
             <BottomRange
               handleChange={handleRangeChange}
               currFilterValue={currFilterVal}
-              contextCanvasRef={contextCanvasRef}
             />
           ) : null}
         </>
@@ -97,7 +109,9 @@ export function EditImage({
         <AdjustmentsSection
           adjustmentSettings={files[selectedFile].adjustSettings}
           setAdjust={setAdjsutSettingsToSelectedImg}
-          contextCanvasRef={contextCanvasRef}
+          updateAdjustValues={updateAdjustValues}
+          adjustValues={adjustValues}
+          setAdjustValues={setAdjustValues}
         />
       )}
     </>
@@ -107,18 +121,11 @@ export function EditImage({
 type BottomRangeType = {
   currFilterValue: number;
   handleChange: (newValue: number) => void;
-  contextCanvasRef: React.MutableRefObject<CanvasCtxType>;
 };
 
-const BottomRange = ({
-  currFilterValue,
-  handleChange,
-  contextCanvasRef,
-}: BottomRangeType) => {
+const BottomRange = ({ currFilterValue, handleChange }: BottomRangeType) => {
   const [filterValue, setFilterValue] = useState(currFilterValue);
   const changeValue = (newValue: number) => {
-    if (!contextCanvasRef.current.ctx) return;
-    console.log(newValue);
     setFilterValue(() => newValue);
   };
   useEffect(() => {

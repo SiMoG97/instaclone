@@ -2,15 +2,10 @@ import { FiltersType } from "../..";
 type FiltersMothodsType = {
   [key in FiltersType]: (pixels: ImageData, adj: number) => ImageData;
 };
+
 export function grayscale(pixels: ImageData, adj: number) {
   let d = pixels.data;
   for (let i = 0; i < d.length; i += 4) {
-    // let r = d[i],
-    //   g = d[i + 1],
-    //   b = d[i + 2];
-    // let avg = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-    // d[i] = d[i + 1] = d[i + 2] = avg;
-
     const avg = (d[i] + d[i + 1] + d[i + 2]) / 3;
     d[i] = avg * (1 - adj) + d[i] * adj;
     d[i + 1] = avg * (1 - adj) + d[i + 1] * adj;
@@ -18,6 +13,7 @@ export function grayscale(pixels: ImageData, adj: number) {
   }
   return pixels;
 }
+
 export function brightness(pixels: ImageData, adj: number) {
   let d = pixels.data;
   adj = adj > 1 ? 1 : adj;
@@ -31,6 +27,7 @@ export function brightness(pixels: ImageData, adj: number) {
   }
   return pixels;
 }
+
 export function contrast(pixels: ImageData, adj: number) {
   adj *= 255;
   let d = pixels.data;
@@ -42,6 +39,20 @@ export function contrast(pixels: ImageData, adj: number) {
   }
   return pixels;
 }
+
+export function sepia(pixels: ImageData, adj: number) {
+  let d = pixels.data;
+  for (let i = 0; i < d.length; i += 4) {
+    let r = d[i],
+      g = d[i + 1],
+      b = d[i + 2];
+    d[i] = r * (1 - 0.607 * adj) + g * 0.769 * adj + b * 0.189 * adj;
+    d[i + 1] = r * 0.349 * adj + g * (1 - 0.314 * adj) + b * 0.168 * adj;
+    d[i + 2] = r * 0.272 * adj + g * 0.534 * adj + b * (1 - 0.869 * adj);
+  }
+  return pixels;
+}
+
 export function saturation(pixels: ImageData, adj: number) {
   let d = pixels.data;
   adj = adj < -1 ? -1 : adj;
@@ -56,6 +67,7 @@ export function saturation(pixels: ImageData, adj: number) {
   }
   return pixels;
 }
+
 export function temperature(pixels: ImageData, adj: number) {
   let d = pixels.data;
   for (let i = 0; i < d.length; i += 4) {
@@ -65,6 +77,28 @@ export function temperature(pixels: ImageData, adj: number) {
   }
   return pixels;
 }
+
+export function rgbAdjust(pixels: ImageData, rgbAdj: number[]) {
+  let d = pixels.data;
+  for (var i = 0; i < d.length; i += 4) {
+    d[i] *= rgbAdj[0];
+    d[i + 1] *= rgbAdj[1];
+    d[i + 2] *= rgbAdj[2];
+  }
+  return pixels;
+}
+
+function colorFilter(pixels: ImageData, rgbColor: number[]) {
+  let d = pixels.data;
+  let adj = rgbColor[3];
+  for (let i = 0; i < d.length; i += 4) {
+    d[i] -= (d[i] - rgbColor[0]) * adj;
+    d[i + 1] -= (d[i + 1] - rgbColor[1]) * adj;
+    d[i + 2] -= (d[i + 2] - rgbColor[2]) * adj;
+  }
+  return pixels;
+}
+
 export function fade(pixels: ImageData, adj: number) {
   let d = pixels.data;
   for (let i = 0; i < d.length; i += 4) {
@@ -72,6 +106,7 @@ export function fade(pixels: ImageData, adj: number) {
   }
   return pixels;
 }
+
 export function vignette(pixels: ImageData, adj: number, c: HTMLCanvasElement) {
   let d = pixels.data;
   const w = c.width;
@@ -93,25 +128,24 @@ export function vignette(pixels: ImageData, adj: number, c: HTMLCanvasElement) {
   }
   return pixels;
 }
-// Filters
-// const willow = (pixels: ImageData) => {
-//   pixels = grayscale.apply(this, [pixels, 1]);
-//   pixels = colorFilter.apply(this, [pixels, [100, 28, 210, 0.03]]);
-//   pixels = brightness.apply(this, [pixels, 0.1]);
-//   return pixels;
-// };
-function Original(pixels: ImageData) {
-  console.log("Original");
+
+const Original = (pixels: ImageData) => {
   return pixels;
-}
-function Clarendon(pixels: ImageData) {
-  console.log("Clarendon");
+};
+
+const Clarendon = (pixels: ImageData, adj: number) => {
+  pixels = brightness.apply(this, [pixels, 0.1 * adj]);
+  pixels = contrast.apply(this, [pixels, 0.1 * adj]);
+  pixels = saturation.apply(this, [pixels, 0.15 * adj]);
   return pixels;
-}
-function Gingham(pixels: ImageData) {
-  console.log("Gingham");
+};
+
+const Gingham = (pixels: ImageData, adj: number) => {
+  pixels = sepia.apply(this, [pixels, 0.04 * adj]);
+  pixels = contrast.apply(this, [pixels, -0.15 * adj]);
   return pixels;
-}
+};
+
 const Moon = (pixels: ImageData, adj: number) => {
   const grayAdj = 1 - adj;
   pixels = grayscale.apply(this, [pixels, grayAdj]);
@@ -119,38 +153,55 @@ const Moon = (pixels: ImageData, adj: number) => {
   pixels = brightness.apply(this, [pixels, 0.1 * adj]);
   return pixels;
 };
-function Lark(pixels: ImageData) {
-  console.log("Lark");
+
+const Lark = (pixels: ImageData, adj: number) => {
+  pixels = brightness.apply(this, [pixels, 0.08 * adj]);
+  pixels = rgbAdjust.apply(this, [pixels, [1, 1 + adj * 0.03, 1 + adj * 0.05]]);
+  pixels = saturation.apply(this, [pixels, 0.12 * adj]);
   return pixels;
-}
-function Reyes(pixels: ImageData) {
-  console.log("Reyes");
+};
+
+const Reyes = (pixels: ImageData, adj: number) => {
+  pixels = sepia.apply(this, [pixels, 0.4 * adj]);
+  pixels = brightness.apply(this, [pixels, 0.13 * adj]);
+  pixels = contrast.apply(this, [pixels, -0.05 * adj]);
   return pixels;
-}
-function Juno(pixels: ImageData) {
-  console.log("Juno");
+};
+
+const Juno = (pixels: ImageData, adj: number) => {
+  pixels = rgbAdjust.apply(this, [pixels, [1 + adj * 0.01, 1 + adj * 0.04, 1]]);
+  pixels = saturation.apply(this, [pixels, 0.3 * adj]);
   return pixels;
-}
-function Slumber(pixels: ImageData) {
-  console.log("Slumber");
+};
+
+const Slumber = (pixels: ImageData, adj: number) => {
+  pixels = brightness.apply(this, [pixels, 0.1 * adj]);
+  pixels = saturation.apply(this, [pixels, -0.5 * adj]);
   return pixels;
-}
-function Crema(pixels: ImageData) {
-  console.log("Crema");
+};
+
+const Crema = (pixels: ImageData, adj: number) => {
+  pixels = rgbAdjust.apply(this, [pixels, [1 + adj * 0.04, 1, 1 + adj * 0.02]]);
+  pixels = saturation.apply(this, [pixels, -0.05 * adj]);
   return pixels;
-}
-function Ludwig(pixels: ImageData) {
-  console.log("Ludwig");
+};
+
+const Ludwig = (pixels: ImageData, adj: number) => {
+  pixels = brightness.apply(this, [pixels, 0.05 * adj]);
+  pixels = saturation.apply(this, [pixels, -0.03 * adj]);
   return pixels;
-}
-function Aden(pixels: ImageData) {
-  console.log("Aden");
+};
+
+const Aden = (pixels: ImageData, adj: number) => {
+  pixels = colorFilter.apply(this, [pixels, [228, 130, 225, 0.13 * adj]]);
+  pixels = saturation.apply(this, [pixels, -0.2 * adj]);
   return pixels;
-}
-function Perpetua(pixels: ImageData) {
-  console.log("Perpetua");
+};
+
+const Perpetua = (pixels: ImageData, adj: number) => {
+  pixels = rgbAdjust.apply(this, [pixels, [1 + adj * 0.05, 1 + adj * 0.1, 1]]);
   return pixels;
-}
+};
 
 export const filters: FiltersMothodsType = {
   Original,

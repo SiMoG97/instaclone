@@ -114,7 +114,6 @@ function Gingham(pixels: ImageData) {
 }
 const Moon = (pixels: ImageData, adj: number) => {
   const grayAdj = 1 - adj;
-  console.log(adj);
   pixels = grayscale.apply(this, [pixels, grayAdj]);
   pixels = contrast.apply(this, [pixels, -0.14 * adj]);
   pixels = brightness.apply(this, [pixels, 0.1 * adj]);

@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import RangeSlide from "../../../../FormComponents/RangeSlide";
 import { AdjustmentsSection } from "./AdjustmentsSection";
 import { Tabs } from "./EditImageTabs";
-import { FilterSection, filtersNames } from "./FilterSection";
+import { FilterSection } from "./FilterSection";
 import styles from "../../../popup.module.scss";
 import { FiltersType, ImgVidFileType } from "../..";
-import { AdjustT, CanvasCtxType } from "..";
+import { AdjustT } from "..";
 
 export type AdjustNameType =
   | "brightness"
@@ -27,6 +27,10 @@ type EditImageType = {
   filtersRef: React.MutableRefObject<filtersRefT | undefined>;
   adjustValues: AdjustT;
   setAdjustValues: React.Dispatch<React.SetStateAction<AdjustT>>;
+  currFilterVal: number;
+  setCurrFilterVal: React.Dispatch<React.SetStateAction<number>>;
+  tab: "Filters" | "Adjustments";
+  setTab: React.Dispatch<React.SetStateAction<"Filters" | "Adjustments">>;
 };
 
 export function EditImage({
@@ -36,24 +40,28 @@ export function EditImage({
   filtersRef,
   adjustValues,
   setAdjustValues,
+  currFilterVal,
+  setCurrFilterVal,
+  tab,
+  setTab,
 }: EditImageType) {
-  const [tab, setTab] = useState<"Filters" | "Adjustments">("Filters");
-  const [currFilterVal, setCurrFilterVal] = useState(100);
+  // const [tab, setTab] = useState<"Filters" | "Adjustments">("Filters");
+  // const [currFilterVal, setCurrFilterVal] = useState(100);
 
   useImgChangeFilterChange(files, filtersRef, selectedFile, setCurrFilterVal);
 
-  const setFilterToSelectedImg = (filterName: FiltersType) => {
+  function setFilterToSelectedImg(filterName: FiltersType) {
     const newFiles = files.map((file, i) => {
       if (i !== selectedFile) return file;
       return { ...file, filter: filterName };
     });
     setFiles(() => newFiles);
-  };
+  }
 
-  const setAdjsutSettingsToSelectedImg = (
+  function setAdjsutSettingsToSelectedImg(
     adjustName: AdjustNameType,
     newValue: number
-  ) => {
+  ) {
     const adjustSettings = files[selectedFile].adjustSettings;
     adjustSettings[adjustName] = newValue;
     const newFiles = files.map((file, i) => {
@@ -61,20 +69,15 @@ export function EditImage({
       return { ...file, adjustSettings };
     });
     setFiles(() => newFiles);
-  };
+  }
+
   function updateAdjustValues(adjustName: AdjustNameType, newValue: number) {
     const newAdjustValues = { ...adjustValues };
     newAdjustValues[adjustName] = newValue;
-    // console.log(newAdjustValues);
-    if (adjustValues === newAdjustValues) {
-      // console.log("b7al b7al");
-    }
-    setAdjustValues(() => {
-      // console.log("rah d5el");
-      return newAdjustValues;
-    });
+    setAdjustValues(() => newAdjustValues);
   }
-  const handleRangeChange = (newValue: number) => {
+
+  function handleRangeChange(newValue: number) {
     if (!filtersRef.current) return;
     const newFiltersValue = filtersRef.current.map((item) => {
       if (item.postId !== files[selectedFile].id) return item;
@@ -88,7 +91,7 @@ export function EditImage({
     });
     setCurrFilterVal(newValue);
     filtersRef.current = newFiltersValue;
-  };
+  }
   return (
     <>
       <Tabs tab={tab} setTab={setTab} />
@@ -126,7 +129,7 @@ type BottomRangeType = {
 const BottomRange = ({ currFilterValue, handleChange }: BottomRangeType) => {
   const [filterValue, setFilterValue] = useState(currFilterValue);
   const changeValue = (newValue: number) => {
-    setFilterValue(() => newValue);
+    handleChange(newValue);
   };
   useEffect(() => {
     setFilterValue(() => currFilterValue);
@@ -138,9 +141,6 @@ const BottomRange = ({ currFilterValue, handleChange }: BottomRangeType) => {
         startFrom="left"
         setedValue={currFilterValue}
         changeHandler={changeValue}
-        pointerUp={() => {
-          handleChange(filterValue);
-        }}
       />
       <div
         className={`${styles.numberValue} ${

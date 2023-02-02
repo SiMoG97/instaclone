@@ -109,6 +109,6 @@ const Adjustments: { header: AdjustNameType; startedFrom: "left" | "mid" }[] = [
   { header: "contrast", startedFrom: "mid" },
   { header: "saturation", startedFrom: "mid" },
   { header: "temperature", startedFrom: "mid" },
-  { header: "fade", startedFrom: "mid" },
+  { header: "fade", startedFrom: "left" },
   { header: "vignette", startedFrom: "left" },
 ];

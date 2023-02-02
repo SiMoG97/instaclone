@@ -19,6 +19,10 @@ type EditSideBarType = {
   setIsPaused: React.Dispatch<React.SetStateAction<boolean>>;
   adjustValues: AdjustT;
   setAdjustValues: React.Dispatch<React.SetStateAction<AdjustT>>;
+  currFilterVal: number;
+  setCurrFilterVal: React.Dispatch<React.SetStateAction<number>>;
+  tab: "Filters" | "Adjustments";
+  setTab: React.Dispatch<React.SetStateAction<"Filters" | "Adjustments">>;
 };
 
 export type AdjustNameType =
@@ -38,6 +42,10 @@ const EditSidebar = ({
   setIsPaused,
   adjustValues,
   setAdjustValues,
+  currFilterVal,
+  setCurrFilterVal,
+  tab,
+  setTab,
 }: EditSideBarType) => {
   const filtersRef = useRef<filtersRefT | undefined>();
   useInitFilterVal(filtersRef, files);
@@ -53,6 +61,10 @@ const EditSidebar = ({
           filtersRef={filtersRef}
           adjustValues={adjustValues}
           setAdjustValues={setAdjustValues}
+          currFilterVal={currFilterVal}
+          setCurrFilterVal={setCurrFilterVal}
+          tab={tab}
+          setTab={setTab}
         />
       ) : (
         <EditVideo

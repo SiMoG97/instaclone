@@ -3,7 +3,6 @@ import { ARStateType, ImgVidFileType, originalArCalcul } from "..";
 import styles from "../../popup.module.scss";
 import ArrowsAndDots from "../ArrowsAndDots";
 import { widthAndHeightCalc } from "../utils";
-import { applyMoonFilter } from "./ImageSideBar/filters";
 import { ImagePreview } from "./ImagePreview";
 import { CanvasWidthHeight } from "./utils";
 import { VideoPreview } from "./VideoPreview";
@@ -45,19 +44,15 @@ export function EditStep({
     ...CanvasWidthHeight(aspectRatio, files[0].img),
   });
   const [adjustValues, setAdjustValues] = useState<AdjustT>({} as AdjustT);
+  const [currFilterVal, setCurrFilterVal] = useState(100);
+  const [tab, setTab] = useState<"Filters" | "Adjustments">("Filters");
   // const [someAdjustValue, setSomeAdjustValue] = useState(0);
-  // console.log("rerender");
   useEffect(() => {
     if (files[selectedFile].type !== "image") return;
     const { adjustSettings } = files[selectedFile];
     setAdjustValues(() => adjustSettings);
-    // console.log(files[selectedFile]);
-    // setAdjustSettings
   }, [selectedFile]);
 
-  useEffect(() => {
-    // console.log("hmmmmm");
-  }, [adjustValues]);
   const [isPaused, setIsPaused] = useState(true);
   const [vidCurrTime, setVidCurrTime] = useState(0);
   return (
@@ -79,7 +74,8 @@ export function EditStep({
               height={canvasDimRef.current.height}
               aspectRatio={aspectRatio}
               adjustValues={adjustValues}
-              setAdjustValues={setAdjustValues}
+              currFilterVal={currFilterVal}
+              tab={tab}
             />
           )}
         </div>
@@ -101,6 +97,10 @@ export function EditStep({
           setIsPaused={setIsPaused}
           adjustValues={adjustValues}
           setAdjustValues={setAdjustValues}
+          currFilterVal={currFilterVal}
+          setCurrFilterVal={setCurrFilterVal}
+          tab={tab}
+          setTab={setTab}
         />
       </SidebarContainer>
     </>

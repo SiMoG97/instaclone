@@ -53,7 +53,6 @@ export function useDragImgVidHandlers({
     (e: React.PointerEvent<HTMLDivElement>) => {
       if (!croppingDiv.current || !cropAreaRef.current || !isPointerDown)
         return;
-      console.log("called");
       const { startX, startY } = cords.current;
       const { width, height } = croppingDiv.current.getBoundingClientRect();
       const { scale, x, y } = files[selectedFile];

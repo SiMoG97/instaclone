@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ARStateType, ImgVidFileType } from "..";
 import useWindowEventHandler from "../../../../Hooks/useWindowEventHandler";
-import { widthAndHeightCalc } from "../utils";
+import { getFramesFromVid, widthAndHeightCalc } from "../utils";
 import styles from "../../popup.module.scss";
 import { CalcOriginal } from ".";
 import Image from "next/image";
@@ -25,8 +25,12 @@ export function VideoPreview({
 }: videoPreviewType) {
   const vidRef = useRef<HTMLVideoElement>(null);
   const previewContainerRef = useRef<HTMLDivElement>(null);
+  const coverPreviewRef = useRef<HTMLDivElement>(null);
+
+  usePreviewCoverFrame(coverPreviewRef, file.coverTime, file.vidUrl);
 
   usePositionVid(file, previewContainerRef, vidRef);
+
   useLoopVideoFromstartToEnd({
     file,
     vidRef,
@@ -71,11 +75,15 @@ export function VideoPreview({
         src={file.vidUrl}
         onPointerUp={togglePause}
       ></video>
-      {isPaused ? (
+      <div
+        className={styles.videoCoverPreview}
+        ref={coverPreviewRef}
+        style={isPaused ? { display: "flex" } : { display: "none" }}
+      >
         <div className={styles.playBtnImg}>
           <Image src="/play.png" layout="fill" alt="Play button image" />
         </div>
-      ) : null}
+      </div>
     </div>
   );
 }
@@ -156,4 +164,18 @@ function useLoopVideoFromstartToEnd({
 function naiveRound(num: number, decimalPlaces = 0) {
   var p = Math.pow(10, decimalPlaces);
   return Math.round(num * p) / p;
+}
+
+function usePreviewCoverFrame(
+  coverPreviewRef: React.RefObject<HTMLDivElement>,
+  frameTime: number,
+  vidUrl: string
+) {
+  useEffect(() => {
+    (async () => {
+      if (!coverPreviewRef.current) return;
+      const cover = await getFramesFromVid({ frameTime, vidUrl });
+      coverPreviewRef.current.style.backgroundImage = `url("${cover}")`;
+    })();
+  }, [frameTime]);
 }

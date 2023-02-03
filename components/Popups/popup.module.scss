@@ -738,20 +738,29 @@
   }
   .previewVidContainer {
     position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
     overflow: hidden;
     video {
       position: absolute;
       transition: 100ms;
     }
-    .playBtnImg {
+    .videoCoverPreview {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
       position: relative;
-      width: 8rem;
-      height: 8rem;
       pointer-events: none;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      .playBtnImg {
+        position: relative;
+        width: 8rem;
+        height: 8rem;
+        pointer-events: none;
+      }
     }
   }
   .canvasVidContainer {

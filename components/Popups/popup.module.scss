@@ -728,6 +728,33 @@
     }
   }
 }
+.previewVidContainer {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  video {
+    position: absolute;
+    transition: 100ms;
+  }
+  .videoCoverPreview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    pointer-events: none;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    .playBtnImg {
+      position: relative;
+      width: 8rem;
+      height: 8rem;
+      pointer-events: none;
+    }
+  }
+}
 .EditStep {
   width: 83rem;
   height: 83rem;
@@ -735,33 +762,6 @@
   @include media("<tablet") {
     width: 100%;
     height: 100%;
-  }
-  .previewVidContainer {
-    position: relative;
-    cursor: pointer;
-    overflow: hidden;
-    video {
-      position: absolute;
-      transition: 100ms;
-    }
-    .videoCoverPreview {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      position: relative;
-      pointer-events: none;
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      .playBtnImg {
-        position: relative;
-        width: 8rem;
-        height: 8rem;
-        pointer-events: none;
-      }
-    }
   }
   .canvasVidContainer {
     display: flex;
@@ -995,4 +995,29 @@
       height: 2.2rem;
     }
   }
+}
+.shareStep {
+  position: relative;
+  width: 83rem;
+  height: 83rem;
+  @include media("<=laptop") {
+    width: 76rem;
+    height: 76rem;
+  }
+  @include media("<tablet") {
+    width: 100%;
+    height: 100%;
+  }
+  .imgVidContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+}
+.shareSideBar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }

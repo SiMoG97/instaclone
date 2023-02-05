@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ARStateType, ImgVidFileType, originalArCalcul } from "..";
+import { ARStateType, filtersRefT, ImgVidFileType, originalArCalcul } from "..";
 import styles from "../../popup.module.scss";
 import ArrowsAndDots from "../ArrowsAndDots";
 import { widthAndHeightCalc } from "../utils";
@@ -21,6 +21,8 @@ type EditProps = {
   aspectRatio: ARStateType;
   selectedFile: number;
   setSelectedFile: React.Dispatch<React.SetStateAction<number>>;
+  filtersRef: React.MutableRefObject<filtersRefT | undefined>;
+  step: number;
 };
 export type AdjustT = {
   brightness: number;
@@ -39,7 +41,10 @@ export function EditStep({
   prevFile,
   selectedFile,
   setSelectedFile,
+  step,
+  filtersRef,
 }: EditProps) {
+  // const filtersRef = useRef<filtersRefT | undefined>();
   const canvasDimRef = useRef({
     ...CanvasWidthHeight(aspectRatio, files[0].img),
   });
@@ -55,6 +60,11 @@ export function EditStep({
 
   const [isPaused, setIsPaused] = useState(true);
   const [vidCurrTime, setVidCurrTime] = useState(0);
+  // useEffect(() => {
+  //   return () => {
+  //     console.log(step);
+  //   };
+  // }, [step]);
   return (
     <>
       <div className={styles.EditStep}>
@@ -80,7 +90,7 @@ export function EditStep({
           )}
         </div>
         <ArrowsAndDots
-          files={files}
+          filesLength={files.length}
           nextFile={nextFile}
           prevFile={prevFile}
           selectedFile={selectedFile}
@@ -101,6 +111,7 @@ export function EditStep({
           setCurrFilterVal={setCurrFilterVal}
           tab={tab}
           setTab={setTab}
+          filtersRef={filtersRef}
         />
       </SidebarContainer>
     </>

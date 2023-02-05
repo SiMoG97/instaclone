@@ -4,7 +4,7 @@ import { AdjustmentsSection } from "./AdjustmentsSection";
 import { Tabs } from "./EditImageTabs";
 import { FilterSection } from "./FilterSection";
 import styles from "../../../popup.module.scss";
-import { FiltersType, ImgVidFileType } from "../..";
+import { filtersRefT, FiltersType, ImgVidFileType } from "../..";
 import { AdjustT } from "..";
 
 export type AdjustNameType =
@@ -14,11 +14,6 @@ export type AdjustNameType =
   | "temperature"
   | "fade"
   | "vignette";
-export type filter = {
-  name: string;
-  value: number;
-};
-export type filtersRefT = { postId: string; filters: filter[] }[];
 
 type EditImageType = {
   files: ImgVidFileType[];
@@ -161,7 +156,7 @@ function useImgChangeFilterChange(
 ): void {
   useEffect(() => {
     if (!filtersRef.current) return;
-    let filterVal = 100;
+    let filterVal = 50;
     filtersRef.current[selectedFile].filters.forEach(({ name, value }) => {
       if (name !== files[selectedFile].filter) return;
       filterVal = value;

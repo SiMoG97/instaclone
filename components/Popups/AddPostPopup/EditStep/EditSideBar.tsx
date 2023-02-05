@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { FiltersType, ImgVidFileType } from "..";
+import { filtersRefT, FiltersType, ImgVidFileType } from "..";
 import RangeSlide from "../../../FormComponents/RangeSlide";
 import styles from "../../popup.module.scss";
 import { getFiveFrames, getFramesFromVid } from "../utils";
 import { AdjustmentsSection } from "./ImageSideBar/AdjustmentsSection";
-import { EditImage, filtersRefT } from "./ImageSideBar/EditImage";
+import { EditImage } from "./ImageSideBar/EditImage";
 import { Tabs } from "./ImageSideBar/EditImageTabs";
 import { EditVideo } from "./VideoSideBar/EditVideo";
 import { FilterSection, filtersNames } from "./ImageSideBar/FilterSection";
@@ -23,6 +23,7 @@ type EditSideBarType = {
   setCurrFilterVal: React.Dispatch<React.SetStateAction<number>>;
   tab: "Filters" | "Adjustments";
   setTab: React.Dispatch<React.SetStateAction<"Filters" | "Adjustments">>;
+  filtersRef: React.MutableRefObject<filtersRefT | undefined>;
 };
 
 export type AdjustNameType =
@@ -46,8 +47,9 @@ const EditSidebar = ({
   setCurrFilterVal,
   tab,
   setTab,
+  filtersRef,
 }: EditSideBarType) => {
-  const filtersRef = useRef<filtersRefT | undefined>();
+  // const filtersRef = useRef<filtersRefT | undefined>();
   useInitFilterVal(filtersRef, files);
   const videoFrames = useGetFramesForVideos({ files });
 
@@ -87,6 +89,7 @@ function useInitFilterVal(
   files: ImgVidFileType[]
 ) {
   useEffect(() => {
+    if (filtersRef.current) return;
     filtersRef.current = files.map((file) => ({
       postId: file.id,
       filters: filtersNames.map((name) => ({

@@ -18,7 +18,16 @@ import AddPost from "../../../public/addPost.svg";
 import AddPostActive from "../../../public/addPostActive.svg";
 import SidebarContainer from "./SidebarContainer";
 import EditSidebar from "./EditStep/EditSideBar";
+import { exportImage } from "./EditStep/ImagePreview/DrawingImageFunctions";
+import { dataUrlToBlob } from "./utils";
+import { CanvasWidthHeight } from "./EditStep/utils";
+// import { filtersRefT } from "./EditStep/ImageSideBar/EditImage";
 
+export type filter = {
+  name: string;
+  value: number;
+};
+export type filtersRefT = { postId: string; filters: filter[] }[];
 export type ImgVidFileType = {
   type: "video" | "image";
   img: HTMLImageElement;
@@ -68,10 +77,29 @@ export type ARStateType =
   | "fourToFive"
   | "sixteenToNine";
 
+type ImgToUp = {
+  type: "image";
+  src: string;
+};
+
+export type VidToUp = {
+  type: "video";
+  img: HTMLImageElement;
+  src: string;
+  startsAt: number;
+  endsAt: number;
+  duration: number;
+  coverTime: number;
+  sound: boolean;
+  x: number;
+  y: number;
+};
+export type FilesToUploadT = (ImgToUp | VidToUp)[];
 const headers = ["Create new post", "Crop", "Edit", "Create new post"];
 
 function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
   const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
+  const filtersRef = useRef<filtersRefT | undefined>();
 
   const initDiscardBtns = [
     {
@@ -214,6 +242,60 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
     }
     setIsOpen(() => false);
   };
+  //////////
+
+  const [filesToUp, setFilesToUp] = useState<FilesToUploadT>(
+    [] as FilesToUploadT
+  );
+  useEffect(() => {
+    if (step < 2) {
+      filtersRef.current = undefined;
+    } else if (step === 3) {
+      (async () => {
+        const newFilesToUp: FilesToUploadT = [];
+        for (let i = 0; i < files.length; i++) {
+          if (!filtersRef.current) continue;
+          if (files[i].type === "video") {
+            const vidFile: VidToUp = {
+              type: "video",
+              img: files[i].img,
+              src: files[i].vidUrl,
+              startsAt: files[i].startsAt,
+              endsAt: files[i].endsAt,
+              coverTime: files[i].coverTime,
+              duration: files[i].duration,
+              sound: files[i].sound,
+              x: files[i].x,
+              y: files[i].y,
+            };
+            newFilesToUp.push(vidFile);
+          } else {
+            if (files[i].id !== filtersRef.current[i].postId) continue;
+            let filterAndValue = filtersRef.current[i].filters.find(
+              ({ name }) => name === files[i].filter
+            );
+            let value = 100;
+            if (filterAndValue) {
+              value = filterAndValue.value;
+            }
+            const data = exportImage(
+              CanvasWidthHeight(aspectRatio, files[0].img),
+              files[i],
+              value
+            );
+            if (!data) {
+              newFilesToUp.push({ type: "image", src: "" } as ImgToUp);
+              continue;
+            }
+            const imgBlob = await dataUrlToBlob(data);
+            newFilesToUp.push({ type: "image", src: imgBlob } as ImgToUp);
+          }
+        }
+        setFilesToUp(() => newFilesToUp);
+      })();
+    }
+  }, [step]);
+
   return (
     <>
       <PopupContainer
@@ -279,10 +361,21 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
                     aspectRatio={aspectRatio}
                     selectedFile={selectedFile}
                     setSelectedFile={setSelectedFile}
+                    step={step}
+                    filtersRef={filtersRef}
                   />
                 </>
               ) : null}
-              {step === 3 ? <SharePostStep step={step} /> : null}
+              {step === 3 ? (
+                <SharePostStep
+                  step={step}
+                  prevFile={prevFile}
+                  nextFile={nextFile}
+                  selectedFile={selectedFile}
+                  aspectRatio={aspectRatio}
+                  filesToUp={filesToUp}
+                />
+              ) : null}
               {/*  */}
               {/* Sidebar */}
               {/* <SidebarContainer step={step}>

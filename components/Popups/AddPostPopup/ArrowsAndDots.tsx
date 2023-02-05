@@ -9,14 +9,14 @@ type ArrowsAndDotsProps = {
   selectedFile: number;
   prevFile: () => void;
   nextFile: () => void;
-  files: ImgVidFileType[];
+  filesLength: number;
 };
 
 const ArrowsAndDots = ({
   nextFile,
   prevFile,
   selectedFile,
-  files,
+  filesLength,
 }: ArrowsAndDotsProps) => {
   return (
     <>
@@ -33,7 +33,7 @@ const ArrowsAndDots = ({
           <IconCircle Icon={ArrowL} />
         </div>
       ) : null}
-      {selectedFile < files.length - 1 ? (
+      {selectedFile < filesLength - 1 ? (
         <div
           style={{
             position: "absolute",
@@ -46,7 +46,7 @@ const ArrowsAndDots = ({
           <IconCircle Icon={ArrowR} />
         </div>
       ) : null}
-      <SliderDots nbrOfDots={files.length} selectedDot={selectedFile} />
+      <SliderDots nbrOfDots={filesLength} selectedDot={selectedFile} />
     </>
   );
 };

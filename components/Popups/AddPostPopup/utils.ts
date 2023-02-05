@@ -57,27 +57,18 @@ export function getFramesFromVid({
       if (!ctx) return;
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       const src = canvas.toDataURL();
-      fetch(src)
-        .then((res) => res.blob())
-        .then((blob) => {
-          const blobUrl = URL.createObjectURL(blob);
-          resolve(blobUrl);
-        });
+      dataUrlToBlob(src).then((blob) => {
+        resolve(blob);
+      });
     });
   });
 }
-// function dataURLtoBlob(dataurl: string) {
-//   // if (dataurl.length === 0) return "";
-//   let arr = dataurl.split(","),
-//     mime = arr[0].match(/:(.*?);/)[1],
-//     bstr = atob(arr[1]),
-//     n = bstr.length,
-//     u8arr = new Uint8Array(n);
-//   while (n--) {
-//     u8arr[n] = bstr.charCodeAt(n);
-//   }
-//   return new Blob([u8arr], { type: mime });
-// }
+
+export function dataUrlToBlob(dataUrl: string) {
+  return fetch(dataUrl)
+    .then((res) => res.blob())
+    .then((blob) => URL.createObjectURL(blob));
+}
 
 export async function getFiveFrames(
   vidUrl: string,

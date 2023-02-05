@@ -1,9 +1,11 @@
 import { AdjustT } from "..";
+import { ImgVidFileType } from "../..";
 import { widthAndHeightCalc } from "../../utils";
 import {
   brightness,
   contrast,
   fade,
+  filters,
   saturation,
   temperature,
   vignette,
@@ -44,4 +46,22 @@ export function ApplyAdjustments(
   imageData = fade(imageData, adjustValues.fade / 500);
   imageData = vignette(imageData, adjustValues.vignette / 100, canvas);
   return imageData;
+}
+
+export function exportImage(
+  { width, height }: { width: number; height: number },
+  file: ImgVidFileType,
+  filterAdjust: number
+) {
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  const { img, scale, x, y } = file;
+  let imageData = drawImageOnCanvas(canvas, ctx, img, x, y, scale);
+  if (!ctx || !imageData) return;
+  imageData = ApplyAdjustments(imageData, file.adjustSettings, canvas);
+  imageData = filters[file.filter](imageData, filterAdjust / 100);
+  ctx.putImageData(imageData, 0, 0);
+  return canvas.toDataURL();
 }

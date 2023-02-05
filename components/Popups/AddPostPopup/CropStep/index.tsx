@@ -157,7 +157,7 @@ export function CropStep({
           setAlertMessage={setAlertMessage}
         />
         <ArrowsAndDots
-          files={files}
+          filesLength={files.length}
           nextFile={nextFile}
           prevFile={prevFile}
           selectedFile={selectedFile}

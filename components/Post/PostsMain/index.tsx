@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import styles from "./PostMain.module.scss";
 import PostHeader from "../PostHeader";
 import Button from "../../Button";
-import Textarea from "../../Textarea";
+import Textarea from "../../TextareaInput";
 import PostReactions from "../PostReactions";
 import PostBody from "../PostBody";
 import { ImagePost } from "../ImagePost";

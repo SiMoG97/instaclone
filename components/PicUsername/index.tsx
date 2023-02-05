@@ -24,9 +24,13 @@ const PicUsername = ({
   src,
   size,
   secondTxtCss = {},
+  style = {},
 }: PicUsernameProps) => {
   return (
-    <div className={`${styles.container} ${isVertical && styles.vertical}`}>
+    <div
+      style={style}
+      className={`${styles.container} ${isVertical && styles.vertical}`}
+    >
       <ProfilePic
         src={src}
         size={size}

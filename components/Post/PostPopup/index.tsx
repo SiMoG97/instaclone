@@ -3,7 +3,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import PicUsername from "../../PicUsername";
 import PopupBody from "../../Popups/PopupBody";
 import PopupContainer from "../../Popups/PopupContainer";
-import TextArea from "../../Textarea";
+import TextArea from "../../TextareaInput";
 import CommentAndReplies, { CommentAndRepliesProps } from "./Comment";
 import PostBody from "../PostBody";
 import PostBottomPart from "../PostBottomPart";

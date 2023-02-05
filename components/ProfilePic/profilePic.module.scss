@@ -79,6 +79,20 @@
       stroke-width: 4;
     }
   }
+  &.size-4-5 {
+    // width: 4.2rem;
+    // height: 4.2rem;
+    width: 2.8rem;
+    height: 2.8rem;
+    img,
+    .imgContainer {
+      width: 2.8rem;
+      height: 2.8rem;
+    }
+    svg {
+      stroke-width: 4;
+    }
+  }
   &.size-5 {
     width: 2.4rem;
     height: 2.4rem;

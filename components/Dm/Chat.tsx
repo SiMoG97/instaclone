@@ -1,5 +1,5 @@
 import PicUsername from "../PicUsername";
-import TextArea from "../Textarea";
+import TextArea from "../TextareaInput";
 import styles from "./Dm.module.scss";
 import ChatDetailsIcon from "../../public/ChatDetails.svg";
 import ArrowLeft from "../../public/leftArrow.svg";

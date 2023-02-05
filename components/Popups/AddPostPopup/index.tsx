@@ -108,7 +108,6 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
       method: () => {
         setStep(() => 0);
         setFiles(() => []);
-        // setSelectedFile({} as ImgFileType);
         setSelectedFile(0);
         setShowDiscardPopup(() => false);
       },
@@ -121,14 +120,9 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
       },
     },
   ];
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [isOpen, setIsOpen] = useState(true);
   const [step, setStep] = useState(0);
   const prevStepRef = useRef(0);
   const [files, setFiles] = useState<ImgVidFileType[]>([] as ImgVidFileType[]);
-  // const [selectedFile, setSelectedFile] = useState<ImgFileType>(
-  //   {} as ImgFileType
-  // );
   const [selectedFile, setSelectedFile] = useState(0);
   const [showDiscardPopup, setShowDiscardPopup] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string>("");

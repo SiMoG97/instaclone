@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ARStateType, filtersRefT, ImgVidFileType, originalArCalcul } from "..";
+import { ARStateType, filtersRefT, ImgVidFileType } from "..";
 import styles from "../../popup.module.scss";
 import ArrowsAndDots from "../ArrowsAndDots";
 import { widthAndHeightCalc } from "../utils";

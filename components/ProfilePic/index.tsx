@@ -15,6 +15,7 @@ export type ProfilePicTypes = {
     | "size-2"
     | "size-3"
     | "size-4"
+    | "size-4-5"
     | "size-5"
     | "size-6";
   animate?: boolean;

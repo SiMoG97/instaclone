@@ -5,6 +5,7 @@ import { ARStateType, FilesToUploadT, VidToUp } from "..";
 import ArrowsAndDots from "../ArrowsAndDots";
 import { VideoPreview } from "../EditStep/VideoPreview";
 import { ShowEditedVid } from "./ShowEditedVid";
+import { ShareSideBar } from "./ShareSideBar";
 
 type SharePostStepT = {
   step: number;
@@ -40,28 +41,18 @@ export function SharePostStep({
     <>
       <div className={`${styles.shareStep} `}>
         <div className={styles.imgVidContainer}>
-          {
-            filesToUp[selectedFile]?.type === "image" ? (
-              <ShowEditedImage
-                src={filesToUp[selectedFile]?.src}
-                isLoading={isLoading}
-                aspectRatio={aspectRatio}
-              />
-            ) : (
-              <ShowEditedVid
-                aspectRatio={aspectRatio}
-                vidToUp={filesToUp[selectedFile] as VidToUp}
-              />
-            )
-            // null
-            // <VideoPreview
-            // isPaused={isVidPaused}
-            //   aspectRatio={aspectRatio}
-            //   setIsPaused={setIsVidPaused}
-            //   setVidCurrTime={setVidCurrTime}
-
-            // />
-          }
+          {filesToUp[selectedFile]?.type === "image" ? (
+            <ShowEditedImage
+              src={filesToUp[selectedFile]?.src}
+              isLoading={isLoading}
+              aspectRatio={aspectRatio}
+            />
+          ) : (
+            <ShowEditedVid
+              aspectRatio={aspectRatio}
+              vidToUp={filesToUp[selectedFile] as VidToUp}
+            />
+          )}
         </div>
         <ArrowsAndDots
           filesLength={filesToUp.length}
@@ -71,10 +62,11 @@ export function SharePostStep({
         />
       </div>
 
-      <SidebarContainer step={step} prevStep={5}>
-        <div className={styles.shareSideBar}>
+      <SidebarContainer step={3} prevStep={5}>
+        {/* <div className={styles.shareSideBar}>
           <h1>step 3 </h1>
-        </div>
+        </div> */}
+        <ShareSideBar />
       </SidebarContainer>
     </>
   );

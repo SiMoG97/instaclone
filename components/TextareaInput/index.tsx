@@ -1,32 +1,24 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import dynamic from "next/dynamic";
+import { useEffect, useRef, useState } from "react";
 import styles from "./textarea.module.scss";
-import FaceEmoji from "../../public/faceEmoji.svg";
 import Heart from "../../public/heart.svg";
 import PicUpload from "../../public/picUpload.svg";
 import { SendButton } from "./SendButton";
-import useOnClickOutside from "../../Hooks/useOnClickOutside";
-
-const EmojiPicker = dynamic(() => import("../EmojiPicker"), { ssr: false });
+import { CustomEmojiPicker } from "../FormComponents/CustomEmojiPicker";
 
 type TextAreaProps = {
   isCommentInput: boolean;
   inputFocus?: boolean;
-  // inputFocus: React.MutableRefObject<boolean>;
   setInputFocus?: React.Dispatch<React.SetStateAction<boolean>>;
   selectedReplyUser?: string;
 };
 
-const TextArea = ({
+const TextareaInput = ({
   isCommentInput,
   inputFocus,
   setInputFocus,
   selectedReplyUser,
 }: TextAreaProps) => {
   const taRef = useRef<HTMLTextAreaElement>(null);
-  const emojiRef = useRef<HTMLDivElement>(null);
-  const emojiIconOpenButton = useRef<HTMLDivElement>(null);
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isTaEmpty, setIsTaEmpty] = useState(true);
 
   const replyToHandler = () => {
@@ -47,12 +39,6 @@ const TextArea = ({
       taRef.current.focus();
     }
   }, [inputFocus]);
-
-  useOnClickOutside(
-    emojiRef,
-    () => setShowEmojiPicker(false),
-    emojiIconOpenButton
-  );
 
   const taChangeHandler = ({
     target,
@@ -88,31 +74,14 @@ const TextArea = ({
           !isCommentInput && styles.border
         }`}
       >
-        <div>
-          <div style={{ display: "contents" }} ref={emojiIconOpenButton}>
-            <FaceEmoji
-              onClick={() => {
-                setShowEmojiPicker((prev) => !prev);
-              }}
-            />
-          </div>
-          {showEmojiPicker && (
-            <div ref={emojiRef}>
-              <EmojiPicker
-                onEmojiSelect={(emojiObj: any) => {
-                  if (taRef.current) {
-                    taRef.current.focus();
-                    if (taRef.current.value === "") {
-                      setIsTaEmpty(false);
-                    }
-                    taRef.current.value += emojiObj.native;
-                    calculateTaHeight(taRef.current);
-                  }
-                }}
-              />
-            </div>
-          )}
-        </div>
+        <CustomEmojiPicker
+          taRef={taRef}
+          setIsTaEmpty={setIsTaEmpty}
+          callBack={() => {
+            if (!taRef.current) return;
+            calculateTaHeight(taRef.current);
+          }}
+        />
         <div className={styles.textareaParent}>
           <textarea
             ref={taRef}
@@ -151,4 +120,4 @@ const TextArea = ({
   );
 };
 
-export default TextArea;
+export default TextareaInput;

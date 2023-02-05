@@ -85,7 +85,7 @@ type ImgToUp = {
 export type VidToUp = {
   type: "video";
   img: HTMLImageElement;
-  src: string;
+  vidUrl: string;
   startsAt: number;
   endsAt: number;
   duration: number;
@@ -93,6 +93,7 @@ export type VidToUp = {
   sound: boolean;
   x: number;
   y: number;
+  src: "";
 };
 export type FilesToUploadT = (ImgToUp | VidToUp)[];
 const headers = ["Create new post", "Crop", "Edit", "Create new post"];
@@ -167,26 +168,7 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
       return prev;
     });
   };
-  // function nextFile() {
-  //   setSelectedFile((currFile) => {
-  //     let i = files.indexOf(currFile);
-  //     if (i >= files.length - 1) {
-  //       return files[i];
-  //     }
-  //     i++;
-  //     return files[i];
-  //   });
-  // }
-  // function prevFile() {
-  //   setSelectedFile((currFile) => {
-  //     let i = files.indexOf(currFile);
-  //     if (i <= 0) {
-  //       return files[0];
-  //     }
-  //     i--;
-  //     return files[i];
-  //   });
-  // }
+
   function nextFile() {
     setSelectedFile((i) => {
       if (i >= files.length - 1) {
@@ -209,15 +191,6 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
     if (!files[selectedFile]) return;
     selectedFileIdRef.current = files[selectedFile].id;
   }, [selectedFile]);
-  // function selectFile(idx: number) {
-  //   let i = idx;
-  //   if (idx > files.length - 1) {
-  //     i = files.length - 1;
-  //   } else if (idx < 0) {
-  //     i = 0;
-  //   }
-  //   setSelectedFile(() => i);
-  // }
 
   useEffect(() => {
     setTimeout(() => {
@@ -243,58 +216,12 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
     setIsOpen(() => false);
   };
   //////////
-
-  const [filesToUp, setFilesToUp] = useState<FilesToUploadT>(
-    [] as FilesToUploadT
+  const filesToUp = useHandleFilesToUpload(
+    files,
+    filtersRef,
+    step,
+    aspectRatio
   );
-  useEffect(() => {
-    if (step < 2) {
-      filtersRef.current = undefined;
-    } else if (step === 3) {
-      (async () => {
-        const newFilesToUp: FilesToUploadT = [];
-        for (let i = 0; i < files.length; i++) {
-          if (!filtersRef.current) continue;
-          if (files[i].type === "video") {
-            const vidFile: VidToUp = {
-              type: "video",
-              img: files[i].img,
-              src: files[i].vidUrl,
-              startsAt: files[i].startsAt,
-              endsAt: files[i].endsAt,
-              coverTime: files[i].coverTime,
-              duration: files[i].duration,
-              sound: files[i].sound,
-              x: files[i].x,
-              y: files[i].y,
-            };
-            newFilesToUp.push(vidFile);
-          } else {
-            if (files[i].id !== filtersRef.current[i].postId) continue;
-            let filterAndValue = filtersRef.current[i].filters.find(
-              ({ name }) => name === files[i].filter
-            );
-            let value = 100;
-            if (filterAndValue) {
-              value = filterAndValue.value;
-            }
-            const data = exportImage(
-              CanvasWidthHeight(aspectRatio, files[0].img),
-              files[i],
-              value
-            );
-            if (!data) {
-              newFilesToUp.push({ type: "image", src: "" } as ImgToUp);
-              continue;
-            }
-            const imgBlob = await dataUrlToBlob(data);
-            newFilesToUp.push({ type: "image", src: imgBlob } as ImgToUp);
-          }
-        }
-        setFilesToUp(() => newFilesToUp);
-      })();
-    }
-  }, [step]);
 
   return (
     <>
@@ -376,34 +303,6 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
                   filesToUp={filesToUp}
                 />
               ) : null}
-              {/*  */}
-              {/* Sidebar */}
-              {/* <SidebarContainer step={step}>
-                {step === 2 ? (
-                  <EditSidebar
-                    files={files}
-                    setFiles={setFiles}
-                    selectedFile={selectedFile}
-                  />
-                ) : null} */}
-              {/* {step === 3 ? <h1>step 3 </h1> : null} */}
-              {/* </SidebarContainer> */}
-              {/* <SidebarContainer
-                step={step}
-                files={files}
-                setFiles={setFiles}
-                selectedFile={selectedFile}
-              /> */}
-              {/* <div
-                style={{
-                  width: step > 1 ? "300px" : "0",
-                  height: step > 1 ? "auto" : "0",
-                  background: "red",
-                  transition: "width 0.3s",
-                }}
-              ></div> */}
-              {/* Sidebar */}
-              {/*  */}
             </div>
             {alertMessage ? (
               <div ref={alertDiv} className={styles.alertMessage}>
@@ -458,3 +357,64 @@ export const originalArCalcul = (width: number, height: number) => {
     };
   }
 };
+
+function useHandleFilesToUpload(
+  files: ImgVidFileType[],
+  filtersRef: React.MutableRefObject<filtersRefT | undefined>,
+  step: number,
+  aspectRatio: ARStateType
+) {
+  const [filesToUp, setFilesToUp] = useState<FilesToUploadT>(
+    [] as FilesToUploadT
+  );
+  useEffect(() => {
+    if (step < 2) {
+      filtersRef.current = undefined;
+    } else if (step === 3) {
+      (async () => {
+        const newFilesToUp: FilesToUploadT = [];
+        for (let i = 0; i < files.length; i++) {
+          if (!filtersRef.current) continue;
+          if (files[i].type === "video") {
+            const vidFile: VidToUp = {
+              type: "video",
+              img: files[i].img,
+              vidUrl: files[i].vidUrl,
+              startsAt: files[i].startsAt,
+              endsAt: files[i].endsAt,
+              coverTime: files[i].coverTime,
+              duration: files[i].duration,
+              sound: files[i].sound,
+              x: files[i].x,
+              y: files[i].y,
+              src: "",
+            };
+            newFilesToUp.push(vidFile);
+          } else {
+            if (files[i].id !== filtersRef.current[i].postId) continue;
+            let filterAndValue = filtersRef.current[i].filters.find(
+              ({ name }) => name === files[i].filter
+            );
+            let value = 100;
+            if (filterAndValue) {
+              value = filterAndValue.value;
+            }
+            const data = exportImage(
+              CanvasWidthHeight(aspectRatio, files[0].img),
+              files[i],
+              value
+            );
+            if (!data) {
+              newFilesToUp.push({ type: "image", src: "" } as ImgToUp);
+              continue;
+            }
+            const imgBlob = await dataUrlToBlob(data);
+            newFilesToUp.push({ type: "image", src: imgBlob } as ImgToUp);
+          }
+        }
+        setFilesToUp(() => newFilesToUp);
+      })();
+    }
+  }, [step]);
+  return filesToUp;
+}

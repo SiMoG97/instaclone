@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { CalcOriginal } from "..";
-import { ARStateType } from "../..";
+import { ARStateType, VidToUp } from "../..";
 import styles from "../../../popup.module.scss";
 import { PreviewSelectedCover } from "./PreviewSelectedCover";
 import {
@@ -8,38 +8,26 @@ import {
   usePositionVid,
 } from "./VideoPreviewLogic";
 
+type VidFileT = Omit<VidToUp, "duration" | "type" | "src">;
+
 type VideoT = {
   vidRef: React.RefObject<HTMLVideoElement>;
-  img: HTMLImageElement;
   aspectRatio: ARStateType;
-  sound: boolean;
   setIsPaused: React.Dispatch<React.SetStateAction<boolean>>;
-  coverTime: number;
-  vidUrl: string;
   isPaused: boolean;
-  x: number;
-  y: number;
-  startsAt: number;
-  endsAt: number;
   setVidCurrTime: React.Dispatch<React.SetStateAction<number>>;
+  vidFile: VidFileT;
 };
 export function Video({
   vidRef,
-  img,
   aspectRatio,
   setIsPaused,
-  coverTime,
-  sound,
-  vidUrl,
   isPaused,
-  x,
-  y,
-  startsAt,
-  endsAt,
+  vidFile,
   setVidCurrTime,
 }: VideoT) {
   const previewContainerRef = useRef<HTMLDivElement>(null);
-
+  const { img, coverTime, endsAt, sound, startsAt, vidUrl, x, y } = vidFile;
   usePositionVid(
     { img, x, y, type: "video", vidUrl },
     previewContainerRef,

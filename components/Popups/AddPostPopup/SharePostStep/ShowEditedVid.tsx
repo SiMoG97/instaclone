@@ -19,21 +19,23 @@ ShowEditedVidT) {
   const [_, setVidCurrTime] = useState(0);
   const [isPaused, setIsPaused] = useState(true);
   if (!vidToUp) return <></>;
+  const { type, duration, ...vidFile } = vidToUp;
   return (
     <Video
       vidRef={vidRef}
-      img={vidToUp.img}
+      //   img={vidToUp.img}
       aspectRatio={aspectRatio}
-      coverTime={vidToUp.coverTime}
+      //   coverTime={vidToUp.coverTime}
       isPaused={isPaused}
       setIsPaused={setIsPaused}
-      sound={vidToUp.sound}
-      vidUrl={vidToUp.src}
-      x={vidToUp.x}
-      y={vidToUp.y}
-      startsAt={vidToUp.startsAt}
-      endsAt={vidToUp.endsAt}
+      //   sound={vidToUp.sound}
+      //   vidUrl={vidToUp.src}
+      //   x={vidToUp.x}
+      //   y={vidToUp.y}
+      //   startsAt={vidToUp.startsAt}
+      //   endsAt={vidToUp.endsAt}
       setVidCurrTime={setVidCurrTime}
+      vidFile={vidFile}
     />
   );
 }

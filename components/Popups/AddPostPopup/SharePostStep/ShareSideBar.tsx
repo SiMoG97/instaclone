@@ -22,13 +22,19 @@ export function ShareSideBar() {
     register,
     handleSubmit,
     watch,
+    setValue,
+    getValues,
+    setFocus,
     formState: { errors, isValid },
   } = useForm<FormType>({
     resolver: zodResolver(schema),
   });
   const { ref, ...rest } = register("postDescription");
-  console.log(errors);
-
+  // console.log(setValue("postDescription",''));
+  function EmojiClickCallBack(emojiObj: any) {
+    setFocus("postDescription");
+    setValue("postDescription", getValues("postDescription") + emojiObj);
+  }
   return (
     <div className={styles.shareSideBar}>
       <form
@@ -50,10 +56,12 @@ export function ShareSideBar() {
           TextareaCss={{ padding: ".3rem 1.6rem" }}
           emojis
           taRef={taRef}
+          callBack={EmojiClickCallBack}
           numberOfChars={new Intl.NumberFormat().format(
             (watch("postDescription") || "").length
           )}
           {...rest}
+          // onChange
           ref={(e) => {
             ref(e);
             taRef.current = e;

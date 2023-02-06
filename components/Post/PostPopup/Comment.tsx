@@ -56,7 +56,7 @@ export const CommentDesc = ({
 
                 <span
                   onClick={() => {
-                    setSelectedRepluUser(`@${username} `);
+                    setSelectedRepluUser(() => `@${username} `);
                   }}
                 >
                   Reply

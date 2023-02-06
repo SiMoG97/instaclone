@@ -120,7 +120,7 @@
 
 .textareaContainer {
   width: 100%;
-  margin: 2rem 0;
+  // margin: 2rem 0 1rem;
   textarea {
     width: 100%;
     border: 1px solid var(--txt-c-4);
@@ -173,6 +173,52 @@
       &.danger {
         color: var(--helper-danger);
       }
+    }
+  }
+}
+
+.input {
+  width: 100%;
+  display: block;
+  outline: none;
+  border: none;
+  &:disabled {
+    background-color: var(--bg-c-2);
+  }
+  &.normal {
+    display: block;
+    height: 3.2rem;
+    padding: 0 1rem;
+    border-radius: 3px;
+  }
+  &.large {
+    line-height: 3rem;
+    padding: 4px 12px;
+    border-radius: 6px;
+  }
+  &.placeHLG {
+    &::placeholder {
+      font-size: 1.6rem;
+      color: var(--txt-c-3);
+    }
+  }
+  &.placeHSM {
+    &::placeholder {
+      font-size: 1.4rem;
+      color: var(--txt-c-3);
+    }
+  }
+  &.light {
+    background: var(--bg-c-1);
+  }
+  &.dark {
+    background: var(--bg-c-3);
+  }
+  &.border {
+    border: solid 1px var(--txt-c-4);
+    &:focus {
+      border-color: var(--txt-c-2);
+      // background-color: red;
     }
   }
 }

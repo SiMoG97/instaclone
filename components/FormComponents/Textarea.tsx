@@ -9,6 +9,7 @@ type TextreaProps = {
   border?: boolean;
   placeholder?: string;
   TextareaCss?: CSSProperties;
+  containerCss?: CSSProperties;
   taRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   numberOfChars: string;
   callBack?: (...args: any[]) => any;
@@ -18,6 +19,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextreaProps>(
   (
     {
       TextareaCss = {},
+      containerCss = {},
       border = false,
       children,
       emojis = false,
@@ -31,9 +33,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextreaProps>(
     },
     ref
   ) => {
-    // const [_, setIsTaEmpty] = useState(true);
     return (
-      <div className={styles.textareaContainer}>
+      <div className={styles.textareaContainer} style={containerCss}>
         <div>
           <textarea
             style={TextareaCss}
@@ -70,3 +71,4 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextreaProps>(
     );
   }
 );
+Textarea.displayName = "Textarea";

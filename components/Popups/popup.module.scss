@@ -1022,4 +1022,19 @@
   height: 100%;
   overflow-y: scroll;
   padding-top: 1.6rem;
+  .locationInputContainer {
+    display: flex;
+    padding: 0.8rem 0;
+    padding-right: 1.6rem;
+    .locationIcon {
+      path {
+        fill: var(--txt-c-1);
+      }
+    }
+  }
+  .borderTopBottom {
+    border: solid 1px var(--txt-c-4);
+    border-left: none;
+    border-right: none;
+  }
 }

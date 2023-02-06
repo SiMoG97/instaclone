@@ -5,6 +5,8 @@ import PicUsername from "../../../PicUsername";
 import styles from "../../popup.module.scss";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import InputForm from "../../../FormComponents/InputForm";
+import LocationIcon from "../../../../public/location.svg";
 
 const schema = z.object({
   postDescription: z.string().max(2000),
@@ -30,7 +32,6 @@ export function ShareSideBar() {
     resolver: zodResolver(schema),
   });
   const { ref, ...rest } = register("postDescription");
-  // console.log(setValue("postDescription",''));
   function EmojiClickCallBack(emojiObj: any) {
     setFocus("postDescription");
     setValue("postDescription", getValues("postDescription") + emojiObj);
@@ -51,6 +52,7 @@ export function ShareSideBar() {
           style={{ padding: "0 1.6rem" }}
         />
         <Textarea
+          containerCss={{ margin: "2rem 0 .5rem" }}
           placeholder="Write a caption..."
           fixedHeight
           TextareaCss={{ padding: ".3rem 1.6rem" }}
@@ -61,12 +63,25 @@ export function ShareSideBar() {
             (watch("postDescription") || "").length
           )}
           {...rest}
-          // onChange
           ref={(e) => {
             ref(e);
             taRef.current = e;
           }}
         />
+        <div
+          className={`${styles.borderTopBottom} ${styles.locationInputContainer}`}
+        >
+          <InputForm
+            style={{ paddingLeft: "1.6rem", lineHeight: "0" }}
+            {...register("location")}
+            border={false}
+            size="large"
+            placeholder="Add location"
+            placeholderSize="placeHLG"
+          />
+          <LocationIcon className={styles.locationIcon} />
+        </div>
+
         <button type="submit">Submit</button>
       </form>
     </div>

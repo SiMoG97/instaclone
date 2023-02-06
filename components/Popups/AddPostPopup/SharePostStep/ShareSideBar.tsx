@@ -3,17 +3,39 @@ import { useForm } from "react-hook-form";
 import { Textarea } from "../../../FormComponents/Textarea";
 import PicUsername from "../../../PicUsername";
 import styles from "../../popup.module.scss";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+const schema = z.object({
+  postDescription: z.string().max(2000),
+  location: z.string().max(20).optional(),
+  imagesAlts: z.string().max(150).array().optional(),
+  hideLike: z.boolean().optional(),
+  commentsOff: z.boolean().optional(),
+});
+
+export type FormType = z.infer<typeof schema>;
 
 export function ShareSideBar() {
-  const { register, handleSubmit } = useForm();
-  const [data, setData] = useState("");
+  const taRef = useRef<HTMLTextAreaElement | null>(null);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isValid },
+  } = useForm<FormType>({
+    resolver: zodResolver(schema),
+  });
+  const { ref, ...rest } = register("postDescription");
+  console.log(errors);
 
   return (
     <div className={styles.shareSideBar}>
       <form
         onSubmit={handleSubmit((data) => {
+          console.log("submited");
           console.log(data);
-          setData(JSON.stringify(data));
+          // setData(JSON.stringify(data));
         })}
       >
         <PicUsername
@@ -27,13 +49,18 @@ export function ShareSideBar() {
           fixedHeight
           TextareaCss={{ padding: ".3rem 1.6rem" }}
           emojis
-          register={register}
+          taRef={taRef}
+          numberOfChars={new Intl.NumberFormat().format(
+            (watch("postDescription") || "").length
+          )}
+          {...rest}
+          ref={(e) => {
+            ref(e);
+            taRef.current = e;
+          }}
         />
-        <input type="submit" />
+        <button type="submit">Submit</button>
       </form>
-      {/* <div>
-
-        </div> */}
     </div>
   );
 }

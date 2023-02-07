@@ -21,8 +21,7 @@ export function VideoPreview({
   useEffect(() => {
     setIsPaused(() => true);
   }, [file.coverTime]);
-  const { type, duration, adjustSettings, filter, scale, id, ...vidFile } =
-    file;
+  const { type, duration, adjustSettings, filter, scale, ...vidFile } = file;
 
   return (
     <Video

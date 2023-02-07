@@ -5,6 +5,8 @@ import SettingsIcon from "../../public/settings.svg";
 import Link from "next/link";
 import SwitchButton from "../FormComponents/SwitchButton";
 import { useThemeContext } from "../../context/themeContext";
+import { useForm } from "react-hook-form";
+import { useEffect, useRef } from "react";
 
 type DropdownType = {
   isOpen: boolean;
@@ -12,7 +14,20 @@ type DropdownType = {
 };
 const Dropdown = ({ isOpen, setIsOpen }: DropdownType) => {
   const { theme, toggle } = useThemeContext();
+  const firstRenderRef = useRef(true);
+  const { register, watch, setValue, getValues } = useForm<{
+    isDark: boolean;
+  }>();
+  const isDark = watch("isDark");
+  useEffect(() => {
+    toggle(getValues("isDark"));
+  }, [isDark]);
 
+  useEffect(() => {
+    if (!theme || !firstRenderRef.current) return;
+    setValue("isDark", theme === "dark" ? true : false);
+    firstRenderRef.current = false;
+  }, [theme]);
   return (
     <>
       <ul
@@ -58,29 +73,11 @@ const Dropdown = ({ isOpen, setIsOpen }: DropdownType) => {
           </Link>
         </li>
         <li>
-          <div
-            className={styles.darkThemeToggler}
-            onClick={(e) => {
-              if (e.currentTarget === e.target) {
-                toggle();
-              }
-            }}
-          >
-            <div
-              style={{ padding: "1rem" }}
-              onClick={(e) => {
-                if (e.currentTarget === e.target) {
-                  toggle();
-                }
-              }}
-            >
+          <div className={styles.darkThemeToggler}>
+            <div style={{ padding: "1rem" }}>
               Dark theme : {theme === "dark" ? "on" : "off"}
             </div>
-            <SwitchButton
-              id="themeToggler"
-              isChecked={theme === "dark"}
-              clickHandler={toggle}
-            />
+            <SwitchButton id="themeToggler" {...register("isDark")} />
           </div>
         </li>
         <li

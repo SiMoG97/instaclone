@@ -66,7 +66,7 @@ export function SharePostStep({
         {/* <div className={styles.shareSideBar}>
           <h1>step 3 </h1>
         </div> */}
-        <ShareSideBar />
+        <ShareSideBar filesToUp={filesToUp} />
       </SidebarContainer>
     </>
   );

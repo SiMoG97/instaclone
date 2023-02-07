@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ImgVidFileType } from "../..";
 import SwitchButton from "../../../../FormComponents/SwitchButton";
 import styles from "../../../popup.module.scss";
+import { useForm } from "react-hook-form";
 
 type SoundOnOffType = {
   file: ImgVidFileType;
@@ -10,8 +11,8 @@ type SoundOnOffType = {
 };
 
 function SoundOnOff({ file, updateSoundOnOff }: SoundOnOffType) {
-  const [isSoundOn, setIsSoundOn] = useState(file.sound);
-
+  const { register, watch, setValue } = useForm<{ soundOn: boolean }>();
+  const isSoundOn = watch("soundOn");
   useEffect(() => {
     if (file.sound === isSoundOn) return;
     const newFile = { ...file, sound: isSoundOn };
@@ -20,7 +21,7 @@ function SoundOnOff({ file, updateSoundOnOff }: SoundOnOffType) {
 
   // update sound state if the user change the current video
   useEffect(() => {
-    setIsSoundOn(() => file.sound);
+    setValue("soundOn", file.sound);
   }, [file.id]);
 
   return (
@@ -29,11 +30,8 @@ function SoundOnOff({ file, updateSoundOnOff }: SoundOnOffType) {
       <div>
         <SwitchButton
           id="soundSwitch"
-          isChecked={isSoundOn}
-          clickHandler={() => {
-            setIsSoundOn((prev) => !prev);
-          }}
           variation="large"
+          {...register("soundOn")}
         />
       </div>
     </div>

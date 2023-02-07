@@ -18,8 +18,11 @@ const useThemeToggler = () => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
-  const toggle = () => {
-    theme === "light" ? setTheme("dark") : setTheme("light");
+  // const toggle = () => {
+  //   theme === "light" ? setTheme("dark") : setTheme("light");
+  // };
+  const toggle = (isDark: boolean) => {
+    isDark ? setTheme("dark") : setTheme("light");
   };
   return { toggle, theme };
 };

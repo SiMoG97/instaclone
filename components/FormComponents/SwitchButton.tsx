@@ -1,38 +1,33 @@
-// import React from "react";
+import { forwardRef } from "react";
 import styles from "./style.module.scss";
 
-type switchProps = {
+type SwitchProps = {
   id: string;
-  isChecked: boolean;
-  clickHandler: () => void;
   variation?: "normal" | "large";
 };
-const SwitchButton = ({
-  id,
-  isChecked = false,
-  clickHandler,
-  variation = "normal",
-}: switchProps) => {
-  return (
-    <div>
-      <input
-        className={styles.checkboxInput}
-        id={id}
-        type="checkbox"
-        checked={isChecked}
-        onClick={clickHandler}
-        onChange={() => {}}
-      />
-      <label
-        htmlFor={id}
-        className={`${styles.switchLabel} ${
-          variation === "large" ? styles.large : styles.normal
-        }`}
-      >
-        <div className={styles.circle}></div>
-      </label>
-    </div>
-  );
-};
+
+export const SwitchButton = forwardRef<HTMLInputElement, SwitchProps>(
+  function SwitchButton({ id, variation, ...rest }, ref) {
+    return (
+      <div>
+        <input
+          className={styles.checkboxInput}
+          id={id}
+          type="checkbox"
+          ref={ref}
+          {...rest}
+        />
+        <label
+          htmlFor={id}
+          className={`${styles.switchLabel} ${
+            variation === "large" ? styles.large : styles.normal
+          }`}
+        >
+          <div className={styles.circle}></div>
+        </label>
+      </div>
+    );
+  }
+);
 
 export default SwitchButton;

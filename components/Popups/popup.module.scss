@@ -1022,9 +1022,18 @@
   height: 100%;
   overflow-y: scroll;
   padding-top: 1.6rem;
+  max-height: 83rem;
+  @include media("<=laptop") {
+    max-height: 76rem;
+  }
+  @include media("<tablet") {
+    overflow-y: hidden;
+    height: 100%;
+    max-height: none;
+  }
   .locationInputContainer {
     display: flex;
-    padding: 0.8rem 0;
+    padding: 1rem 0;
     padding-right: 1.6rem;
     .locationIcon {
       path {
@@ -1033,8 +1042,43 @@
     }
   }
   .borderTopBottom {
-    border: solid 1px var(--txt-c-4);
-    border-left: none;
-    border-right: none;
+    border-bottom: solid 1px var(--txt-c-4);
+    &.show:last-of-type {
+      border-bottom: none;
+    }
+    .smallText {
+      padding: 0.5rem 1.6rem;
+      color: var(--txt-c-2);
+      font-size: 1.2rem;
+      line-height: 1.7rem;
+    }
+    .checkBoxContainer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1.6rem;
+    }
+  }
+  .headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1.6rem;
+    font-weight: 300;
+    cursor: pointer;
+
+    // color: var(--txt-c-2);
+  }
+}
+.altImgInputContainer {
+  display: flex;
+  padding: 0.6rem 1.6rem;
+  gap: 1rem;
+  .smallImgPreview {
+    width: 4.4rem;
+    height: 4.4rem;
+    flex-shrink: 0;
+    background-position: center center;
+    background-size: cover;
   }
 }

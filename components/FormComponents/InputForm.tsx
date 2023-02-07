@@ -25,7 +25,6 @@ const InputForm = forwardRef<HTMLInputElement, InputType>(
     },
     ref
   ) => {
-    console.log(rest);
     return (
       <input
         ref={ref}

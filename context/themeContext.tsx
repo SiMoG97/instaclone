@@ -4,7 +4,7 @@ type props = {
   children: ReactNode;
 };
 type ContextType = {
-  toggle: () => void;
+  toggle: (isDark: boolean) => void;
   theme: string;
 };
 

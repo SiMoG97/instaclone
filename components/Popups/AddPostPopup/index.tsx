@@ -78,11 +78,13 @@ export type ARStateType =
   | "sixteenToNine";
 
 type ImgToUp = {
+  id: string;
   type: "image";
   src: string;
 };
 
 export type VidToUp = {
+  id: string;
   type: "video";
   img: HTMLImageElement;
   vidUrl: string;
@@ -93,7 +95,7 @@ export type VidToUp = {
   sound: boolean;
   x: number;
   y: number;
-  src: "";
+  src: string;
 };
 export type FilesToUploadT = (ImgToUp | VidToUp)[];
 const headers = ["Create new post", "Crop", "Edit", "Create new post"];
@@ -371,6 +373,7 @@ function useHandleFilesToUpload(
           if (!filtersRef.current) continue;
           if (files[i].type === "video") {
             const vidFile: VidToUp = {
+              id: files[i].id,
               type: "video",
               img: files[i].img,
               vidUrl: files[i].vidUrl,
@@ -381,7 +384,7 @@ function useHandleFilesToUpload(
               sound: files[i].sound,
               x: files[i].x,
               y: files[i].y,
-              src: "",
+              src: files[i].img.src,
             };
             newFilesToUp.push(vidFile);
           } else {
@@ -399,11 +402,19 @@ function useHandleFilesToUpload(
               value
             );
             if (!data) {
-              newFilesToUp.push({ type: "image", src: "" } as ImgToUp);
+              newFilesToUp.push({
+                id: files[i].id,
+                type: "image",
+                src: "",
+              } as ImgToUp);
               continue;
             }
             const imgBlob = await dataUrlToBlob(data);
-            newFilesToUp.push({ type: "image", src: imgBlob } as ImgToUp);
+            newFilesToUp.push({
+              id: files[i].id,
+              type: "image",
+              src: imgBlob,
+            } as ImgToUp);
           }
         }
         setFilesToUp(() => newFilesToUp);

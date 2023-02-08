@@ -199,9 +199,15 @@ function ShowHideContaienr({
   return (
     <div className={`${styles.borderTopBottom} ${show ? styles["show"] : ""}`}>
       <div onClick={toggleShow} className={styles.headerContainer}>
-        <div style={show ? { fontWeight: "500" } : {}}>{header}</div>
+        <div
+          className={styles.headerTitle}
+          style={show ? { fontWeight: "500" } : {}}
+        >
+          {header}
+        </div>
         <div>
           <ArrowIcon
+            className={styles.arrowIcon}
             style={{ transform: `${show ? "rotate(180deg)" : "rotate(0deg)"}` }}
           />
         </div>

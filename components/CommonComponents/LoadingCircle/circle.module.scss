@@ -1,0 +1,41 @@
+.circle {
+  --size: 120px;
+  --border-size: 10px;
+  --duration: 400ms;
+  /******************************************************************/
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  background-color: red;
+  border-radius: 50%;
+  background: #d6249f;
+  background: radial-gradient(
+    circle at 30% 107%,
+    #fdf497 0%,
+    #fdf497 5%,
+    #fd5949 45%,
+    #d6249f 60%,
+    #285aeb 90%
+  );
+  animation: rotation var(--duration) linear infinite;
+  &:before {
+    content: "";
+    position: absolute;
+    width: calc(var(--size) - var(--border-size));
+    height: calc(var(--size) - var(--border-size));
+    background-color: var(--bg-c-1);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

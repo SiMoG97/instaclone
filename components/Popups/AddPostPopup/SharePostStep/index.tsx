@@ -6,6 +6,7 @@ import ArrowsAndDots from "../ArrowsAndDots";
 import { VideoPreview } from "../EditStep/VideoPreview";
 import { ShowEditedVid } from "./ShowEditedVid";
 import { ShareSideBar } from "./ShareSideBar";
+import CircleLoading from "../../../CommonComponents/LoadingCircle";
 
 type SharePostStepT = {
   step: number;
@@ -79,7 +80,7 @@ type showEditedimageT = {
 };
 function ShowEditedImage({ isLoading, src, aspectRatio }: showEditedimageT) {
   if (isLoading) {
-    return <h1>Loading</h1>;
+    return <CircleLoading />;
   }
   return (
     <img

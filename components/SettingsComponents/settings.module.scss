@@ -1,0 +1,45 @@
+.container {
+  background-color: var(--bg-c-1);
+  width: 100%;
+  display: flex;
+  max-width: 97.5rem;
+  margin: 0 auto;
+  margin-top: 8rem;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid var(--txt-c-4);
+}
+.sideBar {
+  border-right: 1px solid var(--txt-c-4);
+  width: 23.6rem;
+  li {
+    a {
+      font-size: 1.4rem;
+      color: var(--txt-c-1);
+      display: block;
+      padding: 1.3rem;
+      padding-left: 3rem;
+      border-left: solid 2px transparent;
+      &:hover {
+        background-color: var(--bg-c-4);
+        // background-color: var(--bg-c-3);
+        border-left: solid 2px var(--txt-c-3);
+      }
+    }
+    &.active {
+      a {
+        border-left: solid 2px var(--txt-c-1);
+        font-weight: 500;
+        &:hover {
+          background-color: var(--bg-c-1);
+          border-left: solid 2px var(--txt-c-1);
+        }
+      }
+    }
+  }
+}
+.mainSide {
+  // background-color: #ff9f72;
+  //   width: 100%;
+  flex-grow: 1;
+}

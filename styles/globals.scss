@@ -10,6 +10,7 @@
   --bg-c-1: #fff;
   --bg-c-2: #efefef;
   --bg-c-3: #fafafa;
+  --bg-c-4: #fafafa;
 
   --transparent-layer: rgba(0, 0, 0, 0.603);
 
@@ -32,6 +33,7 @@
   --bg-c-1: #000;
   --bg-c-2: #101010;
   --bg-c-3: #050505;
+  --bg-c-4: #080808;
   --sm-popup-bg: #212121;
 }
 * {
@@ -73,7 +75,7 @@ body {
 }
 body {
   height: 100vh;
-  background-color: var(--bg-c-3);
+  background-color: var(--bg-c-4);
   font-size: 1.6rem;
   overflow-y: scroll;
   overflow-x: hidden;

@@ -224,3 +224,43 @@
     }
   }
 }
+
+.radioConrainer {
+  input {
+    display: none;
+    &:checked ~ .radioLabel .customRadio {
+      border: 8px solid var(--helper-primary);
+      background-color: #fff;
+      &.smallCircle {
+        border: 5px solid var(--helper-primary);
+      }
+    }
+  }
+  .radioLabel {
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+    text-transform: capitalize;
+    color: var(--txt-c-1);
+    cursor: pointer;
+    .customRadio {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      border: 1px solid var(--txt-c-3);
+      transform: 0.15s;
+      margin-right: 1.2rem;
+      background-color: var(--sm-popup-bg);
+
+      &.smallCircle {
+        width: 1.8rem;
+        height: 1.8rem;
+        margin-right: 0.8rem;
+      }
+    }
+    &.bold {
+      font-weight: 600;
+    }
+    // .smallRadio
+  }
+}

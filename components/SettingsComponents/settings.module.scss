@@ -42,4 +42,34 @@
   // background-color: #ff9f72;
   //   width: 100%;
   flex-grow: 1;
+  // margin: ;
+}
+.emailNotifSection {
+  margin: 4rem 3.2rem 3.2rem 6.4rem;
+  .radiosParent {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+}
+.minisectionProps {
+  border-bottom: solid 1px var(--txt-c-3);
+  &:last-of-type {
+    border-bottom: none;
+  }
+  .bigHeading {
+  }
+  .smallHeading {
+    color: rgb(38, 38, 38);
+    font-weight: 700;
+    font-size: 1.6rem;
+    line-height: 1.3;
+    margin: 2.5rem 0 2rem;
+  }
+  .description {
+    color: var(--txt-c-2);
+    font-size: 1.1rem;
+    padding: 0.5rem 0;
+  }
 }

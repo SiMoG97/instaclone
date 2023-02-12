@@ -1,4 +1,4 @@
-import { RAdioInput } from "../../FormComponents/RadioInput";
+import { RadioInput } from "../../FormComponents/RadioInput";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -45,7 +45,7 @@ export function EmailNotification() {
           >
             <div className={styles.radiosParent}>
               {item.values.map((value, i) => (
-                <RAdioInput
+                <RadioInput
                   key={value}
                   id={`${item.name + i}`}
                   value={value}
@@ -64,7 +64,7 @@ export function EmailNotification() {
 type SectionT = {
   title: string;
   name: keyof EmailNotificationFormType;
-  values: ["off", "on"];
+  values: typeof onOff;
   description: string;
 }[];
 
@@ -72,31 +72,31 @@ const sections: SectionT = [
   {
     title: "Feedback Emails",
     name: "feedbackEmails",
-    values: ["off", "on"],
+    values: onOff,
     description: "Give feedback on Instagram.",
   },
   {
     title: "Reminder Emails ",
     name: "reminderEmails",
-    values: ["off", "on"],
+    values: onOff,
     description: "Get notifications you may have missed.",
   },
   {
     title: "Product Emails",
     name: "productEmails",
-    values: ["off", "on"],
+    values: onOff,
     description: "Get tips and resources about Instagram's tools.",
   },
   {
     title: "News Emails",
     name: "newsEmails",
-    values: ["off", "on"],
+    values: onOff,
     description: "Learn about new Instagram features.",
   },
   {
     title: "Support Emails",
     name: "supportEmails",
-    values: ["off", "on"],
+    values: onOff,
     description:
       "Get updates on reports and violations of our Community Guidelines.",
   },

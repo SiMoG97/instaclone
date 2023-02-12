@@ -8,7 +8,7 @@ type RadioProps = {
   bold?: boolean;
 };
 
-export const RAdioInput = forwardRef<HTMLInputElement, RadioProps>(
+export const RadioInput = forwardRef<HTMLInputElement, RadioProps>(
   function RadioInput({ id, value, bold, size = "lg", ...rest }, ref) {
     return (
       <div className={`${styles.radioConrainer}`}>

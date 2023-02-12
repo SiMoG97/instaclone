@@ -51,10 +51,14 @@
     flex-direction: column;
     gap: 2rem;
     margin-bottom: 3rem;
+    padding-left: 1rem;
   }
 }
 .minisectionProps {
   border-bottom: solid 1px var(--txt-c-3);
+  &.noBorder {
+    border-bottom: none;
+  }
   &:last-of-type {
     border-bottom: none;
   }
@@ -72,4 +76,10 @@
     font-size: 1.1rem;
     padding: 0.5rem 0;
   }
+}
+
+.flexSpaceBetween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

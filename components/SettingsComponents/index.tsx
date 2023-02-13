@@ -1,10 +1,17 @@
 import styles from "./settings.module.scss";
 import { useRouter } from "next/dist/client/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SettingsLeftbar } from "./SettingsLeftbar";
 import { SettingsRightMainSide } from "./SettingsRightMainSide";
 
 function SettingsContainer() {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  function openNav() {
+    setIsNavOpen(() => true);
+  }
+  function closeNav() {
+    setIsNavOpen(() => false);
+  }
   const router = useRouter();
   useEffect(() => {
     if (!router.isReady) return;
@@ -15,8 +22,17 @@ function SettingsContainer() {
 
   return (
     <div className={styles.container}>
-      <SettingsLeftbar route={router.query.edit as SettingsRoutesType} />
-      <SettingsRightMainSide route={router.query.edit as SettingsRoutesType} />
+      <div className={styles.sideAndMainParent}>
+        <SettingsLeftbar
+          route={router.query.edit as SettingsRoutesType}
+          closeNav={closeNav}
+          isOpen={isNavOpen}
+        />
+        <SettingsRightMainSide
+          route={router.query.edit as SettingsRoutesType}
+          openNav={openNav}
+        />
+      </div>
     </div>
   );
 }

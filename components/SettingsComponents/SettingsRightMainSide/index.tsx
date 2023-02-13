@@ -11,13 +11,19 @@ import { LoginActivity } from "./LoginActivity";
 import { EmailsFromInstagram } from "./EmailsFromInstagram";
 import { Help } from "./Help";
 import { EditProfile } from "./EditProfile";
+import { MainHeader } from "./MainHeader";
 
 type PropsType = {
   route: SettingsRoutesType;
+  openNav: () => void;
 };
-export function SettingsRightMainSide({ route }: PropsType) {
+export function SettingsRightMainSide({ route, openNav }: PropsType) {
   return (
     <div className={styles.mainSide}>
+      <MainHeader
+        openNav={openNav}
+        title={(route || "").split("_").join(" ")}
+      />
       <RightSideSwitcher route={route} />
     </div>
   );

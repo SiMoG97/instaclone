@@ -1,4 +1,14 @@
+@import "./../../styles/include-media.scss";
+
 .container {
+  margin: 0 1rem;
+  min-height: 85rem;
+  @include media("<=tablet") {
+    margin: 0;
+  }
+}
+.sideAndMainParent {
+  position: relative;
   background-color: var(--bg-c-1);
   width: 100%;
   display: flex;
@@ -8,11 +18,78 @@
   border-radius: 5px;
   overflow: hidden;
   border: 1px solid var(--txt-c-4);
+  @include media("<=tablet") {
+    margin-top: 5.8rem;
+  }
+  @include media("<=phone") {
+    margin-top: 4.4rem;
+  }
+  // padding: 1rem;
+}
+.header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-c-4);
+  padding: 0rem 1rem;
+  border-bottom: solid 1px var(--txt-c-4);
+  font-weight: 500;
+  @include media("<=tablet") {
+    display: flex;
+  }
+}
+.mainHeader {
+  svg {
+    width: 3.5rem;
+    height: 3.5rem;
+    cursor: pointer;
+    path:nth-child(2) {
+      stroke: var(--txt-c-1);
+    }
+  }
+}
+
+.navHeader {
+  .cross {
+    width: 3rem;
+    height: 4.5rem;
+    cursor: pointer;
+  }
+  svg {
+    display: block;
+    height: 100%;
+  }
+  path {
+    fill: var(--txt-c-1);
+    stroke: var(--txt-c-1);
+  }
+  @include media("<=tablet") {
+    display: flex;
+  }
 }
 .sideBar {
   border-right: 1px solid var(--txt-c-4);
   width: 23.6rem;
+  z-index: 2;
+  @include media("<=tablet") {
+    position: absolute;
+    width: 100%;
+    background-color: var(--bg-c-1);
+    height: 100vh;
+    transition: 0.3s;
+    transform: translateX(-100%);
+    &.open {
+      transform: translateX(0);
+    }
+  }
+
   li {
+    @include media("<=tablet") {
+      border-bottom: solid 1px var(--txt-c-4);
+      &:last-of-type {
+        border-bottom: none;
+      }
+    }
     a {
       font-size: 1.4rem;
       color: var(--txt-c-1);
@@ -20,32 +97,49 @@
       padding: 1.3rem;
       padding-left: 3rem;
       border-left: solid 2px transparent;
+      @include media("<=tablet") {
+        font-size: 1.6rem;
+        padding-left: 1rem;
+        border-left: none;
+      }
       &:hover {
         background-color: var(--bg-c-4);
-        // background-color: var(--bg-c-3);
         border-left: solid 2px var(--txt-c-3);
+        @include media("<=tablet") {
+          border-left: none;
+        }
       }
     }
     &.active {
       a {
         border-left: solid 2px var(--txt-c-1);
+        @include media("<=tablet") {
+          border-left: none;
+        }
         font-weight: 500;
         &:hover {
           background-color: var(--bg-c-1);
           border-left: solid 2px var(--txt-c-1);
+          @include media("<=tablet") {
+            border-left: none;
+          }
         }
       }
     }
   }
 }
 .mainSide {
-  // background-color: #ff9f72;
-  //   width: 100%;
   flex-grow: 1;
-  // margin: ;
+  @include media("<=phone") {
+    width: 100%;
+  }
 }
 .emailNotifSection {
   margin: 4rem 3.2rem 3.2rem 6.4rem;
+  @include media("<=tablet") {
+    margin: 0 !important;
+    padding-bottom: 6rem;
+  }
   .radiosParent {
     display: flex;
     flex-direction: column;
@@ -56,6 +150,9 @@
 }
 .minisectionProps {
   border-bottom: solid 1px var(--txt-c-3);
+  @include media("<=tablet") {
+    padding: 0 2rem;
+  }
   &.noBorder {
     border-bottom: none;
   }
@@ -65,7 +162,7 @@
   .bigHeading {
   }
   .smallHeading {
-    color: rgb(38, 38, 38);
+    color: var(--txt-c-1);
     font-weight: 700;
     font-size: 1.6rem;
     line-height: 1.3;

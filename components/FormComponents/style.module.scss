@@ -185,7 +185,9 @@
   border: none;
   color: var(--txt-c-1);
   &:disabled {
-    background-color: var(--bg-c-2);
+    background-color: var(--bg-c-2) !important;
+    cursor: not-allowed;
+    // background-color: red;
   }
   &.normal {
     display: block;
@@ -262,5 +264,53 @@
       font-weight: 600;
     }
     // .smallRadio
+  }
+}
+
+.squareCheckbox {
+  input {
+    display: none;
+  }
+  input:checked ~ label .square::before {
+    display: block;
+  }
+  label {
+    display: flex;
+    align-items: center;
+    padding-top: 0.8rem;
+    color: var(--txt-c-1);
+    .square {
+      border: 1px solid var(--txt-c-3);
+      border-radius: 3px;
+      box-sizing: border-box;
+      display: inline-block;
+      height: 16px;
+      margin: 0 8px 0 3px;
+      position: relative;
+      width: 16px;
+      &:active {
+        border: 1px solid var(--txt-c-4);
+        box-shadow: inset 0 0 0 1px var(--txt-c-4);
+      }
+      &::before {
+        display: none;
+        border-bottom: 2px solid var(--txt-c-1);
+        border-left: 2px solid var(--txt-c-1);
+        content: " ";
+        // display: block;
+        height: 3px;
+        left: 2px;
+        position: absolute;
+        top: 3px;
+        transform: rotateZ(-45deg);
+        width: 8px;
+      }
+    }
+    .labeltext {
+      font-size: 1.2rem;
+      width: 50%;
+      flex: 0 0 auto;
+      font-weight: 500;
+    }
   }
 }

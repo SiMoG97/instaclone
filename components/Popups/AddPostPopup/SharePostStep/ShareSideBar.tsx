@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
 import { Textarea } from "../../../FormComponents/Textarea";
 import PicUsername from "../../../PicUsername";
 import styles from "../../popup.module.scss";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useFieldArray, useForm } from "react-hook-form";
 import InputForm from "../../../FormComponents/InputForm";
 import LocationIcon from "../../../../public/location.svg";
 import ArrowIcon from "../../../../public/arrowBottom.svg";
@@ -30,7 +30,7 @@ type ShareSideBarProps = {
   filesToUp: FilesToUploadT;
 };
 export function ShareSideBar({ filesToUp }: ShareSideBarProps) {
-  const taRef = useRef<HTMLTextAreaElement | null>(null);
+  // const taRef = useRef<HTMLTextAreaElement | null>(null);
   const firstRenderRef = useRef(true);
   const {
     register,
@@ -50,7 +50,6 @@ export function ShareSideBar({ filesToUp }: ShareSideBarProps) {
       control,
     }
   );
-  const { ref, ...rest } = register("postDescription");
   function EmojiClickCallBack(emojiObj: any) {
     setFocus("postDescription");
     setValue("postDescription", getValues("postDescription") + emojiObj);
@@ -93,16 +92,12 @@ export function ShareSideBar({ filesToUp }: ShareSideBarProps) {
             fixedHeight
             TextareaCss={{ padding: ".3rem 1.6rem" }}
             emojis
-            taRef={taRef}
             callBack={EmojiClickCallBack}
             numberOfChars={new Intl.NumberFormat().format(
               (watch("postDescription") || "").length
             )}
-            {...rest}
-            ref={(e) => {
-              ref(e);
-              taRef.current = e;
-            }}
+            maxNumChars="2,200"
+            {...register("postDescription")}
           />
         </div>
         <div

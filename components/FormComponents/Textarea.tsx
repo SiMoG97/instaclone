@@ -3,6 +3,7 @@ import { CustomEmojiPicker } from "./CustomEmojiPicker";
 import styles from "./style.module.scss";
 
 type TextreaProps = {
+  id?: string;
   resizable?: boolean;
   emojis?: boolean;
   fixedHeight?: boolean;
@@ -10,25 +11,30 @@ type TextreaProps = {
   placeholder?: string;
   TextareaCss?: CSSProperties;
   containerCss?: CSSProperties;
-  taRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  BottomStyle?: CSSProperties;
+  // taRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   numberOfChars: string;
   callBack?: (...args: any[]) => any;
+  maxNumChars: string;
 };
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextreaProps>(
   (
     {
+      id = "",
       TextareaCss = {},
       containerCss = {},
+      BottomStyle = {},
       border = false,
       children,
       emojis = false,
       fixedHeight = false,
       placeholder,
       resizable = false,
-      taRef,
+      // taRef,
       numberOfChars,
       callBack,
+      maxNumChars,
       ...restProps
     },
     ref
@@ -37,10 +43,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextreaProps>(
       <div className={styles.textareaContainer} style={containerCss}>
         <div>
           <textarea
+            id={id}
             style={TextareaCss}
             ref={ref}
             onChange={() => {
-              console.log("changed");
+              console.log(numberOfChars);
             }}
             placeholder={placeholder ? placeholder : ""}
             className={`${!resizable ? styles.notResize : ""}
@@ -49,11 +56,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextreaProps>(
             {...restProps}
           ></textarea>
         </div>
-        <div className={styles.taBottomPart}>
+        <div className={styles.taBottomPart} style={BottomStyle}>
           {emojis ? (
             <CustomEmojiPicker
-              // taRef={taRef}
-              // setIsTaEmpty={setIsTaEmpty}
               EmojiPickerCss={{
                 position: "absolute",
                 top: "42rem",
@@ -64,7 +69,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextreaProps>(
             />
           ) : null}
           <div className={`${styles.charCounter} ${styles.dangers}`}>
-            {numberOfChars}/2,200
+            {numberOfChars}/{maxNumChars}
           </div>
         </div>
       </div>

@@ -10,6 +10,7 @@ type InputType = {
   style?: CSSProperties;
   placeholder?: string;
   placeholderSize?: "placeHLG" | "placeHSM";
+  readonly?: boolean;
 };
 
 const InputForm = forwardRef<HTMLInputElement, InputType>(
@@ -20,6 +21,7 @@ const InputForm = forwardRef<HTMLInputElement, InputType>(
       disabled = false,
       size = "normal",
       placeholderSize = "placeHLG",
+      readonly = false,
       children,
       ...rest
     },
@@ -32,6 +34,7 @@ const InputForm = forwardRef<HTMLInputElement, InputType>(
         ${styles[color]} ${styles[size]} ${styles[placeholderSize]}`}
         disabled={disabled}
         {...rest}
+        readOnly={readonly}
       />
     );
   }

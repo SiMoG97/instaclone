@@ -180,3 +180,40 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.inputLableDescContainer {
+  display: flex;
+  // align-items: center;
+  margin-bottom: 1.6rem;
+  .labelSide {
+    flex-basis: 19.4rem;
+    text-align: right;
+    padding: 0 3.2rem;
+    font-weight: 500;
+    color: var(--txt-c-1);
+    label {
+      display: block;
+      margin-top: 0.6rem;
+    }
+  }
+  .inputsSide {
+    flex-basis: 355px;
+    .descriptionContaienr {
+      margin-top: 1.6rem;
+    }
+    .descTitle {
+      color: var(--txt-c-2);
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    .description {
+      color: var(--txt-c-2);
+      font-size: 1.2rem;
+      margin-bottom: 1.6rem;
+      line-height: 1.8rem;
+      // &:first-child {
+      // }
+    }
+  }
+}

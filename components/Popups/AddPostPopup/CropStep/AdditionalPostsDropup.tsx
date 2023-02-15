@@ -9,7 +9,7 @@ import PlusIcon from "../../../../public/plusIcon.svg";
 
 import { IconPopup } from "../IconPopup";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import SmallPopup from "../../SmallPopup";
+import SmallPopup, { ButtonItem } from "../../SmallPopup";
 import { FileInput } from "../../../FormComponents/FileInput";
 import FileExtChecker from "../../../../utils/FileExtChecker";
 import ArrowL from "../../../../public/arrowL.svg";
@@ -94,7 +94,7 @@ const AdditionImgsSlide = ({
   const [showDiscardPopup, setShowDiscardPopup] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [_, ForceRender] = useState(0);
-  const DiscardBtns = [
+  const DiscardBtns: ButtonItem[] = [
     {
       text: "Discard",
       method: () => {
@@ -122,7 +122,7 @@ const AdditionImgsSlide = ({
         }
         setShowDiscardPopup(() => false);
       },
-      danger: true,
+      type: "danger",
     },
     {
       text: "Cancel",

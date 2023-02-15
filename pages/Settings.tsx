@@ -1,10 +1,12 @@
+import Footer from "../components/Footer";
 import SettingsContainer from "../components/SettingsComponents";
 
 const settings = () => {
   return (
-    // <div>
-    <SettingsContainer />
-    // </div>
+    <div>
+      <SettingsContainer />
+      <Footer centered />
+    </div>
   );
 };
 

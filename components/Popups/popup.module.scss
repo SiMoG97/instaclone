@@ -469,6 +469,14 @@
     color: var(--helper-danger);
     font-weight: 600;
   }
+  .primary {
+    color: var(--helper-primary);
+    font-weight: 600;
+  }
+  .normal {
+    // color: var(--helper-danger);
+    // font-weight: 600;
+  }
 }
 
 .addPostSlide {
@@ -1092,5 +1100,18 @@
     flex-shrink: 0;
     background-position: center center;
     background-size: cover;
+  }
+}
+
+.genderPopup {
+  @include media(">=tablet") {
+    // width: 40rem;
+    height: auto;
+  }
+  .container {
+    padding: 1.6rem;
+    .radioContainer {
+      padding: 0.4rem 0;
+    }
   }
 }

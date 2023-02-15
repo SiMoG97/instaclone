@@ -24,9 +24,9 @@ const ProfileHeader = ({ username = "simo_echaarani" }: ProfileHeaderType) => {
   // these constants should be changed with server data
 
   const optionsButtons: ButtonItem[] = [
-    { text: "Block", method: () => {}, danger: true },
-    { text: "Restrict", method: () => {}, danger: true },
-    { text: "Report", method: () => {}, danger: true },
+    { text: "Block", method: () => {}, type: "danger" },
+    { text: "Restrict", method: () => {}, type: "danger" },
+    { text: "Report", method: () => {}, type: "danger" },
     {
       text: "Cancel",
       method: () => {
@@ -52,8 +52,8 @@ const ProfileHeader = ({ username = "simo_echaarani" }: ProfileHeaderType) => {
       },
     },
   ];
-  const unfollowButtons = [
-    { text: "Unfollow", method: () => {}, danger: true },
+  const unfollowButtons: ButtonItem[] = [
+    { text: "Unfollow", method: () => {}, type: "danger" },
     {
       text: "Cancel",
       method: () => {

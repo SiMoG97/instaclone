@@ -33,10 +33,10 @@ function SmallPopup({
         <ul>
           {buttonList && buttonList.length > 0
             ? buttonList.map((btn, i) => (
+                // ${btn.danger ? styles.danger : ""}
                 <li
-                  className={`${btn.danger ? styles.danger : ""} ${
-                    titleOrPic && i === 0 ? styles.borderTop : ""
-                  }`}
+                  className={`${btn.type ? styles[btn.type] : ""}
+                   ${titleOrPic && i === 0 ? styles.borderTop : ""}`}
                   onClick={btn.method}
                   key={btn.text}
                 >
@@ -59,7 +59,9 @@ type SmallPopupProps = {
 export type ButtonItem = {
   text: string;
   method: () => any;
-  danger?: boolean;
+  // danger?: boolean;
+  // danger?: boolean;
+  type?: "normal" | "primary" | "danger";
 };
 
 export default SmallPopup;

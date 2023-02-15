@@ -12,14 +12,14 @@ const PostHeader = ({ username }: props) => {
   const [isOptionOpen, setIsOptionOpen] = useState(false);
   const [unfollowPopup, setUnfollowPopup] = useState(false);
   const optionsButtons: ButtonItem[] = [
-    { text: "Repost", method: () => {}, danger: true },
+    { text: "Repost", method: () => {}, type: "danger" },
     {
       text: "Unfollow",
       method: () => {
         setIsOptionOpen(false);
         setUnfollowPopup(true);
       },
-      danger: true,
+      type: "danger",
     },
     { text: "Go to Post", method: () => {} },
     { text: "Share to...", method: () => {} },
@@ -32,8 +32,8 @@ const PostHeader = ({ username }: props) => {
       },
     },
   ];
-  const unfollowButtons = [
-    { text: "Unfollow", method: () => {}, danger: true },
+  const unfollowButtons: ButtonItem[] = [
+    { text: "Unfollow", method: () => {}, type: "danger" },
     {
       text: "Cancel",
       method: () => {

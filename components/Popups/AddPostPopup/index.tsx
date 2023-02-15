@@ -13,7 +13,7 @@ import { ImportImgStep } from "./ImportFileStep";
 import { SharePostStep } from "./SharePostStep";
 import { NextPrevStepHeader } from "./NextPrevStepHeader";
 import styles from "../popup.module.scss";
-import SmallPopup from "../SmallPopup";
+import SmallPopup, { ButtonItem } from "../SmallPopup";
 import AddPost from "../../../public/addPost.svg";
 import AddPostActive from "../../../public/addPostActive.svg";
 import SidebarContainer from "./SidebarContainer";
@@ -104,7 +104,7 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
   const [aspectRatio, setAspectRatio] = useState<ARStateType>("oneToOne");
   const filtersRef = useRef<filtersRefT | undefined>();
 
-  const initDiscardBtns = [
+  const initDiscardBtns: ButtonItem[] = [
     {
       text: "Discard",
       method: () => {
@@ -113,7 +113,7 @@ function AddPostPopup({ isOpen, setIsOpen }: AddPostPopupType) {
         setSelectedFile(0);
         setShowDiscardPopup(() => false);
       },
-      danger: true,
+      type: "danger",
     },
     {
       text: "Cancel",

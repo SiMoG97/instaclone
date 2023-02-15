@@ -6,12 +6,14 @@ export const WideButton = ({
   hasIcon,
   disabled = false,
   type = "submit",
+  size = "sm",
   onClick,
 }: {
   children: string;
   hasIcon: boolean;
   disabled?: boolean;
   type?: "submit" | "button" | "reset";
+  size?: "sm" | "lg";
   onClick?:
     | ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void)
     | undefined;
@@ -20,7 +22,9 @@ export const WideButton = ({
     <button
       type={type}
       disabled={disabled}
-      className={`${styles.wideButton} ${disabled && styles.disabled}`}
+      className={`${styles[size]} ${styles.wideButton} ${
+        disabled && styles.disabled
+      }`}
       onClick={onClick}
     >
       {hasIcon && <GoogleIcon />}

@@ -128,11 +128,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 3px;
+  border-radius: 8px;
   padding: 0.7rem;
   margin: 0.8rem 0;
   font-weight: 600;
   cursor: pointer;
+  &.sm {
+  }
+  &.lg {
+    padding-top: 1.6rem;
+    padding-bottom: 1.6rem;
+  }
   &:hover {
     opacity: 0.9;
   }

@@ -4,7 +4,7 @@ import styles from "./postPopup.module.scss";
 import Heart from "../../../public/smallHeart.svg";
 import Dots from "../../../public/dots.svg";
 import { showLikes } from "../PostBottomPart";
-import SmallPopup from "../../Popups/SmallPopup";
+import SmallPopup, { ButtonItem } from "../../Popups/SmallPopup";
 
 type CommentType = {
   username: string;
@@ -30,8 +30,8 @@ export const CommentDesc = ({
 }: CommentDescProps & ReplySelector) => {
   const [reportPopupOpen, setReportPopupOpen] = useState(false);
 
-  const reportButtons = [
-    { text: "Report", method: () => {}, danger: true },
+  const reportButtons: ButtonItem[] = [
+    { text: "Report", method: () => {}, type: "danger" },
     {
       text: "Cancel",
       method: () => {

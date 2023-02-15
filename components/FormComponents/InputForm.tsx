@@ -11,6 +11,7 @@ type InputType = {
   placeholder?: string;
   placeholderSize?: "placeHLG" | "placeHSM";
   readonly?: boolean;
+  onClickCB?: (...args: any[]) => any;
 };
 
 const InputForm = forwardRef<HTMLInputElement, InputType>(
@@ -22,6 +23,7 @@ const InputForm = forwardRef<HTMLInputElement, InputType>(
       size = "normal",
       placeholderSize = "placeHLG",
       readonly = false,
+      onClickCB = () => {},
       children,
       ...rest
     },
@@ -35,6 +37,7 @@ const InputForm = forwardRef<HTMLInputElement, InputType>(
         disabled={disabled}
         {...rest}
         readOnly={readonly}
+        onClick={onClickCB}
       />
     );
   }

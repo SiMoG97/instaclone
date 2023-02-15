@@ -183,14 +183,23 @@
 
 .inputLableDescContainer {
   display: flex;
-  // align-items: center;
-  margin-bottom: 1.6rem;
+  margin-bottom: 2rem;
+  @include media("<=tablet") {
+    flex-direction: column;
+    padding: 1.6rem;
+    margin-bottom: 0rem;
+  }
   .labelSide {
     flex-basis: 19.4rem;
     text-align: right;
     padding: 0 3.2rem;
     font-weight: 500;
     color: var(--txt-c-1);
+    @include media("<=tablet") {
+      flex-basis: auto;
+      text-align: left;
+      padding: 1.6rem 0;
+    }
     label {
       display: block;
       margin-top: 0.6rem;
@@ -198,6 +207,9 @@
   }
   .inputsSide {
     flex-basis: 355px;
+    @include media("<=tablet") {
+      flex-basis: auto;
+    }
     .descriptionContaienr {
       margin-top: 1.6rem;
     }
@@ -214,6 +226,32 @@
       line-height: 1.8rem;
       // &:first-child {
       // }
+    }
+  }
+}
+.changePPContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 1.6rem;
+  padding: 2rem 0;
+  .changePPLeft {
+    flex-basis: 19.4rem;
+    padding: 0 3.2rem;
+    label {
+      cursor: pointer;
+    }
+  }
+  .changePPRight {
+    flex-basis: 355px;
+    color: var(--txt-c-1);
+    .changePPUserName {
+    }
+    label {
+      display: block;
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--helper-primary);
+      cursor: pointer;
     }
   }
 }

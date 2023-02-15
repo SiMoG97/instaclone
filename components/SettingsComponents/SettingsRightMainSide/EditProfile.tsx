@@ -4,8 +4,12 @@ import { Textarea } from "../../FormComponents/Textarea";
 import styles from "../settings.module.scss";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
-import Checkbox from "../../FormComponents/checkbox";
+import { useForm } from "react-hook-form";
+import Checkbox from "../../FormComponents/Checkbox";
+import { useState } from "react";
+import { GenderPopup } from "../../Popups/GenderPopup";
+import ProfilePic from "../../ProfilePic";
+import { FileInput } from "../../FormComponents/FileInput";
 
 const schema = z.object({
   name: z.string().max(50).optional(),
@@ -13,12 +17,15 @@ const schema = z.object({
   bio: z.string().max(150).optional(),
   email: z.string().email().max(150).optional(),
   phoneNumber: z.string().max(150).optional(),
-  gender: z.string().max(150).optional(),
+  gender: z
+    .enum(["Male", "Female", "LGBTQIA+", "Prefer not to say"])
+    .optional(),
   similarAccountSuggest: z.boolean().optional(),
 });
 export type FormType = z.infer<typeof schema>;
 
 export function EditProfile() {
+  const [genderPopupOpen, setGenderPopupOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -33,114 +40,162 @@ export function EditProfile() {
   });
   console.log(new Intl.NumberFormat().format((watch("bio") || "").length));
   return (
-    <div>
-      <form>
-        <InputLabelDesc
+    <>
+      <div>
+        <div className={styles.changePPContainer}>
+          <div className={styles.changePPLeft}>
+            <label htmlFor="changeProfilePic">
+              <ProfilePic
+                src="/pp.jpg"
+                size="size-4"
+                style={{ marginLeft: "auto" }}
+              />
+              <FileInput
+                id="changeProfilePic"
+                onChange={() => {}}
+                onlyImg
+                multiple={false}
+              />
+            </label>
+          </div>
+          <div className={styles.changePPRight}>
+            <div className={styles.changePPUserName}>godskiller404</div>
+            <div>
+              <label htmlFor="changeProfilePic">Change profile photo</label>
+            </div>
+          </div>
+        </div>
+        {/* <InputLabelDesc
           id="name"
           Input={<Input id="name" placeholder="Name" {...register("name")} />}
-          label="Name"
+          label={<ProfilePic src="/pp.jpg" />}
           description={`Help people discover your account by using the name you're known by: either your full name, nickname, or business name.`}
           descriptionTwo={`You can only change your name twice within 14 days.`}
-        />
-        <InputLabelDesc
-          id="username"
-          Input={
-            <Input
-              id="username"
-              placeholder="username"
-              {...register("username")}
-            />
-          }
-          label="username"
-          description={`In most cases, you'll be able to change your username back to godskiller404 for another 14 days. Learn more`}
-        />
-        <InputLabelDesc
-          id="Website"
-          Input={<Input id="Website" placeholder="Website" disabled />}
-          label="Website"
-          description={`Editing your links is only available on mobile. Visit the Instagram app and edit your profile to change the websites in your bio.`}
-        />
-        <InputLabelDesc
-          id="bio"
-          Input={
-            <Textarea
-              id="bio"
-              border
-              resizable
-              maxNumChars="150"
-              numberOfChars={new Intl.NumberFormat().format(
-                (watch("bio") || "").length
-              )}
-              BottomStyle={{ padding: "0" }}
-              TextareaCss={{ padding: "1rem" }}
-              {...register("bio")}
-            />
-          }
-          label="Bio"
-        />
-        <InputLabelDesc
-          id=""
-          Input={<></>}
-          label=""
-          descrTitle="Personal information"
-          description={`Provide your personal information, even if the account is used for a business, a pet or something else. This won't be a part of your public profile.`}
-        />
-        <InputLabelDesc
-          id="Email"
-          Input={
-            <Input id="Email" placeholder="Email" {...register("email")} />
-          }
-          label="Email"
-        />
-        <InputLabelDesc
-          id="Phone Number"
-          Input={
-            <Input
-              id="Phone Number"
-              placeholder="Phone Number"
-              {...register("email")}
-            />
-          }
-          label="Phone Number"
-        />
-        <InputLabelDesc
-          id="Gender"
-          Input={
-            <Input
-              id="Gender"
-              placeholder="Gender"
-              {...register("email")}
-              readonly
-            />
-          }
-          label="Gender"
-        />
-        <InputLabelDesc
-          id="similarAccountSuggest"
-          Input={
-            <Checkbox
-              id="similarAccountSuggest"
-              {...register("similarAccountSuggest")}
-              labelText="Include your account when recommending similar accounts people might want to follow."
-            />
-          }
-          label="Similar account suggestions"
-        />
-        <InputLabelDesc
-          id=""
-          Input={<Button type="submit">Submit</Button>}
-          label=""
-        />
-        {/* <Button type="submit">Submit</Button> */}
-      </form>
-    </div>
+        /> */}
+        <form>
+          <InputLabelDesc
+            id="name"
+            Input={<Input id="name" placeholder="Name" {...register("name")} />}
+            label="Name"
+            description={`Help people discover your account by using the name you're known by: either your full name, nickname, or business name.`}
+            descriptionTwo={`You can only change your name twice within 14 days.`}
+          />
+          <InputLabelDesc
+            id="username"
+            Input={
+              <Input
+                id="username"
+                placeholder="username"
+                {...register("username")}
+              />
+            }
+            label="Username"
+            description={`In most cases, you'll be able to change your username back to godskiller404 for another 14 days. Learn more`}
+          />
+          <InputLabelDesc
+            id="Website"
+            Input={<Input id="Website" placeholder="Website" disabled />}
+            label="Website"
+            description={`Editing your links is only available on mobile. Visit the Instagram app and edit your profile to change the websites in your bio.`}
+          />
+          <InputLabelDesc
+            id="bio"
+            Input={
+              <Textarea
+                id="bio"
+                border
+                resizable
+                maxNumChars="150"
+                numberOfChars={new Intl.NumberFormat().format(
+                  (watch("bio") || "").length
+                )}
+                BottomStyle={{ padding: "0" }}
+                TextareaCss={{ padding: "1rem" }}
+                {...register("bio")}
+              />
+            }
+            label="Bio"
+          />
+          <InputLabelDesc
+            id=""
+            Input={<></>}
+            label=""
+            descrTitle="Personal information"
+            description={`Provide your personal information, even if the account is used for a business, a pet or something else. This won't be a part of your public profile.`}
+          />
+          <InputLabelDesc
+            id="Email"
+            Input={
+              <Input id="Email" placeholder="Email" {...register("email")} />
+            }
+            label="Email"
+          />
+          <InputLabelDesc
+            id="Phone Number"
+            Input={
+              <Input
+                id="Phone Number"
+                placeholder="Phone Number"
+                {...register("email")}
+              />
+            }
+            label="Phone Number"
+          />
+          <InputLabelDesc
+            id="Gender"
+            Input={
+              <Input
+                id="Gender"
+                placeholder="Gender"
+                // onClick={()=>{}}
+                {...register("gender")}
+                readonly
+                onClickCB={() => {
+                  setGenderPopupOpen(() => true);
+                }}
+              />
+            }
+            label="Gender"
+          />
+          <InputLabelDesc
+            id="similarAccountSuggest"
+            Input={
+              <Checkbox
+                id="similarAccountSuggest"
+                {...register("similarAccountSuggest")}
+                labelText="Include your account when recommending similar accounts people might want to follow."
+              />
+            }
+            label="Similar account suggestions"
+          />
+          <InputLabelDesc
+            id=""
+            Input={
+              <Button type="submit" style={{ margin: "2rem 0" }}>
+                Submit
+              </Button>
+            }
+            label=""
+          />
+          {/* <Button type="submit">Submit</Button> */}
+        </form>
+      </div>
+      <>
+        {genderPopupOpen ? (
+          <GenderPopup
+            isOpen={genderPopupOpen}
+            setIsOpen={setGenderPopupOpen}
+          />
+        ) : null}
+      </>
+    </>
   );
 }
 
 type InputLabelDescType = {
   id: string;
   Input: React.ReactNode;
-  label: string;
+  label: string | React.ReactNode;
   descrTitle?: string;
   description?: string;
   descriptionTwo?: string;

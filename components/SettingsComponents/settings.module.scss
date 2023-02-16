@@ -2,7 +2,7 @@
 
 .container {
   margin: 0 1rem;
-  min-height: 85rem;
+  // min-height: 85rem;
   @include media("<=tablet") {
     margin: 0;
   }
@@ -140,13 +140,13 @@
     margin: 0 !important;
     padding-bottom: 6rem;
   }
-  .radiosParent {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    margin-bottom: 3rem;
-    padding-left: 1rem;
-  }
+}
+.radiosParent {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding-left: 1rem;
 }
 .minisectionProps {
   border-bottom: solid 1px var(--txt-c-3);
@@ -234,11 +234,19 @@
   align-items: center;
   margin-top: 1.6rem;
   padding: 2rem 0;
+  @include media("<=tablet") {
+    justify-content: center;
+  }
   .changePPLeft {
     flex-basis: 19.4rem;
     padding: 0 3.2rem;
     label {
       cursor: pointer;
+    }
+    @include media("<=tablet") {
+      .changePPLeft {
+        padding: 0 1rem;
+      }
     }
   }
   .changePPRight {
@@ -253,5 +261,13 @@
       color: var(--helper-primary);
       cursor: pointer;
     }
+  }
+}
+
+.selectThemeContainer {
+  min-height: 51rem;
+  padding: 0 1.6rem;
+  @include media("<=tablet") {
+    padding: 0;
   }
 }

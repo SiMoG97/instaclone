@@ -46,9 +46,9 @@ export const routes = [
   "Push_notifications",
   "Manage_contacts",
   "Privacy_and_security",
-  "Supervision",
   "Login_activity",
   "Emails_from_Instagram",
+  "Theme",
   "Help",
 ] as const;
 

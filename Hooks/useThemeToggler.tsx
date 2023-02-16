@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 
+type ThemeType = "dark" | "light";
+
 const useThemeToggler = () => {
-  const [theme, setTheme] = useState("");
+  const [theme, setTheme] = useState<ThemeType>("" as ThemeType);
   useEffect(() => {
-    const storedTheme =
-      localStorage.getItem("theme") ||
-      (window.matchMedia("(prefers-color-scheme: dark)").matches
+    let storedTheme = localStorage.getItem("theme");
+    if (storedTheme !== "dark" && storedTheme !== "light") {
+      storedTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
-        : "light");
+        : "light";
+    }
+    setTheme(storedTheme as ThemeType);
     !localStorage.getItem("theme") &&
       localStorage.setItem("theme", storedTheme);
-    setTheme(storedTheme);
     document.documentElement.setAttribute("data-theme", storedTheme);
   }, []);
 
@@ -18,12 +21,11 @@ const useThemeToggler = () => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
-  // const toggle = () => {
-  //   theme === "light" ? setTheme("dark") : setTheme("light");
-  // };
+
   const toggle = (isDark: boolean) => {
     isDark ? setTheme("dark") : setTheme("light");
   };
+
   return { toggle, theme };
 };
 

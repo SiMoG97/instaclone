@@ -5,7 +5,7 @@ type props = {
 };
 type ContextType = {
   toggle: (isDark: boolean) => void;
-  theme: string;
+  theme: "dark" | "light";
 };
 
 const ThemeContext = createContext<ContextType>({} as ContextType);

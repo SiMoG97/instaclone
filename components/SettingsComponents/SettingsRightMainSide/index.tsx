@@ -6,7 +6,7 @@ import { EmailNotification } from "./EmailNotification";
 import { PushNotifications } from "./PushNotifications";
 import { ManageContacts } from "./ManageContacts";
 import { PrivacyAndSecurity } from "./PrivacyAndSecurity";
-import { Supervision } from "./SuperVision";
+import { SelectTheme } from "./SelectTheme";
 import { LoginActivity } from "./LoginActivity";
 import { EmailsFromInstagram } from "./EmailsFromInstagram";
 import { Help } from "./Help";
@@ -42,8 +42,8 @@ function RightSideSwitcher({ route }: { route: SettingsRoutesType }) {
     return <ManageContacts />;
   } else if (route === "Privacy_and_security") {
     return <PrivacyAndSecurity />;
-  } else if (route === "Supervision") {
-    return <Supervision />;
+  } else if (route === "Theme") {
+    return <SelectTheme />;
   } else if (route === "Login_activity") {
     return <LoginActivity />;
   } else if (route === "Emails_from_Instagram") {

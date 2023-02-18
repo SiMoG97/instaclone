@@ -39,6 +39,7 @@ export function EditProfile() {
     resolver: zodResolver(schema),
   });
   console.log(new Intl.NumberFormat().format((watch("bio") || "").length));
+  console.log(errors);
   return (
     <>
       <div>
@@ -65,14 +66,11 @@ export function EditProfile() {
             </div>
           </div>
         </div>
-        {/* <InputLabelDesc
-          id="name"
-          Input={<Input id="name" placeholder="Name" {...register("name")} />}
-          label={<ProfilePic src="/pp.jpg" />}
-          description={`Help people discover your account by using the name you're known by: either your full name, nickname, or business name.`}
-          descriptionTwo={`You can only change your name twice within 14 days.`}
-        /> */}
-        <form>
+        <form
+          onSubmit={handleSubmit((data) => {
+            console.log(data);
+          })}
+        >
           <InputLabelDesc
             id="name"
             Input={<Input id="name" placeholder="Name" {...register("name")} />}

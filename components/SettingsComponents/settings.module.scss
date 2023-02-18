@@ -71,6 +71,7 @@
   border-right: 1px solid var(--txt-c-4);
   width: 23.6rem;
   z-index: 2;
+  flex-shrink: 0;
   @include media("<=tablet") {
     position: absolute;
     width: 100%;
@@ -269,5 +270,50 @@
   padding: 0 1.6rem;
   @include media("<=tablet") {
     padding: 0;
+  }
+}
+.appsAndWebsites {
+  padding: 5rem;
+  min-height: 51rem;
+  @include media("<=tablet") {
+    padding: 2rem 1.6rem;
+  }
+  div[role="tablist"] {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 3rem;
+  }
+  div[role="tab"] {
+    flex-grow: 1;
+    color: var(--txt-c-3);
+    transition: 0.3s;
+    padding: 1rem;
+    border-bottom: solid 1px var(--txt-c-3);
+    text-align: center;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: 500;
+    &[aria-selected="true"] {
+      // background-color: red;
+      border-bottom: solid 1px var(--txt-c-1);
+      color: var(--txt-c-1);
+    }
+  }
+  div[role="tabpanel"] {
+    margin-top: 3rem;
+    font-weight: 300;
+    line-height: 2rem;
+    > div:first-child {
+      font-size: 1.4rem;
+      margin-bottom: 2rem;
+    }
+    > div:last-child {
+      font-size: 1.2rem;
+      color: var(--txt-c-2);
+    }
+    &[aria-hidden="true"] {
+      display: none;
+    }
   }
 }

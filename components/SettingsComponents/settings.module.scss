@@ -272,7 +272,8 @@
     padding: 0;
   }
 }
-.appsAndWebsites {
+.appsAndWebsites,
+.emailsFromInstagram {
   padding: 5rem;
   min-height: 51rem;
   @include media("<=tablet") {
@@ -304,6 +305,7 @@
     margin-top: 3rem;
     font-weight: 300;
     line-height: 2rem;
+    color: var(--txt-c-1);
     > div:first-child {
       font-size: 1.4rem;
       margin-bottom: 2rem;
@@ -316,4 +318,8 @@
       display: none;
     }
   }
+}
+.emailsFromInstagram div[role="tabpanel"] > div:first-child {
+  font-size: 2rem;
+  line-height: 2.5rem;
 }

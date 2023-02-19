@@ -3,6 +3,7 @@ import styles from "./style.module.scss";
 
 type InputType = {
   id?: string;
+  type?: "text" | "password";
   size?: "normal" | "large";
   border?: boolean;
   disabled?: boolean;
@@ -18,6 +19,7 @@ const InputForm = forwardRef<HTMLInputElement, InputType>(
   (
     {
       border = true,
+      type = "text",
       color = "light",
       disabled = false,
       size = "normal",
@@ -32,6 +34,7 @@ const InputForm = forwardRef<HTMLInputElement, InputType>(
     return (
       <input
         ref={ref}
+        type={type}
         className={`${styles.input} ${border === true ? styles.border : ""} 
         ${styles[color]} ${styles[size]} ${styles[placeholderSize]}`}
         disabled={disabled}

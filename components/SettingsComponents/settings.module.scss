@@ -206,28 +206,34 @@
       margin-top: 0.6rem;
     }
   }
-  .inputsSide {
-    flex-basis: 355px;
-    @include media("<=tablet") {
+}
+.inputsSide {
+  flex-basis: 355px;
+  &.large {
+    flex-basis: 442px;
+  }
+  @include media("<=tablet") {
+    flex-basis: auto;
+    &.large {
       flex-basis: auto;
     }
-    .descriptionContaienr {
-      margin-top: 1.6rem;
-    }
-    .descTitle {
-      color: var(--txt-c-2);
-      font-size: 1.4rem;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-    }
-    .description {
-      color: var(--txt-c-2);
-      font-size: 1.2rem;
-      margin-bottom: 1.6rem;
-      line-height: 1.8rem;
-      // &:first-child {
-      // }
-    }
+  }
+  .descriptionContaienr {
+    margin-top: 1.6rem;
+  }
+  .descTitle {
+    color: var(--txt-c-2);
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .description {
+    color: var(--txt-c-2);
+    font-size: 1.2rem;
+    margin-bottom: 1.6rem;
+    line-height: 1.8rem;
+    // &:first-child {
+    // }
   }
 }
 .changePPContainer {
@@ -339,5 +345,27 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+}
+
+.changePasswordSection {
+  min-height: 51rem;
+  display: flex;
+  flex-direction: column;
+  .picUsername {
+    display: flex;
+    align-items: center;
+    padding: 3rem 0;
+    > div:first-child {
+      flex-basis: 19.4rem;
+      display: flex;
+      justify-content: end;
+      padding-right: 3.2rem;
+      @include media("<=tablet") {
+        flex-basis: auto;
+        padding: 0 1.6rem;
+        justify-content: start;
+      }
+    }
   }
 }

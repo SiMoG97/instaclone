@@ -198,22 +198,24 @@ type InputLabelDescType = {
   description?: string;
   descriptionTwo?: string;
   descriptionLast?: boolean;
+  widthSize?: "normal" | "large";
 };
 
-function InputLabelDesc({
+export function InputLabelDesc({
   id,
   Input,
   label,
   descrTitle,
   description,
   descriptionTwo,
+  widthSize = "normal",
 }: InputLabelDescType) {
   return (
     <div className={styles.inputLableDescContainer}>
       <div className={styles.labelSide}>
         <label htmlFor={id}>{label}</label>
       </div>
-      <div className={styles.inputsSide}>
+      <div className={`${styles.inputsSide} ${styles[widthSize]}`}>
         <div>{Input}</div>
         {description ? (
           <Descriptions

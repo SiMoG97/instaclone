@@ -11,6 +11,7 @@ type props = {
   children: string;
   type?: "button" | "submit" | "reset";
   onClick?: () => any;
+  disabled?: boolean;
 };
 
 const Button = ({
@@ -23,12 +24,14 @@ const Button = ({
   type = "button",
   children,
   onClick,
+  disabled = false,
 }: props) => {
   const sizeClass = `size-${size}`;
   return (
     <button
       type={type}
       style={style}
+      disabled={disabled}
       className={`${Styles.button} ${Styles[sizeClass]} ${
         mainShape ? Styles.mainShape : Styles.secondaryShape
       } ${mainColor ? Styles.mainColor : Styles.secondaryColor} ${

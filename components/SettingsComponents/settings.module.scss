@@ -323,3 +323,21 @@
   font-size: 2rem;
   line-height: 2.5rem;
 }
+
+.manageContacts {
+  padding: 3rem 6rem;
+  min-height: 51rem;
+  color: var(--txt-c-1);
+  p {
+    font-size: 1.4rem;
+    line-height: 2rem;
+  }
+  .divUnderline {
+    border-bottom: solid 1px var(--txt-c-4);
+    margin: 2rem 0;
+    padding: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

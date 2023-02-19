@@ -18,6 +18,10 @@
   &.size-4 {
     font-size: 1.8rem;
   }
+  &:disabled {
+    opacity: 0.7;
+    cursor: auto;
+  }
 }
 .mainShape {
   color: #fff;

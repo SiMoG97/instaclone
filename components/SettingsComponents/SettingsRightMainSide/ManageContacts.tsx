@@ -7,16 +7,16 @@ export function ManageContacts() {
       <div style={{ marginBottom: "3rem" }}>Manage contacts</div>
       <div>
         <p>
-          The people listed here are contacts you've uploaded to Instagram. To
+          {`The people listed here are contacts you've uploaded to Instagram. To
           remove your synced contacts, tap Delete all. Your contacts will be
           re-uploaded the next time Instagram syncs your contacts unless you go
-          to your device settings and turn off access to contacts.
+          to your device settings and turn off access to contacts.`}
         </p>
         <br />
         <p>
-          Only you can see your contacts, but Instagram uses the info you've
+          {`Only you can see your contacts, but Instagram uses the info you've
           uploaded about your contacts to make friend suggestions for you and
-          others and to provide a better experience for everyone.
+          others and to provide a better experience for everyone.`}
         </p>
       </div>
       <div className={styles.divUnderline}>
@@ -36,7 +36,7 @@ export function ManageContacts() {
         </div>
       </div>
       <div className={styles.divUnderline} style={{ paddingBottom: "3rem" }}>
-        When you upload your contacts to Instagram, you'll see them here.
+        {` When you upload your contacts to Instagram, you'll see them here.`}
       </div>
       <Button disabled>Delete All</Button>
     </div>

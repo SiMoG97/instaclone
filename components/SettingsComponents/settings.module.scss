@@ -167,7 +167,7 @@
     font-weight: 700;
     font-size: 1.6rem;
     line-height: 1.3;
-    margin: 2.5rem 0 2rem;
+    padding: 2.5rem 0 2rem;
   }
   .description {
     color: var(--txt-c-2);
@@ -359,12 +359,49 @@
     > div:first-child {
       flex-basis: 19.4rem;
       display: flex;
-      justify-content: end;
+      justify-content: flex-end;
       padding-right: 3.2rem;
       @include media("<=tablet") {
         flex-basis: auto;
         padding: 0 1.6rem;
         justify-content: start;
+      }
+    }
+  }
+}
+
+.HelpContainer {
+  min-height: 51rem;
+  padding: 3rem 6rem;
+  color: var(--txt-c-1);
+  @include media("<=tablet") {
+    padding: 2rem 4rem;
+  }
+  @include media("<=phone") {
+    padding: 1rem 2rem;
+  }
+  h2 {
+    margin-bottom: 3rem;
+  }
+  .helpCard {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  .helpText {
+    line-height: 1.3;
+    padding: 1.6rem 0;
+  }
+  .helpArrowContainer {
+    // width: 3rem;
+    // height: 3rem;
+    svg {
+      width: 2.6rem;
+      height: 2.6rem;
+      path {
+        fill: var(--txt-c-1);
       }
     }
   }

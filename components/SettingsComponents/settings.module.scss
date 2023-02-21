@@ -73,7 +73,7 @@
   z-index: 2;
   flex-shrink: 0;
   @include media("<=tablet") {
-    position: absolute;
+    position: fixed;
     width: 100%;
     background-color: var(--bg-c-1);
     height: 100vh;
@@ -411,7 +411,7 @@
   min-height: 51rem;
   padding: 3.2rem 4.8rem;
   font-size: 1.4rem;
-
+  color: var(--txt-c-1);
   @include media("<=tablet") {
     padding: 2rem 4rem;
   }

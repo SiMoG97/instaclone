@@ -44,8 +44,6 @@ function RightSideSwitcher({ route }: { route: SettingsRoutesType }) {
     return <PrivacyAndSecurity />;
   } else if (route === "Theme") {
     return <SelectTheme />;
-  } else if (route === "Login_activity") {
-    return <LoginActivity />;
   } else if (route === "Emails_from_Instagram") {
     return <EmailsFromInstagram />;
   } else if (route === "Help") {

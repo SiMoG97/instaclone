@@ -17,7 +17,6 @@ type ThemesType = z.infer<typeof schema>;
 
 export function SelectTheme() {
   const { theme, toggle } = useThemeContext();
-  console.log(theme);
   const {
     register,
     watch,

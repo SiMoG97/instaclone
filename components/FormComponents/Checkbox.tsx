@@ -1,15 +1,16 @@
-import { forwardRef } from "react";
+import { CSSProperties, forwardRef } from "react";
 import styles from "./style.module.scss";
 
 type SwitchProps = {
   id: string;
   labelText?: string;
+  style?: CSSProperties;
 };
 
 export const Checkbox = forwardRef<HTMLInputElement, SwitchProps>(
-  function Checkbox({ id, labelText, ...rest }, ref) {
+  function Checkbox({ id, labelText, style = {}, ...rest }, ref) {
     return (
-      <div className={styles.squareCheckbox}>
+      <div className={styles.squareCheckbox} style={style}>
         <input
           //   className={styles.squareCheckbox}
           id={id}

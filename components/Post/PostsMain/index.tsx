@@ -65,9 +65,10 @@ const Post = ({ sources }: PostProps) => {
 };
 
 const posts = [
+  { sources: ["./mediaTesting/img11.png", "./mediaTesting/img12.png"] },
+  { sources: ["./mediaTesting/img10.jpg"] },
   {
     sources: [
-      "./mediaTesting/img1.jpg",
       "./mediaTesting/img5.jpg",
       "./mediaTesting/img2.jpg",
       "./mediaTesting/vid1.mp4",
@@ -80,7 +81,7 @@ const posts = [
     sources: ["./mediaTesting/img1.jpg"],
   },
   {
-    sources: ["./mediaTesting/vid1.mp4"],
+    sources: ["./mediaTesting/vid1.mp4", "./mediaTesting/img13.png"],
   },
   {
     sources: ["./mediaTesting/img5.jpg", "./mediaTesting/vid1.mp4"],

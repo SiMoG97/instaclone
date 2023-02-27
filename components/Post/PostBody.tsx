@@ -160,10 +160,10 @@ const PostBody = ({ sources }: PostBodyProps) => {
           }}
         >
           {sources.map((src, i) => {
-            return imgOrVideo(src) === "img" ? (
-              <ImagePost src={src} key={src} />
-            ) : (
+            return imgOrVideo(src) === "vid" ? (
               <VideoPost src={src} key={src} isSelected={i === selectedImg} />
+            ) : (
+              <ImagePost src={src} key={src} />
             );
           })}
         </div>

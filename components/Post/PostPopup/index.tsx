@@ -12,6 +12,7 @@ import PostReactions from "../PostReactions";
 import styles from "./postPopup.module.scss";
 import Link from "next/link";
 import useWindowEventHandler from "../../../Hooks/useWindowEventHandler";
+import imgOrVideo from "../../../utils/imgOrVideo";
 
 type PostPopupProps = {
   sources: string[];
@@ -28,8 +29,22 @@ const PostPopup = ({ sources, isOpen, setIsOpen }: PostPopupProps) => {
 
   const CalculatePostContainerWidth = () => {
     if (!imgVidSectionRef.current) return;
+    // if (imgOrVideo(sources[0]) === "img") {
+    const img = new Image();
+    img.src = sources[0];
+    const ar = img.naturalWidth / img.naturalHeight;
+    // } else if (imgOrVideo(sources[0]) === "vid") {
+    // const vid = document.createElement("video");
+    // vid.src = sources[0];
+
+    // }
     const height = imgVidSectionRef.current.clientHeight;
-    imgVidSectionRef.current.style.width = `${height}px`;
+    if (ar >= 1) {
+      imgVidSectionRef.current.style.width = `${height}px`;
+    } else {
+      const width = height * ar;
+      imgVidSectionRef.current.style.width = `${width}px`;
+    }
   };
   useLayoutEffect(() => {
     CalculatePostContainerWidth();

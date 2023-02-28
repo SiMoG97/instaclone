@@ -4,11 +4,18 @@ import styles from "./postStyles.module.scss";
 import Dots from "../../public/dots.svg";
 import PicUsername from "../PicUsername";
 import SmallPopup, { ButtonItem } from "../Popups/SmallPopup";
+import LeftArrow from "./../../public/leftArrow.svg";
 
 type props = {
   username: string;
+  isPopup?: boolean;
+  closePopup?: () => void;
 };
-const PostHeader = ({ username }: props) => {
+const PostHeader = ({
+  username,
+  isPopup = false,
+  closePopup = () => {},
+}: props) => {
   const [isOptionOpen, setIsOptionOpen] = useState(false);
   const [unfollowPopup, setUnfollowPopup] = useState(false);
   const optionsButtons: ButtonItem[] = [
@@ -45,19 +52,31 @@ const PostHeader = ({ username }: props) => {
   return (
     <>
       <div className={styles.postHeader}>
-        <div>
-          <PicUsername
-            src="/pp.jpg"
-            size="size-4"
-            primaryText={username}
-            hasStory={true}
+        {isPopup ? (
+          <div className={styles.closeCommentPhone}>
+            <LeftArrow
+              onClick={() => {
+                closePopup();
+              }}
+            />
+            <div>Comments</div>
+          </div>
+        ) : null}
+        <div className={styles.authorPicAndDots}>
+          <div>
+            <PicUsername
+              src="/pp.jpg"
+              size="size-4"
+              primaryText={username}
+              hasStory={true}
+            />
+          </div>
+          <Dots
+            onClick={() => {
+              setIsOptionOpen(true);
+            }}
           />
         </div>
-        <Dots
-          onClick={() => {
-            setIsOptionOpen(true);
-          }}
-        />
       </div>
       {isOptionOpen ? (
         <SmallPopup popupCloser={setIsOptionOpen} buttonList={optionsButtons} />

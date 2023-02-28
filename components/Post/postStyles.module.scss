@@ -1,19 +1,39 @@
 @import "../../styles/include-media.scss";
 .postHeader {
   width: 100%;
-  padding: 1.2rem;
-  @include media("<=phone") {
-    padding: 0.2rem 1.2rem;
-  }
-  padding-right: 1.5rem;
   background-color: var(--bg-c-1);
   border-radius: 0.3rem 0.3rem 0 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  > svg {
-    cursor: pointer;
-    fill: var(--txt-c-1);
+  .closeCommentPhone {
+    display: none;
+    align-items: center;
+    padding: 1.2rem 1.2rem;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--txt-c-5);
+    color: var(--txt-c-1);
+    font-weight: 500;
+    svg {
+      cursor: pointer;
+      path {
+        fill: var(--txt-c-1);
+      }
+    }
+    @include media("<=tablet") {
+      display: flex;
+    }
+  }
+  .authorPicAndDots {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem;
+    @include media("<=phone") {
+      padding: 0.2rem 1.2rem;
+    }
+    padding-right: 1.5rem;
+    > svg {
+      cursor: pointer;
+      fill: var(--txt-c-1);
+    }
   }
 }
 .draggingArea {

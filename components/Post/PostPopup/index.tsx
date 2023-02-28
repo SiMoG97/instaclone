@@ -52,6 +52,10 @@ const PostPopup = ({ sources, isOpen, setIsOpen }: PostPopupProps) => {
 
   useWindowEventHandler(CalculatePostContainerWidth);
 
+  function closePostPopup() {
+    setIsOpen(() => false);
+  }
+
   return (
     <>
       <PopupContainer setIsOpen={setIsOpen} isOpen={isOpen} isXout={true}>
@@ -66,7 +70,11 @@ const PostPopup = ({ sources, isOpen, setIsOpen }: PostPopupProps) => {
             </div>
             <div className={styles.commentSection}>
               <div className={styles.top}>
-                <PostHeader username="Brahim Baif" />
+                <PostHeader
+                  username="Brahim Baif"
+                  isPopup
+                  closePopup={closePostPopup}
+                />
               </div>
               <div className={styles.middle}>
                 {CommentsArr.length === 0 ? (

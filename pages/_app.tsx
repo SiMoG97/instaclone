@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import Navbar from "../components/Navbar/Navbar";
 import ThemeContextProvider from "../context/themeContext";
 import GradientCicle from "./../public/gradientCircle.svg";
+import { trpc } from "../utils/trpc";
 
 function MyApp({ Component, pageProps, ...appProps }: AppProps) {
   const { pathname } = appProps.router;
@@ -25,4 +26,4 @@ function MyApp({ Component, pageProps, ...appProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default trpc.withTRPC(MyApp);

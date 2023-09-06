@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
+import { signIn, useSession, getSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 import Logo from "../public/logoText.svg";
 import {
@@ -18,6 +21,19 @@ const formNamesText = [
 ];
 
 const Login = () => {
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session && !isRedirecting && router.isReady) {
+      // display some message to the user that he is being redirected
+      setIsRedirecting(true);
+      // redirect to the return url or home page
+      router.push((router.query.returnUrl as string) || "/");
+    }
+  }, [session, isRedirecting, router]);
+
   const {
     register,
     handleSubmit,
@@ -27,6 +43,7 @@ const Login = () => {
     resolver: joiResolver(LoginSchema),
     mode: "onChange",
   });
+
   return (
     <FormContainer>
       <Logo style={{ marginBottom: "3rem" }} />
@@ -65,7 +82,14 @@ const Login = () => {
         </WideButton>
       </form>
       <OrLine />
-      <WideButton hasIcon={true}>Log in with Google</WideButton>
+      <WideButton
+        hasIcon={true}
+        onClick={() => {
+          signIn("google");
+        }}
+      >
+        Log in with Google
+      </WideButton>
       <div
         style={{
           color: "var(--txt-c-2)",

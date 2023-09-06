@@ -13,4 +13,6 @@ const DirectInbox = () => {
   );
 };
 
+DirectInbox.requireAuth = true;
+
 export default DirectInbox;

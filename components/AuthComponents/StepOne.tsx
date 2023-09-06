@@ -8,6 +8,8 @@ import { FormContainer, WideButton, OrLine, Input } from "./";
 import { SignupStepOneTypes } from "../../utils/GlobalTypes";
 import { SignupStepOneSchema } from "../../utils/FormSchema";
 import { Dispatch, SetStateAction } from "react";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 type StepOneType = {
   setStep: Dispatch<SetStateAction<number>>;
@@ -45,7 +47,14 @@ export const StepOne = ({ setStep, setStepOneData }: StepOneType) => {
       >
         Sign up to see photos and videos from your friends.
       </div>
-      <WideButton hasIcon={true}>Log in With Google</WideButton>
+      <WideButton
+        hasIcon={true}
+        onClick={() => {
+          signIn("google");
+        }}
+      >
+        Log in With Google
+      </WideButton>
       <OrLine />
       <form
         method="post"

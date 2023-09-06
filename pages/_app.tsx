@@ -4,8 +4,18 @@ import Navbar from "../components/Navbar/Navbar";
 import ThemeContextProvider from "../context/themeContext";
 import GradientCicle from "./../public/gradientCircle.svg";
 import { trpc } from "../utils/trpc";
+import Providers from "../context/Providers";
+import { SessionProvider } from "next-auth/react";
+import { ReactNode } from "react";
+import { ProtectedLayout } from "../components/layouts/protectedLayouts";
 
-function MyApp({ Component, pageProps, ...appProps }: AppProps) {
+type AppPropsWithAuth = AppProps & {
+  Component: {
+    requireAuth?: boolean;
+  };
+};
+
+function MyApp({ Component, pageProps, ...appProps }: AppPropsWithAuth) {
   const { pathname } = appProps.router;
   let showNav = true;
   if (pathname === "/Signup" || pathname === "/Login") {
@@ -18,9 +28,23 @@ function MyApp({ Component, pageProps, ...appProps }: AppProps) {
         rel="stylesheet"
       ></link>
       <ThemeContextProvider>
-        {showNav && <Navbar />}
-        {/* {showNav && null} */}
-        <Component {...pageProps} />
+        <SessionProvider session={pageProps.session}>
+          {/* {showNav && <Navbar />} */}
+          {Component.requireAuth ? (
+            <>
+              <ProtectedLayout>
+                <>
+                  <Navbar />
+                  <Component {...pageProps} />
+                </>
+              </ProtectedLayout>
+            </>
+          ) : (
+            <>
+              <Component {...pageProps} />
+            </>
+          )}
+        </SessionProvider>
       </ThemeContextProvider>
     </>
   );

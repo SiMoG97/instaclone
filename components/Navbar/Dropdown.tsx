@@ -7,7 +7,7 @@ import SwitchButton from "../FormComponents/SwitchButton";
 import { useThemeContext } from "../../context/themeContext";
 import { useForm } from "react-hook-form";
 import { useEffect, useRef } from "react";
-
+import { signOut } from "next-auth/react";
 type DropdownType = {
   isOpen: boolean;
   setIsOpen(appear: boolean): void;
@@ -85,8 +85,15 @@ const Dropdown = ({ isOpen, setIsOpen }: DropdownType) => {
             setIsOpen(false);
           }}
         >
-          <Link href="/">
-            <a>Log out</a>
+          <Link href="/api/auth/signout">
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                signOut();
+              }}
+            >
+              Log out
+            </a>
           </Link>
         </li>
       </ul>

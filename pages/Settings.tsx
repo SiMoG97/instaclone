@@ -1,7 +1,7 @@
 import Footer from "../components/Footer";
 import SettingsContainer from "../components/SettingsComponents";
 
-const settings = () => {
+const Settings = () => {
   return (
     <div>
       <SettingsContainer />
@@ -10,4 +10,6 @@ const settings = () => {
   );
 };
 
-export default settings;
+Settings.requireAuth = true;
+
+export default Settings;

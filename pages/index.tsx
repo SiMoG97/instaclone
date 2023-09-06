@@ -2,11 +2,23 @@ import type { NextPage } from "next";
 
 import PostsMain from "../components/Post/PostsMain";
 import styles from "../styles/home.module.scss";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Suggestions from "../components/Suggestions";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useSession, getSession } from "next-auth/react";
 
-const Home: NextPage = () => {
+const Home = () => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  // if (status === "loading") {
+  //   return <p>Loading...</p>;
+  // }
+  // useEffect(() => {
+  //   if (status === "unauthenticated") {
+  //     router.push("/Login");
+  //   }
+  // }, [session, router]);
   const postsContainer = useRef<HTMLDivElement | null>(null);
 
   return (
@@ -27,5 +39,6 @@ const Home: NextPage = () => {
     </>
   );
 };
+Home.requireAuth = true;
 
 export default Home;

@@ -16,11 +16,6 @@ type AppPropsWithAuth = AppProps & {
 };
 
 function MyApp({ Component, pageProps, ...appProps }: AppPropsWithAuth) {
-  const { pathname } = appProps.router;
-  let showNav = true;
-  if (pathname === "/Signup" || pathname === "/Login") {
-    showNav = false;
-  }
   return (
     <>
       <link

@@ -24,7 +24,6 @@ function MyApp({ Component, pageProps, ...appProps }: AppPropsWithAuth) {
       ></link>
       <ThemeContextProvider>
         <SessionProvider session={pageProps.session}>
-          {/* {showNav && <Navbar />} */}
           {Component.requireAuth ? (
             <>
               <ProtectedLayout>

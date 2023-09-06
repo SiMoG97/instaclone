@@ -41,6 +41,8 @@ model Post {
   description String?
   author      User    @relation(fields: [authorId], references: [id])
   authorId    String
+
+  @@index([authorId])
 }
 
 model Comment {
@@ -48,4 +50,6 @@ model Comment {
   text     String
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
+
+  @@index([authorId])
 }

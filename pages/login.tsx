@@ -30,7 +30,7 @@ const Login = () => {
       // display some message to the user that he is being redirected
       setIsRedirecting(true);
       // redirect to the return url or home page
-      router.push((router.query.returnUrl as string) || "/");
+      // router.push((router.query.returnUrl as string) || "/");
     }
   }, [session, isRedirecting, router]);
 

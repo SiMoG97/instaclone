@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { signIn, useSession, getSession } from "next-auth/react";
-import { useRouter } from "next/router";
 
 import Logo from "../public/logoText.svg";
 import {
@@ -14,6 +12,7 @@ import {
 
 import { LoginFormTypes } from "../utils/GlobalTypes";
 import { LoginSchema } from "../utils/FormSchema";
+import { useRedirectLoginSignup } from "../Hooks/useRedirectLoginSignup";
 
 const formNamesText = [
   { name: "userNamephoneEmail", text: "Phone number, username, or email" },
@@ -21,18 +20,7 @@ const formNamesText = [
 ];
 
 const Login = () => {
-  const [isRedirecting, setIsRedirecting] = useState(false);
-  const { data: session } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (session && !isRedirecting && router.isReady) {
-      // display some message to the user that he is being redirected
-      setIsRedirecting(true);
-      // redirect to the return url or home page
-      // router.push((router.query.returnUrl as string) || "/");
-    }
-  }, [session, isRedirecting, router]);
+  useRedirectLoginSignup();
 
   const {
     register,

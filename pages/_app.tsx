@@ -8,6 +8,7 @@ import Providers from "../context/Providers";
 import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
 import { ProtectedLayout } from "../components/layouts/protectedLayouts";
+import { useRouter } from "next/router";
 
 type AppPropsWithAuth = AppProps & {
   Component: {
@@ -16,6 +17,10 @@ type AppPropsWithAuth = AppProps & {
 };
 
 function MyApp({ Component, pageProps, ...appProps }: AppPropsWithAuth) {
+  const { pathname } = useRouter();
+  const isLoginSignUp =
+    pathname == "/Login" || pathname == "/Signup" ? true : false;
+
   return (
     <>
       <link
@@ -41,7 +46,7 @@ function MyApp({ Component, pageProps, ...appProps }: AppPropsWithAuth) {
         </SessionProvider> */}
         <SessionProvider session={pageProps.session}>
           <>
-            {pageProps.session ? <Navbar /> : null}
+            {pageProps.session && !isLoginSignUp ? <Navbar /> : null}
             <Component {...pageProps} />
           </>
         </SessionProvider>

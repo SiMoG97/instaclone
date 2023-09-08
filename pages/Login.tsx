@@ -25,7 +25,9 @@ import { LoginSchema } from "../utils/FormSchema";
 import { useRedirectLoginSignup } from "../Hooks/useRedirectLoginSignup";
 import { Session, getServerSession } from "next-auth";
 import { redirect } from "next/dist/server/api-utils";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 // import { redirect } from "next/navigation";
 
 const formNamesText = [
@@ -36,7 +38,18 @@ const formNamesText = [
 // { session }: { session: Session | null }
 // const Login = ({ name, title }: { title: string; name: string }) => {
 const Login = () => {
-  useRedirectLoginSignup();
+  const router = useRouter();
+  const { data: session } = useSession();
+  console.log(session);
+  useEffect(() => {
+    if (router.isReady) {
+      console.log(router.query.returnUrl || "/");
+    }
+  }, [router]);
+  // if (!session){
+
+  // }
+  // useRedirectLoginSignup();
   // console.log(session);
   // if (!session) {
   //   // redirect("/");
@@ -112,21 +125,24 @@ const Login = () => {
   );
 };
 
-export async function getServerSideProps<GetServerSideProps>(
-  ctx: GetSessionParams | undefined
-) {
-  const session = await getSession(ctx);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession(context);
   if (session) {
     return {
       redirect: {
-        destination: "/",
-        permanet: false,
+        destination: context.query.prevAsPath || "/",
+        permanente: false,
+      },
+      props: {
+        session,
       },
     };
   }
   return {
-    props: { session },
+    props: {
+      session,
+    },
   };
 }
-// }
+
 export default Login;

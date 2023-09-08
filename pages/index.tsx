@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetServerSidePropsContext, NextPage } from "next";
 
 import PostsMain from "../components/Post/PostsMain";
 import styles from "../styles/home.module.scss";
@@ -7,8 +7,11 @@ import Suggestions from "../components/Suggestions";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSession, getSession } from "next-auth/react";
+import { requireAuth } from "../utils/requireAuth";
+import { Session } from "next-auth";
 
 const Home = () => {
+  console.log("hello");
   // const { data: session, status } = useSession();
   // const router = useRouter();
   // if (status === "loading") {
@@ -41,17 +44,12 @@ const Home = () => {
 };
 Home.requireAuth = true;
 
-export async function getServerSideProps(ctx: any) {
-  const session = await getSession(ctx);
-  if (!session) {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  return requireAuth(ctx, ({ session }: { session: Session }) => {
     return {
-      redirect: {
-        destination: "/Login",
-        permanent: false,
-      },
+      props: { session },
     };
-  }
-  return { props: { session } };
+  });
 }
 
 export default Home;

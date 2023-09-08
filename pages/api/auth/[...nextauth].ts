@@ -10,5 +10,6 @@ export default NextAuth({
   ],
   pages: {
     signIn: "/Login",
+    // newUser: "/Signup",
   },
 });

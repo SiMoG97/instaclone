@@ -46,7 +46,7 @@ function MyApp({ Component, pageProps, ...appProps }: AppPropsWithAuth) {
         </SessionProvider> */}
         <SessionProvider session={pageProps.session}>
           <>
-            {pageProps.session && !isLoginSignUp ? <Navbar /> : null}
+            {!isLoginSignUp ? <Navbar /> : null}
             <Component {...pageProps} />
           </>
         </SessionProvider>

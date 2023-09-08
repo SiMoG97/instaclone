@@ -11,7 +11,7 @@ import { requireAuth } from "../utils/requireAuth";
 import { Session } from "next-auth";
 
 const Home = () => {
-  console.log("hello");
+  // console.log("hello");
   // const { data: session, status } = useSession();
   // const router = useRouter();
   // if (status === "loading") {
@@ -46,6 +46,7 @@ Home.requireAuth = true;
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   return requireAuth(ctx, ({ session }: { session: Session }) => {
+    console.log(session);
     return {
       props: { session },
     };

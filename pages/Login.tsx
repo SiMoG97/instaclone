@@ -37,15 +37,10 @@ const formNamesText = [
 
 // { session }: { session: Session | null }
 // const Login = ({ name, title }: { title: string; name: string }) => {
-const Login = () => {
-  const router = useRouter();
-  const { data: session } = useSession();
-  console.log(session);
-  useEffect(() => {
-    if (router.isReady) {
-      console.log(router.query.returnUrl || "/");
-    }
-  }, [router]);
+const Login = ({ callbackUrl }: { callbackUrl: string }) => {
+  // const router = useRouter();
+  // const { data: session } = useSession();
+
   // if (!session){
 
   // }
@@ -106,7 +101,9 @@ const Login = () => {
       <WideButton
         hasIcon={true}
         onClick={() => {
-          signIn("google");
+          signIn("google", {
+            callbackUrl: callbackUrl,
+          });
         }}
       >
         Log in with Google
@@ -133,14 +130,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         destination: context.query.prevAsPath || "/",
         permanente: false,
       },
-      props: {
-        session,
-      },
     };
   }
   return {
     props: {
-      session,
+      callbackUrl: `${process.env.NEXTAUTH_URL}${
+        context.query.prevAsPath || "/"
+      }`,
     },
   };
 }

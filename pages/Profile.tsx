@@ -6,10 +6,10 @@ import ProfileHeader from "../components/Profile/ProfileHeader";
 import { useSession } from "next-auth/react";
 
 const ProfilePage = () => {
-  const { data: session, status } = useSession();
-  useEffect(() => {
-    console.log(session?.user, status);
-  }, [session, status]);
+  // const { data: session, status } = useSession();
+  // useEffect(() => {
+  //   console.log(session?.user, status);
+  // }, [session, status]);
   return (
     <div
       className="container profile "

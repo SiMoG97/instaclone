@@ -9,8 +9,8 @@ import { useRouter } from "next/router";
 import { useSession, getSession } from "next-auth/react";
 
 const Home = () => {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  // const { data: session, status } = useSession();
+  // const router = useRouter();
   // if (status === "loading") {
   //   return <p>Loading...</p>;
   // }
@@ -40,5 +40,18 @@ const Home = () => {
   );
 };
 Home.requireAuth = true;
+
+export async function getServerSideProps(ctx: any) {
+  const session = await getSession(ctx);
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/Login",
+        permanent: false,
+      },
+    };
+  }
+  return { props: { session } };
+}
 
 export default Home;

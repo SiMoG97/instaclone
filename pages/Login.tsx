@@ -1,6 +1,16 @@
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
-import { signIn, useSession, getSession } from "next-auth/react";
+// import { getSession } from "next-auth/react"
+import {
+  signIn,
+  useSession,
+  getSession,
+  getProviders,
+  LiteralUnion,
+  ClientSafeProvider,
+  GetSessionParams,
+} from "next-auth/react";
+import { BuiltInProviderType } from "next-auth/providers";
 
 import Logo from "../public/logoText.svg";
 import {
@@ -13,14 +23,24 @@ import {
 import { LoginFormTypes } from "../utils/GlobalTypes";
 import { LoginSchema } from "../utils/FormSchema";
 import { useRedirectLoginSignup } from "../Hooks/useRedirectLoginSignup";
+import { Session, getServerSession } from "next-auth";
+import { redirect } from "next/dist/server/api-utils";
+import { GetServerSideProps } from "next";
+// import { redirect } from "next/navigation";
 
 const formNamesText = [
   { name: "userNamephoneEmail", text: "Phone number, username, or email" },
   { name: "password", text: "password" },
 ];
 
+// { session }: { session: Session | null }
+// const Login = ({ name, title }: { title: string; name: string }) => {
 const Login = () => {
   useRedirectLoginSignup();
+  // console.log(session);
+  // if (!session) {
+  //   // redirect("/");
+  // }
 
   const {
     register,
@@ -92,4 +112,21 @@ const Login = () => {
   );
 };
 
+export async function getServerSideProps<GetServerSideProps>(
+  ctx: GetSessionParams | undefined
+) {
+  const session = await getSession(ctx);
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanet: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}
+// }
 export default Login;

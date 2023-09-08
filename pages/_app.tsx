@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps, ...appProps }: AppPropsWithAuth) {
         rel="stylesheet"
       ></link>
       <ThemeContextProvider>
-        <SessionProvider session={pageProps.session}>
+        {/* <SessionProvider session={pageProps.session}>
           {Component.requireAuth ? (
             <>
               <ProtectedLayout>
@@ -38,6 +38,12 @@ function MyApp({ Component, pageProps, ...appProps }: AppPropsWithAuth) {
               <Component {...pageProps} />
             </>
           )}
+        </SessionProvider> */}
+        <SessionProvider session={pageProps.session}>
+          <>
+            {pageProps.session ? <Navbar /> : null}
+            <Component {...pageProps} />
+          </>
         </SessionProvider>
       </ThemeContextProvider>
     </>

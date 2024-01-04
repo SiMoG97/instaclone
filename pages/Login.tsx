@@ -38,6 +38,7 @@ const formNamesText = [
 // { session }: { session: Session | null }
 // const Login = ({ name, title }: { title: string; name: string }) => {
 const Login = ({ callbackUrl }: { callbackUrl: string }) => {
+  console.log(callbackUrl);
   // const router = useRouter();
   // const { data: session } = useSession();
 
@@ -93,7 +94,15 @@ const Login = ({ callbackUrl }: { callbackUrl: string }) => {
             );
           }
         })}
-        <WideButton hasIcon={false} disabled={!isValid}>
+        <WideButton
+          onClick={() => {
+            signIn("google", {
+              callbackUrl,
+            });
+          }}
+          hasIcon={false}
+          disabled={!isValid}
+        >
           Log in
         </WideButton>
       </form>

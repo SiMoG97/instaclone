@@ -11,19 +11,21 @@ import { requireAuth } from "../utils/requireAuth";
 import { Session } from "next-auth";
 
 const Home = () => {
+  // console.log(first)
   // console.log("hello");
-  // const { data: session, status } = useSession();
-  // const router = useRouter();
+  const { data: session, status } = useSession();
+  console.log();
+  const router = useRouter();
   // if (status === "loading") {
   //   return <p>Loading...</p>;
   // }
-  // useEffect(() => {
-  //   if (status === "unauthenticated") {
-  //     router.push("/Login");
-  //   }
-  // }, [session, router]);
-  const postsContainer = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/Login");
+    }
+  }, [session, router, status]);
 
+  const postsContainer = useRef<HTMLDivElement | null>(null);
   return (
     <>
       <Head>
@@ -35,8 +37,9 @@ const Home = () => {
         </div>
         <Suggestions
           postsContainer={postsContainer}
-          myUserName="simo_echaarani"
-          myFullName="Simo Echaarani"
+          myUserName={session?.user?.name?.replace(" ", "_") || ""}
+          myFullName={session?.user?.name || ""}
+          picSrc={session?.user?.image || "/avatarPlaceholder.jpg"}
         />
       </div>
     </>

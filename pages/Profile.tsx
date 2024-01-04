@@ -9,7 +9,7 @@ import { GetServerSidePropsContext } from "next";
 import { Session } from "next-auth";
 
 const ProfilePage = () => {
-  // const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
   // useEffect(() => {
   //   console.log(session?.user, status);
   // }, [session, status]);

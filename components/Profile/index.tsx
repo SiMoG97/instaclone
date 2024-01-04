@@ -9,6 +9,7 @@ import TaggedTab from "./TaggedTab";
 import VideosTab from "./VideosTab";
 import { useRouter } from "next/router";
 import PrivateProfile from "./PrivateProfile";
+import { useSession } from "next-auth/react";
 
 export type TabsNames = "posts" | "tagged" | "saved" | "videos" | "reels";
 
@@ -54,10 +55,15 @@ const ProfileComponent = () => {
       return <VideosTab />;
     }
   };
+  const { data: session, status } = useSession();
   return (
     <>
       <div>
-        <ProfileHeader username="Toto Hamza" />
+        <ProfileHeader
+          username={session?.user?.name?.replace(" ", "_") || ""}
+          fullName={session?.user?.name || ""}
+          picSrc={session?.user?.image || "/avatarPlaceholder.jpg"}
+        />
         {isPrivateAccount ? (
           <PrivateProfile />
         ) : (

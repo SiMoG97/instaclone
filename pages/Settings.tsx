@@ -4,7 +4,8 @@ import SettingsContainer from "../components/SettingsComponents";
 import { Session } from "next-auth";
 import { requireAuth } from "../utils/requireAuth";
 
-const Settings = () => {
+const Settings = ({ callbackUrl }: { callbackUrl: string }) => {
+  console.log(callbackUrl);
   return (
     <div>
       <SettingsContainer />

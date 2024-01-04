@@ -8,12 +8,15 @@ import { Bio } from "./Bio";
 import SmallPopup, { ButtonItem } from "../Popups/SmallPopup";
 import SettingsSvg from "../../public/settings.svg";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 type ProfileHeaderType = {
   username: string;
+  fullName: string;
+  picSrc: string;
 };
 
-const ProfileHeader = ({ username = "simo_echaarani" }: ProfileHeaderType) => {
+const ProfileHeader = ({ username, fullName, picSrc }: ProfileHeaderType) => {
   const [isOptionOpen, setIsOptionOpen] = useState(false);
   const [unfollowPopup, setUnfollowPopup] = useState(false);
   // these constants should be changed with server data
@@ -61,25 +64,26 @@ const ProfileHeader = ({ username = "simo_echaarani" }: ProfileHeaderType) => {
       },
     },
   ];
+  const { data: session, status } = useSession();
   return (
     <>
       <div className={styles.profileHeader}>
         <div className={styles.profilePicContainer}>
           <ProfilePic
-            src="/pp.jpg"
+            src={picSrc}
             size="size-1"
             hasStory={true}
             animate={true}
           />
           <ProfilePic
-            src="/pp.jpg"
+            src={picSrc}
             size="size-1-5"
             hasStory={true}
             animate={true}
           />
         </div>
         <div className={styles.userName_Follow_Container}>
-          <div className={styles.userName}>simo_echaarani</div>
+          <div className={styles.userName}>{username}</div>
           <div className={styles.profileButtons}>
             {isMyProfile ? (
               <>
@@ -162,7 +166,7 @@ const ProfileHeader = ({ username = "simo_echaarani" }: ProfileHeaderType) => {
           </div>
         </div>
         <Stats nbrPosts={15} nbrFollowers={245} nbrFollowing={1078} />
-        <div className={styles.fullName}>Simo Echaarani</div>
+        <div className={styles.fullName}>{fullName}</div>
         <Bio />
       </div>
       {/* <div className={styles.userInfo}></div> */}

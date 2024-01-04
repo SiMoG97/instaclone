@@ -7,7 +7,7 @@ import SwitchButton from "../FormComponents/SwitchButton";
 import { useThemeContext } from "../../context/themeContext";
 import { useForm } from "react-hook-form";
 import { useEffect, useRef } from "react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 type DropdownType = {
   isOpen: boolean;
   setIsOpen(appear: boolean): void;
@@ -15,6 +15,8 @@ type DropdownType = {
 const Dropdown = ({ isOpen, setIsOpen }: DropdownType) => {
   const { theme, toggle } = useThemeContext();
   const firstRenderRef = useRef(true);
+  const { data: session, status } = useSession();
+
   const { register, watch, setValue, getValues } = useForm<{
     isDark: boolean;
   }>();

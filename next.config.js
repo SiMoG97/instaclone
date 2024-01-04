@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["i.imgur.com"],
+    domains: ["i.imgur.com", "lh3.googleusercontent.com", "i.pravatar.cc"],
   },
   // loaders: [
   //   {

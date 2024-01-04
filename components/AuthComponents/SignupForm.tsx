@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { SignupStepOneTypes } from "../../utils/GlobalTypes";
 import { StepOne, StepTwo } from "./";
@@ -8,6 +8,15 @@ export const SignupForm = () => {
   const [stepOneData, setStepOneData] = useState<SignupStepOneTypes>(
     {} as SignupStepOneTypes
   );
+  useEffect(() => {
+    if (step === 1) {
+      setTimeout(() => {
+        alert(
+          "Create account with credentials is not working yet, try using Google auth"
+        );
+      }, 2000);
+    }
+  }, [step]);
   return (
     <>
       <div style={step !== 0 ? { display: "none" } : {}}>

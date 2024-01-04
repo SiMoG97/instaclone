@@ -18,6 +18,7 @@ import PhoneNav from "./PhoneNav";
 import { useRouter } from "next/router";
 import AddPostPopup from "../Popups/AddPostPopup";
 import Button from "../Button";
+import { useSession } from "next-auth/react";
 
 const Navbar = () => {
   const isLoggedIn = true;
@@ -30,6 +31,7 @@ const Navbar = () => {
 
   const [addPostIsOpen, setAddPostIsOpen] = useState(false);
 
+  const { data: session, status } = useSession();
   return (
     <>
       <nav className={styles.nav}>
@@ -96,7 +98,7 @@ const Navbar = () => {
                   >
                     <ProfilePic
                       size="size-5"
-                      src="/pp.jpg"
+                      src={session?.user?.image || "/avatarPlaceholder.jpg"}
                       animate={false}
                       hasStory={false}
                       seen={false}

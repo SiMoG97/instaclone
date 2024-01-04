@@ -13,6 +13,7 @@ import styles from "./form.module.scss";
 import { SignupStepOneTypes } from "../../utils/GlobalTypes";
 import Link from "next/link";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
 type StepTwoType = {
   setStep: Dispatch<SetStateAction<number>>;
   stepOneData: SignupStepOneTypes;
@@ -23,6 +24,7 @@ export const StepTwo = ({ setStep, stepOneData }: StepTwoType) => {
   const [month, setMonth] = useState(new Date().getMonth());
   const [day, setDay] = useState(new Date().getDate());
   const [isValid, setIsValid] = useState(false);
+
   useEffect(() => {
     const date = new Date();
     const allowedAge = new Date(
